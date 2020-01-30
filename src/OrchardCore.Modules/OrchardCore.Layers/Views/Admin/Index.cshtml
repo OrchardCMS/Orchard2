@@ -39,7 +39,7 @@
                     </div>
                     <div class="layer-zone card-body" data-zone="@zone">
                         <div class="form-group">
-                            <ul class="list-group zones">
+                            <ul class="list-group">
                                 @if (Model.Widgets.ContainsKey(zone))
                                 {
                                     foreach (var contentItemSummary in Model.Widgets[zone])
@@ -48,9 +48,7 @@
 
                                         maxPosition = Math.Max(maxPosition, (double)contentItemSummary.ContentItem.Content.LayerMetadata.Position);
                                         <li class="list-group-item">
-                                            <div class="properties cursor-move">
-                                                @await DisplayAsync(contentItemSummary)
-                                            </div>
+                                            @await DisplayAsync(contentItemSummary)
                                             <input type="hidden"
                                                    class="layer-metadata"
                                                    data-zone="@zone"
@@ -125,6 +123,14 @@
 </div>
 
 <script at="Foot">
+    $(function() {
+        $('select').selectpicker();
+
+        $('select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+            $("[name='filter-form']").submit();
+        });
+    });
+
     $(".list-group.zones").sortable({
         handle: ".properties",
         cursor: "move",

@@ -12,7 +12,7 @@ namespace OrchardCore.Layers.Services
     public interface ILayerService
     {
         /// <summary>
-        /// Returns all the layers for udpate.
+        /// Returns all the layers for update.
         /// </summary>
         Task<LayersDocument> LoadLayersAsync();
 
@@ -24,6 +24,13 @@ namespace OrchardCore.Layers.Services
         Task<IEnumerable<ContentItem>> GetLayerWidgetsAsync(Expression<Func<ContentItemIndex, bool>> predicate);
         Task<IEnumerable<LayerMetadata>> GetLayerWidgetsMetadataAsync(Expression<Func<ContentItemIndex, bool>> predicate);
         Task UpdateAsync(LayersDocument layers);
+
+        /// <summary>
+        /// Returns widgets that match the specified culture.
+        /// </summary>
+        /// <param name="widgets">The sequence of widgets to filter.</param>
+        /// <param name="culture">Culture being applied as a filter.</param>
+        IAsyncEnumerable<LayerMetadata> FilterWidgetsByCultureAsync(IEnumerable<LayerMetadata> widgets, string culture);
 
         /// <summary>
         /// Gets a change token that is set when the layers have changed.

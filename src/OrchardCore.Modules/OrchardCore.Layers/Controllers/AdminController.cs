@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Localization;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
@@ -16,6 +19,7 @@ using OrchardCore.Layers.Handlers;
 using OrchardCore.Layers.Models;
 using OrchardCore.Layers.Services;
 using OrchardCore.Layers.ViewModels;
+using OrchardCore.Localization;
 using OrchardCore.Settings;
 using YesSql;
 
@@ -31,6 +35,7 @@ namespace OrchardCore.Layers.Controllers
         private readonly ISession _session;
         private readonly ISignal _signal;
         private readonly INotifier _notifier;
+        private readonly ILocalizationService _localizationService;
 
         public AdminController(
             ISignal signal,
@@ -42,7 +47,8 @@ namespace OrchardCore.Layers.Controllers
             ISiteService siteService,
             IStringLocalizer<AdminController> s,
             IHtmlLocalizer<AdminController> h,
-            INotifier notifier
+            INotifier notifier,
+            ILocalizationService localizationService
             )
         {
             _signal = signal;
@@ -55,12 +61,14 @@ namespace OrchardCore.Layers.Controllers
             S = s;
             H = h;
             _notifier = notifier;
+            _localizationService = localizationService;
         }
 
         public IStringLocalizer S { get; }
         public IHtmlLocalizer H { get; }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(LayersIndexViewModel model)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageLayers))
             {
@@ -69,8 +77,15 @@ namespace OrchardCore.Layers.Controllers
 
             var layers = await _layerService.GetLayersAsync();
             var widgets = await _layerService.GetLayerWidgetsMetadataAsync(c => c.Latest == true);
+            if (!String.IsNullOrEmpty(model.Options.Culture))
+                widgets = await _layerService.FilterWidgetsByCultureAsync(widgets, model.Options.Culture).ToListAsync();
+            var cultures = (await _localizationService.GetSupportedCulturesAsync()).Select(CultureInfo.GetCultureInfo);
 
-            var model = new LayersIndexViewModel { Layers = layers.Layers.ToList() };
+            model.Layers = layers.Layers.ToList();
+            model.Options.Cultures = cultures
+                .Select(c => new SelectListItem(c.DisplayName, c.Name, model.Options.Culture == c.Name))
+                .ToList();
+            model.Options.Cultures.Insert(0, new SelectListItem(S["All Cultures"], String.Empty, String.IsNullOrEmpty(model.Options.Culture)));
 
             var siteSettings = await _siteService.GetSiteSettingsAsync();
 
@@ -92,15 +107,17 @@ namespace OrchardCore.Layers.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(LayersIndexViewModel model)
+        [HttpPost, ActionName("Index")]
+        public async Task<IActionResult> IndexPOST(LayersIndexViewModel model)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageLayers))
             {
                 return Unauthorized();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new RouteValueDictionary {
+                { "Options.Culture", model.Options.Culture }
+            });
         }
 
         public async Task<IActionResult> Create()

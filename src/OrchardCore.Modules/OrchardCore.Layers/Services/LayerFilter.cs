@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,6 @@ namespace OrchardCore.Layers.Services
             IContentItemDisplayManager contentItemDisplayManager,
             IUpdateModelAccessor modelUpdaterAccessor,
             IScriptingManager scriptingManager,
-            IServiceProvider serviceProvider,
             IMemoryCache memoryCache,
             ISignal signal,
             IThemeManager themeManager,
@@ -72,10 +72,15 @@ namespace OrchardCore.Layers.Services
                     return;
                 }
 
-                var widgets = await _memoryCache.GetOrCreateAsync("OrchardCore.Layers.LayerFilter:AllWidgets", entry =>
+                var cacheKey = $"OrchardCore.Layers.LayerFilter:AllWidgets-{CultureInfo.CurrentUICulture.Name}";
+                var widgets = await _memoryCache.GetOrCreateAsync(cacheKey, async entry =>
                 {
                     entry.AddExpirationToken(_signal.GetToken(LayerMetadataHandler.LayerChangeToken));
-                    return _layerService.GetLayerWidgetsMetadataAsync(x => x.Published);
+
+                    var allWidgets = await _layerService.GetLayerWidgetsMetadataAsync(x => x.Published);
+                    return await _layerService
+                        .FilterWidgetsByCultureAsync(allWidgets, CultureInfo.CurrentUICulture.Name)
+                        .ToListAsync();
                 });
 
                 var layers = (await _layerService.GetLayersAsync()).Layers.ToDictionary(x => x.Name);
