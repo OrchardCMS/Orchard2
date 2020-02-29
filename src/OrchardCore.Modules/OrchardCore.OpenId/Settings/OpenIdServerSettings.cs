@@ -28,7 +28,9 @@ namespace OrchardCore.OpenId.Settings
         public ISet<string> GrantTypes { get; } = new HashSet<string>(StringComparer.Ordinal);
 
         public bool UseRollingTokens { get; set; }
-
+        public bool IncludePermissionsInToken { get; set; } = true;
+        public bool IncludeRolesInToken { get; set; } = true;
+        public bool IncludeLegacyMicrosoftClaimsInToken { get; set; } = true;
         public enum TokenFormat
         {
             Encrypted = 0,

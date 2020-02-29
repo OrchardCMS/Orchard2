@@ -27,6 +27,9 @@ namespace OrchardCore.OpenId.ViewModels
         public bool AllowRefreshTokenFlow { get; set; }
         public bool AllowImplicitFlow { get; set; }
         public bool UseRollingTokens { get; set; }
+        public bool IncludePermissionsInToken { get; set; }
+        public bool IncludeRolesInToken { get; set; }
+        public bool IncludeLegacyMicrosoftClaimsInToken { get; set; }
 
         public class CertificateInfo
         {

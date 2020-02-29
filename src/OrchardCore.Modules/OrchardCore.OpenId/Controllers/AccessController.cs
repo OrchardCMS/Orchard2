@@ -22,6 +22,7 @@ using OrchardCore.OpenId.Abstractions.Managers;
 using OrchardCore.OpenId.Filters;
 using OrchardCore.OpenId.Services;
 using OrchardCore.OpenId.ViewModels;
+using OrchardCore.Security.Permissions;
 using OrchardCore.Routing;
 using OrchardCore.Security.Services;
 using OrchardCore.Users.Services;
@@ -35,6 +36,7 @@ namespace OrchardCore.OpenId.Controllers
         private readonly IOpenIdAuthorizationManager _authorizationManager;
         private readonly IOpenIdScopeManager _scopeManager;
         private readonly ShellSettings _shellSettings;
+        private readonly IOpenIdServerService _serverService;
         private readonly IStringLocalizer<AccessController> S;
 
         public AccessController(
@@ -50,6 +52,7 @@ namespace OrchardCore.OpenId.Controllers
             _authorizationManager = authorizationManager;
             _scopeManager = scopeManager;
             _shellSettings = shellSettings;
+            _serverService = serverService;
         }
 
         [AllowAnonymous, HttpGet, HttpPost, IgnoreAntiforgeryToken]
@@ -483,6 +486,8 @@ namespace OrchardCore.OpenId.Controllers
                 }
             }
 
+            await CleanUpClaimsAsync(identity);
+
             // Note: by default, claims are NOT automatically included in the access and identity tokens.
             // To allow OpenIddict to serialize them, you must attach them a destination, that specifies
             // whether they should be included in access tokens, in identity tokens or in both.
@@ -514,6 +519,36 @@ namespace OrchardCore.OpenId.Controllers
             }
 
             return ticket;
+        }
+
+        // Dependening on the configuration, we clean up claims to limit the size of the token
+        private async Task  CleanUpClaimsAsync(ClaimsIdentity identity)
+        {
+            var settings = await _serverService.GetSettingsAsync();
+
+            if(!settings.IncludeRolesInToken)
+            {
+                RemoveAllClaims(identity, OpenIddictConstants.Claims.Role);
+                RemoveAllClaims(identity, OpenIddictConstants.Claims.Roles);
+            }
+
+            if(!settings.IncludeLegacyMicrosoftClaimsInToken)
+            {
+                RemoveAllClaims(identity, ClaimTypes.Role);
+                RemoveAllClaims(identity, ClaimTypes.Name);
+                RemoveAllClaims(identity, ClaimTypes.NameIdentifier);
+            }
+
+            if(!settings.IncludePermissionsInToken)
+            {
+                RemoveAllClaims(identity, Permission.ClaimType);
+            }
+        }
+
+        private void RemoveAllClaims(ClaimsIdentity identity, string claimName)
+        {
+            var claims = identity.Claims.Where(claim => claim.Type == claimName).ToList();
+            claims.ForEach(claim => identity.RemoveClaim(claim));
         }
 
         private async Task<IEnumerable<string>> GetResourcesAsync(IEnumerable<string> scopes)

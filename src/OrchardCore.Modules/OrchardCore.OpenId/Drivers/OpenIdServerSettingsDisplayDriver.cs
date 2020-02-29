@@ -39,6 +39,10 @@ namespace OrchardCore.OpenId.Drivers
                 model.AllowRefreshTokenFlow = settings.GrantTypes.Contains(GrantTypes.RefreshToken);
                 model.AllowImplicitFlow = settings.GrantTypes.Contains(GrantTypes.Implicit);
 
+                model.IncludePermissionsInToken = settings.IncludePermissionsInToken;
+                model.IncludeRolesInToken = settings.IncludeRolesInToken;
+                model.IncludeLegacyMicrosoftClaimsInToken = settings.IncludeLegacyMicrosoftClaimsInToken;
+
                 model.UseRollingTokens = settings.UseRollingTokens;
 
                 foreach (var (certificate, location, name) in await _serverService.GetAvailableCertificatesAsync())
