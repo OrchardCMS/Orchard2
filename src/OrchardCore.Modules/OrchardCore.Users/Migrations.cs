@@ -44,10 +44,33 @@ namespace OrchardCore.Users
                 .AddColumn<bool>(nameof(UserIndex.IsEnabled), c => c.NotNull().WithDefault(true)));
 
             SchemaBuilder.AlterTable(nameof(UserIndex), table => table
-                .CreateIndex("IDX_UserIndex_IsEnabled", "IsEnabled")
+                .CreateIndex($"IDX_{nameof(UserIndex)}_{nameof(UserIndex.IsEnabled)}", nameof(UserIndex.IsEnabled))
             );
 
             return 4;
+        }
+        public int UpdateFrom4()
+        {
+            SchemaBuilder.AlterTable(nameof(UserIndex), table =>
+            {
+                table.CreateIndex($"IDX_{nameof(UserIndex)}_{nameof(UserIndex.NormalizedUserName)}", nameof(UserIndex.NormalizedUserName));
+                table.CreateIndex($"IDX_{nameof(UserIndex)}_{nameof(UserIndex.NormalizedEmail)}", nameof(UserIndex.NormalizedEmail));
+            });
+            SchemaBuilder.AlterTable(nameof(UserByRoleNameIndex), table =>
+            {
+                table.CreateIndex($"IDX_{nameof(UserByRoleNameIndex)}_{nameof(UserByRoleNameIndex.RoleName)}", nameof(UserByRoleNameIndex.RoleName));
+            });
+            SchemaBuilder.AlterTable(nameof(UserByLoginInfoIndex), table =>
+            {
+                table.CreateIndex($"IDX_{nameof(UserByLoginInfoIndex)}_{nameof(UserByLoginInfoIndex.LoginProvider)}_{nameof(UserByLoginInfoIndex.ProviderKey)}",
+                    new[] { nameof(UserByLoginInfoIndex.LoginProvider), nameof(UserByLoginInfoIndex.ProviderKey) });
+            });
+            SchemaBuilder.AlterTable(nameof(UserByClaimIndex), table =>
+            {
+                table.CreateIndex($"IDX_{nameof(UserByClaimIndex)}_{nameof(UserByClaimIndex.ClaimType)}_{nameof(UserByClaimIndex.ClaimValue)}",
+                    new[] { nameof(UserByClaimIndex.ClaimType), nameof(UserByClaimIndex.ClaimValue) });
+            });
+            return 5;
         }
     }
 }
