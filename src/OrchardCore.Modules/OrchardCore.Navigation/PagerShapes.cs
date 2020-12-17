@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
@@ -150,10 +151,14 @@ namespace OrchardCore.Navigation
     public class PagerShapes : IShapeAttributeProvider
     {
         private readonly IStringLocalizer S;
+        private readonly IHtmlLocalizer H;
 
-        public PagerShapes(IStringLocalizer<PagerShapes> localizer)
+        public PagerShapes(
+            IStringLocalizer<PagerShapes> stringLocalizer,
+            IHtmlLocalizer<PagerShapes> htmlLocalizer)
         {
-            S = localizer;
+            S = stringLocalizer;
+            H = htmlLocalizer;
         }
 
         [Shape]
@@ -170,7 +175,8 @@ namespace OrchardCore.Navigation
             object GapText,
             bool ShowNext,
             string ItemTagName,
-            IDictionary<string, string> ItemAttributes
+            IDictionary<string, string> ItemAttributes,
+            bool LinkIcons
             // parameter omitted to workaround an issue where a NullRef is thrown
             // when an anonymous object is bound to an object shape parameter
             /*object RouteValues*/)
@@ -195,10 +201,10 @@ namespace OrchardCore.Navigation
                 return await DisplayAsync(shape);
             }
 
-            var firstText = FirstText ?? S["<<"];
-            var previousText = PreviousText ?? S["<"];
-            var nextText = NextText ?? S[">"];
-            var lastText = LastText ?? S[">>"];
+            var firstText = FirstText != null ? FirstText : LinkIcons ? H["<i class='fa fa-xs fa-chevron-left'></i><i class='fa fa-xs fa-chevron-left'></i>"] : H["<<"];
+            var previousText = PreviousText != null ? PreviousText : LinkIcons ? H["<i class='fa fa-xs fa-chevron-left'></i>"] : H["<"];
+            var nextText = NextText != null ? NextText : LinkIcons ? H["<i class='fa fa-xs fa-chevron-right'></i>"] : H[">"];
+            var lastText = LastText != null ? LastText : LinkIcons ? H["<i class='fa fa-xs fa-chevron-right'></i><i class='fa fa-xs fa-chevron-right'></i>"] : H[">>"];
             var gapText = GapText ?? S["..."];
 
             var httpContextAccessor = DisplayContext.ServiceProvider.GetService<IHttpContextAccessor>();
