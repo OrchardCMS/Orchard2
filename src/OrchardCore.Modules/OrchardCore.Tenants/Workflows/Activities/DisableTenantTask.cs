@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Environment.Shell.Models;
 using OrchardCore.Environment.Shell.Scope;
+using OrchardCore.Setup.Services;
 using OrchardCore.Workflows.Abstractions.Models;
 using OrchardCore.Workflows.Activities;
 using OrchardCore.Workflows.Models;
@@ -13,8 +15,14 @@ namespace OrchardCore.Tenants.Workflows.Activities
 {
     public class DisableTenantTask : TenantTask
     {
-        public DisableTenantTask(IShellSettingsManager shellSettingsManager, IShellHost shellHost, IWorkflowExpressionEvaluator expressionEvaluator, IWorkflowScriptEvaluator scriptEvaluator, IStringLocalizer<DisableTenantTask> localizer)
-            : base(shellSettingsManager, shellHost, expressionEvaluator, scriptEvaluator, localizer)
+        public DisableTenantTask(
+            IShellSettingsManager shellSettingsManager,
+            IShellHost shellHost,
+            IWorkflowExpressionEvaluator expressionEvaluator,
+            IWorkflowScriptEvaluator scriptEvaluator,
+            ISetupService setupService,
+            IStringLocalizer<DisableTenantTask> localizer
+        ): base(shellSettingsManager, shellHost, expressionEvaluator, scriptEvaluator, setupService, localizer)
         {
         }
         public override string Name => nameof(DisableTenantTask);

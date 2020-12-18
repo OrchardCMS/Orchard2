@@ -1,10 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Environment.Shell.Models;
 using OrchardCore.Environment.Shell.Scope;
+using OrchardCore.Modules;
+using OrchardCore.Setup.Services;
+using OrchardCore.Tenants.Events;
+using OrchardCore.Tenants.Services;
+using OrchardCore.Tenants.Utilities;
 using OrchardCore.Workflows.Abstractions.Models;
 using OrchardCore.Workflows.Activities;
 using OrchardCore.Workflows.Models;
@@ -14,14 +23,25 @@ namespace OrchardCore.Tenants.Workflows.Activities
 {
     public class CreateTenantTask : TenantTask
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger _logger;
+
         public CreateTenantTask(
             IShellSettingsManager shellSettingsManager,
             IShellHost shellHost,
             IWorkflowExpressionEvaluator expressionEvaluator,
             IWorkflowScriptEvaluator scriptEvaluator,
-            IStringLocalizer<CreateTenantTask> localizer)
-            : base(shellSettingsManager, shellHost, expressionEvaluator, scriptEvaluator, localizer)
+            IServiceProvider serviceProvider,
+            ISetupService setupService,
+            IHttpContextAccessor httpContextAccessor,
+            ILogger<CreateTenantTask> logger,
+            IStringLocalizer<CreateTenantTask> localizer
+        ) : base(shellSettingsManager, shellHost, expressionEvaluator, scriptEvaluator, setupService, localizer)
         {
+            _httpContextAccessor = httpContextAccessor;
+            _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public override string Name => nameof(CreateTenantTask);
@@ -150,6 +170,20 @@ namespace OrchardCore.Tenants.Workflows.Activities
 
             await ShellHost.UpdateShellSettingsAsync(shellSettings);
 
+            // Invoke modules to react to the tenant created event
+            var token = SetupService.CreateSetupToken(shellSettings);
+            var encodedUrl = TenantHelperExtensions.GetEncodedUrl(shellSettings, _httpContextAccessor.HttpContext.Request, token);
+            var context = new TenantContext
+            {
+                ShellSettings = shellSettings,
+                EncodedUrl = encodedUrl
+            };
+            var tenantCreatedEventHandlers = _serviceProvider.GetRequiredService<IEnumerable<ITenantCreatedEventHandler>>();
+            var logger = _serviceProvider.GetRequiredService<ILogger<CreateTenantTask>>();
+            if (tenantCreatedEventHandlers.Any())
+            {
+                await tenantCreatedEventHandlers.InvokeAsync((handler, conext) => handler.TenantCreated(context), context, logger);
+            }
             workflowContext.LastResult = shellSettings;
             workflowContext.CorrelationId = shellSettings.Name;
 

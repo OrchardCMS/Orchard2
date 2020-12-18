@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using OrchardCore.Data;
 using OrchardCore.Email;
 using OrchardCore.Environment.Shell;
@@ -18,6 +20,9 @@ using OrchardCore.Modules;
 using OrchardCore.Mvc.Utilities;
 using OrchardCore.Recipes.Models;
 using OrchardCore.Setup.Services;
+using OrchardCore.Tenants.Events;
+using OrchardCore.Tenants.Services;
+using OrchardCore.Tenants.Utilities;
 using OrchardCore.Tenants.ViewModels;
 
 namespace OrchardCore.Tenants.Controllers
@@ -31,11 +36,11 @@ namespace OrchardCore.Tenants.Controllers
         private readonly IShellSettingsManager _shellSettingsManager;
         private readonly IEnumerable<DatabaseProvider> _databaseProviders;
         private readonly IAuthorizationService _authorizationService;
-        private readonly IDataProtectionProvider _dataProtectorProvider;
         private readonly ISetupService _setupService;
         private readonly ShellSettings _currentShellSettings;
-        private readonly IClock _clock;
         private readonly IEmailAddressValidator _emailAddressValidator;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger _logger;
         private readonly IStringLocalizer S;
 
         public ApiController(
@@ -44,22 +49,23 @@ namespace OrchardCore.Tenants.Controllers
             IAuthorizationService authorizationService,
             IShellSettingsManager shellSettingsManager,
             IEnumerable<DatabaseProvider> databaseProviders,
-            IDataProtectionProvider dataProtectorProvider,
             ISetupService setupService,
-            IClock clock,
             IEmailAddressValidator emailAddressValidator,
-            IStringLocalizer<AdminController> stringLocalizer)
+            ILogger<ApiController> logger,
+            IServiceProvider serviceProvider,
+            IStringLocalizer<AdminController> stringLocalizer
+        )
         {
-            _dataProtectorProvider = dataProtectorProvider;
             _setupService = setupService;
-            _clock = clock;
             _shellHost = shellHost;
             _authorizationService = authorizationService;
             _shellSettingsManager = shellSettingsManager;
             _databaseProviders = databaseProviders;
             _currentShellSettings = currentShellSettings;
             _emailAddressValidator = emailAddressValidator ?? throw new ArgumentNullException(nameof(emailAddressValidator));
+            _serviceProvider = serviceProvider;
             S = stringLocalizer;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -114,17 +120,30 @@ namespace OrchardCore.Tenants.Controllers
                 {
                     // Site already exists, return 201 for indempotency purpose
 
-                    var token = CreateSetupToken(settings);
+                    var token = _setupService.CreateSetupToken(settings);
 
-                    return StatusCode(201, GetEncodedUrl(settings, token));
+                    return StatusCode(201, TenantHelperExtensions.GetEncodedUrl(settings, Request, token));
                 }
                 else
                 {
                     await _shellHost.UpdateShellSettingsAsync(shellSettings);
+                    var token = _setupService.CreateSetupToken(shellSettings);
+                    var encodedUrl = TenantHelperExtensions.GetEncodedUrl(shellSettings, Request, token);
 
-                    var token = CreateSetupToken(shellSettings);
+                    // Invoke modules to react to the tenant created event
+                    var context = new TenantContext
+                    {
+                        ShellSettings = shellSettings,
+                        EncodedUrl = encodedUrl
+                    };
 
-                    return Ok(GetEncodedUrl(shellSettings, token));
+                    var tenantCreatedEventHandlers = _serviceProvider.GetRequiredService<IEnumerable<ITenantCreatedEventHandler>>();
+                    if(tenantCreatedEventHandlers.Any())
+                    {
+                        await tenantCreatedEventHandlers.InvokeAsync((handler, conext) => handler.TenantCreated(context), context, _logger);
+                    }
+
+                    return Ok(encodedUrl);
                 }
             }
 
@@ -312,14 +331,6 @@ namespace OrchardCore.Tenants.Controllers
             }
 
             return $"{Request.Scheme}://{hostString + pathString + queryString}";
-        }
-
-        private string CreateSetupToken(ShellSettings shellSettings)
-        {
-            // Create a public url to setup the new tenant
-            var dataProtector = _dataProtectorProvider.CreateProtector("Tokens").ToTimeLimitedDataProtector();
-            var token = dataProtector.Protect(shellSettings["Secret"], _clock.UtcNow.Add(new TimeSpan(24, 0, 0)));
-            return token;
         }
     }
 }

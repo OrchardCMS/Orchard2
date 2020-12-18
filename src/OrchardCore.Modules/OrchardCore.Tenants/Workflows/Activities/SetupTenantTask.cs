@@ -20,14 +20,11 @@ namespace OrchardCore.Tenants.Workflows.Activities
         private readonly IClock _clock;
         private readonly IUpdateModelAccessor _updateModelAccessor;
         public SetupTenantTask(IShellSettingsManager shellSettingsManager, IShellHost shellHost, ISetupService setupService, IClock clock, IWorkflowExpressionEvaluator expressionEvaluator, IWorkflowScriptEvaluator scriptEvaluator, IUpdateModelAccessor updateModelAccessor, IStringLocalizer<SetupTenantTask> localizer)
-            : base(shellSettingsManager, shellHost, expressionEvaluator, scriptEvaluator, localizer)
+            : base(shellSettingsManager, shellHost, expressionEvaluator, scriptEvaluator, setupService, localizer)
         {
-            SetupService = setupService;
             _clock = clock;
             _updateModelAccessor = updateModelAccessor;
         }
-
-        protected ISetupService SetupService { get; }
 
         public override string Name => nameof(SetupTenantTask);
 

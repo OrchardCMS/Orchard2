@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
@@ -31,6 +32,8 @@ namespace OrchardCore.Setup.Services
         private readonly ILogger _logger;
         private readonly IStringLocalizer S;
         private readonly IHostApplicationLifetime _applicationLifetime;
+        private readonly IDataProtectionProvider _dataProtectorProvider;
+        private readonly IClock _clock;
         private readonly string _applicationName;
         private IEnumerable<RecipeDescriptor> _recipes;
 
@@ -45,6 +48,8 @@ namespace OrchardCore.Setup.Services
         /// <param name="logger">The <see cref="ILogger"/>.</param>
         /// <param name="stringLocalizer">The <see cref="IStringLocalizer"/>.</param>
         /// <param name="applicationLifetime">The <see cref="IHostApplicationLifetime"/>.</param>
+        /// <param name="dataProtectorProvider">The <see cref="IDataProtectionProvider"/>.</param>
+        /// <param name="clock">The <see cref="IClock"/>.</param>
         public SetupService(
             IShellHost shellHost,
             IHostEnvironment hostingEnvironment,
@@ -53,7 +58,9 @@ namespace OrchardCore.Setup.Services
             IEnumerable<IRecipeHarvester> recipeHarvesters,
             ILogger<SetupService> logger,
             IStringLocalizer<SetupService> stringLocalizer,
-            IHostApplicationLifetime applicationLifetime
+            IHostApplicationLifetime applicationLifetime,
+            IDataProtectionProvider dataProtectorProvider,
+            IClock clock
             )
         {
             _shellHost = shellHost;
@@ -64,6 +71,8 @@ namespace OrchardCore.Setup.Services
             _logger = logger;
             S = stringLocalizer;
             _applicationLifetime = applicationLifetime;
+            _dataProtectorProvider = dataProtectorProvider;
+            _clock = clock;
         }
 
         /// <inheridoc />
@@ -98,6 +107,13 @@ namespace OrchardCore.Setup.Services
                 context.ShellSettings.State = initialState;
                 throw;
             }
+        }
+
+        public string CreateSetupToken(ShellSettings shellSettings)
+        {
+            var dataProtector = _dataProtectorProvider.CreateProtector("Tokens").ToTimeLimitedDataProtector();
+            var token = dataProtector.Protect(shellSettings["Secret"], _clock.UtcNow.Add(new TimeSpan(24, 0, 0)));
+            return token;
         }
 
         private async Task<string> SetupInternalAsync(SetupContext context)

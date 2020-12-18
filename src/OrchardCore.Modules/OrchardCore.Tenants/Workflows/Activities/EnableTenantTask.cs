@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Environment.Shell.Models;
 using OrchardCore.Environment.Shell.Scope;
+using OrchardCore.Setup.Services;
 using OrchardCore.Workflows.Abstractions.Models;
 using OrchardCore.Workflows.Activities;
 using OrchardCore.Workflows.Models;
@@ -13,8 +14,9 @@ namespace OrchardCore.Tenants.Workflows.Activities
 {
     public class EnableTenantTask : TenantTask
     {
-        public EnableTenantTask(IShellSettingsManager shellSettingsManager, IShellHost shellHost, IWorkflowExpressionEvaluator expressionEvaluator, IWorkflowScriptEvaluator scriptEvaluator, IStringLocalizer<EnableTenantTask> localizer)
-            : base(shellSettingsManager, shellHost, expressionEvaluator, scriptEvaluator, localizer)
+        public EnableTenantTask(IShellSettingsManager shellSettingsManager, IShellHost shellHost, IWorkflowExpressionEvaluator expressionEvaluator,
+            IWorkflowScriptEvaluator scriptEvaluator, ISetupService setupService, IStringLocalizer<EnableTenantTask> localizer)
+            : base(shellSettingsManager, shellHost, expressionEvaluator, scriptEvaluator, setupService, localizer)
         {
         }
 

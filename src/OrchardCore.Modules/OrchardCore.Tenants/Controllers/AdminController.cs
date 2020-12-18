@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using OrchardCore.Data;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.Notify;
@@ -20,6 +21,10 @@ using OrchardCore.Navigation;
 using OrchardCore.Recipes.Services;
 using OrchardCore.Routing;
 using OrchardCore.Settings;
+using OrchardCore.Setup.Services;
+using OrchardCore.Tenants.Events;
+using OrchardCore.Tenants.Services;
+using OrchardCore.Tenants.Utilities;
 using OrchardCore.Tenants.ViewModels;
 
 namespace OrchardCore.Tenants.Controllers
@@ -32,10 +37,11 @@ namespace OrchardCore.Tenants.Controllers
         private readonly IAuthorizationService _authorizationService;
         private readonly ShellSettings _currentShellSettings;
         private readonly IEnumerable<IRecipeHarvester> _recipeHarvesters;
-        private readonly IDataProtectionProvider _dataProtectorProvider;
-        private readonly IClock _clock;
         private readonly INotifier _notifier;
         private readonly ISiteService _siteService;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ISetupService _setupService;
+        private readonly ILogger _logger;
 
         private readonly dynamic New;
         private readonly IStringLocalizer S;
@@ -48,28 +54,30 @@ namespace OrchardCore.Tenants.Controllers
             IAuthorizationService authorizationService,
             ShellSettings currentShellSettings,
             IEnumerable<IRecipeHarvester> recipeHarvesters,
-            IDataProtectionProvider dataProtectorProvider,
-            IClock clock,
             INotifier notifier,
             ISiteService siteService,
+            IServiceProvider serviceProvider,
             IShapeFactory shapeFactory,
             IStringLocalizer<AdminController> stringLocalizer,
-            IHtmlLocalizer<AdminController> htmlLocalizer)
+            IHtmlLocalizer<AdminController> htmlLocalizer,
+            ISetupService setupService,
+            ILogger<AdminController> logger)
         {
             _shellHost = shellHost;
             _authorizationService = authorizationService;
             _shellSettingsManager = shellSettingsManager;
             _databaseProviders = databaseProviders;
             _currentShellSettings = currentShellSettings;
-            _dataProtectorProvider = dataProtectorProvider;
             _recipeHarvesters = recipeHarvesters;
-            _clock = clock;
             _notifier = notifier;
             _siteService = siteService;
+            _serviceProvider = serviceProvider;
+            _setupService = setupService;
 
             New = shapeFactory;
             S = stringLocalizer;
             H = htmlLocalizer;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index(TenantIndexOptions options, PagerParameters pagerParameters)
@@ -85,7 +93,6 @@ namespace OrchardCore.Tenants.Controllers
             }
 
             var allSettings = _shellHost.GetAllSettings().OrderBy(s => s.Name);
-            var dataProtector = _dataProtectorProvider.CreateProtector("Tokens").ToTimeLimitedDataProtector();
 
             var siteSettings = await _siteService.GetSiteSettingsAsync();
             var pager = new Pager(pagerParameters, siteSettings.PageSize);
@@ -102,7 +109,7 @@ namespace OrchardCore.Tenants.Controllers
 
                     if (x.State == TenantState.Uninitialized && !String.IsNullOrEmpty(x["Secret"]))
                     {
-                        entry.Token = dataProtector.Protect(x["Secret"], _clock.UtcNow.Add(new TimeSpan(24, 0, 0)));
+                        entry.Token = _setupService.CreateSetupToken(x);
                     }
 
                     return entry;
@@ -332,6 +339,20 @@ namespace OrchardCore.Tenants.Controllers
                 shellSettings["RecipeName"] = model.RecipeName;
 
                 await _shellHost.UpdateShellSettingsAsync(shellSettings);
+
+                // Invoke modules to react to the tenant created event
+                var token = _setupService.CreateSetupToken(shellSettings);
+                var encodedUrl = TenantHelperExtensions.GetEncodedUrl(shellSettings, Request, token);
+                var context = new TenantContext
+                {
+                    ShellSettings = shellSettings,
+                    EncodedUrl = encodedUrl
+                };
+                var tenantCreatedEventHandlers = _serviceProvider.GetRequiredService<IEnumerable<ITenantCreatedEventHandler>>();
+                if (tenantCreatedEventHandlers.Any())
+                {
+                    await tenantCreatedEventHandlers.InvokeAsync((handler, context) => handler.TenantCreated(context), context, _logger);
+                }
 
                 return RedirectToAction(nameof(Index));
             }
