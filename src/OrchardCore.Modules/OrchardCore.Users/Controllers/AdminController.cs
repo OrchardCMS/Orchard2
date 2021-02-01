@@ -256,7 +256,7 @@ namespace OrchardCore.Users.Controllers
 
         [HttpPost]
         [ActionName(nameof(Create))]
-        public async Task<IActionResult> CreatePost()
+        public async Task<IActionResult> CreatePost(string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageUsers))
             {
@@ -281,7 +281,7 @@ namespace OrchardCore.Users.Controllers
 
             _notifier.Success(H["User created successfully."]);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToReturnUrlOrIndex(returnUrl);
         }
 
         public async Task<IActionResult> Edit(string id, string returnUrl)
@@ -311,8 +311,6 @@ namespace OrchardCore.Users.Controllers
 
             var shape = await _userDisplayManager.BuildEditorAsync(user, updater: _updateModelAccessor.ModelUpdater, isNew: false);
 
-            ViewData["ReturnUrl"] = returnUrl;
-
             return View(shape);
         }
 
@@ -321,10 +319,10 @@ namespace OrchardCore.Users.Controllers
         public async Task<IActionResult> EditPost(string id, string returnUrl)
         {
             // When no id is provided we assume the user is trying to edit their own profile.
-            var editingOwnUser = false;
+            //var editingOwnUser = false;
             if (String.IsNullOrEmpty(id))
             {
-                editingOwnUser = true;
+                //editingOwnUser = true;
                 id = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageOwnUserInformation))
                 {
@@ -368,23 +366,11 @@ namespace OrchardCore.Users.Controllers
 
             _notifier.Success(H["User updated successfully."]);
 
-            if (editingOwnUser)
-            {
-                if (!String.IsNullOrEmpty(returnUrl))
-                {
-                    return LocalRedirect(returnUrl);
-                }
-
-                return RedirectToAction(nameof(Edit));
-            }
-            else
-            {
-                return RedirectToAction(nameof(Index));
-            }
+            return RedirectToReturnUrlOrIndex(returnUrl);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageUsers))
             {
@@ -416,7 +402,7 @@ namespace OrchardCore.Users.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToReturnUrlOrIndex(returnUrl);
         }
 
         public async Task<IActionResult> EditPassword(string id)
@@ -466,6 +452,18 @@ namespace OrchardCore.Users.Controllers
             }
 
             return View(model);
+        }
+
+        private IActionResult RedirectToReturnUrlOrIndex(string returnUrl)
+        {
+            if ((String.IsNullOrEmpty(returnUrl) == false) && (Url.IsLocalUrl(returnUrl)))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

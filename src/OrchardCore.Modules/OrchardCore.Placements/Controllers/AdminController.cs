@@ -123,7 +123,6 @@ namespace OrchardCore.Placements.Controllers
                 Nodes = JsonConvert.SerializeObject(template, Formatting.Indented)
             };
 
-            ViewData["ReturnUrl"] = returnUrl;
             return View("Edit", viewModel);
         }
 
@@ -161,7 +160,6 @@ namespace OrchardCore.Placements.Controllers
                 Nodes = JsonConvert.SerializeObject(placementNodes, Formatting.Indented)
             };
 
-            ViewData["ReturnUrl"] = returnUrl;
             return View(viewModel);
         }
 
@@ -172,8 +170,6 @@ namespace OrchardCore.Placements.Controllers
             {
                 return Forbid();
             }
-
-            ViewData["ReturnUrl"] = returnUrl;
 
             if (viewModel.Creating && await _placementsManager.GetShapePlacementsAsync(viewModel.ShapeType) != null)
             {

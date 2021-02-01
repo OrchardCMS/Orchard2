@@ -14,7 +14,7 @@
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Edit Widgets and Layers"])</h1></zone>
 
-<form id="undo-form" asp-action="UpdatePosition" method="post">
+<form id="undo-form" asp-action="UpdatePosition" asp-route-returnUrl="@FullRequestPath" method="post">
     <div id="layer-undo-message" class="alert alert-success alert-dismissible show d-none" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -80,7 +80,7 @@
                                     {
                                         var contentItem = await ContentManager.NewAsync(type.Name);
                                         var createRoute = (await ContentManager.PopulateAspectAsync<ContentItemMetadata>(contentItem)).CreateRouteValues;
-                                        createRoute["returnUrl"] = Context.Request.PathBase + Context.Request.Path;
+                                        createRoute["returnUrl"] = FullRequestPath;
                                         createRoute["LayerMetadata.Zone"] = zone;
                                         createRoute["LayerMetadata.Position"] = maxPosition + 1;
                                         <a class="dropdown-item add-list-widget btn-sm"
@@ -116,8 +116,8 @@
                                     <label class="custom-control-label" for="@layer.Name">@layer.Name</label>
                                 </div>
                                 <div>
-                                    <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Admin", new { area = "OrchardCore.Layers", name = layer.Name })">@T["Edit"]</a>
-                                    <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Admin", new { area = "OrchardCore.Layers", name = layer.Name })" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
+                                    <a asp-action="Edit" asp-area="OrchardCore.Layers" asp-route-name="@layer.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm">@T["Edit"]</a>
+                                    <a asp-action="Delete" asp-area="OrchardCore.Layers" asp-route-name="@layer.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-danger btn-sm" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
                                 </div>
                             </div>
                             <div>
@@ -133,7 +133,7 @@
             <p class="alert alert-warning">@T["Please <a href=\"{0}\">create a layer</a> before adding Widgets", Url.Action("Create", "Admin", new { area = "OrchardCore.Layers" })]</p>
         }
 
-        <a class="button btn-sm" href="@Url.Action("Create", "Admin", new { area = "OrchardCore.Layers" })">@T["Add"]</a>
+        <a asp-action="Create" asp-area="OrchardCore.Layers" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm">@T["Add"]</a>
     </div>
 </div>
 

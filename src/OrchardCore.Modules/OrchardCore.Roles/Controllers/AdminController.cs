@@ -83,7 +83,7 @@ namespace OrchardCore.Roles.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateRoleViewModel model)
+        public async Task<IActionResult> Create(CreateRoleViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +107,7 @@ namespace OrchardCore.Roles.Controllers
                 if (result.Succeeded)
                 {
                     _notifier.Success(H["Role created successfully."]);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToReturnUrlOrIndex(returnUrl);
                 }
 
                 _documentStore.Cancel();
@@ -123,7 +123,7 @@ namespace OrchardCore.Roles.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageRoles))
             {
@@ -155,7 +155,7 @@ namespace OrchardCore.Roles.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToReturnUrlOrIndex(returnUrl);
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -187,7 +187,7 @@ namespace OrchardCore.Roles.Controllers
         }
 
         [HttpPost, ActionName(nameof(Edit))]
-        public async Task<IActionResult> EditPost(string id, string roleDescription)
+        public async Task<IActionResult> EditPost(string id, string roleDescription, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageRoles))
             {
@@ -221,7 +221,7 @@ namespace OrchardCore.Roles.Controllers
 
             _notifier.Success(H["Role updated successfully."]);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToReturnUrlOrIndex(returnUrl);
         }
 
         private RoleEntry BuildRoleEntry(IRole role)
@@ -284,6 +284,18 @@ namespace OrchardCore.Roles.Controllers
             }
 
             return result;
+        }
+
+        private IActionResult RedirectToReturnUrlOrIndex(string returnUrl)
+        {
+            if ((String.IsNullOrEmpty(returnUrl) == false) && (Url.IsLocalUrl(returnUrl)))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

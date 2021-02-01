@@ -86,7 +86,7 @@ namespace OrchardCore.ContentTypes.Controllers
         }
 
         [HttpPost, ActionName("Create")]
-        public async Task<ActionResult> CreatePOST(CreateTypeViewModel viewModel)
+        public async Task<ActionResult> CreatePOST(CreateTypeViewModel viewModel, string admin = null, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.EditContentTypes))
             {
@@ -138,7 +138,7 @@ namespace OrchardCore.ContentTypes.Controllers
 
             _notifier.Success(H["The \"{0}\" content type has been created.", typeViewModel.DisplayName]);
 
-            return RedirectToAction("AddPartsTo", new { id = typeViewModel.Name });
+            return RedirectToAction("AddPartsTo", new { id = typeViewModel.Name, admin = admin, returnUrl = returnUrl});
         }
 
         public async Task<ActionResult> Edit(string id)
@@ -203,7 +203,7 @@ namespace OrchardCore.ContentTypes.Controllers
 
         [HttpPost, ActionName("Edit")]
         [FormValueRequired("submit.Delete")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.EditContentTypes))
             {
@@ -221,7 +221,7 @@ namespace OrchardCore.ContentTypes.Controllers
 
             _notifier.Success(H["\"{0}\" has been removed.", typeViewModel.DisplayName]);
 
-            return RedirectToAction("List");
+            return RedirectToReturnUrlOrAction(returnUrl, nameof(List), null);
         }
 
         public async Task<ActionResult> AddPartsTo(string id)
@@ -284,7 +284,7 @@ namespace OrchardCore.ContentTypes.Controllers
         }
 
         [HttpPost, ActionName("AddPartsTo")]
-        public async Task<ActionResult> AddPartsToPOST(string id)
+        public async Task<ActionResult> AddPartsToPOST(string id, string admin = null, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.EditContentTypes))
             {
@@ -317,7 +317,7 @@ namespace OrchardCore.ContentTypes.Controllers
                 return await AddPartsTo(id);
             }
 
-            return RedirectToAction("Edit", new { id });
+            return RedirectToAction("Edit", new { id, admin, returnUrl });
         }
 
         [HttpPost, ActionName("AddReusablePartTo")]
@@ -440,7 +440,7 @@ namespace OrchardCore.ContentTypes.Controllers
         }
 
         [HttpPost, ActionName("CreatePart")]
-        public async Task<ActionResult> CreatePartPOST(CreatePartViewModel viewModel)
+        public async Task<ActionResult> CreatePartPOST(CreatePartViewModel viewModel, string admin = null, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.EditContentTypes))
             {
@@ -484,7 +484,7 @@ namespace OrchardCore.ContentTypes.Controllers
 
             _notifier.Success(H["The \"{0}\" content part has been created.", partViewModel.Name]);
 
-            return RedirectToAction("EditPart", new { id = partViewModel.Name });
+            return RedirectToAction("EditPart", new { id = partViewModel.Name, admin = admin, returnUrl = returnUrl });
         }
 
         public async Task<ActionResult> EditPart(string id)
@@ -509,7 +509,7 @@ namespace OrchardCore.ContentTypes.Controllers
 
         [HttpPost, ActionName("EditPart")]
         [FormValueRequired("submit.Save")]
-        public async Task<ActionResult> EditPartPOST(string id, string[] orderedFieldNames)
+        public async Task<IActionResult> EditPartPOST(string id, string[] orderedFieldNames, string admin = null, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.EditContentTypes))
             {
@@ -537,12 +537,12 @@ namespace OrchardCore.ContentTypes.Controllers
                 _notifier.Success(H["The settings of \"{0}\" have been saved.", contentPartDefinition.Name]);
             }
 
-            return RedirectToAction("EditPart", new { id });
+            return RedirectToAction(nameof(EditPart), new { id, admin, returnUrl });
         }
 
         [HttpPost, ActionName("EditPart")]
         [FormValueRequired("submit.Delete")]
-        public async Task<ActionResult> DeletePart(string id)
+        public async Task<IActionResult> DeletePart(string id, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.EditContentTypes))
             {
@@ -560,7 +560,7 @@ namespace OrchardCore.ContentTypes.Controllers
 
             _notifier.Information(H["\"{0}\" has been removed.", partViewModel.DisplayName]);
 
-            return RedirectToAction("ListParts");
+            return RedirectToReturnUrlOrAction(returnUrl, nameof(ListParts), null);
         }
 
         public async Task<ActionResult> AddFieldTo(string id, string returnUrl = null)
@@ -583,7 +583,6 @@ namespace OrchardCore.ContentTypes.Controllers
                 Fields = _contentDefinitionService.GetFields().Select(x => x.Name).OrderBy(x => x).ToList()
             };
 
-            ViewData["ReturnUrl"] = returnUrl;
             return View(viewModel);
         }
 
@@ -644,7 +643,6 @@ namespace OrchardCore.ContentTypes.Controllers
 
                 _documentStore.Cancel();
 
-                ViewData["ReturnUrl"] = returnUrl;
                 return View(viewModel);
             }
 
@@ -693,7 +691,6 @@ namespace OrchardCore.ContentTypes.Controllers
                 Shape = await _contentDefinitionDisplayManager.BuildPartFieldEditorAsync(partFieldDefinition, _updateModelAccessor.ModelUpdater)
             };
 
-            ViewData["ReturnUrl"] = returnUrl;
             return View(viewModel);
         }
 
@@ -748,7 +745,6 @@ namespace OrchardCore.ContentTypes.Controllers
                     viewModel.Shape = await _contentDefinitionDisplayManager.UpdatePartFieldEditorAsync(field, _updateModelAccessor.ModelUpdater);
                     _documentStore.Cancel();
 
-                    ViewData["ReturnUrl"] = returnUrl;
                     return View(viewModel);
                 }
 
@@ -766,7 +762,6 @@ namespace OrchardCore.ContentTypes.Controllers
             {
                 _documentStore.Cancel();
 
-                ViewData["ReturnUrl"] = returnUrl;
                 return View(viewModel);
             }
             else
@@ -866,7 +861,7 @@ namespace OrchardCore.ContentTypes.Controllers
 
         [HttpPost, ActionName("EditTypePart")]
         [FormValueRequired("submit.Save")]
-        public async Task<ActionResult> EditTypePartPOST(string id, EditTypePartViewModel viewModel)
+        public async Task<IActionResult> EditTypePartPOST(string id, EditTypePartViewModel viewModel, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.EditContentTypes))
             {
@@ -937,9 +932,21 @@ namespace OrchardCore.ContentTypes.Controllers
                 _notifier.Success(H["The \"{0}\" part settings have been saved.", part.DisplayName()]);
             }
 
-            return RedirectToAction("Edit", new { id });
+            return RedirectToReturnUrlOrAction(returnUrl, nameof(Edit), id);
         }
 
         #endregion Type Parts
+
+        private IActionResult RedirectToReturnUrlOrAction(string returnUrl, string action, string id)
+        {
+            if ((String.IsNullOrEmpty(returnUrl) == false) && (Url.IsLocalUrl(returnUrl)))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(action, new { id });
+            }
+        }
     }
 }

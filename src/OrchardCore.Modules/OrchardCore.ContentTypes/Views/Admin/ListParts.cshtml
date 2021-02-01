@@ -8,7 +8,7 @@
             <i class="fa fa-search form-control-feedback"></i>
             <input id="search-box" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
         </div>
-        <a asp-route-action="CreatePart" id="btnCreate" class="btn btn-sm btn-secondary d-inline-flex float-right create" role="button">@T["Create new part"]</a>
+        <a asp-route-action="CreatePart" id="btnCreate" asp-route-admin="@Context.Request.Query["admin"]" asp-route-returnUrl="@FullRequestPath" class="btn btn-sm btn-secondary d-inline-flex float-right create" role="button">@T["Create new part"]</a>
     </div>
 </div>
 

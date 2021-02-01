@@ -2,16 +2,18 @@
 @using OrchardCore.ContentManagement.Metadata.Settings;
 @{
     var settings = Model.TypeDefinition.GetSettings<ContentTypeSettings>();
+
+    var adminMenuId = Context.Request.Query["admin"];
 }
 <div class="properties">
-    <a asp-route-action="Edit" asp-route-area="OrchardCore.ContentTypes" asp-route-id="@Model.Name">@Model.DisplayName</a>
+    <a asp-route-action="Edit" asp-route-area="OrchardCore.ContentTypes" asp-route-id="@Model.Name" asp-route-admin="@adminMenuId" asp-route-returnUrl="@FullRequestPath">@Model.DisplayName</a>
     <div class="related">
         @if (settings.Creatable)
         {
-            <a id="btn-create-@Model.Name" asp-route-area="OrchardCore.Contents" asp-route-action="Create" asp-route-id="@Model.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-success btn-sm">@T["Create New {0}", Model.DisplayName]</a>
+            <a id="btn-create-@Model.Name" asp-route-area="OrchardCore.Contents" asp-route-action="Create" asp-route-id="@Model.Name" asp-route-admin="@adminMenuId" asp-route-returnUrl="@FullRequestPath" class="btn btn-success btn-sm">@T["Create New {0}", Model.DisplayName]</a>
         }
-        <a role="btn-list-@Model.Name" asp-route-action="List" asp-route-area="OrchardCore.Contents" asp-route-contentTypeId="@Model.Name" class="btn btn-secondary btn-sm">@T["List Items"]</a>
-        <a role="btn-edit-@Model.Name" asp-route-action="Edit" asp-route-area="OrchardCore.ContentTypes" asp-route-id="@Model.Name" class="btn btn-primary btn-sm">@T["Edit"]</a>
+        <a role="btn-list-@Model.Name" asp-route-action="List" asp-route-area="OrchardCore.Contents" asp-route-contentTypeId="@Model.Name" asp-route-admin="@adminMenuId" class="btn btn-secondary btn-sm">@T["List Items"]</a>
+        <a role="btn-edit-@Model.Name" asp-route-action="Edit" asp-route-area="OrchardCore.ContentTypes" asp-route-id="@Model.Name" asp-route-admin="@adminMenuId" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm">@T["Edit"]</a>
     </div>
     @if (!string.IsNullOrWhiteSpace(settings.Stereotype))
     {

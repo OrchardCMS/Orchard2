@@ -4,12 +4,12 @@
 @model AddFieldViewModel
 
 @{
-    var returnUrl = ViewData["returnUrl"]?.ToString();
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Add New Field To \"{0}\"", Model.Part.DisplayName()])</h1></zone>
 
-<form asp-action="AddFieldTo" asp-route-returnUrl="@ViewData["returnUrl"]">
+<form asp-action="AddFieldTo" asp-route-returnUrl="@returnUrl">
     @Html.ValidationSummary()
     <div class="form-group">
         <div class="w-md-75 w-xl-50">

@@ -12,7 +12,7 @@
                 <input id="search-box" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
             </div>
             <div class="btn-group float-right">
-                <a asp-route-action="Create" class="btn btn-sm btn-secondary float-right create" role="button">@T["Add Role"]</a>
+                <a asp-route-action="Create" asp-route-returnUrl="@FullRequestPath" class="btn btn-sm btn-secondary float-right create" role="button">@T["Add Role"]</a>
             </div>
         </div>
     </div>
@@ -27,8 +27,8 @@
             <li class="list-group-item" data-filter-value="@Model.RoleEntries[i].Name">
                 <div class="properties">
                     <div class="related">
-                        <a class="edit btn btn-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@Model.RoleEntries[i].Name">@T["Edit"]</a>
-                        <a class="delete btn btn-danger btn-sm" asp-route-id="@Model.RoleEntries[i].Name" role="button" asp-action="Delete" data-url-af="UnsafeUrl RemoveUrl" data-title="@T["Delete Role"]" data-message="@message">@T["Delete"]</a>
+                        <a class="edit btn btn-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@Model.RoleEntries[i].Name" asp-route-returnUrl="@FullRequestPath">@T["Edit"]</a>
+                        <a class="delete btn btn-danger btn-sm" asp-route-id="@Model.RoleEntries[i].Name" role="button" asp-action="Delete" asp-route-returnUrl="@FullRequestPath" data-url-af="UnsafeUrl RemoveUrl" data-title="@T["Delete Role"]" data-message="@message">@T["Delete"]</a>
                     </div>
                     @*<input asp-for="RoleEntries[i].Selected" type="checkbox">*@
                     @Model.RoleEntries[i].Name

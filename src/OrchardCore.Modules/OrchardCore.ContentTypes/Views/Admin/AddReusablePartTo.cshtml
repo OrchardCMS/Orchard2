@@ -1,10 +1,13 @@
 @model AddReusablePartViewModel
 @{
     int i = 0;
+
+    var adminMenuId = Context.Request.Query["admin"];
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 <zone Name="Title"><h1>@T["Add Named Part To \"{0}\"", Model.Type.DisplayName]</h1></zone>
 
-<form asp-action="AddReusablePartTo">
+<form asp-action="AddReusablePartTo" asp-route-admin="@adminMenuId" asp-route-returnUrl="@returnUrl">
     @Html.ValidationSummary()
     <div class="form-group">
 

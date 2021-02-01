@@ -8,7 +8,7 @@
 <zone Name="Title"><h1>@RenderTitleSegments(T["Shortcodes"])</h1></zone>
 
 @* the form is necessary to generate and antiforgery token for the delete action *@
-<form asp-action="Index">
+<form asp-action="Index" asp-route-returnUrl="@FullRequestPath">
     <input type="submit" name="submit.Filter" id="submitFilter" class="d-none" />
     <input asp-for="Options.BulkAction" type="hidden" />
     <input type="submit" name="submit.BulkAction" class="d-none" />
@@ -21,7 +21,7 @@
                     <input asp-for="Options.Search" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
                 </div>
                 <div class="btn-group float-right">
-                    <a asp-route-action="Create" class="btn btn-sm btn-secondary float-right create" role="button">@T["Add Shortcode"]</a>
+                    <a asp-route-action="Create" asp-route-returnUrl="@FullRequestPath" class="btn btn-sm btn-secondary float-right create" role="button">@T["Add Shortcode"]</a>
                 </div>
             </div>
         </div>
@@ -63,10 +63,10 @@
                     </div>
                     <div class="properties">
                         <div class="related">
-                            <a asp-action="Edit" asp-route-name="@entry.Name" class="btn btn-primary btn-sm">@T["Edit"]</a>
-                            <a asp-action="Delete" asp-route-name="@entry.Name" class="btn btn-danger btn-sm" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
+                            <a asp-action="Edit" asp-route-name="@entry.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm">@T["Edit"]</a>
+                            <a asp-action="Delete" asp-route-name="@entry.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-danger btn-sm" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
                         </div>
-                        <a asp-action="Edit" asp-route-name="@entry.Name">@entry.Name</a>
+                        <a asp-action="Edit" asp-route-name="@entry.Name" asp-route-returnUrl="@FullRequestPath">@entry.Name</a>
                         @if (!String.IsNullOrWhiteSpace(entry.ShortcodeTemplate.Hint))
                         {
                             <span class="hint dashed">@entry.ShortcodeTemplate.Hint</span>

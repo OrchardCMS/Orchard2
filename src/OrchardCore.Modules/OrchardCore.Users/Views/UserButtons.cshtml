@@ -5,10 +5,10 @@
     var user = Model.User as User;
     var currentUser = user.UserName == User.Identity.Name;
 }
-<a asp-action="Edit" asp-route-id="@user.UserId" class="btn btn-primary btn-sm">@T["Edit"]</a>
-<a class="btn btn-danger btn-sm @(currentUser ? "disabled" : "")" asp-action="Delete" asp-route-id="@user.UserId" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
+<a asp-action="Edit" asp-route-id="@user.UserId" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm">@T["Edit"]</a>
+<a class="btn btn-danger btn-sm @(currentUser ? "disabled" : "")" asp-action="Delete" asp-route-id="@user.UserId" asp-route-returnUrl="@FullRequestPath" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
 
-<a asp-action="EditPassword" asp-route-id="@user.UserId" class="btn btn-secondary btn-sm">@T["Edit Password"]</a>
+<a asp-action="EditPassword" asp-route-id="@user.UserId" asp-route-returnUrl="@FullRequestPath" class="btn btn-secondary btn-sm">@T["Edit Password"]</a>
 @if (!user.EmailConfirmed && Site.As<RegistrationSettings>().UsersMustValidateEmail)
 {
     <form method="post" class="d-inline-block">

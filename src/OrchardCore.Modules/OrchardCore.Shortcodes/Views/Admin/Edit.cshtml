@@ -11,6 +11,8 @@
 
     var jCategories = JsonConvert.SerializeObject(categories);  
     var jSelectedCategories = JsonConvert.SerializeObject(Model.Categories);
+
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 
 <style asp-name="codemirror"></style>
@@ -37,7 +39,7 @@
 <zone Name="Title"><h1>@RenderTitleSegments(T["Edit Shortcode"])</h1></zone>
 
 <div asp-validation-summary="All"></div>
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" asp-route-returnUrl="@returnUrl" method="post">
 
     <input type="hidden" value="@Model.Name" name="sourceName" />
 
@@ -129,7 +131,7 @@
             </div>
         </div>
 
-        <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
+        <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
     </div>
 </form>
 

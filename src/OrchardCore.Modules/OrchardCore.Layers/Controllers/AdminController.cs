@@ -104,7 +104,7 @@ namespace OrchardCore.Layers.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageLayers))
             {
@@ -115,7 +115,7 @@ namespace OrchardCore.Layers.Controllers
         }
 
         [HttpPost, ActionName("Create")]
-        public async Task<IActionResult> CreatePost(LayerEditViewModel model)
+        public async Task<IActionResult> CreatePost(LayerEditViewModel model, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageLayers))
             {
@@ -137,13 +137,13 @@ namespace OrchardCore.Layers.Controllers
 
                 await _layerService.UpdateAsync(layers);
 
-                return RedirectToAction("Index");
+                return RedirectToReturnUrlOrIndex(returnUrl);
             }
 
             return View(model);
         }
 
-        public async Task<IActionResult> Edit(string name)
+        public async Task<IActionResult> Edit(string name, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageLayers))
             {
@@ -170,7 +170,7 @@ namespace OrchardCore.Layers.Controllers
         }
 
         [HttpPost, ActionName("Edit")]
-        public async Task<IActionResult> EditPost(LayerEditViewModel model)
+        public async Task<IActionResult> EditPost(LayerEditViewModel model, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageLayers))
             {
@@ -196,14 +196,14 @@ namespace OrchardCore.Layers.Controllers
 
                 await _layerService.UpdateAsync(layers);
 
-                return RedirectToAction("Index");
+                return RedirectToReturnUrlOrIndex(returnUrl);
             }
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string name)
+        public async Task<IActionResult> Delete(string name, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageLayers))
             {
@@ -232,11 +232,11 @@ namespace OrchardCore.Layers.Controllers
                 _notifier.Error(H["The layer couldn't be deleted: you must remove any associated widgets first."]);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToReturnUrlOrIndex(returnUrl);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdatePosition(string contentItemId, double position, string zone)
+        public async Task<IActionResult> UpdatePosition(string contentItemId, double position, string zone, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageLayers))
             {
@@ -297,7 +297,7 @@ namespace OrchardCore.Layers.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToReturnUrlOrIndex(returnUrl);
             }
         }
 
@@ -315,6 +315,18 @@ namespace OrchardCore.Layers.Controllers
             if (String.IsNullOrWhiteSpace(model.Rule))
             {
                 ModelState.AddModelError(nameof(LayerEditViewModel.Rule), S["The rule is required."]);
+            }
+        }
+
+        private IActionResult RedirectToReturnUrlOrIndex(string returnUrl)
+        {
+            if ((String.IsNullOrEmpty(returnUrl) == false) && (Url.IsLocalUrl(returnUrl)))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
             }
         }
     }

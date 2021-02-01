@@ -20,7 +20,7 @@
                     <input asp-for="Options.Search" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
                 </div>
                 <div class="btn-group float-right">
-                    <a asp-route-action="Create" class="btn btn-sm btn-secondary float-right create" role="button">@T["Add User"]</a>
+                    <a asp-route-action="Create" asp-route-returnUrl="@FullRequestPath" class="btn btn-sm btn-secondary float-right create" role="button">@T["Add User"]</a>
                 </div>
             </div>
         </div>

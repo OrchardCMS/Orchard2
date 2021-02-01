@@ -1,10 +1,13 @@
 @model CreateRoleViewModel
 @using OrchardCore.Roles.ViewModels;
+@{
+    var returnUrl = Context.Request.Query["returnUrl"];
+}
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Create Role"])</h1></zone>
 
 <div asp-validation-summary="ModelOnly"></div>
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" asp-route-returnUrl="@returnUrl">
     <div class="form-group" asp-validation-class-for="RoleName">
         <label asp-for="RoleName">@T["Role name"]</label>
         <input asp-for="RoleName" class="form-control" autofocus />
@@ -18,6 +21,6 @@
 
     <div class="form-group">
         <button class="btn btn-primary create" type="submit">@T["Create"]</button>
-        <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
+        <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
     </div>
 </form>

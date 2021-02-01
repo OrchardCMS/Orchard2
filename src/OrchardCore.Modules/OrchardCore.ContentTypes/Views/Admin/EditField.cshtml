@@ -13,12 +13,12 @@
     var shapeTable = ShapeTableManager.GetShapeTable(theme?.Id);
     var editorShapes = shapeTable.Bindings.Keys.Where(x => x.StartsWith(Model.PartFieldDefinition.FieldDefinition.Name + "_Option__", StringComparison.OrdinalIgnoreCase) || x.Equals(Model.PartFieldDefinition.FieldDefinition.Name + "_Option", StringComparison.OrdinalIgnoreCase));
     var displayShapes = shapeTable.Bindings.Keys.Where(x => x.StartsWith(Model.PartFieldDefinition.FieldDefinition.Name + "_DisplayOption__", StringComparison.OrdinalIgnoreCase) || x.Equals(Model.PartFieldDefinition.FieldDefinition.Name + "_DisplayOption", StringComparison.OrdinalIgnoreCase));
-    var returnUrl = ViewData["returnUrl"]?.ToString();
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["\"{0}\" settings for \"{1}\"", Model.DisplayName, Model.PartFieldDefinition.PartDefinition.DisplayName()])</h1></zone>
 
-<form asp-action="EditField" asp-route-returnUrl="@ViewData["returnUrl"]">
+<form asp-action="EditField" asp-route-returnUrl="@returnUrl">
     @Html.ValidationSummary()
     <div class="form-group">
         <div class="w-md-75 w-xl-50 pr-md-3">

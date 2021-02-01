@@ -1,8 +1,12 @@
 @model CreatePartViewModel
+@{
+    var adminMenuId = Context.Request.Query["admin"];
+    var returnUrl = Context.Request.Query["returnUrl"];
+}
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["New Content Part"])</h1></zone>
 
-<form asp-action="CreatePart">
+<form asp-action="CreatePart" asp-route-admin="@adminMenuId" asp-route-returnUrl="@returnUrl">
     @Html.ValidationSummary()
     <div class="form-group">
         <label for="Name">@T["Name"]</label>
@@ -11,5 +15,6 @@
     </div>
     <div class="form-group">
         <button class="btn btn-primary create" type="submit">@T["Create"]</button>
+        <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
     </div>
 </form>

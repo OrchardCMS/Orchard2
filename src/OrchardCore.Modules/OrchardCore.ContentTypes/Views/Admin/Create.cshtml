@@ -1,8 +1,12 @@
 @model CreateTypeViewModel
+@{ 
+    var adminMenuId = Context.Request.Query["admin"];
+    var returnUrl = Context.Request.Query["returnUrl"];
+}
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["New Content Type"])</h1></zone>
 
-<form asp-action="Create">
+<form asp-action="Create" asp-route-admin="@adminMenuId" asp-route-returnUrl="@returnUrl">
     @Html.ValidationSummary()
 
     <div class="form-group">
@@ -19,6 +23,7 @@
 
     <div class="form-group">
         <button class="btn btn-primary create" type="submit">@T["Create"]</button>
+        <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
     </div>
 </form>
 

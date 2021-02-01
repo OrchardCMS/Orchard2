@@ -20,11 +20,14 @@
         .Select(field => new { Field = field, Order = int.Parse(field.GetSettings<ContentPartFieldSettings>().Position ?? "0") })
         .OrderBy(x => x.Order)
         .Select(x => x.Field);
+
+    var adminMenuId = Context.Request.Query["admin"];
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Edit Content Type - {0}", Model.TypeDefinition.DisplayName])</h1></zone>
 
-<form asp-action="Edit">
+<form asp-action="Edit" asp-route-returnUrl="@returnUrl">
     @Html.ValidationSummary()
 
     <input type="hidden" asp-for="Name" />
@@ -49,7 +52,7 @@
                     <li class="list-group-item" style="cursor: move;">
                         <div class="properties">
                             <div class="related">
-                                <a asp-route-action="EditField" asp-route-id="@Model.TypeDefinition.Name" asp-route-name="@field.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm" role="button">@T["Edit"]</a>
+                                <a asp-route-action="EditField" asp-route-id="@Model.TypeDefinition.Name" asp-route-name="@field.Name" asp-route-admin="@adminMenuId" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm" role="button">@T["Edit"]</a>
                                 <a asp-route-action="RemoveFieldFrom" asp-route-id="@Model.TypeDefinition.Name" asp-route-name="@field.Name" class="btn btn-danger btn-sm" role="button" data-url-af="UnsafeUrl RemoveUrl">@T["Remove"]</a>
                             </div>
                             @field.DisplayName() <span class="hint dashed">@field.FieldDefinition.Name.CamelFriendly()</span>
@@ -70,7 +73,7 @@
         </ul>
     </div>
     <div class="form-group">
-        <a asp-route-action="AddFieldTo" asp-route-id="@Model.TypeDefinition.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-info btn-sm" role="button">@T["Add Field"]</a>
+        <a asp-route-action="AddFieldTo" asp-route-id="@Model.TypeDefinition.Name" asp-route-admin="@adminMenuId" asp-route-returnUrl="@FullRequestPath" class="btn btn-info btn-sm" role="button">@T["Add Field"]</a>
     </div>
     <div class="form-group">
         <h3>@T["Parts"]</h3>
@@ -90,8 +93,8 @@
                             }
 
                             <div class="related">
-                                <a asp-route-action="EditTypePart" asp-route-id="@Model.TypeDefinition.Name" asp-route-name="@part.Name" class="btn btn-primary btn-sm" role="button">@T["Edit"]</a>
-                                <a asp-route-action="RemovePart" asp-route-id="@Model.TypeDefinition.Name" asp-route-name="@part.Name" class="btn btn-danger btn-sm" role="button" data-url-af="UnsafeUrl RemoveUrl">@T["Remove"]</a>
+                                <a asp-route-action="EditTypePart" asp-route-id="@Model.TypeDefinition.Name" asp-route-name="@part.Name" asp-route-admin="@adminMenuId" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm" role="button">@T["Edit"]</a>
+                                <a asp-route-action="RemovePart" asp-route-id="@Model.TypeDefinition.Name" asp-route-name="@part.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-danger btn-sm" role="button" data-url-af="UnsafeUrl RemoveUrl">@T["Remove"]</a>
                             </div>
                         }
                         else
@@ -106,13 +109,14 @@
     </div>
 
     <div class="form-group">
-        <a asp-route-action="AddPartsTo" asp-route-id="@Model.TypeDefinition.Name" class="btn btn-info btn-sm" role="button">@T["Add Parts"]</a>
-        <a asp-route-action="AddReusablePartTo" asp-route-id="@Model.TypeDefinition.Name" class="btn btn-info btn-sm" role="button">@T["Add Named Part"]</a>
+        <a asp-route-action="AddPartsTo" asp-route-id="@Model.TypeDefinition.Name" asp-route-admin="@adminMenuId" asp-route-returnUrl="@FullRequestPath" class="btn btn-info btn-sm" role="button">@T["Add Parts"]</a>
+        <a asp-route-action="AddReusablePartTo" asp-route-id="@Model.TypeDefinition.Name" asp-route-admin="@adminMenuId" asp-route-returnUrl="@FullRequestPath" class="btn btn-info btn-sm" role="button">@T["Add Named Part"]</a>
     </div>
 
     <div class="form-group">
         <button class="btn btn-primary save" type="submit" name="submit.Save" value="Save">@T["Save"]</button>
-        <button class="btn btn-danger delete" type="submit" name="submit.Delete" value="Delete" data-url-af="RemoveUrl">@T["Delete"]</button>
+        <button class="btn btn-danger delete" type="submit" name="submit.Delete" value="Delete" asp-route-returnUrl="@returnUrl" data-url-af="RemoveUrl">@T["Delete"]</button>
+        <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
     </div>
 </form>
 

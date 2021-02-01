@@ -2,7 +2,7 @@
 @model EditPartViewModel
 <div class="properties">
     <div class="related">
-        <a id="btn-edit-@Model.Name" class="btn btn-primary btn-sm" asp-route-action="EditPart" asp-route-id="@Model.Name">@T["Edit"]</a>
+        <a id="btn-edit-@Model.Name" class="btn btn-primary btn-sm" asp-route-action="EditPart" asp-route-id="@Model.Name" asp-route-admin="@Context.Request.Query["admin"]" asp-route-returnUrl="@FullRequestPath">@T["Edit"]</a>
     </div>
     <div>@Model.PartDefinition.DisplayName()</div>
     @if (!string.IsNullOrWhiteSpace(Model.Description))

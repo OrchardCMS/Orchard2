@@ -8,8 +8,10 @@
         .GroupBy(c => c, StringComparer.OrdinalIgnoreCase)
         .Select(g => g.Key);
 
-    var jCategories = JsonConvert.SerializeObject(categories);  
+    var jCategories = JsonConvert.SerializeObject(categories);
     var jSelectedCategories = JsonConvert.SerializeObject(Model.Categories);
+
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 
 <style asp-name="codemirror"></style>
@@ -36,7 +38,7 @@
 <zone Name="Title"><h1>@RenderTitleSegments(T["Create Shortcode"])</h1></zone>
 
 <div asp-validation-summary="All"></div>
-<form asp-action="Create" method="post">
+<form asp-action="Create" asp-route-returnUrl="@returnUrl" method="post">
     <div class="row" >
         <div class="col-12 col-md-6">
             <div class="form-group" asp-validation-class-for="Name">
@@ -121,7 +123,7 @@
             </div>
         </div>
 
-        <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
+        <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
     </div>
 </form>
 

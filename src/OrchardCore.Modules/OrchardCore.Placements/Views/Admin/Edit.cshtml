@@ -1,6 +1,6 @@
 @model EditShapePlacementViewModel
 @{
-    var returnUrl = ViewData["returnUrl"]?.ToString();
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 
 <style asp-name="codemirror"></style>
@@ -11,7 +11,7 @@
 
 <zone Name="Title"><h1>@RenderTitleSegments(Model.Creating ? T["Create Placement"] : T["Edit Placement"])</h1></zone>
 
-<form asp-action="Edit" asp-route-returnUrl="@ViewData["returnUrl"]" method="post">
+<form asp-action="Edit" asp-route-returnUrl="@returnUrl" method="post">
     @Html.HiddenFor(m => m.Creating)
     @if (!Model.Creating)
     {

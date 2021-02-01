@@ -115,7 +115,7 @@ namespace OrchardCore.Shortcodes.Controllers
         }
 
         [HttpPost, ActionName("Create")]
-        public async Task<IActionResult> CreatePost(ShortcodeTemplateViewModel model, string submit)
+        public async Task<IActionResult> CreatePost(ShortcodeTemplateViewModel model, string submit, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageShortcodeTemplates))
             {
@@ -166,7 +166,7 @@ namespace OrchardCore.Shortcodes.Controllers
                 }
                 else
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToReturnUrlOrIndex(returnUrl);
                 }
             }
 
@@ -204,7 +204,7 @@ namespace OrchardCore.Shortcodes.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string sourceName, ShortcodeTemplateViewModel model, string submit)
+        public async Task<IActionResult> Edit(string sourceName, ShortcodeTemplateViewModel model, string submit, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageShortcodeTemplates))
             {
@@ -251,7 +251,7 @@ namespace OrchardCore.Shortcodes.Controllers
 
                 if (submit != "SaveAndContinue")
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToReturnUrlOrIndex(returnUrl);
                 }
             }
 
@@ -260,7 +260,7 @@ namespace OrchardCore.Shortcodes.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string name)
+        public async Task<IActionResult> Delete(string name, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageShortcodeTemplates))
             {
@@ -278,12 +278,12 @@ namespace OrchardCore.Shortcodes.Controllers
 
             _notifier.Success(H["Shortcode template deleted successfully."]);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToReturnUrlOrIndex(returnUrl);
         }
 
         [HttpPost, ActionName("Index")]
         [FormValueRequired("submit.BulkAction")]
-        public async Task<ActionResult> IndexPost(ViewModels.ContentOptions options, IEnumerable<string> itemIds)
+        public async Task<IActionResult> IndexPost(ViewModels.ContentOptions options, IEnumerable<string> itemIds, string returnUrl = null)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageShortcodeTemplates))
             {
@@ -310,7 +310,19 @@ namespace OrchardCore.Shortcodes.Controllers
                 }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToReturnUrlOrIndex(returnUrl);
+        }
+
+        private IActionResult RedirectToReturnUrlOrIndex(string returnUrl)
+        {
+            if ((String.IsNullOrEmpty(returnUrl) == false) && (Url.IsLocalUrl(returnUrl)))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

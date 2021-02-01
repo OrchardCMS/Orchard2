@@ -1,8 +1,11 @@
 @model dynamic
+@{
+    var returnUrl = Context.Request.Query["returnUrl"];
+}
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Edit User"])</h1></zone>
 
-<form asp-action="Edit" method="post" asp-route-returnUrl="@ViewData["returnUrl"]" enctype="multipart/form-data">
+<form asp-action="Edit" method="post" asp-route-returnUrl="@returnUrl" enctype="multipart/form-data">
     @Html.ValidationSummary()
     @await DisplayAsync(Model)
 </form>

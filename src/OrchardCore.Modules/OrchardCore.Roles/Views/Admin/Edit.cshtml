@@ -1,5 +1,8 @@
 @model EditRoleViewModel
 @using OrchardCore.Roles.ViewModels;
+@{
+    var returnUrl = Context.Request.Query["returnUrl"];
+}
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Edit Role {0}", Model.Name])</h1></zone>
 
@@ -14,7 +17,7 @@
     </div>
 </form>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" asp-route-returnUrl="@returnUrl">
     <h5>@T["Edit Role Detail"]</h5>
     <div class="form-group" asp-validation-class-for="RoleDescription">
         <label asp-for="RoleDescription">@T["Role description"]</label>
@@ -78,7 +81,7 @@
 
     <div class="form-group">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
-        <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
+        <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
     </div>
 </form>
 

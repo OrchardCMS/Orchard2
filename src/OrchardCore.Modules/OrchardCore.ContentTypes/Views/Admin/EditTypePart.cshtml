@@ -11,6 +11,8 @@
     var shapeTable = ShapeTableManager.GetShapeTable(theme?.Id);
     var displayShapes = shapeTable.Bindings.Keys.Where(x => x.StartsWith(Model.TypePartDefinition.PartDefinition.Name + "_DisplayOption__", StringComparison.OrdinalIgnoreCase) || x.Equals(Model.TypePartDefinition.PartDefinition.Name + "_DisplayOption", StringComparison.OrdinalIgnoreCase));
     var editorShapes = shapeTable.Bindings.Keys.Where(x => x.StartsWith(Model.TypePartDefinition.PartDefinition.Name + "_Option__", StringComparison.OrdinalIgnoreCase) || x.Equals(Model.TypePartDefinition.PartDefinition.Name + "_Option", StringComparison.OrdinalIgnoreCase));
+
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Edit Part - {0}", Model.DisplayName])</h1></zone>
@@ -19,7 +21,7 @@
     @T["Some part settings common to all types can also be defined at the <a href=\"{0}\">Part Definition</a> level.", Url.Action("EditPart", new { id = typePart.PartDefinition.Name })]
 </div>
 
-<form asp-action="EditTypePart">
+<form asp-action="EditTypePart" asp-route-returnUrl="@returnUrl">
     @Html.ValidationSummary()
 
     @if (typePart.PartDefinition.IsReusable())
@@ -99,7 +101,7 @@
 
     <div class="form-group">
         <button class="btn btn-primary save" type="submit" name="submit.Save" value="Save">@T["Save"]</button>
-        <a class="btn btn-secondary cancel" role="button" asp-route-action="Edit" asp-route-id="@Model.TypePartDefinition.ContentTypeDefinition.Name">@T["Cancel"]</a>
+        <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
     </div>
 </form>
 

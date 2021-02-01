@@ -1,12 +1,15 @@
 @model AddPartsViewModel
 @{
     int i = 0;
+
+    var adminMenuId = Context.Request.Query["admin"];
+    var returnUrl = Context.Request.Query["returnUrl"];
 }
 <zone Name="Title"><h1>@T["Add Parts To \"{0}\"", Model.Type.DisplayName]</h1></zone>
 
 @T["Choose the Parts to add to this Content Type."]
 
-<form asp-action="AddPartsTo">
+<form asp-action="AddPartsTo" asp-route-admin="@adminMenuId" asp-route-returnUrl="@returnUrl">
     @Html.ValidationSummary()
     <div class="form-group">
         <ul class="list-group">

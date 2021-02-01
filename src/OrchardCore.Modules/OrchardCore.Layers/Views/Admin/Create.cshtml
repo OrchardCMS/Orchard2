@@ -1,8 +1,11 @@
 @model OrchardCore.Layers.ViewModels.LayerEditViewModel
+@{
+    var returnUrl = Context.Request.Query["returnUrl"];
+}
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Create Layer"])</h1></zone>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" asp-route-returnUrl="@returnUrl" method="post">
     <div class="form-group" asp-validation-class-for="Name">
         <label asp-for="Name">@T["Name"]</label>
         <input asp-for="Name" class="form-control" type="text" />
@@ -22,4 +25,5 @@
     </div>
 
     <input class="button" type="submit" value="@T["Create"]" />
+    <a class="btn btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
 </form>
