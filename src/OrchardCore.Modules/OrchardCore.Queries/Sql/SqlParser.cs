@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Irony.Parsing;
+using SqlParser.Core.Statements;
+using SqlParser.Core.Syntax;
 using YesSql;
+using SQLParser = SqlParser.Core.SqlParser;
 
 namespace OrchardCore.Queries.Sql
 {
     public class SqlParser
     {
+        private readonly IEnumerable<SelectStatement> _statements;
+
         private StringBuilder _builder;
         private IDictionary<string, object> _parameters;
         private ISqlDialect _dialect;
         private string _tablePrefix;
-        private HashSet<string> _aliases;
+        private HashSet<string> _aliases = new HashSet<string>();
         private ParseTree _tree;
         private static LanguageData language = new LanguageData(new SqlGrammar());
         private Stack<FormattingModes> _modes;
@@ -27,6 +32,16 @@ namespace OrchardCore.Queries.Sql
         private string _groupBy;
         private string _orderBy;
 
+        private SqlParser(IEnumerable<SelectStatement> statements, ISqlDialect dialect, string tablePrefix, IDictionary<string, object> parameters)
+        {
+            _statements = statements;
+            _dialect = dialect;
+            _tablePrefix = tablePrefix;
+            _parameters = parameters;
+            _builder = new StringBuilder();
+            _modes = new Stack<FormattingModes>();
+        }
+
         private SqlParser(ParseTree tree, ISqlDialect dialect, string tablePrefix, IDictionary<string, object> parameters)
         {
             _tree = tree;
@@ -34,6 +49,7 @@ namespace OrchardCore.Queries.Sql
             _tablePrefix = tablePrefix;
             _parameters = parameters;
             _builder = new StringBuilder(tree.SourceText.Length);
+            _builder = new StringBuilder();
             _modes = new Stack<FormattingModes>();
         }
 
@@ -41,21 +57,17 @@ namespace OrchardCore.Queries.Sql
         {
             try
             {
-                var tree = new Parser(language).Parse(sql);
-
-                if (tree.HasErrors())
+                var statements = new SQLParser().Parse(sql);
+                if (statements.Count() == 0)
                 {
                     query = null;
-
-                    messages = tree
-                        .ParserMessages
-                        .Select(x => $"{x.Message} at line:{x.Location.Line}, col:{x.Location.Column}")
-                        .ToArray();
+                    messages = Enumerable.Empty<string>();
 
                     return false;
                 }
 
-                var sqlParser = new SqlParser(tree, dialect, tablePrefix, parameters);
+                var sqlParser = new SqlParser(statements.OfType<SelectStatement>(), dialect, tablePrefix, parameters);
+
                 query = sqlParser.Evaluate();
 
                 messages = Array.Empty<string>();
@@ -78,12 +90,9 @@ namespace OrchardCore.Queries.Sql
 
         private string Evaluate()
         {
-            PopulateAliases(_tree);
-            var statementList = _tree.Root;
-
             var statementsBuilder = new StringBuilder();
 
-            foreach (var selectStatement in statementList.ChildNodes)
+            foreach (var selectStatement in _statements)
             {
                 statementsBuilder.Append(EvaluateSelectStatement(selectStatement)).Append(';');
             }
@@ -91,21 +100,142 @@ namespace OrchardCore.Queries.Sql
             return statementsBuilder.ToString();
         }
 
-        private void PopulateAliases(ParseTree tree)
+        private string EvaluateSelectStatement(SelectStatement statement)
         {
-            // In order to determine if an Id is a table name or an alias, we
-            // analyze every Alias and store the value.
+            _select = null;
+            _from = null;
 
-            _aliases = new HashSet<string>();
+            var previousContent = _builder.Length > 0 ? _builder.ToString() : null;
+            _builder.Clear();
 
-            for (var i = 0; i < tree.Tokens.Count; i++)
+            var sqlBuilder = _dialect.CreateBuilder(_tablePrefix);
+
+            EvaluateSelectClause(statement.Nodes[0]);
+
+            sqlBuilder.Select();
+            sqlBuilder.Selector(_select);
+
+            if (statement.Nodes.Count > 1)
             {
-                if (tree.Tokens[i].Terminal.Name == "AS")
+                EvaluateFromClause(statement.Nodes[1]);
+            }
+
+            if (!String.IsNullOrEmpty(_from))
+            {
+                sqlBuilder.From(_from);
+            }
+
+            if (previousContent != null)
+            {
+                _builder.Clear();
+                _builder.Append(new StringBuilder(previousContent));
+            }
+
+            return sqlBuilder.ToSqlString();
+        }
+
+        private void EvaluateSelectClause(SyntaxNode selectClauseNode)
+        {
+            foreach (var node in selectClauseNode.ChildNodes.Skip(1))
+            {
+                switch (node.Kind)
                 {
-                    _aliases.Add(tree.Tokens[i + 1].ValueString);
+                    case SyntaxKind.IdentifierToken:
+                        if (node.ChildNodes.Any())
+                        {
+                            switch (node.ChildNodes.Count)
+                            {
+                                case 2:
+                                    _builder.Append(SurroundWithBrakets(node.Token.Value.ToString()));
+                                    _builder.Append(" ").Append(node.ChildNodes[0].Token.Value).Append(" ");
+                                    _builder.Append(node.ChildNodes[1].Token.Value);
+                                    break;
+                                case 3:
+                                    _builder.Append(node.Token.Value);
+                                    _builder.Append(node.ChildNodes[0].Token.Value);
+                                    _builder.Append(SurroundWithBrakets(node.ChildNodes[1].Token.Value.ToString()));
+                                    _builder.Append(node.ChildNodes[2].Token.Value);
+                                    break;
+                                case 5:
+                                    _builder.Append(node.Token.Value);
+                                    _builder.Append(node.ChildNodes[0].Token.Value);
+                                    _builder.Append(SurroundWithBrakets(node.ChildNodes[1].Token.Value.ToString()));
+                                    _builder.Append(node.ChildNodes[2].Token.Value);
+                                    _builder.Append(" ").Append(node.ChildNodes[3].Token.Value).Append(" ");
+                                    _builder.Append(node.ChildNodes[4].Token.Value);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            _builder.Append($"[{node.Token.Value}]");
+                        }
+
+                        break;
+                    case SyntaxKind.AsteriskToken:
+                    case SyntaxKind.CommaToken:
+                        _builder.Append(node.Token.Value).Append(" ");
+                        break;
+                    case SyntaxKind.DotToken:
+                        AppendCompositeNode(node);
+                        break;
+                    case SyntaxKind.AsKeyword:
+                        if (node.ChildNodes[0].Kind == SyntaxKind.DotToken)
+                        {
+                            AppendCompositeNode(node.ChildNodes[0]);
+
+                            _builder.Append(node.Token.Value);
+                            _builder.Append($"[{node.ChildNodes[1].Token.Value}]");
+                        }
+                        else
+                        {
+                            AppendCompositeNode(node);
+                        }
+
+                        break;
                 }
             }
+
+            _select = _builder.ToString();
         }
+
+        private void EvaluateFromClause(SyntaxNode fromClauseNode)
+        {
+            _builder.Clear();
+
+            _modes.Push(FormattingModes.FromClause);
+
+            foreach (var node in fromClauseNode.ChildNodes.Skip(1))
+            {
+                switch (node.Kind)
+                {
+                    case SyntaxKind.IdentifierToken:
+                        _builder.Append(SurroundWithBrakets(_tablePrefix + node.Token.Value.ToString()));
+                        break;
+                    case SyntaxKind.CommaToken:
+                        _builder.Append(node.Token.Value).Append(" ");
+                        break;
+                    case SyntaxKind.AsKeyword:
+                        _builder.Append(SurroundWithBrakets(_tablePrefix + node.ChildNodes[0].Token.Value.ToString()));
+                        _builder.Append(" ").Append(node.Token.Value).Append(" ");
+                        _builder.Append(node.ChildNodes[1].Token.Value);
+                        break;
+                }
+            }
+
+            _modes.Pop();
+
+            _from = _builder.ToString();
+        }
+
+        private void AppendCompositeNode(SyntaxNode node)
+        {
+            _builder.Append(SurroundWithBrakets(_tablePrefix + node.ChildNodes[0].Token.Value.ToString()));
+            _builder.Append(node.Token.Value);
+            _builder.Append(SurroundWithBrakets(node.ChildNodes[1].Token.Value.ToString()));
+        }
+
+        private static string SurroundWithBrakets(string value) => $"[{value}]";
 
         private string EvaluateSelectStatement(ParseTreeNode selectStatement)
         {

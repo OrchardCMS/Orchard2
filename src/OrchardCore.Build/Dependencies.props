@@ -39,6 +39,7 @@
     <PackageManagement Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageManagement Include="Shortcodes" Version="1.1.0" />
     <PackageManagement Include="SixLabors.ImageSharp.Web" Version="1.0.1" />
+    <PackageManagement Include="SqlParser.Core" Version="0.0.2" />
     <PackageManagement Include="xunit.analyzers" Version="0.10.0" />
     <PackageManagement Include="xunit" Version="2.4.1" />
     <PackageManagement Include="xunit.runner.visualstudio" Version="2.4.3" />
