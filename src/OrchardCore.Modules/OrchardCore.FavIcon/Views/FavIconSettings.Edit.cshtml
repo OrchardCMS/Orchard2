@@ -1,0 +1,29 @@
+@model FavIconSettingsViewModel
+
+<p class="alert alert-warning">@T["The current tenant will be reloaded when the settings are saved."]</p>
+
+<div class="form-group" asp-validation-class-for="MediaLibraryFolder">
+    <label asp-for="MediaLibraryFolder">@T["Media Library folder"]</label>
+    <input asp-for="MediaLibraryFolder" class="form-control" type="text" />
+    <span asp-validation-for="MediaLibraryFolder"></span>
+    <span class="hint">@T["Relative path to Media Library folder with content from RealFavIconGenerator."]</span>
+</div>
+
+<div class="form-group" asp-validation-class-for="TileColor">
+    <label asp-for="TileColor">@T["Windows Start screen/menu tile color"]</label>
+    <input asp-for="TileColor" class="form-control" type="color" />
+    <span asp-validation-for="TileColor"></span>
+    @*<span class="hint">@T["FavIcon Windows Start screen/menu tile color."]</span>*@
+</div>
+
+<div class="form-group" asp-validation-class-for="ThemeColor">
+    <label asp-for="ThemeColor">@T["FavIcon background color"]</label>
+    <input asp-for="ThemeColor" class="form-control" type="color"/>
+    <span asp-validation-for="ThemeColor"></span>
+    @*<span class="hint">@T["FavIcon background color"]</span>*@
+</div>
+
+
+<div class="form-group">
+    <span class="hint">@T["Create your FavIcon at"] <a href="https://realfavicongenerator.net/" target="_blank">https://realfavicongenerator.net/</a></span>
+</div>
