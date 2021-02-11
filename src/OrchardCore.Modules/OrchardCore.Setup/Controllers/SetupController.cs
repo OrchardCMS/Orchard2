@@ -174,6 +174,13 @@ namespace OrchardCore.Setup.Controllers
             else
             {
                 setupContext.DatabaseProvider = model.DatabaseProvider;
+
+                if (model.DatabaseProvider == "Sqlite")
+                {
+                    const string defaultDatabaseName = "orchardcore.db";
+                    model.ConnectionString = $"Data Source={defaultDatabaseName};Cache=Shared";
+                }
+
                 setupContext.DatabaseConnectionString = model.ConnectionString;
                 setupContext.DatabaseTablePrefix = model.TablePrefix;
             }

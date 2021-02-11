@@ -66,10 +66,17 @@ namespace Microsoft.Extensions.DependencyInjection
                             var shellOptions = sp.GetService<IOptions<ShellOptions>>();
                             var option = shellOptions.Value;
                             var databaseFolder = Path.Combine(option.ShellsApplicationDataPath, option.ShellsContainerName, shellSettings.Name);
-                            var databaseFile = Path.Combine(databaseFolder, "yessql.db");
                             Directory.CreateDirectory(databaseFolder);
+
+                            var connectionString = shellSettings["ConnectionString"];
+                            if (connectionString == null || !connectionString.StartsWith("Data Source="))
+                            {
+                                var databaseFile = Path.Combine(databaseFolder, "yessql.db");
+                                connectionString = $"Data Source={databaseFile};Cache=Shared";
+                            }
+
                             storeConfiguration
-                                .UseSqLite($"Data Source={databaseFile};Cache=Shared", IsolationLevel.ReadUncommitted)
+                                .UseSqLite(connectionString, IsolationLevel.ReadUncommitted)
                                 .UseDefaultIdGenerator();
                             break;
                         case "MySql":
