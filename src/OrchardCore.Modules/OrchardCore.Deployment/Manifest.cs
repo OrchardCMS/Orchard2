@@ -5,5 +5,6 @@ using OrchardCore.Modules.Manifest;
     Author = ManifestConstants.OrchardCoreTeam,
     Website = ManifestConstants.OrchardCoreWebsite,
     Version = ManifestConstants.OrchardCoreVersion,
-    Category = "Deployment"
+    Category = "Deployment",
+    Dependencies = new string[] { "OrchardCore.Secrets" }
 )]

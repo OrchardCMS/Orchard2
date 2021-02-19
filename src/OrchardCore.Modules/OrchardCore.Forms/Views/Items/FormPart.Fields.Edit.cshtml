@@ -1,5 +1,12 @@
-@using OrchardCore.Forms.ViewModels;
+@using Microsoft.Extensions.DependencyInjection
+@using OrchardCore.Forms.ViewModels
+@using OrchardCore.Workflows.Http.Services
 @model FormPartEditViewModel
+
+@{
+    @* The Forms module does not require the Workflows module so this service may not be available. *@
+    var httpRequestEventSecretService = Context.RequestServices.GetService<IHttpRequestEventSecretService>();
+}
 
 <div class="form-group">
     <label asp-for="Action">@T["Action"]</label>
@@ -33,3 +40,15 @@
         <span class="hint">@T["Check to generate an Anti Forgery Token in the form."]</span>
     </div>
 </div>
+
+@if (httpRequestEventSecretService != null)
+{
+    <div class="form-group" asp-validation-class-for="HttpRequestEventSecret">
+        <div class="w-100 w-md-50">
+            <label asp-for="HttpRequestEventSecret">@T["Http request event secret"]</label>
+            @await Component.InvokeAsync("SelectSecret", new { secretType = "HttpRequestEventSecret", selectedSecret = Model.HttpRequestEventSecret, htmlName = Html.NameFor(m => m.HttpRequestEventSecret), required  = false})
+            <span asp-validation-for="HttpRequestEventSecret"></span>
+        </div>
+        <span class="hint">@T["The name of the secret for the http request event workflow activity to submit this form to. When provided will override the Action value."]</span>
+    </div>
+}

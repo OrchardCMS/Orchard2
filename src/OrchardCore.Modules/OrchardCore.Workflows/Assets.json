@@ -34,9 +34,16 @@
   },
   {
     "inputs": [
-      "Http/Assets/Scripts/workflow-url-generator.ts"
+      "Http/Assets/Scripts/workflow-url-generator.ts",
+      "Http/Assets/Scripts/http-request-event-secret-manager.js"
     ],
     "output": "wwwroot/Scripts/orchard.http-request-event-editor.js"
+  },
+  {
+    "inputs": [
+      "Http/Assets/Styles/http-request-event-secret-manager.scss"
+    ],
+    "output": "wwwroot/Styles/orchard.http-request-event-editor.css"
   },
   {
     "inputs": [

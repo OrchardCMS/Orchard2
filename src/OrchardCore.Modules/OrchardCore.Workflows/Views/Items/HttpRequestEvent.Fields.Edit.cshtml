@@ -1,8 +1,54 @@
-@using OrchardCore.Workflows.Http.ViewModels;
-@using OrchardCore.Mvc.Core.Utilities;
-@using Microsoft.AspNetCore.Antiforgery;
+@using Microsoft.AspNetCore.Antiforgery
+@using OrchardCore.Mvc.Core.Utilities
+@using OrchardCore.Secrets
+@using OrchardCore.Workflows.Http.Models
+@using OrchardCore.Workflows.Http.ViewModels
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
 @model HttpRequestEventViewModel
-@inject IAntiforgery antiforgery
+@inject IAntiforgery Antiforgery
+@inject ISecretCoordinator SecretCoordinator
+@inject ISecretService<HttpRequestEventSecret> SecretService
+
+@{
+    var secretBindings = await SecretCoordinator.GetSecretBindingsAsync();
+    var httpRequestEventSecretBindings = secretBindings.Where(x => String.Equals(nameof(HttpRequestEventSecret), x.Value.Type, StringComparison.OrdinalIgnoreCase));
+    var defaultHtttpRequestEventSecret = new HttpRequestEventSecret { Name = "None", WorkflowTypeId = String.Empty };
+    var httpRequestEventSecrets = new List<HttpRequestEventSecret>()
+    {
+        defaultHtttpRequestEventSecret
+    };
+    foreach(var httpRequestEventSecretBinding in httpRequestEventSecretBindings)
+    {
+        httpRequestEventSecrets.Add(await SecretService.GetSecretAsync(httpRequestEventSecretBinding.Key));
+    }
+
+    HttpRequestEventSecret selectedHttpRequestEventSecret = null;
+    if (!String.IsNullOrEmpty(Model.HttpRequestEventSecret))
+    {
+        var existing = httpRequestEventSecrets.FirstOrDefault(x => String.Equals(x.Name, Model.HttpRequestEventSecret, StringComparison.OrdinalIgnoreCase));
+        if (existing != null)
+        {
+            selectedHttpRequestEventSecret = existing;
+        }
+    }
+    if (selectedHttpRequestEventSecret == null)
+    {
+        selectedHttpRequestEventSecret = defaultHtttpRequestEventSecret;
+    }
+
+    var data = new {
+        secrets = httpRequestEventSecrets,
+        selected = selectedHttpRequestEventSecret,
+        inputName = Html.NameFor(x => x.HttpRequestEventSecret),
+        linkUrl = Url.Action("LinkSecret", "HttpWorkflow"),
+        createUrl = Url.Action("CreateSecret", "Httpworkflow"),
+        linkSecretErrorMessage = T["Error linking secret"],
+        createSecretErrorMessage = T["Error creating secret"]
+    };
+
+    var jData = JsonConvert.SerializeObject(data, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+}
 
 <div class="form-group" asp-validation-class-for="HttpMethod">
     <label asp-for="HttpMethod">@T["HTTP Method"]</label>
@@ -13,7 +59,7 @@
 
 <div>
     @{
-        var antiforgeryTokenSet = antiforgery.GetTokens(Context);
+        var antiforgeryTokenSet = Antiforgery.GetTokens(Context);
     }
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -27,21 +73,66 @@
             <span class="btn btn-secondary" onclick="select_all_and_copy(document.getElementById('workflow-url-text'))"><i class="fas fa-copy"></i> @T["Copy"]</span>
         </div>
     </div>
-    <span class="hint"><i class="fa fa-exclamation-triangle"></i> @T["Anyone that invokes this URL will trigger this workflow. Keep it in a safe place."]</span>
+    <span class="hint mb-3 d-block"><i class="fa fa-exclamation-triangle"></i> @T["Anyone that invokes this URL will trigger this workflow. Keep it in a safe place."]</span>
 </div>
 
 <div class="form-group">
     <input type="checkbox" asp-for="ValidateAntiforgeryToken" />
     <label asp-for="ValidateAntiforgeryToken">@T["Validate Antiforgery Token"]</label>
-    <span class="hint">@T["Uncheck this option if the request comes from a service that invokes this URL as a webhook. If this URL is requested from a form, then keep this option checked to ensure the form values have not been tampered with."]</span>
+    <span class="hint dashed">@T["Uncheck this option if the request comes from a service that invokes this URL as a webhook. If this URL is requested from a form, then keep this option checked to ensure the form values have not been tampered with."]</span>
 </div>
 
 <div class="form-group">
-    <input type="number" asp-for="TokenLifeSpan" id="token-lifespan" class="form-control" />
-    <label asp-for="TokenLifeSpan">@T["Token Life Span"]</label>
-    <span class="hint"><i class="fa fa-exclamation-triangle"></i> @T["Hit the <b>Regenerate</b> button after changing this value."]</span>
-    <span class="hint">@T["Number of days to expire the token. 0 for the token to never expire"]</span>
+    <div class="w-md-50 w-lg-25">
+        <label asp-for="TokenLifeSpan">@T["Token Life Span"]</label>
+        <input type="number" asp-for="TokenLifeSpan" id="token-lifespan" class="form-control"/>
+    </div>
+    <span class="hint d-block">@T["Number of days to expire the token. 0 for the token to never expire"]</span>
+    <span class="hint d-block mb-4 mt-1"><i class="fa fa-exclamation-triangle"></i> @T["Hit the <b>Regenerate</b> button after changing this value."]</span>
 </div>
 
-<script depends-on="jQuery" asp-src="~/OrchardCore.Workflows/Scripts/orchard.http-request-event-editor.min.js" debug-src="~/OrchardCore.Workflows/Scripts/orchard.http-request-event-editor.js" at="Foot"></script>
+<div id="@Html.IdFor(x => x.HttpRequestEventSecret)" class="form-group" data-secret-data="@jData" v-cloak>
+    <div class="w-xl-50">
+        <label asp-for="HttpRequestEventSecret">@T["Http Request Event Secret"]</label>
+        <input name="@Html.NameFor(m => m.HttpRequestEventSecret)" type="hidden" v-bind:value="selected.name"/>
+        
+        <vue-multiselect v-model="selected"
+            placeholder="@T["Type to search"]"
+            select-label="@T["Select"]"
+            deselect-label="@T["Remove"]"
+            :options="secrets"
+            :multiple="false"
+            :show-labels="false"
+            :close-on-select="true"
+            :allow-empty="false"
+            track-by="name"
+            label="name"
+            :taggable="true"
+            tag-position="bottom"
+            tag-placeholder="@T["Press enter to create a new secret"]"
+            @@tag="create">
+            <template slot="noResult">
+                @T["No secret found"]
+            </template>
+            <template slot="noOptions">
+                @T["No secrets found"]
+            </template>
+        </vue-multiselect>
+
+    </div>
+    <div v-show="isLinkButtonVisible" class="my-3">           
+        <span class="hint"><i class="fa fa-exclamation-triangle"></i> @T["The selected secret is currently linked to another workflow activity"]</span>
+        <button type="button" class="ml-3 btn btn-primary" v-on:click="linkSecret()">@T["Link to this activity"]</button>
+    </div>
+    
+    <span class="hint">@T["The http request event secret (optional). When a secret is used the event can be linked by its consumers and the token will be dynamically generated."]</span>
+</div>
+
+
+<script depends-on="jQuery,vuejs,vue-multiselect" asp-src="~/OrchardCore.Workflows/Scripts/orchard.http-request-event-editor.min.js" debug-src="~/OrchardCore.Workflows/Scripts/orchard.http-request-event-editor.js" at="Foot"></script>
 <script asp-src="~/OrchardCore.Workflows/Scripts/crossbrowserclipboardcopy.min.js" debug-src="~/OrchardCore.Workflows/Scripts/crossbrowserclipboardcopy.js" at="Foot"></script>
+<style asp-name="http-request-event-editor" depends-on="vue-multiselect" asp-src="~/OrchardCore.Workflows/Styles/orchard.http-request-event-editor.min.css" debug-src="~/OrchardCore.Workflows/Styles/orchard.http-request-event-editor.css"></style>
+
+<script at="Foot">
+    initializeHttpRequestEventSecretManager(document.getElementById('@Html.IdFor(x => x.HttpRequestEventSecret)'));
+</script>

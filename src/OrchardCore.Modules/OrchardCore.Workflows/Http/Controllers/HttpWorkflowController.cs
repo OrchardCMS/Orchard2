@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OrchardCore.Admin;
+using OrchardCore.Secrets;
 using OrchardCore.Workflows.Http.Activities;
 using OrchardCore.Workflows.Http.Models;
 using OrchardCore.Workflows.Services;
@@ -21,6 +22,9 @@ namespace OrchardCore.Workflows.Http.Controllers
         private readonly IWorkflowStore _workflowStore;
         private readonly IActivityLibrary _activityLibrary;
         private readonly ISecurityTokenService _securityTokenService;
+        private readonly ISecretCoordinator _secretCoordinator;
+        private readonly ISecretService<HttpRequestEventSecret> _secretService;
+        private readonly IEnumerable<ISecretFactory> _secretFactories;
         private readonly IAntiforgery _antiforgery;
         private readonly ILogger _logger;
         public const int NoExpiryTokenLifespan = 36500;
@@ -32,6 +36,9 @@ namespace OrchardCore.Workflows.Http.Controllers
             IWorkflowStore workflowStore,
             IActivityLibrary activityLibrary,
             ISecurityTokenService securityTokenService,
+            ISecretCoordinator secretCoordinator,
+            ISecretService<HttpRequestEventSecret> secretService,
+            IEnumerable<ISecretFactory> secretFactories,
             IAntiforgery antiforgery,
             ILogger<HttpWorkflowController> logger
         )
@@ -42,6 +49,9 @@ namespace OrchardCore.Workflows.Http.Controllers
             _workflowStore = workflowStore;
             _activityLibrary = activityLibrary;
             _securityTokenService = securityTokenService;
+            _secretCoordinator = secretCoordinator;
+            _secretService = secretService;
+            _secretFactories = secretFactories;
             _antiforgery = antiforgery;
             _logger = logger;
         }
@@ -66,6 +76,70 @@ namespace OrchardCore.Workflows.Http.Controllers
             var url = Url.Action("Invoke", "HttpWorkflow", new { token = token });
 
             return Ok(url);
+        }
+
+        [HttpPost]
+        [Admin]
+        public async Task<IActionResult> LinkSecret(string secretName, string workflowTypeId, string activityId, int tokenLifeSpan)
+        {
+            var secretBindings = await _secretCoordinator.LoadSecretBindingsAsync();
+            if (!secretBindings.ContainsKey(secretName))
+            {
+                return NotFound();
+            }
+
+            var secretBinding = secretBindings[secretName];
+            var secret = await _secretService.GetSecretAsync(secretName);
+            if (secret == null)
+            {
+                return NotFound();
+            }
+            secret.WorkflowTypeId = workflowTypeId;
+            secret.ActivityId = activityId;
+            secret.TokenLifeSpan = tokenLifeSpan;
+
+            await _secretCoordinator.RemoveSecretAsync(secretName, secretBinding.Store);
+            await _secretCoordinator.UpdateSecretAsync(secretName, secretBinding, secret);
+
+            return Json(new { workflowTypeId = workflowTypeId, activityId = activityId });
+        }
+
+        [HttpPost]
+        [Admin]
+        public async Task<IActionResult> CreateSecret(string secretName, string workflowTypeId, string activityId, int tokenLifeSpan)
+        {
+            var secretBindings = await _secretCoordinator.LoadSecretBindingsAsync();
+            if (secretBindings.ContainsKey(secretName))
+            {
+                return BadRequest();
+            }
+
+            var secret = _secretFactories.FirstOrDefault(x => x.Name == typeof(HttpRequestEventSecret).Name)?.Create() as HttpRequestEventSecret;
+            secret.Id = Guid.NewGuid().ToString("n");
+            secret.Name = secretName;
+            secret.WorkflowTypeId = workflowTypeId;
+            secret.ActivityId = activityId;
+            secret.TokenLifeSpan = tokenLifeSpan;
+
+            // When creating the first writeable store is used.
+            var store = _secretCoordinator.FirstOrDefault(x => !x.IsReadOnly);
+
+            if (store == null)
+            {
+                return BadRequest();
+            }
+
+            var secretBinding = new SecretBinding
+            {
+                 Store = store.Name,
+                 Description = secretName,
+                 Type = typeof(HttpRequestEventSecret).Name
+            };
+
+            await _secretCoordinator.RemoveSecretAsync(secretName, secretBinding.Store);
+            await _secretCoordinator.UpdateSecretAsync(secretName, secretBinding, secret);
+
+            return Json(secret);
         }
 
         [IgnoreAntiforgeryToken]

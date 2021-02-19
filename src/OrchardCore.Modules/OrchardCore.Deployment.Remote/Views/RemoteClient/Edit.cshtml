@@ -18,6 +18,14 @@
         <span asp-validation-for="ApiKey" class="text-danger">@T["The api key is required."]</span>
     </div>
 
+   <div class="form-group" asp-validation-class-for="ApiKeySecret">
+        <div class="w-100 w-md-50">
+            <label asp-for="ApiKeySecret">@T["Api Key Secret"]</label>
+            @await Component.InvokeAsync("SelectSecret", new { secretType = "TextSecret", selectedSecret = Model.ApiKeySecret, htmlName = Html.NameFor(m => m.ApiKeySecret), required  = false})
+        </div>
+        <span class="hint">@T["The name of the secret for the api key. When provided will override the ApiKey value."]</span>
+    </div> 
+
     <div class="form-group">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>

@@ -12,6 +12,8 @@ namespace OrchardCore.Workflows.Http.ViewModels
 
         public int TokenLifeSpan { get; set; }
 
+        public string HttpRequestEventSecret { get; set; }
+
         public IList<SelectListItem> GetAvailableHttpMethods()
         {
             var availableHttpMethods = new[] { "GET", "POST", "PUT", "DELETE", "OPTIONS" };

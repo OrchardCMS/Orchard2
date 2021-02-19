@@ -56,6 +56,7 @@ namespace OrchardCore.Workflows.Controllers
                 return Forbid();
             }
 
+            var workflowType = await _session.GetAsync<WorkflowType>(workflowTypeId);
             var activity = _activityLibrary.InstantiateActivity(activityName);
             var activityId = _activityIdGenerator.GenerateUniqueId(new ActivityRecord());
             var activityEditor = await _activityDisplayManager.BuildEditorAsync(activity, _updateModelAccessor.ModelUpdater, isNew: true);
@@ -68,6 +69,7 @@ namespace OrchardCore.Workflows.Controllers
                 ActivityId = activityId,
                 ActivityEditor = activityEditor,
                 WorkflowTypeId = workflowTypeId,
+                WorkflowTypeUniqueId = workflowType.WorkflowTypeId,
                 ReturnUrl = returnUrl
             };
 
@@ -134,6 +136,7 @@ namespace OrchardCore.Workflows.Controllers
                 ActivityId = activityId,
                 ActivityEditor = activityEditor,
                 WorkflowTypeId = workflowTypeId,
+                WorkflowTypeUniqueId = workflowType.WorkflowTypeId,
                 ReturnUrl = returnUrl
             };
 

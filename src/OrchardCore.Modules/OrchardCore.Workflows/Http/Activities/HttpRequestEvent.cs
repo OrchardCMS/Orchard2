@@ -52,6 +52,12 @@ namespace OrchardCore.Workflows.Http.Activities
             set => SetProperty(value);
         }
 
+        public string HttpRequestEventSecret
+        {
+            get => GetProperty<string>();
+            set => SetProperty(value);
+        }
+
         public override bool CanExecute(WorkflowExecutionContext workflowContext, ActivityContext activityContext)
         {
             var httpContext = _httpContextAccessor.HttpContext;

@@ -59,6 +59,7 @@ namespace OrchardCore.Email.Drivers
                     model.UseDefaultCredentials = settings.UseDefaultCredentials;
                     model.UserName = settings.UserName;
                     model.Password = settings.Password;
+                    model.PasswordSecret = settings.PasswordSecret;
                 }).Location("Content:5").OnGroup(GroupId)
             };
 
@@ -70,7 +71,7 @@ namespace OrchardCore.Email.Drivers
             return Combine(shapes);
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(SmtpSettings section, BuildEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(SmtpSettings settings, BuildEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -81,26 +82,26 @@ namespace OrchardCore.Email.Drivers
 
             if (context.GroupId == GroupId)
             {
-                var previousPassword = section.Password;
-                await context.Updater.TryUpdateModelAsync(section, Prefix);
+                var previousPassword = settings.Password;
+                await context.Updater.TryUpdateModelAsync(settings, Prefix);
 
                 // Restore password if the input is empty, meaning that it has not been reset.
-                if (string.IsNullOrWhiteSpace(section.Password))
+                if (string.IsNullOrWhiteSpace(settings.Password))
                 {
-                    section.Password = previousPassword;
+                    settings.Password = previousPassword;
                 }
                 else
                 {
                     // encrypt the password
                     var protector = _dataProtectionProvider.CreateProtector(nameof(SmtpSettingsConfiguration));
-                    section.Password = protector.Protect(section.Password);
+                    settings.Password = protector.Protect(settings.Password);
                 }
 
                 // Release the tenant to apply the settings
                 await _shellHost.ReleaseShellContextAsync(_shellSettings);
             }
 
-            return await EditAsync(section, context);
+            return await EditAsync(settings, context);
         }
     }
 }

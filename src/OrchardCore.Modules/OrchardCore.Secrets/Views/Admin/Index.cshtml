@@ -1,0 +1,188 @@
+@model SecretBindingIndexViewModel
+
+@{
+    int startIndex = (Model.Pager.Page - 1) * (Model.Pager.PageSize) + 1;
+    int endIndex = startIndex + Model.SecretBindings.Count - 1;
+}
+
+<zone Name="Title"><h1>@RenderTitleSegments(T["Secrets"])</h1></zone>
+
+<form asp-action="Index">
+    @* the form is necessary to generate and antiforgery token for the delete action *@
+    <input type="submit" name="submit.Filter" id="submitFilter" class="d-none" />
+    <input asp-for="Options.BulkAction" type="hidden" />
+    <input type="submit" name="submit.BulkAction" class="d-none" />
+
+    <div class="card mb-3 position-sticky action-bar">
+        <div class="card-body bg-primary p-3">
+            <div class="form-group mb-n1">
+                <div class="input-group input-group-sm w-lg-50 d-inline-flex">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary text-light">@T["Filter"]</span>
+                    </div>
+                    <input asp-for="Options.Search" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-sm btn-secondary">@T["Search"]</button>
+                    </div>
+                </div>
+                <div class="btn-group float-right">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modelSecrets">
+                    @T["Add Secret"]
+                </button>  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-group with-checkbox">
+        @if (Model.SecretBindings.Any())
+        {        
+            <li class="list-group-item bg-primary">
+                <div class="row">
+                    <div class="form-group col mb-n1">
+                        <div class="custom-control custom-checkbox mt-2 mr-n2">
+                            <input type="checkbox" class="custom-control-input" id="select-all">
+                            <label class="custom-control-label" for="select-all" id="select-all-label" title="@T["Select All"]"></label>
+                            <label id="items" for="select-all">@T.Plural(Model.SecretBindings.Count, "1 item", "{0} items")<span class="text-muted" title="@T["Items {0} to {1}", startIndex, endIndex]">@T.Plural((int)Model.Pager.TotalItemCount, " / {0} item in total", " / {0} items in total")</span></label>
+                            <label id="selected-items" class="text-muted" for="select-all"></label>
+                        </div>
+                    </div>
+                        <div class="form-group col-2 mb-n1" style="display:none" id="actions">
+                            <span class="dropdown float-right mt-1">
+                                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bulk-action-menu-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @T["Actions"]
+                                </button>
+                                <span class="dropdown-menu dropdown-menu-right" aria-labelledby="bulk-action-menu-button">
+                                    @foreach (var item in Model.Options.ContentsBulkAction)
+                                    {
+                                        <a class="dropdown-item" href="javascript:void(0)" data-action="@item.Value" data-title="@T["Bulk Action"]" data-message="@T["Are you sure you want to {0} these items?", @item.Text.ToLower()]">@item.Text</a>
+                                    }
+                                </span>
+                            </span>
+                        </div>
+                </div>
+            </li>
+            @foreach (var entry in Model.SecretBindings)
+            {
+                <li class="list-group-item">
+                    <div class="custom-control custom-checkbox float-left">
+                        <input type="checkbox" class="custom-control-input" value="@entry.Name" name="itemIds" id="itemIds-@entry.Name">
+                        <label class="custom-control-label" for="itemIds-@entry.Name">&nbsp;</label>
+                    </div>                    
+                    <div class="properties">
+                        <div class="related">
+                            <a asp-action="Edit" asp-route-name="@entry.Name" class="btn btn-primary btn-sm">@T["Edit"]</a>
+                            <a asp-action="Delete" asp-route-name="@entry.Name" class="btn btn-danger btn-sm" itemprop="RemoveUrl UnsafeUrl">@T["Delete"]</a>
+                        </div>
+                        <a asp-action="Edit" asp-route-name="@entry.Name">@entry.Name</a>
+                        @if (!String.IsNullOrWhiteSpace(entry.SecretBinding.Description))
+                        {
+                            <span class="hint dashed">@entry.SecretBinding.Description</span>
+                        }
+                        @await DisplayAsync(entry.Summary)
+                    </div>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="list-group-item">
+                <div class="alert alert-info" role="alert">
+                    @T["<strong>Nothing here!</strong> There are no secrets for the moment."]
+                </div>
+            </li>
+        }
+    </ul>
+</form>
+
+@await DisplayAsync(Model.Pager)
+
+<!-- Modal -->
+<div class="modal fade" id="modelSecrets" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@T["Available Secrets"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input class="form-control" id="search-box" type="search" placeholder="@T["Filter"]" aria-label="@T["Filter"]" autofocus>
+                </div>
+                <div id="cards" class="row">
+                    @foreach (var thumbnail in Model.Thumbnails.OrderBy(t => t.Key))
+                    {
+                        thumbnail.Value.Type = thumbnail.Key;
+
+                        <div class="col-sm-12 col-md-6 col-lg-4 d-flex align-items-stretch card-item">
+                            @await DisplayAsync(thumbnail.Value)
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script at="Foot">
+    $(function () {
+        var actions = $("#actions");
+        var items = $("#items");
+        var filters = $(".filter");
+        var selectAllCtrl = $("#select-all");
+        var selectedItems = $("#selected-items");
+        var itemsCheckboxes = $(":checkbox[name='itemIds']");
+
+        function displayActionsOrFilters() {
+            if ($(":checkbox[name='itemIds']:checked").length > 1) {
+                actions.show();
+                filters.hide();
+                selectedItems.show();
+                items.hide();
+            }
+            else {
+                actions.hide();
+                filters.show();
+                selectedItems.hide();
+                items.show();
+            }
+        }
+
+        $(".dropdown-menu .dropdown-item").filter(function() {
+            return $(this).data("action");
+        }).on("click", function () {
+            if ($(":checkbox[name='itemIds']:checked").length > 1) {
+                var $this = $(this);
+                confirmDialog({...$this.data(), callback: function(r) {
+                    if (r) {
+                        $("[name='Options.BulkAction']").val($this.data("action"));
+                        $("[name='submit.BulkAction']").click();
+                    }
+                }});
+            }
+        });
+
+        selectAllCtrl.click(function(){
+            itemsCheckboxes.not(this).prop("checked", this.checked);
+            selectedItems.text($(":checkbox[name='itemIds']:checked").length + ' @T["selected"]');
+            displayActionsOrFilters();
+        });
+
+        itemsCheckboxes.on("click", function () {
+            var itemsCount = $(":checkbox[name='itemIds']").length;
+            var selectedItemsCount = $(":checkbox[name='itemIds']:checked").length;
+
+            selectAllCtrl.prop("checked", selectedItemsCount == itemsCount);
+            selectAllCtrl.prop("indeterminate", selectedItemsCount > 0 && selectedItemsCount < itemsCount);
+
+            selectedItems.text(selectedItemsCount + ' @T["selected"]');
+            displayActionsOrFilters();
+        });
+    })
+</script>

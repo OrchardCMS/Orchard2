@@ -1,0 +1,21 @@
+@model FileDownloadDeploymentTargetSettingsViewModel
+
+<div class="form-group" asp-validation-class-for="RsaEncryptionSecret">
+    <div class="w-100 w-md-50">
+        <label asp-for="RsaEncryptionSecret">@T["Rsa encryption secret"]</label>
+        @await Component.InvokeAsync("SelectSecret", new { secretType = "RsaSecret", selectedSecret = Model.RsaEncryptionSecret, htmlName = Html.NameFor(m => m.RsaEncryptionSecret), required = true })
+        <span asp-validation-for="RsaEncryptionSecret"></span>
+    </div>
+    <span class="hint">@T["The name of the secret to use when a deployment step encrypts data to a file export."]</span>
+    <span class="hint">@T["Note: The public key will be used for encryption, and the importer must have the matching private key."]</span>
+</div>
+
+<div class="form-group" asp-validation-class-for="RsaSigningSecret">
+    <div class="w-100 w-md-50">
+        <label asp-for="RsaSigningSecret">@T["Rsa signing secret"]</label>
+        @await Component.InvokeAsync("SelectSecret", new { secretType = "RsaSecret", selectedSecret = Model.RsaSigningSecret, htmlName = Html.NameFor(m => m.RsaSigningSecret), required = true })
+        <span asp-validation-for="RsaEncryptionSecret"></span>
+    </div>
+    <span class="hint">@T["The name of the secret to use when a deployment step signs encrypts data to a file export."]</span>
+    <span class="hint">@T["Note: The private key will be used for signing, and the importer must have the matching public key."]</span>
+</div>

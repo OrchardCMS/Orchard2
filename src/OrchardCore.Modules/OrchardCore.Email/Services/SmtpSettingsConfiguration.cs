@@ -1,8 +1,11 @@
 using System;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OrchardCore.Entities;
+using OrchardCore.Environment.Shell;
+using OrchardCore.Secrets;
 using OrchardCore.Settings;
 
 namespace OrchardCore.Email.Services
@@ -11,15 +14,21 @@ namespace OrchardCore.Email.Services
     {
         private readonly ISiteService _site;
         private readonly IDataProtectionProvider _dataProtectionProvider;
+        private readonly IShellHost _shellHost;
+        private readonly ShellSettings _shellSettings;
         private readonly ILogger _logger;
 
         public SmtpSettingsConfiguration(
             ISiteService site,
             IDataProtectionProvider dataProtectionProvider,
+            IShellHost shellHost,
+            ShellSettings shellSettings,
             ILogger<SmtpSettingsConfiguration> logger)
         {
             _site = site;
             _dataProtectionProvider = dataProtectionProvider;
+            _shellHost = shellHost;
+            _shellSettings = shellSettings;
             _logger = logger;
         }
 
@@ -40,11 +49,20 @@ namespace OrchardCore.Email.Services
             options.UseDefaultCredentials = settings.UseDefaultCredentials;
             options.UserName = settings.UserName;
 
-            // Decrypt the password
-            if (!String.IsNullOrWhiteSpace(settings.Password))
+            if (!String.IsNullOrEmpty(settings.PasswordSecret))
+            {
+                var shellScope = _shellHost.GetScopeAsync(_shellSettings).GetAwaiter().GetResult();
+                shellScope.UsingServiceScopeAsync(async scope =>
+                {
+                    var textSecretService = scope.ServiceProvider.GetRequiredService<ISecretService<TextSecret>>();
+                    options.Password = (await textSecretService.GetSecretAsync(settings.PasswordSecret)).Text;
+                }).GetAwaiter().GetResult();
+            }
+            else if (!String.IsNullOrWhiteSpace(settings.Password))
             {
                 try
                 {
+                    // Decrypt the password.
                     var protector = _dataProtectionProvider.CreateProtector(nameof(SmtpSettingsConfiguration));
                     options.Password = protector.Unprotect(settings.Password);
                 }

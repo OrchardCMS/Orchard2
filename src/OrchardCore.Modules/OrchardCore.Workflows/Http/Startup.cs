@@ -3,18 +3,22 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.Liquid;
 using OrchardCore.Modules;
 using OrchardCore.Scripting;
+using OrchardCore.Secrets;
 using OrchardCore.Workflows.Helpers;
 using OrchardCore.Workflows.Http.Activities;
 using OrchardCore.Workflows.Http.Drivers;
 using OrchardCore.Workflows.Http.Filters;
 using OrchardCore.Workflows.Http.Handlers;
 using OrchardCore.Workflows.Http.Liquid;
+using OrchardCore.Workflows.Http.Models;
 using OrchardCore.Workflows.Http.Scripting;
 using OrchardCore.Workflows.Http.Services;
 using OrchardCore.Workflows.Http.WorkflowContextProviders;
+using OrchardCore.Workflows.Models;
 using OrchardCore.Workflows.Services;
 
 namespace OrchardCore.Workflows.Http
@@ -49,6 +53,10 @@ namespace OrchardCore.Workflows.Http
 
             services.AddScoped<ILiquidTemplateEventHandler, SignalLiquidTemplateHandler>();
             services.AddLiquidFilter<SignalUrlFilter>("signal_url");
+
+            services.AddScoped<IDisplayDriver<Secret>, HttpRequestEventSecretDisplayDriver>();
+            services.AddSingleton<ISecretFactory>(new SecretFactory<HttpRequestEventSecret>());
+            services.AddScoped<IHttpRequestEventSecretService, HttpRequestEventSecretService>();
         }
 
         public override void Configure(IApplicationBuilder app, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -13,6 +14,7 @@ using OrchardCore.Deployment.Services;
 using OrchardCore.DisplayManagement.Notify;
 using OrchardCore.Mvc.Utilities;
 using OrchardCore.Recipes.Models;
+using OrchardCore.Secrets;
 using YesSql;
 
 namespace OrchardCore.Deployment.Remote.Controllers
@@ -26,6 +28,7 @@ namespace OrchardCore.Deployment.Remote.Controllers
         private readonly IAuthorizationService _authorizationService;
         private readonly ISession _session;
         private readonly RemoteInstanceService _service;
+        private readonly ISecretService<TextSecret> _textSecretService;
         private readonly INotifier _notifier;
         private readonly IHtmlLocalizer H;
 
@@ -34,6 +37,7 @@ namespace OrchardCore.Deployment.Remote.Controllers
             ISession session,
             RemoteInstanceService service,
             IDeploymentManager deploymentManager,
+            ISecretService<TextSecret> textSecretService,
             INotifier notifier,
             IHtmlLocalizer<ExportRemoteInstanceController> localizer)
         {
@@ -41,6 +45,7 @@ namespace OrchardCore.Deployment.Remote.Controllers
             _deploymentManager = deploymentManager;
             _session = session;
             _service = service;
+            _textSecretService = textSecretService;
             _notifier = notifier;
             H = localizer;
         }
@@ -74,7 +79,7 @@ namespace OrchardCore.Deployment.Remote.Controllers
             {
                 archiveFileName = PathExtensions.Combine(Path.GetTempPath(), filename);
 
-                var deploymentPlanResult = new DeploymentPlanResult(fileBuilder, new RecipeDescriptor());
+                var deploymentPlanResult = new DeploymentPlanResult(fileBuilder, new RecipeDescriptor(), remoteInstance.RsaEncryptionSecret, remoteInstance.RsaSigningSecret);
                 await _deploymentManager.ExecuteDeploymentPlanAsync(deploymentPlan, deploymentPlanResult);
 
                 if (System.IO.File.Exists(archiveFileName))
@@ -97,7 +102,16 @@ namespace OrchardCore.Deployment.Remote.Controllers
                     ),
                         nameof(ImportViewModel.Content), Path.GetFileName(archiveFileName));
                     requestContent.Add(new StringContent(remoteInstance.ClientName), nameof(ImportViewModel.ClientName));
-                    requestContent.Add(new StringContent(remoteInstance.ApiKey), nameof(ImportViewModel.ApiKey));
+
+                    if (!String.IsNullOrEmpty(remoteInstance.ApiKeySecret))
+                    {
+                        var secret = await _textSecretService.GetSecretAsync(remoteInstance.ApiKeySecret);
+                        requestContent.Add(new StringContent(secret.Text), nameof(ImportViewModel.ApiKey));
+                    }
+                    else
+                    {
+                        requestContent.Add(new StringContent(remoteInstance.ApiKey), nameof(ImportViewModel.ApiKey));
+                    }
 
                     response = await _httpClient.PostAsync(remoteInstance.Url, requestContent);
                 }

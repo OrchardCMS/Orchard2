@@ -1,6 +1,6 @@
 @model OrchardCore.Workflows.ViewModels.ActivityEditViewModel
 
-<div data-workflow-type-id="@Model.WorkflowTypeId" data-activity-id="@Model.ActivityId">
+<div data-workflow-type-id="@Model.WorkflowTypeId" data-workflow-type-unique-id="@Model.WorkflowTypeUniqueId" data-activity-id="@Model.ActivityId">
     <zone Name="Title"><h1>@RenderTitleSegments(T["Edit {0}", Model.Activity.DisplayText.Value])</h1></zone>
 
     <div asp-validation-summary="ModelOnly"></div>

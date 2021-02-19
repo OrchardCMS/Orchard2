@@ -60,7 +60,7 @@ namespace OrchardCore.Deployment.Remote.Services
             }
         }
 
-        public async Task<RemoteClient> CreateRemoteClientAsync(string clientName, string apiKey)
+        public async Task<RemoteClient> CreateRemoteClientAsync(string clientName, string apiKey, string apiKeySecret)
         {
             var remoteClientList = await GetRemoteClientListAsync();
 
@@ -69,7 +69,17 @@ namespace OrchardCore.Deployment.Remote.Services
                 Id = Guid.NewGuid().ToString("n"),
                 ClientName = clientName,
                 ProtectedApiKey = _dataProtector.Protect(Encoding.UTF8.GetBytes(apiKey)),
+                ApiKeySecret = apiKeySecret
             };
+
+            if (!String.IsNullOrEmpty(apiKey))
+            {
+                remoteClient.ProtectedApiKey = _dataProtector.Protect(Encoding.UTF8.GetBytes(apiKey));
+            }
+            else
+            {
+                remoteClient.ProtectedApiKey = Array.Empty<byte>();
+            }
 
             remoteClientList.RemoteClients.Add(remoteClient);
             _session.Save(remoteClientList);
@@ -77,7 +87,7 @@ namespace OrchardCore.Deployment.Remote.Services
             return remoteClient;
         }
 
-        public async Task<bool> TryUpdateRemoteClient(string id, string clientName, string apiKey)
+        public async Task<bool> TryUpdateRemoteClient(string id, string clientName, string apiKey, string apiKeySecret)
         {
             var remoteClientList = await GetRemoteClientListAsync();
             var remoteClient = await GetRemoteClientAsync(id);
@@ -88,7 +98,16 @@ namespace OrchardCore.Deployment.Remote.Services
             }
 
             remoteClient.ClientName = clientName;
-            remoteClient.ProtectedApiKey = _dataProtector.Protect(Encoding.UTF8.GetBytes(apiKey));
+            if (!String.IsNullOrEmpty(apiKey))
+            {
+                remoteClient.ProtectedApiKey = _dataProtector.Protect(Encoding.UTF8.GetBytes(apiKey));
+            }
+            else
+            {
+                remoteClient.ProtectedApiKey = Array.Empty<byte>();
+            }
+
+            remoteClient.ApiKeySecret = apiKeySecret;
 
             _session.Save(_remoteClientList);
 

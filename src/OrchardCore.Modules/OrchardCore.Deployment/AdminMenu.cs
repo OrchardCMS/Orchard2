@@ -24,6 +24,13 @@ namespace OrchardCore.Deployment
             builder
                 .Add(S["Configuration"], configuration => configuration
                     .Add(S["Import/Export"], S["Import/Export"].PrefixPosition(), import => import
+                        .Add(S["Settings"], settings => settings
+                            .Add(S["File Download Settings"], S["File Download Settings"].PrefixPosition(), deployment => deployment
+                                .Action("Index", "Admin", new { area = "OrchardCore.Settings", groupId = "FileDownloadDeploymentTarget" })
+                                .Permission(OrchardCore.Deployment.CommonPermissions.ManageDeploymentPlan)
+                                .LocalNav()
+                            )
+                        )                    
                         .Add(S["Deployment Plans"], S["Deployment Plans"].PrefixPosition(), deployment => deployment
                             .Action("Index", "DeploymentPlan", new { area = "OrchardCore.Deployment" })
                             .Permission(Permissions.Export)

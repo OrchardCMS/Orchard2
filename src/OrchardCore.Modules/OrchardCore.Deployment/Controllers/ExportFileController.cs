@@ -8,10 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using OrchardCore.Admin;
 using OrchardCore.Deployment.Core.Mvc;
 using OrchardCore.Deployment.Core.Services;
+using OrchardCore.Deployment.Models;
 using OrchardCore.Deployment.Services;
 using OrchardCore.Deployment.Steps;
+using OrchardCore.Entities;
 using OrchardCore.Mvc.Utilities;
 using OrchardCore.Recipes.Models;
+using OrchardCore.Settings;
 using YesSql;
 
 namespace OrchardCore.Deployment.Controllers
@@ -22,15 +25,18 @@ namespace OrchardCore.Deployment.Controllers
         private readonly IDeploymentManager _deploymentManager;
         private readonly IAuthorizationService _authorizationService;
         private readonly ISession _session;
+        private readonly ISiteService _siteService;
 
         public ExportFileController(
             IAuthorizationService authorizationService,
             ISession session,
-            IDeploymentManager deploymentManager)
+            IDeploymentManager deploymentManager,
+            ISiteService siteService)
         {
             _authorizationService = authorizationService;
             _deploymentManager = deploymentManager;
             _session = session;
+            _siteService = siteService;
         }
 
         [HttpPost]
@@ -57,6 +63,7 @@ namespace OrchardCore.Deployment.Controllers
                 archiveFileName = PathExtensions.Combine(Path.GetTempPath(), filename);
 
                 var recipeDescriptor = new RecipeDescriptor();
+
                 var recipeFileDeploymentStep = deploymentPlan.DeploymentSteps.FirstOrDefault(ds => ds.Name == nameof(RecipeFileDeploymentStep)) as RecipeFileDeploymentStep;
 
                 if (recipeFileDeploymentStep != null)
@@ -72,7 +79,10 @@ namespace OrchardCore.Deployment.Controllers
                     recipeDescriptor.Tags = (recipeFileDeploymentStep.Tags ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries);
                 }
 
-                var deploymentPlanResult = new DeploymentPlanResult(fileBuilder, recipeDescriptor);
+                var siteSettings = await _siteService.GetSiteSettingsAsync();
+                var fileDownloadDeploymentTargetSettings = siteSettings.As<FileDownloadDeploymentTargetSettings>();
+
+                var deploymentPlanResult = new DeploymentPlanResult(fileBuilder, recipeDescriptor, fileDownloadDeploymentTargetSettings.RsaEncryptionSecret, fileDownloadDeploymentTargetSettings.RsaSigningSecret );
                 await _deploymentManager.ExecuteDeploymentPlanAsync(deploymentPlan, deploymentPlanResult);
                 ZipFile.CreateFromDirectory(fileBuilder.Folder, archiveFileName);
             }
