@@ -7,7 +7,5 @@ namespace OrchardCore.Admin.Models
         public bool DisplayMenuFilter { get; set; }
 
         public bool DisplayNewMenu { get; set; }
-
-        public bool DisplayTitlesInTopbar { get; set; }
     }
 }

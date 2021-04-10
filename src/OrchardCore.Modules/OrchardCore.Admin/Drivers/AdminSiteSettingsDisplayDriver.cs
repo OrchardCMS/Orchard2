@@ -38,7 +38,6 @@ namespace OrchardCore.Admin.Drivers
                 model.DisplayDarkMode = settings.DisplayDarkMode;
                 model.DisplayMenuFilter = settings.DisplayMenuFilter;
                 model.DisplayNewMenu = settings.DisplayNewMenu;
-                model.DisplayTitlesInTopbar = settings.DisplayTitlesInTopbar;
                 }).Location("Content:3").OnGroup(GroupId);
         }
 
@@ -60,7 +59,6 @@ namespace OrchardCore.Admin.Drivers
                 settings.DisplayDarkMode = model.DisplayDarkMode;
                 settings.DisplayMenuFilter = model.DisplayMenuFilter;
                 settings.DisplayNewMenu = model.DisplayNewMenu;
-                settings.DisplayTitlesInTopbar = model.DisplayTitlesInTopbar;
             }
 
             return await EditAsync(settings, context);

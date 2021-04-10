@@ -22016,13 +22016,23 @@ a[dir]:root[data-theme=default] .badge-dark:focus, a[data-theme=default][dir]:ro
     text-overflow: ellipsis;
     height: 32px;
   }
+  :root[data-theme=default] .ta-navbar-top .breadcrumb {
+    max-width: 180px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 :root[data-theme=default] .ta-navbar-top .nav-link {
   font-size: 14px;
 }
+:root[data-theme=default] .ta-navbar-top .breadcrumb {
+  position: absolute;
+  top: 15px;
+}
 [dir]:root[data-theme=default] .ta-navbar-top .breadcrumb {
   background-color: transparent;
-  margin-top: 1rem;
+  padding: 0;
 }
 :root[data-theme=default] .ta-navbar-top .btn.nav-link, :root[data-theme=default] .ta-navbar-top .nav-link.button {
   display: inline-block;
@@ -22045,6 +22055,9 @@ a[dir]:root[data-theme=default] .badge-dark:focus, a[data-theme=default][dir]:ro
 }
 @media (max-width: 767.98px) {
   :root[data-theme=default] body:not(.left-sidebar-compact) .ta-navbar-top h1 {
+    display: none;
+  }
+  :root[data-theme=default] body:not(.left-sidebar-compact) .ta-navbar-top .breadcrumb {
     display: none;
   }
 }
@@ -45396,13 +45409,23 @@ a[dir]:root[data-theme=darkmode] .badge-dark:focus, a[dir]:root[data-theme=darkm
     text-overflow: ellipsis;
     height: 32px;
   }
+  :root[data-theme=darkmode] .ta-navbar-top .breadcrumb {
+    max-width: 180px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 :root[data-theme=darkmode] .ta-navbar-top .nav-link {
   font-size: 14px;
 }
+:root[data-theme=darkmode] .ta-navbar-top .breadcrumb {
+  position: absolute;
+  top: 15px;
+}
 [dir]:root[data-theme=darkmode] .ta-navbar-top .breadcrumb {
   background-color: transparent;
-  margin-top: 1rem;
+  padding: 0;
 }
 :root[data-theme=darkmode] .ta-navbar-top .btn.nav-link, :root[data-theme=darkmode] .ta-navbar-top .nav-link.button {
   display: inline-block;
@@ -45425,6 +45448,9 @@ a[dir]:root[data-theme=darkmode] .badge-dark:focus, a[dir]:root[data-theme=darkm
 }
 @media (max-width: 767.98px) {
   :root[data-theme=darkmode] body:not(.left-sidebar-compact) .ta-navbar-top h1 {
+    display: none;
+  }
+  :root[data-theme=darkmode] body:not(.left-sidebar-compact) .ta-navbar-top .breadcrumb {
     display: none;
   }
 }

@@ -22,6 +22,13 @@
             text-overflow: ellipsis;
             height: 32px;
         }
+
+        .breadcrumb {
+            max-width: 180px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     }
 
     .nav-link {
@@ -30,7 +37,9 @@
 
     .breadcrumb {
         background-color: transparent;
-        margin-top: 1rem;
+        padding: 0;
+        position: absolute;
+        top: 15px;
     }
 
     .btn.nav-link {
@@ -60,6 +69,9 @@ body:not(.left-sidebar-compact) {
     @include media-breakpoint-down(sm) {
         .ta-navbar-top {
             h1 {
+                display: none;
+            }
+            .breadcrumb {
                 display: none;
             }
         }
