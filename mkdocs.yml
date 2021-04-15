@@ -91,6 +91,7 @@ nav:
         - Understanding Content Definitions Stores: docs/guides/content-definitions/README.md 
         - Change password configuration: docs/guides/password-configuration/README.md 
         - Azure AD integration: docs/guides/azuread-integration/README.md 
+        - Development Teams and Deployment: docs/guides/development-teams-and-deployment/README.md 
     - Key Topics: 
         - Manage your Content: docs/topics/content-management/README.md
         - Customize the Display: docs/topics/display/README.md
