@@ -35,14 +35,14 @@ namespace OrchardCore.ReCaptcha.Services
                 return false;
             }
 
-            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+            using var content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
                 { "secret", secretKey },
                 { "response", responseToken }
             });
             try
             {
-                var response = await _httpClient.PostAsync("siteverify", content);
+                using var response = await _httpClient.PostAsync("siteverify", content);
                 response.EnsureSuccessStatusCode();
                 var responseJson = await response.Content.ReadAsStringAsync();
                 var responseModel = JObject.Parse(responseJson);
