@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="Dependencies.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>$(AspNetCoreTargetFrameworks)</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.9.0" />
+  </ItemGroup>
+
+</Project>
