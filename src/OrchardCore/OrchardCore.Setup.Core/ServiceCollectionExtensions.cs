@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using OrchardCore.Entities;
+using OrchardCore.Setup.Core;
 using OrchardCore.Setup.Services;
 
 namespace OrchardCore.Setup
@@ -14,10 +16,11 @@ namespace OrchardCore.Setup
         /// </summary>
         public static IServiceCollection AddSetup(this IServiceCollection services)
         {
-            services.AddScoped<ISetupService, SetupService>();
+            services.TryAddScoped<IUrlService, UrlService>();
+            services.TryAddScoped<ISetupService, SetupService>();
 
             services.AddIdGeneration();
-            services.AddSingleton<ISetupUserIdGenerator, SetupUserIdGenerator>();
+            services.TryAddSingleton<ISetupUserIdGenerator, SetupUserIdGenerator>();
 
             return services;
         }

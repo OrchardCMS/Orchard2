@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
@@ -20,6 +19,7 @@ using OrchardCore.Environment.Shell.Models;
 using OrchardCore.Modules;
 using OrchardCore.Mvc.Utilities;
 using OrchardCore.Recipes.Models;
+using OrchardCore.Setup.Core;
 using OrchardCore.Setup.Services;
 using OrchardCore.Tenants.ViewModels;
 
@@ -35,6 +35,7 @@ namespace OrchardCore.Tenants.Controllers
         private readonly IAuthorizationService _authorizationService;
         private readonly IShellSettingsManager _shellSettingsManager;
         private readonly IDataProtectionProvider _dataProtectorProvider;
+        private readonly IUrlService _urlService;
         private readonly ISetupService _setupService;
         private readonly IClock _clock;
         private readonly IEmailAddressValidator _emailAddressValidator;
@@ -48,6 +49,7 @@ namespace OrchardCore.Tenants.Controllers
             IAuthorizationService authorizationService,
             IShellSettingsManager shellSettingsManager,
             IDataProtectionProvider dataProtectorProvider,
+            IUrlService urlService,
             ISetupService setupService,
             IClock clock,
             IEmailAddressValidator emailAddressValidator,
@@ -60,6 +62,7 @@ namespace OrchardCore.Tenants.Controllers
             _authorizationService = authorizationService;
             _dataProtectorProvider = dataProtectorProvider;
             _shellSettingsManager = shellSettingsManager;
+            _urlService = urlService;
             _setupService = setupService;
             _clock = clock;
             _emailAddressValidator = emailAddressValidator;
@@ -121,16 +124,26 @@ namespace OrchardCore.Tenants.Controllers
                     // Site already exists, return 201 for indempotency purpose
 
                     var token = CreateSetupToken(settings);
+                    var tokenParams = new Dictionary<string, string>()
+                    {
+                         {"token", token },
+                    };
+                    var url = _urlService.GetEncodedUrl(settings, tokenParams);
 
-                    return StatusCode(201, GetEncodedUrl(settings, token));
+                    return StatusCode(201, url);
                 }
                 else
                 {
                     await _shellHost.UpdateShellSettingsAsync(shellSettings);
 
                     var token = CreateSetupToken(shellSettings);
+                    var tokenParams = new Dictionary<string, string>()
+                    {
+                         {"token",token },
+                    };
+                    var url = _urlService.GetEncodedUrl(shellSettings, tokenParams);
 
-                    return Ok(GetEncodedUrl(shellSettings, token));
+                    return Ok(url);
                 }
             }
 
@@ -296,26 +309,6 @@ namespace OrchardCore.Tenants.Controllers
         private bool IsDefaultShell()
         {
             return String.Equals(_currentShellSettings.Name, ShellHelper.DefaultShellName, StringComparison.OrdinalIgnoreCase);
-        }
-
-        private string GetEncodedUrl(ShellSettings shellSettings, string token)
-        {
-            var host = shellSettings.RequestUrlHost?.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
-            var hostString = host != null ? new HostString(host) : Request.Host;
-
-            var pathString = HttpContext.Features.Get<ShellContextFeature>().OriginalPathBase;
-            if (!String.IsNullOrEmpty(shellSettings.RequestUrlPrefix))
-            {
-                pathString = pathString.Add('/' + shellSettings.RequestUrlPrefix);
-            }
-
-            var queryString = QueryString.Empty;
-            if (!String.IsNullOrEmpty(token))
-            {
-                queryString = QueryString.Create("token", token);
-            }
-
-            return $"{Request.Scheme}://{hostString + pathString + queryString}";
         }
 
         private string CreateSetupToken(ShellSettings shellSettings)
