@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -27,7 +28,7 @@ namespace OrchardCore.ContentLocalization.GraphQL
                 .ResolveLockedAsync(async ctx =>
                {
                    var culture = ctx.GetArgument<string>("culture");
-                   var contentLocalizationManager = ctx.ResolveServiceProvider().GetService<IContentLocalizationManager>();
+                   var contentLocalizationManager = ctx.RequestServices.GetService<IContentLocalizationManager>();
 
                    if (culture != null)
                    {

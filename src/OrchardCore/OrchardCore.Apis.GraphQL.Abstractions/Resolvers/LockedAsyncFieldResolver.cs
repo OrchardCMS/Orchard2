@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using GraphQL;
 using GraphQL.Resolvers;
 using GraphQL.Types;
 
@@ -7,16 +8,16 @@ namespace OrchardCore.Apis.GraphQL.Resolvers
 {
     public class LockedAsyncFieldResolver<TReturnType> : IFieldResolver<Task<TReturnType>>
     {
-        private readonly Func<ResolveFieldContext, Task<TReturnType>> _resolver;
+        private readonly Func<IResolveFieldContext, Task<TReturnType>> _resolver;
 
-        public LockedAsyncFieldResolver(Func<ResolveFieldContext, Task<TReturnType>> resolver)
+        public LockedAsyncFieldResolver(Func<IResolveFieldContext, Task<TReturnType>> resolver)
         {
             _resolver = resolver;
         }
 
-        public async Task<TReturnType> Resolve(ResolveFieldContext context)
+        public async Task<TReturnType> Resolve(IResolveFieldContext context)
         {
-            var graphContext = (GraphQLContext)context.UserContext;
+            var graphContext = (GraphQLUserContext)context.UserContext;
 
             await graphContext.ExecutionContextLock.WaitAsync();
 
@@ -30,7 +31,7 @@ namespace OrchardCore.Apis.GraphQL.Resolvers
             }
         }
 
-        object IFieldResolver.Resolve(ResolveFieldContext context)
+        object IFieldResolver.Resolve(IResolveFieldContext context)
         {
             return Resolve(context);
         }
@@ -38,13 +39,13 @@ namespace OrchardCore.Apis.GraphQL.Resolvers
 
     public class LockedAsyncFieldResolver<TSourceType, TReturnType> : AsyncFieldResolver<TSourceType, TReturnType>, IFieldResolver<Task<TReturnType>>
     {
-        public LockedAsyncFieldResolver(Func<ResolveFieldContext<TSourceType>, Task<TReturnType>> resolver) : base(resolver)
+        public LockedAsyncFieldResolver(Func<IResolveFieldContext<TSourceType>, Task<TReturnType>> resolver) : base(resolver)
         {
         }
 
-        public new async Task<TReturnType> Resolve(ResolveFieldContext context)
+        public new async Task<TReturnType> Resolve(IResolveFieldContext context)
         {
-            var graphContext = (GraphQLContext)context.UserContext;
+            var graphContext = (GraphQLUserContext)context.UserContext;
             await graphContext.ExecutionContextLock.WaitAsync();
 
             try
@@ -57,7 +58,7 @@ namespace OrchardCore.Apis.GraphQL.Resolvers
             }
         }
 
-        object IFieldResolver.Resolve(ResolveFieldContext context)
+        object IFieldResolver.Resolve(IResolveFieldContext context)
         {
             return Resolve(context);
         }

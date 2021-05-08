@@ -1,4 +1,5 @@
 using System.Linq;
+using GraphQL;
 using GraphQL.Resolvers;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
@@ -83,7 +84,7 @@ namespace OrchardCore.ContentManagement.GraphQL.Queries.Types
                             resolve: context =>
                             {
                                 var nameToResolve = partName;
-                                var typeToResolve = context.ReturnType.GetType().BaseType.GetGenericArguments().First();
+                                var typeToResolve = context.FieldDefinition.ResolvedType.GetType().BaseType.GetGenericArguments().First();
 
                                 return context.Source.Get(typeToResolve, nameToResolve);
                             });

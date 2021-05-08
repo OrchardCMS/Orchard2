@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 
 namespace OrchardCore.Apis.GraphQL
@@ -6,7 +7,7 @@ namespace OrchardCore.Apis.GraphQL
     public class GraphQLSettings
     {
         public PathString Path { get; set; } = "/api/graphql";
-        public Func<HttpContext, object> BuildUserContext { get; set; }
+        public Func<HttpContext, IDictionary<string, object>> BuildUserContext { get; set; }
 
         public bool ExposeExceptions { get; set; } = false;
 

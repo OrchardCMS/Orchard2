@@ -35,7 +35,7 @@ namespace OrchardCore.ContentFields.GraphQL.Fields
                     Type = queryGraphType,
                     Resolver = new FuncFieldResolver<ContentElement, ContentElement>(context =>
                     {
-                        var typeToResolve = context.ReturnType.GetType().BaseType.GetGenericArguments().First();
+                        var typeToResolve = context.FieldDefinition.ResolvedType.GetType().BaseType.GetGenericArguments().First(); // ReturnType.GetType().BaseType.GetGenericArguments().First();
 
                         // Check if part has been collapsed by trying to get the parent part.
                         var contentPart = context.Source.Get(typeof(ContentPart), field.PartDefinition.Name);

@@ -105,7 +105,7 @@ namespace OrchardCore.ContentManagement.GraphQL.Queries.Types
                             resolve: context =>
                             {
                                 var nameToResolve = partName;
-                                var typeToResolve = context.ReturnType.GetType().BaseType.GetGenericArguments().First();
+                                var typeToResolve = context.FieldDefinition.ResolvedType.GetType().BaseType.GetGenericArguments().First();
 
                                 return context.Source.Get(typeToResolve, nameToResolve);
                             });

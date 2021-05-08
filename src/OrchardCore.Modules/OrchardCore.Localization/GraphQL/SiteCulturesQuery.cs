@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -44,9 +45,9 @@ namespace OrchardCore.Localization.GraphQL
             return Task.CompletedTask;
         }
 
-        private async Task<IEnumerable<SiteCulture>> ResolveAsync(ResolveFieldContext resolveContext)
+        private async Task<IEnumerable<SiteCulture>> ResolveAsync(IResolveFieldContext resolveContext)
         {
-            var localizationService = resolveContext.ResolveServiceProvider().GetService<ILocalizationService>();
+            var localizationService = resolveContext.RequestServices.GetService<ILocalizationService>();
 
             var defaultCulture = await localizationService.GetDefaultCultureAsync();
             var supportedCultures = await localizationService.GetSupportedCulturesAsync();

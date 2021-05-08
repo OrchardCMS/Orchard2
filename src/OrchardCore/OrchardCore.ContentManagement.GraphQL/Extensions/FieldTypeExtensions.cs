@@ -22,11 +22,6 @@ namespace OrchardCore.ContentManagement.GraphQL
                 return null;
             }
 
-            if (fieldType.Metadata == null)
-            {
-                fieldType.Metadata = new Dictionary<string, object>();
-            }
-
             if (!fieldType.HasMetadata(name))
             {
                 fieldType.Metadata.Add(name, value);

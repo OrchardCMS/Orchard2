@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -49,9 +50,9 @@ namespace OrchardCore.Media.GraphQL
             return Task.CompletedTask;
         }
 
-        private async Task<IEnumerable<IFileStoreEntry>> ResolveAsync(ResolveFieldContext resolveContext)
+        private async Task<IEnumerable<IFileStoreEntry>> ResolveAsync(IResolveFieldContext resolveContext)
         {
-            var mediaFileStore = resolveContext.ResolveServiceProvider().GetService<IMediaFileStore>();
+            var mediaFileStore = resolveContext.RequestServices.GetService<IMediaFileStore>();
 
             var path = resolveContext.GetArgument("path", string.Empty);
             var includeSubDirectories = resolveContext.GetArgument("includeSubDirectories", false);

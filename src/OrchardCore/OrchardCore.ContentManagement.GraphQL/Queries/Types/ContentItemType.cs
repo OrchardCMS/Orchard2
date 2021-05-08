@@ -37,8 +37,7 @@ namespace OrchardCore.ContentManagement.GraphQL.Queries.Types
                 .Name("render")
                 .ResolveLockedAsync(async context =>
                 {
-                    var userContext = (GraphQLContext)context.UserContext;
-                    var serviceProvider = userContext.ServiceProvider;
+                    var serviceProvider = context.RequestServices;
 
                     // Build shape
                     var displayManager = serviceProvider.GetRequiredService<IContentItemDisplayManager>();

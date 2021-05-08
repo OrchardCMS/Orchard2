@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GraphQL;
 using GraphQL.DataLoader;
-using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
-using OrchardCore.Apis.GraphQL;
 using OrchardCore.ContentManagement.Records;
 using YesSql;
 using YesSql.Services;
@@ -13,25 +12,23 @@ namespace OrchardCore.ContentManagement.GraphQL
 {
     public static class DataLoaderExtensions
     {
-        public static IDataLoader<string, ContentItem> GetOrAddPublishedContentItemByIdDataLoader<T>(this ResolveFieldContext<T> context)
+        public static IDataLoader<string, IEnumerable<ContentItem>> GetOrAddPublishedContentItemByIdDataLoader<T>(this IResolveFieldContext<T> context)
         {
-            var serviceProvider = context.ResolveServiceProvider();
+            var accessor = context.RequestServices.GetRequiredService<IDataLoaderContextAccessor>();
+            var session = context.RequestServices.GetService<ISession>();
 
-            var accessor = serviceProvider.GetRequiredService<IDataLoaderContextAccessor>();
-            var session = serviceProvider.GetService<ISession>();
-
-            return accessor.Context.GetOrAddBatchLoader<string, ContentItem>("GetPublishedContentItemsById", ci => LoadPublishedContentItems(ci, session));
+            return accessor.Context.GetOrAddCollectionBatchLoader<string, ContentItem>("GetPublishedContentItemsById", ci => LoadPublishedContentItemsAsync(ci, session));
         }
 
-        private static async Task<IDictionary<string, ContentItem>> LoadPublishedContentItems(IEnumerable<string> contentItemIds, ISession session)
+        public static async Task<ILookup<string, ContentItem>> LoadPublishedContentItemsAsync(IEnumerable<string> contentItemIds, ISession session)
         {
             if (contentItemIds is null || !contentItemIds.Any())
             {
-                return new Dictionary<string, ContentItem>();
+                return default;
             }
 
             var contentItemsLoaded = await session.Query<ContentItem, ContentItemIndex>(y => y.ContentItemId.IsIn(contentItemIds) && y.Published).ListAsync();
-            return contentItemsLoaded.ToDictionary(k => k.ContentItemId, v => v);
+            return contentItemsLoaded.ToLookup(k => k.ContentItemId, v => v);
         }
     }
 }

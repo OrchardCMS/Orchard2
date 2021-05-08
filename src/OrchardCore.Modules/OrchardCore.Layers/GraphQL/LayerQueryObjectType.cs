@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Apis.GraphQL;
@@ -35,8 +36,7 @@ namespace OrchardCore.Layers.GraphQL
                 .Argument<PublicationStatusGraphType, PublicationStatusEnum>("status", "publication status of the widgets")
                 .ResolveLockedAsync(async ctx =>
                 {
-                    var context = (GraphQLContext)ctx.UserContext;
-                    var layerService = context.ServiceProvider.GetService<ILayerService>();
+                    var layerService = ctx.RequestServices.GetService<ILayerService>();
 
                     var filter = GetVersionFilter(ctx.GetArgument<PublicationStatusEnum>("status"));
                     var widgets = await layerService.GetLayerWidgetsAsync(filter);

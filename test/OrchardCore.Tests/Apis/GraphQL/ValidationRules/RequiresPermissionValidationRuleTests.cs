@@ -119,12 +119,12 @@ namespace OrchardCore.Tests.Apis.GraphQL.ValidationRules
             {
                 Query = query,
                 Schema = new ValidationSchema(),
-                UserContext = new GraphQLContext
+                UserContext = new GraphQLUserContext
                 {
-                    ServiceProvider = serviceProvider,
+                    //ServiceProvider = serviceProvider,
                     User = new ClaimsPrincipal(new StubIdentity())
                 },
-                ValidationRules = DocumentValidator.CoreRules().Concat(serviceProvider.GetServices<IValidationRule>())
+                ValidationRules = DocumentValidator.CoreRules.Concat(serviceProvider.GetServices<IValidationRule>())
             };
         }
 
@@ -132,9 +132,9 @@ namespace OrchardCore.Tests.Apis.GraphQL.ValidationRules
         {
             public ValidationSchema()
             {
-                RegisterType<TestField>();
+                RegisterType(typeof(TestField));
                 Query = new ValidationQueryRoot { Name = "Query" };
-                FieldNameConverter = new CamelCaseFieldNameConverter();
+                NameConverter = new CamelCaseNameConverter();
             }
         }
 
