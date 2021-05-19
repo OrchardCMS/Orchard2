@@ -753,5 +753,20 @@ namespace OrchardCore.ContentFields.Indexing.SQL
 
             return 5;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<BooleanFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<ContentPickerFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<DateFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<DateTimeFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<HtmlFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<LinkFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<MultiTextFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<NumericFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<TextFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<TimeFieldIndex>();
+            SchemaBuilder.DropMapIndexTable<UserPickerFieldIndex>();
+        }
     }
 }

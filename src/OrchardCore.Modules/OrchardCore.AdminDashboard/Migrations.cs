@@ -59,6 +59,11 @@ namespace OrchardCore.AdminDashboard
             );
 
             return 3;
-        }        
+        }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<DashboardPartIndex>();
+        }
     }
 }

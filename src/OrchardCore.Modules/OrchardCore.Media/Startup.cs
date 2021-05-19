@@ -167,6 +167,8 @@ namespace OrchardCore.Media
 
             // Media Name Normalizer
             services.AddScoped<IMediaNameNormalizerService, NullMediaNameNormalizerService>();
+
+            services.AddMediaEventHandlers();
         }
 
         public override void Configure(IApplicationBuilder app, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)

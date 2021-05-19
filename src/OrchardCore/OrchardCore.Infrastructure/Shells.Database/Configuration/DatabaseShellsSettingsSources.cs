@@ -126,5 +126,11 @@ namespace OrchardCore.Shells.Database.Configuration
 
             return true;
         }
+
+        public Task DeleteAsync(string tenant)
+        {
+            // Todo: Delete Database Shell Settings
+            return Task.CompletedTask;
+        }
     }
 }

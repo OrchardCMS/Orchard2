@@ -146,5 +146,13 @@ namespace OrchardCore.Workflows
 
             return 3;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<WorkflowBlockingActivitiesIndex>();
+            SchemaBuilder.DropMapIndexTable<WorkflowIndex>();
+            SchemaBuilder.DropMapIndexTable<WorkflowTypeIndex>();
+            SchemaBuilder.DropMapIndexTable<WorkflowTypeStartActivitiesIndex>();
+        }
     }
 }

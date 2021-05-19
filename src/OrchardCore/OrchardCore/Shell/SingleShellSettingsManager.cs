@@ -28,5 +28,7 @@ namespace OrchardCore.Environment.Shell
         public Task<ShellSettings> LoadSettingsAsync(string tenant) => Task.FromResult(CreateDefaultSettings());
 
         public Task SaveSettingsAsync(ShellSettings shellSettings) => Task.CompletedTask;
+
+        public Task DeleteSettingsAsync(ShellSettings shellSettings) => Task.CompletedTask;
     }
 }

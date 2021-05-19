@@ -231,5 +231,10 @@ namespace OrchardCore.ContentManagement.Records
 
             return 6;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<ContentItemIndex>();
+        }
     }
 }

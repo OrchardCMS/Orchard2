@@ -120,5 +120,11 @@ namespace OrchardCore.Shells.Azure.Configuration
 
             return true;
         }
+
+        public Task DeleteAsync(string tenant)
+        {
+            // Todo: Delete Blob Shell Settings
+            return Task.CompletedTask;
+        }
     }
 }

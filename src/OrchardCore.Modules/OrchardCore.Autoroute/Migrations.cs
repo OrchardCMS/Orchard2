@@ -73,5 +73,10 @@ namespace OrchardCore.Autoroute
         {
             return 5;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<AutoroutePartIndex>();
+        }
     }
 }

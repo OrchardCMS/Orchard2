@@ -614,6 +614,28 @@ namespace OrchardCore.Tenants.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageTenants))
+            {
+                return Forbid();
+            }
+
+            if (!IsDefaultShell() || id == ShellHelper.DefaultShellName)
+            {
+                return Forbid();
+            }
+
+            var shellSettings = _shellHost.GetAllSettings().Where(x => string.Equals(x.Name, id, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+
+            await _shellHost.RemoveShellAsync(shellSettings);
+
+            _notifier.Success(H["The tenant '{0}' has been successfully deleted.", shellSettings.Name]);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool IsDefaultShell()
         {
             return String.Equals(_currentShellSettings.Name, ShellHelper.DefaultShellName, StringComparison.OrdinalIgnoreCase);

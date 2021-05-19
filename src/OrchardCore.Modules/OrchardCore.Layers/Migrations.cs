@@ -67,5 +67,10 @@ namespace OrchardCore.Layers
 
             return 3;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<LayerMetadataIndex>();
+        }
     }
 }

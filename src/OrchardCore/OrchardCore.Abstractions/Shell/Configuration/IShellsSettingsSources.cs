@@ -8,6 +8,7 @@ namespace OrchardCore.Environment.Shell.Configuration
     {
         Task AddSourcesAsync(IConfigurationBuilder builder);
         Task SaveAsync(string tenant, IDictionary<string, string> data);
+        Task DeleteAsync(string tenant);
     }
 
     public static class ShellsSettingsSourcesExtensions

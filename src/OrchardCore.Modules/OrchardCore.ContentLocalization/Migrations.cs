@@ -71,5 +71,10 @@ namespace OrchardCore.ContentLocalization.Records
 
             return 3;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<LocalizedContentItemIndex>();
+        }
     }
 }

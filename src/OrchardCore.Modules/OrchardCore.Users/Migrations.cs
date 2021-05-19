@@ -189,5 +189,13 @@ namespace OrchardCore.Users
 
             return 10;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<UserIndex>();
+            SchemaBuilder.DropMapIndexTable<UserByLoginInfoIndex>();
+            SchemaBuilder.DropMapIndexTable<UserByClaimIndex>();
+            SchemaBuilder.DropReduceIndexTable<UserByRoleNameIndex>();
+        }
     }
 }

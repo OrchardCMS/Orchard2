@@ -55,5 +55,10 @@ namespace OrchardCore.PublishLater
 
             return 2;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<PublishLaterPartIndex>();
+        }
     }
 }

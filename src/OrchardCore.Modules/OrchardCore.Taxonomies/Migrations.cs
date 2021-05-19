@@ -162,6 +162,11 @@ namespace OrchardCore.Taxonomies
 
             return 5;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<TaxonomyIndex>();
+        }
     }
 
     internal class AliasPartSettings

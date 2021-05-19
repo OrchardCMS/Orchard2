@@ -269,5 +269,19 @@ namespace OrchardCore.Environment.Shell
 
             _configuration = configuration;
         }
+
+        public Task DeleteSettingsAsync(ShellSettings settings)
+        {
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
+            _settingsSources.DeleteAsync(settings.Name);
+
+            _tenantConfigSources.DeleteAsync(settings.Name);
+
+            return Task.CompletedTask;
+        }
     }
 }

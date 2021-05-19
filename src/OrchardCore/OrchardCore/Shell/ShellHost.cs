@@ -1,16 +1,20 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using OrchardCore.Environment.Extensions;
 using OrchardCore.Environment.Shell.Builders;
 using OrchardCore.Environment.Shell.Descriptor.Models;
 using OrchardCore.Environment.Shell.Events;
 using OrchardCore.Environment.Shell.Models;
 using OrchardCore.Environment.Shell.Scope;
+using OrchardCore.Modules;
 
 namespace OrchardCore.Environment.Shell
 {
@@ -28,6 +32,7 @@ namespace OrchardCore.Environment.Shell
         private readonly IRunningShellTable _runningShellTable;
         private readonly IExtensionManager _extensionManager;
         private readonly ILogger _logger;
+        private readonly IOptions<ShellOptions> _shellOptions;
 
         private bool _initialized;
         private readonly ConcurrentDictionary<string, ShellContext> _shellContexts = new ConcurrentDictionary<string, ShellContext>();
@@ -40,13 +45,15 @@ namespace OrchardCore.Environment.Shell
             IShellContextFactory shellContextFactory,
             IRunningShellTable runningShellTable,
             IExtensionManager extensionManager,
-            ILogger<ShellHost> logger)
+            ILogger<ShellHost> logger,
+            IOptions<ShellOptions> shellOptions)
         {
             _shellSettingsManager = shellSettingsManager;
             _shellContextFactory = shellContextFactory;
             _runningShellTable = runningShellTable;
             _extensionManager = extensionManager;
             _logger = logger;
+            _shellOptions = shellOptions;
         }
 
         public ShellsEvent LoadingAsync { get; set; }
@@ -463,6 +470,28 @@ namespace OrchardCore.Environment.Shell
         private bool CanReleaseShell(ShellSettings settings)
         {
             return settings.State != TenantState.Disabled || _shellContexts.TryGetValue(settings.Name, out var value) && value.ActiveScopes == 0;
+        }
+
+        public async Task RemoveShellAsync(ShellSettings settings)
+        {
+            if (_shellContexts.TryRemove(settings.Name, out var context))
+            {
+                _runningShellTable.Remove(settings);
+                _shellSettings.Remove(settings.Name, out settings);
+                context.Release();
+            }
+
+            using (var serviceScope = (await CreateShellContextAsync(settings)).CreateScope())
+            {
+                var shellEventHandlers = serviceScope.ServiceProvider.GetServices<IShellEventHandler>();
+                await shellEventHandlers.InvokeAsync(x => x.Removing(settings), _logger);
+            }
+
+            await _shellSettingsManager.DeleteSettingsAsync(settings);
+
+            var tenantFolder = Path.Combine(_shellOptions.Value.ShellsApplicationDataPath, _shellOptions.Value.ShellsContainerName, settings.Name);
+
+            Directory.Delete(tenantFolder, true);
         }
 
         public void Dispose()

@@ -14,5 +14,10 @@ namespace OrchardCore.Deployment
 
             return 1;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<DeploymentPlanIndex>();
+        }
     }
 }

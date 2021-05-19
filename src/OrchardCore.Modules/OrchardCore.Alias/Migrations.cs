@@ -94,5 +94,10 @@ namespace OrchardCore.Alias
 
             return 4;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<AliasPartIndex>();
+        }
     }
 }

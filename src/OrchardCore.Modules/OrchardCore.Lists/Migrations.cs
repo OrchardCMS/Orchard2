@@ -53,5 +53,10 @@ namespace OrchardCore.Lists
 
             return 3;
         }
+
+        public void Uninstall()
+        {
+            SchemaBuilder.DropMapIndexTable<ContainedPartIndex>();
+        }
     }
 }
