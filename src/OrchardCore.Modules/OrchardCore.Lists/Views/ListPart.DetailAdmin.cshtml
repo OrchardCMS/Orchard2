@@ -2,7 +2,6 @@
 @using System.Globalization
 @using OrchardCore.Localization
 @model OrchardCore.Lists.ViewModels.ListPartViewModel
-
 @inject OrchardCore.ContentManagement.Display.IContentItemDisplayManager ContentItemDisplayManager
 @{
     var enableOrdering =
@@ -26,6 +25,9 @@
 else
 {
     <form>
+        <input name="Options.BulkAction" type="hidden" />
+        <input type="submit" name="submit.BulkAction" class="sr-only" />
+
         <div class="card mb-3 position-sticky action-bar">
             <div class="card-body bg-primary p-3">
                 <div class="form-group mb-n1">
@@ -85,7 +87,33 @@ else
     @if (Model.ContentItems.Any())
     {
         <ul class="list-group" @if (enableOrdering) { <text> id="ci-sortable" </text> }>
-
+            <li class="list-group-item bg-primary">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group mb-n1 text-nowrap">
+                            <div class="custom-control custom-checkbox mt-2 mr-n2">
+                                <input type="checkbox" class="custom-control-input" id="select-all">
+                                <label class="custom-control-label text-muted" for="select-all" id="select-all-label" title="@T["Select All"]"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col d-flex justify-content-start flex-row-reverse">
+                        <div class="form-group mb-n1" style="display:none" id="actions">
+                            <span class="dropdown mt-1">
+                                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bulk-action-menu-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @T["Actions"]
+                                </button>
+                                <span class="dropdown-menu dropdown-menu-right" aria-labelledby="bulk-action-menu-button">
+                                    @foreach (var item in Model.ContentsBulkAction)
+                                    {
+                                        <a class="dropdown-item" href="javascript:void(0)" data-action="@item.Value" data-title="@T["Bulk Action"]" data-message="@T["Are you sure you want to {0} these items?", @item.Text.ToLower()]">@item.Text</a>
+                                    }
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </li>
             @foreach (var contentItem in Model.ContentItems)
             {
                 var contentItemSummary = (dynamic)await ContentItemDisplayManager.BuildDisplayAsync(contentItem, Model.Context.Updater, "SummaryAdmin", Model.Context.GroupId);
@@ -115,3 +143,45 @@ else
         <p class="alert alert-warning">@T["The list is empty."]</p>
     }
 }
+
+<script at="Foot">
+    $(function () {
+        var actions = $("#actions");
+        var selectAllCtrl = $("#select-all");
+        var itemsCheckboxes = $(":checkbox[name='itemIds']");
+
+        $(".dropdown-menu .dropdown-item").filter(function () {
+            return $(this).data("action");
+        }).on("click", function () {
+            if ($(":checkbox[name='itemIds']:checked").length > 1) {
+                var $this = $(this);
+                confirmDialog({
+                    ...$this.data(), callback: function (r) {
+                        if (r) {
+                            $("[name='Options.BulkAction']").val($this.data("action"));
+                            $("[name='submit.BulkAction']").click();
+                        }
+                    }
+                });
+            }
+        });
+        function displayActionsOrFilters() {
+            if ($(":checkbox[name='itemIds']:checked").length > 1) {
+                actions.show();
+            }
+            else {
+                actions.hide();
+            }
+        }
+
+        selectAllCtrl.click(function(){
+            itemsCheckboxes.not(this).prop("checked", this.checked);
+            displayActionsOrFilters();
+        });
+
+        itemsCheckboxes.on("click", function () {
+            var itemsCount = $(":checkbox[name='itemIds']").length;
+            displayActionsOrFilters();
+        });
+    })
+</script>

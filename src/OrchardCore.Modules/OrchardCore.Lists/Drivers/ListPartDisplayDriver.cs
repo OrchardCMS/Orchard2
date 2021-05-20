@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Localization;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Display.ViewModels;
@@ -20,16 +22,19 @@ namespace OrchardCore.Lists.Drivers
         private readonly IContentDefinitionManager _contentDefinitionManager;
         private readonly IContainerService _containerService;
         private readonly IUpdateModelAccessor _updateModelAccessor;
+        private readonly IStringLocalizer S;
 
         public ListPartDisplayDriver(
             IContentDefinitionManager contentDefinitionManager,
             IContainerService containerService,
-            IUpdateModelAccessor updateModelAccessor
+            IUpdateModelAccessor updateModelAccessor,
+            IStringLocalizer<ListPartDisplayDriver> stringLocalizer
             )
         {
             _contentDefinitionManager = contentDefinitionManager;
             _containerService = containerService;
             _updateModelAccessor = updateModelAccessor;
+            S = stringLocalizer;
         }
 
         public override IDisplayResult Display(ListPart listPart, BuildPartDisplayContext context)
@@ -75,6 +80,13 @@ namespace OrchardCore.Lists.Drivers
                         model.Context = context;
                         model.EnableOrdering = settings.EnableOrdering;
                         model.Pager = await context.New.PagerSlim(pager);
+
+                        model.ContentsBulkAction = new List<SelectListItem>()
+                        {
+                            new SelectListItem() { Text = S["Publish Now"], Value = nameof(ContentsListBulkAction.PublishNow) },
+                            new SelectListItem() { Text = S["Unpublish"], Value = nameof(ContentsListBulkAction.Unpublish) },
+                            new SelectListItem() { Text = S["Delete"], Value = nameof(ContentsListBulkAction.Remove) }
+                        };
                     })
                     .Location("DetailAdmin", "Content:10"),
                     Initialize<ContentItemViewModel>("ListPart", model => model.ContentItem = listPart.ContentItem)
