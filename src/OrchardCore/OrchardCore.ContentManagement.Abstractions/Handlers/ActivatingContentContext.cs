@@ -6,6 +6,6 @@ namespace OrchardCore.ContentManagement.Handlers
     {
         public string ContentType { get; set; }
         public ContentTypeDefinition Definition { get; set; }
-        public ContentItemBuilder Builder { get; set; }
+        public ContentItem ContentItem { get; set; }
     }
 }

@@ -32,6 +32,8 @@
 <script asp-name="codemirror-mode-xml" at="Foot"></script>
 <script asp-src="~/OrchardCore.Liquid/codemirror/liquid.js" at="Foot"></script>
 
+@await DisplayAsync(await New.ContentFormatModal())
+
 <script at="Foot">
 $(function () {
     var editor = CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(x => x.ContentProperties)'), {

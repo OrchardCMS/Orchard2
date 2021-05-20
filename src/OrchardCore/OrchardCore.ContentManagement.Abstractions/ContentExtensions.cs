@@ -112,7 +112,7 @@ namespace OrchardCore.ContentManagement
         {
             if (!contentElement.Data.ContainsKey(name))
             {
-                element.Data = JObject.FromObject(element, ContentBuilderSettings.IgnoreDefaultValuesSerializer);
+                element.Data = JObject.FromObject(element);
                 element.ContentItem = contentElement.ContentItem;
 
                 contentElement.Data[name] = element.Data;
@@ -170,7 +170,7 @@ namespace OrchardCore.ContentManagement
             }
             else
             {
-                elementData = JObject.FromObject(element, ContentBuilderSettings.IgnoreDefaultValuesSerializer);
+                elementData = JObject.FromObject(element);
                 contentElement.Data[name] = elementData;
             }
 
@@ -182,7 +182,7 @@ namespace OrchardCore.ContentManagement
 
             if (element is ContentField)
             {
-                contentElement.ContentItem.Elements.Clear();
+                contentElement.ContentItem?.Elements.Clear();
             }
 
             return contentElement;

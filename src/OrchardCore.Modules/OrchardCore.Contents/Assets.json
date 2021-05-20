@@ -5,5 +5,19 @@
       "Assets/scss/Contents.scss"
     ],
     "output": "wwwroot/Styles/Contents.css"
+  },
+  {
+    "generateSourceMaps": false,
+    "inputs": [
+      "Assets/scss/content-format-modal.scss"
+    ],
+    "output": "wwwroot/Styles/content-format-modal.css"
+  },
+  {
+    "generateSourceMaps": false,
+    "inputs": [
+      "Assets/js/content-format-modal.js"
+    ],
+    "output": "wwwroot/Scripts/content-format-modal.js"
   }
 ]

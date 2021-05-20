@@ -65,13 +65,13 @@ namespace OrchardCore.ContentManagement
             {
                 ContentType = contentTypeDefinition.Name,
                 Definition = contentTypeDefinition,
-                Builder = new ContentItemBuilder(contentTypeDefinition)
+                ContentItem = new ContentItem() { ContentType = contentTypeDefinition.Name }
             };
 
             // invoke handlers to weld aspects onto kernel
             await Handlers.InvokeAsync((handler, context) => handler.ActivatingAsync(context), context, _logger);
 
-            var context2 = new ActivatedContentContext(context.Builder.Build());
+            var context2 = new ActivatedContentContext(context.ContentItem);
 
             context2.ContentItem.ContentItemId = _idGenerator.GenerateUniqueId(context2.ContentItem);
 

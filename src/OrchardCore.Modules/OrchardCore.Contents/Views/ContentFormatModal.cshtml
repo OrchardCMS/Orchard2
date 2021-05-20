@@ -1,0 +1,86 @@
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using System.Security.Claims
+@using OrchardCore.Contents
+@using OrchardCore.Mvc.Utilities
+@using OrchardCore.DisplayManagement
+@using OrchardCore.DisplayManagement.Views
+
+@inject IContentDefinitionManager _contentDefinitionManager
+@inject IAuthorizationService _authorizationService
+@inject IContentManager _contentManager
+
+@* Inject the modal only once per page *@
+@if (!Context.Items.ContainsKey("ContentFormatModal"))
+{
+    Context.Items["ContentFormatModal"] = new object();
+
+    var contentTypeDefinitions = _contentDefinitionManager.ListTypeDefinitions()
+                .OrderBy(m => m.DisplayName);
+
+    var authorizedList = new Dictionary<string, string>();
+
+
+    if (contentTypeDefinitions.Any())
+    {
+        foreach (var contentTypeDefinition in contentTypeDefinitions)
+        {
+            var contentItem = await _contentManager.NewAsync(contentTypeDefinition.Name);
+            contentItem.Owner = PrincipalExtensions.FindFirstValue(User, ClaimTypes.NameIdentifier);
+
+            if (await _authorizationService.AuthorizeAsync(User, CommonPermissions.EditContent, contentItem))
+            {
+                authorizedList.Add(contentTypeDefinition.DisplayName, contentTypeDefinition.Name);
+            }
+        }
+    }
+
+    var jsTypes = JsonConvert.SerializeObject(authorizedList.Select(d => new { key = d.Key, value = d.Value }));
+    var searchUrl = Url.RouteUrl(new { area = "OrchardCore.Contents", controller = "Admin", action = "GetContentFormat" });
+    
+    <style asp-src="~/OrchardCore.Contents/Styles/content-format-modal.min.css" debug-src="~/OrchardCore.Contents/Styles/content-format-modal.css" asp-name="content-format-modal"></style>
+    <script asp-src="~/OrchardCore.Contents/Scripts/content-format-modal.min.js" debug-src="~/OrchardCore.Contents/Scripts/content-format-modal.js" asp-name="content-format-modal" at="Foot" depends-on="jQuery, vuejs"></script>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contentFormatModal">
+  Launch test modal
+</button>
+    @* Place at footer in case it is affected by being inline with an element. *@
+    <zone name="Footer">
+        <div class="modal fade" id="contentFormatModal" tabindex="-1" role="dialog" aria-labelledby="contentFormatModal" aria-hidden="true" data-types="@jsTypes" data-search-url="@searchUrl">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="contentFormatModal">@T["Content formats"]</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="list-group">                                 
+                                    @foreach (var contentType in authorizedList)
+                                    {
+                                    <a v-bind:class="[listGroupClass, (selectedType === '@contentType.Value') ? activeClass : '']" href="#@contentType.Key.HtmlClassify()" v-on:click="selectType('@contentType.Value')">@contentType.Key</a>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <h6>@T["Content format for"] {{selectedType}}</h6>
+                                <textarea class="form-control" style="height:100%" readonly v-model="contentFormat"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </zone>
+}
+
+
+
+   

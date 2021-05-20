@@ -61,7 +61,20 @@ namespace OrchardCore.ContentManagement.Handlers
                 // TODO: This can be removed in a future release as the recommended way is to use ContentOptions.
                 // Iterate existing handler registrations as multiple handlers maybe not be registered with ContentOptions.
                 await _partHandlers.InvokeAsync((handler, context, part) => handler.ActivatingAsync(context, part), context, part, _logger);
-                context.Builder.Weld(typePartDefinition.Name, part);
+
+                context.ContentItem.Weld(typePartDefinition.Name, part);
+
+                foreach (var partFieldDefinition in typePartDefinition.PartDefinition.Fields)
+                {
+                    var fieldName = partFieldDefinition.Name;
+
+                    if (!part.Has(fieldName))
+                    {
+                        var fieldActivator = _contentFieldFactory.GetTypeActivator(partFieldDefinition.FieldDefinition.Name);
+                        part.Weld(fieldName, fieldActivator.CreateInstance());
+                    }
+                }
+
             }
         }
 
@@ -270,7 +283,7 @@ namespace OrchardCore.ContentManagement.Handlers
                     if (!part.Has(fieldName))
                     {
                         var fieldActivator = _contentFieldFactory.GetTypeActivator(partFieldDefinition.FieldDefinition.Name);
-                        context.ContentItem.Get<ContentPart>(typePartDefinition.Name).Weld(fieldName, fieldActivator.CreateInstance());
+                        part.Weld(fieldName, fieldActivator.CreateInstance());
                     }
                 }
             }
