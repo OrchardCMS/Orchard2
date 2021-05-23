@@ -10,7 +10,28 @@
     var typeDisplayName = contentTypeDefinition?.DisplayName ?? contentItem.ContentType.CamelFriendly();
 }
 
-<zone Name="Title"><h1>@RenderTitleSegments(T["Edit {0}", Html.Raw(typeDisplayName)])</h1></zone>
+<div class="card mb-3 position-sticky action-bar">
+    <div class="card-body bg-primary p-3">
+        <h1 class="float-left">@RenderTitleSegments(T["Edit {0}", Html.Raw(typeDisplayName)])</h1>
+        @if (Model.Actions != null)
+        {
+            <div class="edit-item-secondary group text-right">
+                <div class="edit-item-actions">
+                    @await DisplayAsync(Model.Actions)
+
+                    @{
+                        var returnUrl = Context.Request.Query["returnUrl"];
+                    }
+
+                    @if (!String.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        <a class="btn btn-sm btn-secondary cancel" role="button" href="@returnUrl">@T["Cancel"]</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 <form asp-action="Edit" asp-route-contentitemid="@contentItem.ContentItemId" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post" enctype="multipart/form-data">
     @Html.ValidationSummary()

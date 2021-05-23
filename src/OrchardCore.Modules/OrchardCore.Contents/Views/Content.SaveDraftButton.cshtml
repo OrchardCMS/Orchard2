@@ -4,13 +4,13 @@
 
 @if (String.IsNullOrWhiteSpace(returnUrl))
 {
-    <button class="primaryAction btn btn-primary draft" type="submit" name="submit.Save" value="submit.Save">@T["Save Draft"]</button>
+    <button class="primaryAction btn btn-sm btn-primary draft" type="submit" name="submit.Save" value="submit.Save">@T["Save Draft"]</button>
 }
 else
 {
     <div class="btn-group">
-        <button class="btn btn-primary draft" type="submit" name="submit.Save" value="submit.Save">@T["Save Draft"]</button>
-        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-sm btn-primary draft" type="submit" name="submit.Save" value="submit.Save">@T["Save Draft"]</button>
+        <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">@T["Toggle Dropdown"]</span>
         </button>
         <div class="dropdown-menu">

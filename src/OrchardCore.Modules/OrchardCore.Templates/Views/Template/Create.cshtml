@@ -17,12 +17,21 @@
 <script asp-src="~/OrchardCore.Liquid/codemirror/liquid.js" at="Foot"></script>
 <script asp-name="templatepreview-edit" at="Foot"></script>
 
-<zone Name="Title"><h1>@RenderTitleSegments(T["Create Template"])</h1></zone>
-
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Create" asp-route-returnUrl="@ViewData["returnUrl"]" method="post">
     <div class="card mb-3 position-sticky action-bar">
-        <div class="card-body bg-primary p-3 text-right">
+        <div class="card-body bg-primary p-3">
+            <h1 class="float-left">
+                @if (Model.AdminTemplates)
+                {
+                    @RenderTitleSegments(T["Create Admin Template"])
+                }
+                else
+                {
+                    @RenderTitleSegments(T["Create Template"])
+                }
+            </h1>
+            <div class="edit-item-secondary group text-right">
             <div class="btn-group">
                 <button type="submit" name="submit" class="btn btn-sm btn-primary save">@T["Save"]</button>
                 <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,6 +51,7 @@
             {
                 <a class="btn btn-sm btn-info" role="button" href="@Url.Action("Index", "Preview", new { area = "OrchardCore.Templates" })" target="_blank">@T["Preview"]</a>
             }
+        </div>
         </div>
     </div>
 

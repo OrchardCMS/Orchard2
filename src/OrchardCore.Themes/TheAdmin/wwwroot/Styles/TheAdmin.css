@@ -23247,6 +23247,9 @@ a[dir]:root[data-theme=default] .badge-dark:focus, a[data-theme=default][dir]:ro
   letter-spacing: -0.04em;
   font-weight: bold;
 }
+:root[data-theme=default] .ta-content .card-body h1 {
+  line-height: 20px;
+}
 [dir=ltr]:root[data-theme=default] .left-sidebar-compact .ta-content {
   margin-left: 48px;
 }
@@ -46626,6 +46629,9 @@ a[dir]:root[data-theme=darkmode] .badge-dark:focus, a[dir]:root[data-theme=darkm
   font-size: 28px;
   letter-spacing: -0.04em;
   font-weight: bold;
+}
+:root[data-theme=darkmode] .ta-content .card-body h1 {
+  line-height: 20px;
 }
 [dir=ltr]:root[data-theme=darkmode] .left-sidebar-compact .ta-content {
   margin-left: 48px;

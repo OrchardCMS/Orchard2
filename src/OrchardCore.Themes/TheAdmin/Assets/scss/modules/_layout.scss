@@ -1,4 +1,4 @@
-.preload * { 
+.preload * {
     -webkit-transition: none !important;
     -moz-transition: none !important;
     -ms-transition: none !important;
@@ -30,7 +30,6 @@ body {
 // -----------------------------
 
 .ta-wrapper {
-
 }
 
 .ta-content {
@@ -45,6 +44,12 @@ body {
         font-size: 28px;
         letter-spacing: -0.04em;
         font-weight: bold;
+    }
+
+    .card-body {
+        h1 {
+            line-height: 20px;
+        }
     }
 }
 
@@ -64,9 +69,7 @@ body {
     max-width: 800px;
     margin: auto;
 }
-
 // END OF LAYOUT
-
 // Sortable
 // ------------------------------
 .ui-sortable {
@@ -84,7 +87,6 @@ body {
 .related {
     @extend .float-right;
 }
-
 // No transitions on load
 // Prevents Firefox and Edge transitions on load.
 // This class is added by default and removed trought Javascript
@@ -101,7 +103,7 @@ body {
     z-index: $zindex-sticky;
 }
 
-.list-group-item+.list-group-item {
+.list-group-item + .list-group-item {
     border-top-width: 0px;
 }
 

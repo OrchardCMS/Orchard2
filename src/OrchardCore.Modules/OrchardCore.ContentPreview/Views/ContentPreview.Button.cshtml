@@ -10,7 +10,7 @@
 
 @if (hasPreviewPermission)
 {
-    <a id="previewButton" target="_blank" class="btn btn-info" href="@Url.Action("Index", "Preview", new { area = "OrchardCore.ContentPreview", id = previewId })">@T["Preview"]</a>
+    <a id="previewButton" target="_blank" class="btn btn-sm btn-info" href="@Url.Action("Index", "Preview", new { area = "OrchardCore.ContentPreview", id = previewId })">@T["Preview"]</a>
 }
 
 <div id="renderPreviewUrl" style="display:none" data-value="@Url.Action("Render", "Preview", new { area = "OrchardCore.ContentPreview" })"></div>
