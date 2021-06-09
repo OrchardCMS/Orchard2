@@ -3,7 +3,7 @@
 @if (!string.IsNullOrEmpty(Model.LocalizationSet) && Model.ContentItemCultures.Any())
 {
     <div class="btn-group" title="@T["Localizations"]">
-        <button type="button" class="btn btn-sm btn-info dropdown-toggle localizations" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-sm btn-info dropdown-toggle localizations" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span>@T["Localizations"]</span>
         </button>
         <div class="dropdown-menu dropdown-menu-right">

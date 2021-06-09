@@ -10,7 +10,7 @@
 
 @await DisplayAsync(await New.ShortcodeModal())
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Markdown">@Model.PartFieldDefinition.DisplayName()</label>
     <textarea asp-for="Markdown" rows="5" class="form-control content-preview-text shortcode-modal-input" dir="@culture.GetLanguageDirection()"></textarea>
     <span class="hint">@settings.Hint</span>

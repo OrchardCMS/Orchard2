@@ -11,7 +11,7 @@
     <input type="hidden" asp-for="SitemapSourceType" />
 
     <fieldset>
-        <div class="form-group">
+        <div class="mb-3">
             <button class="btn btn-primary create" type="submit">@T["Create"]</button>
             <a class="btn btn-secondary cancel" role="button" asp-route-action="Display" asp-route-controller="Admin" asp-route-sitemapId="@Model.SitemapId">@T["Cancel"]</a>
         </div>

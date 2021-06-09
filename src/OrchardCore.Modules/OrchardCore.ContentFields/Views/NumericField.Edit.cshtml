@@ -7,23 +7,19 @@
     decimal max = settings.Maximum.HasValue ? settings.Maximum.Value : 10000;
 }
 
-<div class="form-group">
+<div class="mb-3">
     <div class="row">
         <div class="col-md-6 col-lg-4">
             <label asp-for="Value">@name</label>
             <div class="input-group">
                 @if (settings.Minimum.HasValue)
                 {
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">@min</div>
-                    </div>
+                    <span class="input-group-text">@min</span>
                 }
                 <input asp-for="Value" class="form-control content-preview-select" placeholder="@settings.Placeholder" required="@settings.Required" />
                 @if (settings.Maximum.HasValue)
                 {
-                    <div class="input-group-append">
-                        <div class="input-group-text">@max</div>
-                    </div>
+                    <span class="input-group-text">@max</span>
                 }
             </div>
         </div>

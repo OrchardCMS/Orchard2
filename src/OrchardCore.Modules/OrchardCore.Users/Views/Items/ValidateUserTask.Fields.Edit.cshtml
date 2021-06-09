@@ -1,12 +1,12 @@
 @model OrchardCore.Users.Workflows.ViewModels.ValidateUserTaskViewModel
 
-<fieldset class="form-group form-check" asp-validation-class-for="SetUserName">
+<fieldset class="mb-3 form-check" asp-validation-class-for="SetUserName">
     <input type="checkbox" asp-for="SetUserName" class="form-check-input" />
     <span asp-validation-for="SetUserName"></span>
     <label asp-for="SetUserName" class="form-check-label">@T["Set the 'UserName' workflow property if the user is authenticated"]</label>
 </fieldset>
 
-<fieldset class="form-group" asp-validation-class-for="Roles">
+<fieldset class="mb-3" asp-validation-class-for="Roles">
     <label asp-for="Roles">@T["Roles"]</label>
     @await Component.InvokeAsync("SelectRoles", new { selectedRoles = Model.Roles, htmlName = Html.NameFor(m => m.Roles), except = new[] { "Anonymous", "Authenticated" } })
     <span asp-validation-for="Roles"></span>

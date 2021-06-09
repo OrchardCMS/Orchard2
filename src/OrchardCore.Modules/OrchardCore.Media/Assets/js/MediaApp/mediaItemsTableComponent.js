@@ -44,7 +44,7 @@ Vue.component('media-items-table', {
                                 <div class="media-name-cell">
                                    <span class="break-word"> {{ media.name }} </span>
                                     <div class="buttons-container">
-                                        <a href="javascript:;" class="btn btn-link btn-sm mr-1 edit-button" v-on:click.stop="renameMedia(media)"> {{ T.editButton }} </a >
+                                        <a href="javascript:;" class="btn btn-link btn-sm me-1 edit-button" v-on:click.stop="renameMedia(media)"> {{ T.editButton }} </a >
                                         <a href="javascript:;" class="btn btn-link btn-sm delete-button" v-on:click.stop="deleteMedia(media)"> {{ T.deleteButton }} </a>
                                         <a :href="media.url" target="_blank" class="btn btn-link btn-sm view-button"> {{ T.viewButton }} </a>
                                     </div>

@@ -1,16 +1,16 @@
 @model OrchardCore.Contents.ViewModels.CommonPartSettingsViewModel
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisplayDateEditor" checked="@Model.DisplayDateEditor">
-        <label class="custom-control-label" asp-for="DisplayDateEditor">@T["Display date editor"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisplayDateEditor" checked="@Model.DisplayDateEditor">
+        <label class="form-check-label" asp-for="DisplayDateEditor">@T["Display date editor"]</label>
         <span class="hint dashed">@T["Check to be able to edit the creation date of the content item."]</span>
     </div>
 </div>
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisplayOwnerEditor" checked="@Model.DisplayOwnerEditor">
-        <label class="custom-control-label" asp-for="DisplayOwnerEditor">@T["Display owner editor"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisplayOwnerEditor" checked="@Model.DisplayOwnerEditor">
+        <label class="form-check-label" asp-for="DisplayOwnerEditor">@T["Display owner editor"]</label>
         <span class="hint dashed">@T["Check to be able to edit the owner of the content item. The <code>SiteOwner</code> permission will also be required."]</span>
     </div>
 </div>

@@ -13,12 +13,12 @@
 
 <h5>@T["Update Content Definitions"]</h5>
 
-<div class="form-group mt-4 mb-5">
+<div class="mb-3 mt-4 mb-5">
     <div class="row">
         <div class="col">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="IncludeAll" data-reverseToggle=".cdsel">
-                <label class="custom-control-label" asp-for="IncludeAll">@T["Include all content types and parts definitions."]</label>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="IncludeAll" data-reverseToggle=".cdsel">
+                <label class="form-check-label" asp-for="IncludeAll">@T["Include all content types and parts definitions."]</label>
             </div>
         </div>
     </div>
@@ -46,9 +46,9 @@
                             <input class="invisible" style="position:absolute" type="checkbox" name="@Html.NameFor(m => m.ContentParts)" value="@ctypename"
                                    id="part_@ctypename" checked="@checkd" />
                         }
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="@(Html.IdFor(m => m.ContentTypes) + "_" + ctypename)" name="@Html.NameFor(m => m.ContentTypes)" value="@ctypename" checked="@checkd" data-toggle="collapse" data-target="#sub_@ctypename" data-checkbox="#part_@ctypename">
-                            <label class="custom-control-label" for="@(Html.IdFor(m => m.ContentTypes) + "_" + ctypename)">@contentTypeDefinition.DisplayName</label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="@(Html.IdFor(m => m.ContentTypes) + "_" + ctypename)" name="@Html.NameFor(m => m.ContentTypes)" value="@ctypename" checked="@checkd" data-bs-toggle="collapse" data-bs-target="#sub_@ctypename" data-checkbox="#part_@ctypename">
+                            <label class="form-check-label" for="@(Html.IdFor(m => m.ContentTypes) + "_" + ctypename)">@contentTypeDefinition.DisplayName</label>
                         </div>
 
                         <ul class="list-group @(checkd??false ? "" : "collapse")" id="sub_@ctypename">
@@ -58,9 +58,9 @@
                                 var partChecked = contentParts?.Contains(partName);
 
                                 <li class="list-group-item">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input part_@partName" id="@(ctypename + "_" + partName + '_' + part.Name)" name="tempparts" value="" type="checkbox" checked="@partChecked" data-checkboxChecked="#part_@part.PartDefinition.Name">
-                                        <label class="custom-control-label" for="@(ctypename + "_" + partName + '_' + part.Name)">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input part_@partName" id="@(ctypename + "_" + partName + '_' + part.Name)" name="tempparts" value="" type="checkbox" checked="@partChecked" data-checkboxChecked="#part_@part.PartDefinition.Name">
+                                        <label class="form-check-label" for="@(ctypename + "_" + partName + '_' + part.Name)">
                                             @if (part.PartDefinition.Name == part.Name)
                                             {
                                                 @part.Name
@@ -97,9 +97,9 @@
                     var checkd = contentParts?.Contains(partName);
 
                     <li class="list-group-item">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="@Html.NameFor(m => m.ContentParts)" value="@partName" checked="@checkd" id="part_@partName" data-checkboxUnchecked=".part_@partName">
-                            <label class="custom-control-label" for="part_@partName">@partName</label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="@Html.NameFor(m => m.ContentParts)" value="@partName" checked="@checkd" id="part_@partName" data-checkboxUnchecked=".part_@partName">
+                            <label class="form-check-label" for="part_@partName">@partName</label>
                         </div>
                     </li>
                 }

@@ -1,6 +1,6 @@
 @model EditQueryViewModel
 
-<div class="form-group" asp-validation-class-for="Name">
+<div class="mb-3" asp-validation-class-for="Name">
     <label asp-for="Name">@T["Name"]</label>
     <input asp-for="Name" class="form-control text-muted" autofocus />
     <span asp-validation-for="Name"></span>
@@ -8,7 +8,7 @@
     <input asp-for="Source" type="hidden" />
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Schema">@T["Schema"]</label>
     <textarea asp-for="Schema" rows="12" class="form-control" style="text-align:left"></textarea>
     <span class="hint">@T["The schema the api will use to return results."]</span>

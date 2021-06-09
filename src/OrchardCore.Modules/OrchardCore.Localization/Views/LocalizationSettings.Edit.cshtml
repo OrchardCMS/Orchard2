@@ -19,12 +19,12 @@
 </script>
 
 <script type="text/x-template" id="options-table">
-    <div class="form-group">
+    <div class="mb-3">
         <table class="table border-bottom">
             <thead>
                 <tr>
                     <th>@T["Culture"]</th>
-                    <th class="text-center">@T["Default culture"]</th>
+                    <th>@T["Default culture"]</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -35,13 +35,13 @@
                         <span v-if="culture == ''">@CultureInfo.InvariantCulture.DisplayName</span>
                         <input type="hidden" class="form-control" v-bind:value="culture" />
                     </td>
-                    <td class="text-center align-middle">
-                        <div class="custom-control custom-radio ml-2">
-                            <input type="radio" class="custom-control-input" :id="'customRadio_' + index" v-bind:value="culture" v-model="defaultCulture">
-                            <label class="custom-control-label" title="Set as default" v-bind:for="'customRadio_' + index"></label>
+                    <td>
+                        <div class="form-check ms-5">
+                            <input type="radio" class="form-check-input" :id="'customRadio_' + index" v-bind:value="culture" v-model="defaultCulture">
+                            <label class="form-check-label" title="Set as default" v-bind:for="'customRadio_' + index"></label>
                         </div>
                     </td>
-                    <td class="text-right">
+                    <td class="text-end">
                         <a v-on:click="remove(index)" title="@T["Remove culture"]" href="javascript:void(0)" class="btn btn-secondary btn-sm" style="cursor:pointer">
                             <i class="fas fa-trash"></i>
                         </a>
@@ -52,7 +52,7 @@
 
         <div class="row">
             <div class="col">
-                <select v-model="selectedCulture" class="form-control col">
+                <select v-model="selectedCulture" class="form-select col">
                     <option v-for="(culture, index) in allCultures" v-bind:value="culture.Name" :key="index" v-if="!(culture.Supported)">
                         {{ culture.Name }} ({{ culture.DisplayName }})
                     </option>

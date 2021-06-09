@@ -2,48 +2,48 @@
 
 <script asp-name="vuejs" at="Foot"></script>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Required" type="checkbox" class="custom-control-input">
-        <label class="custom-control-label" asp-for="Required">@T["Required"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Required" type="checkbox" class="form-check-input">
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
         <span class="hint dashed">@T["Whether to ensure at least one element is selected."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Multiple" type="checkbox" class="custom-control-input">
-        <label class="custom-control-label" asp-for="Multiple">@T["Allow multiple"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Multiple" type="checkbox" class="form-check-input">
+        <label class="form-check-label" asp-for="Multiple">@T["Allow multiple"]</label>
         <span class="hint dashed">@T["Whether to allow multiple elements to be selected."]</span>
     </div>
 </div>
 
-<div id="userRolesVue" class="form-group" data-display-all-users="@Model.DisplayAllUsers.ToString().ToLowerInvariant()">
+<div id="userRolesVue" class="mb-3" data-display-all-users="@Model.DisplayAllUsers.ToString().ToLowerInvariant()">
     <label asp-for="Roles">@T["Roles"]</label>
     <span class="hint">@T["The roles that a user must belong to. Choose at least one."]</span>
 
-    <div class="custom-control custom-checkbox">
-        <input asp-for="DisplayAllUsers" type="checkbox" class="custom-control-input" v-model="displayAllUsers">
-        <label class="custom-control-label" asp-for="DisplayAllUsers">@T["Display All Users"]</label>
+    <div class="form-check">
+        <input asp-for="DisplayAllUsers" type="checkbox" class="form-check-input" v-model="displayAllUsers">
+        <label class="form-check-label" asp-for="DisplayAllUsers">@T["Display All Users"]</label>
         <span class="hint dashed">@T["Whether to allow picker to display users from all roles."]</span>
     </div>
 
     <div v-show="!displayAllUsers">
-        <div class="form-group">
+        <div class="mb-3">
             @for (var i = 0; i < Model.Roles.Length; i++)
             {
-                <div class="custom-control custom-checkbox">
-                    <input asp-for="Roles[i].IsSelected" type="checkbox" class="custom-control-input">
+                <div class="form-check">
+                    <input asp-for="Roles[i].IsSelected" type="checkbox" class="form-check-input">
                     <input type="hidden" asp-for="Roles[i].Role" />
-                    <label class="custom-control-label cursor-pointer" asp-for="Roles[i].IsSelected">@Model.Roles[i].Role</label>
+                    <label class="form-check-label cursor-pointer" asp-for="Roles[i].IsSelected">@Model.Roles[i].Role</label>
                 </div>
             }
         </div>        
     </div>
 </div>
 
-<div class="form-group">
-    <div class="w-md-75 w-xl-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-md-75 w-xl-50 pe-md-3">
         <label asp-for="Hint">@T["Hint"]</label>
         <textarea asp-for="Hint" rows="2" class="form-control"></textarea>
     </div>

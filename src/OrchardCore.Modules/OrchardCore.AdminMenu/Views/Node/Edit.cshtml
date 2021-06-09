@@ -10,19 +10,19 @@
     <input type="hidden" asp-for="AdminNodeId" />
     <input type="hidden" asp-for="AdminNodeType" />
 
-    <div class="form-group">
+    <div class="mb-3">
         <label asp-for="Priority">@T["Selection Priority"]</label>
         <input asp-for="Priority" class="form-control col-md-2">
         <span class="hint">@T["The priority of this link to be displayed as active instead of another one when both are pointing to the same url. The link with the highest value has the active status in the navigation."]</span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <label asp-for="Position">@T["Position Order"]</label>
         <input asp-for="Position" class="form-control col-md-2">
         <span class="hint">@T["The position order of this link in the admin menu."]</span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
 
         <a class="btn btn-danger delete"

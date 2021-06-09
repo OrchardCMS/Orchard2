@@ -3,20 +3,20 @@
 
 <p class="alert alert-warning">@T["The current tenant will be reloaded when the settings are saved."]</p>
 
-<div class="form-group" asp-validation-class-for="DefaultSender">
+<div class="mb-3" asp-validation-class-for="DefaultSender">
     <label asp-for="DefaultSender">@T["Sender email address"]</label>
     <input asp-for="DefaultSender" class="form-control" type="text" />
     <span asp-validation-for="DefaultSender"></span>
     <span class="hint">@T["The default email address to use as a sender, unless the email sender is set."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="DeliveryMethod">
+<div class="mb-3" asp-validation-class-for="DeliveryMethod">
     <label asp-for="DeliveryMethod">@T["Delivery method"]</label>
-    <select asp-for="DeliveryMethod" class="form-control">
-        <option value="@SmtpDeliveryMethod.Network" selected="@(SmtpDeliveryMethod.Network == Model.DeliveryMethod)" data-target="#@Html.Id("NetworkOptions")">
+    <select asp-for="DeliveryMethod" class="form-select">
+        <option value="@SmtpDeliveryMethod.Network" selected="@(SmtpDeliveryMethod.Network == Model.DeliveryMethod)" data-bs-target="#@Html.Id("NetworkOptions")">
             @T["Network"]
         </option>
-        <option value="@SmtpDeliveryMethod.SpecifiedPickupDirectory" selected="@(SmtpDeliveryMethod.SpecifiedPickupDirectory == Model.DeliveryMethod)" data-target="#@Html.Id("SpecifiedPickupDirectoryOptions")">
+        <option value="@SmtpDeliveryMethod.SpecifiedPickupDirectory" selected="@(SmtpDeliveryMethod.SpecifiedPickupDirectory == Model.DeliveryMethod)" data-bs-target="#@Html.Id("SpecifiedPickupDirectoryOptions")">
             @T["Specified pickup directory"]
         </option>
     </select>
@@ -25,13 +25,13 @@
 </div>
 
 <div class="mb-4" id="@Html.Id("DeliveryMethodOptions")">
-    <div class="collapse" id="@Html.Id("NetworkOptions")" data-parent="#@Html.Id("DeliveryMethodOptions")">
+    <div class="collapse" id="@Html.Id("NetworkOptions")" data-bs-parent="#@Html.Id("DeliveryMethodOptions")">
 
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title">@T["Network delivery options"]</h2>
 
-                <div class="form-group" asp-validation-class-for="Host">
+                <div class="mb-3" asp-validation-class-for="Host">
                     <label asp-for="Host">@T["Host name"]</label>
                     <input asp-for="Host" class="form-control" type="text" />
                     <span asp-validation-for="Host"></span>
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="d-flex flex-wrap align-items-center justify-content-stretch">
-                            <div class="form-group flex-fill" asp-validation-class-for="Port">
+                            <div class="mb-3 flex-fill" asp-validation-class-for="Port">
                                 <label asp-for="Port">@T["Port number"]</label>
                                 <input asp-for="Port" class="form-control" type="number" step="any" min="0" max="65535" />
                                 <span asp-validation-for="Port"></span>
@@ -51,9 +51,9 @@
                     </div>
                     <div class="col-lg-9">
                         <div class="d-flex flex-wrap align-items-center justify-content-stretch">
-                            <div id="@Html.Id("SelectEncryptionMethod")" class="form-group flex-fill" asp-validation-class-for="EncryptionMethod">
+                            <div id="@Html.Id("SelectEncryptionMethod")" class="mb-3 flex-fill" asp-validation-class-for="EncryptionMethod">
                                 <label asp-for="EncryptionMethod">@T["Encryption method to use"]</label>
-                                <select asp-for="EncryptionMethod" class="form-control" disabled="@Model.AutoSelectEncryption">
+                                <select asp-for="EncryptionMethod" class="form-select" disabled="@Model.AutoSelectEncryption">
                                     <option value="@SmtpEncryptionMethod.None" selected="@(SmtpEncryptionMethod.None == Model.EncryptionMethod ? true : false)">
                                         @T["None"] - @T["Connect to server using insecure connection."]
                                     </option>
@@ -70,42 +70,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group" asp-validation-class-for="AutoSelectEncryption">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" asp-for="AutoSelectEncryption">
+                <div class="mb-3" asp-validation-class-for="AutoSelectEncryption">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="AutoSelectEncryption">
                         <span asp-validation-for="AutoSelectEncryption"></span>
-                        <label class="custom-control-label" asp-for="AutoSelectEncryption">@T["Auto Select Encryption method"]</label>
+                        <label class="form-check-label" asp-for="AutoSelectEncryption">@T["Auto Select Encryption method"]</label>
                         <span class="hint dashed">@T["Check to let the system select the encryption method based on port."]</span>
                     </div>
                 </div>
 
-                <div class="form-group clearfix" asp-validation-class-for="RequireCredentials">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" asp-for="RequireCredentials" data-toggle="collapse" data-target=".requireCredential">
+                <div class="mb-3 clearfix" asp-validation-class-for="RequireCredentials">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="RequireCredentials" data-bs-toggle="collapse" data-bs-target="#requireCredential">
                         <span asp-validation-for="RequireCredentials"></span>
-                        <label class="custom-control-label" asp-for="RequireCredentials">@T["Require credentials"] </label>
+                        <label class="form-check-label" asp-for="RequireCredentials">@T["Require credentials"] </label>
                     </div>
                 </div>
 
-                <div class="requireCredential collapse @(Model.RequireCredentials ? "show" : "")">
-                    <div class="form-group" asp-validation-class-for="UseDefaultCredentials">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" asp-for="UseDefaultCredentials" data-toggle="collapse-toggle" data-target=".useCustomCredential">
+                <div id="requireCredential" class="collapse @(Model.RequireCredentials ? "show" : "")">
+                    <div class="mb-3" asp-validation-class-for="UseDefaultCredentials">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" asp-for="UseDefaultCredentials" data-bs-toggle="collapse" data-bs-target="#useCustomCredential">
                             <span asp-validation-for="UseDefaultCredentials"></span>
-                            <label class="custom-control-label" asp-for="UseDefaultCredentials">@T["Use Windows authentication"]</label>
+                            <label class="form-check-label" asp-for="UseDefaultCredentials">@T["Use Windows authentication"]</label>
                             <span class="hint d-block">@T["When this option is selected, the application pool or host-process identity is used to authenticate with the mail server."]</span>
                         </div>
                     </div>
 
-                    <div class="useCustomCredential collapse @(Model.UseDefaultCredentials? "": "show")">
-                        <div class="form-group" asp-validation-class-for="UserName">
+                    <div id="useCustomCredential" class="collapse @(Model.UseDefaultCredentials? "": "show")">
+                        <div class="mb-3" asp-validation-class-for="UserName">
                             <label asp-for="UserName">@T["User name"]</label>
                             <input asp-for="UserName" class="form-control" type="text" />
                             <span asp-validation-for="UserName"></span>
                             <span class="hint">@T["The username for authentication."]</span>
                         </div>
 
-                        <div class="form-group" asp-validation-class-for="Password">
+                        <div class="mb-3" asp-validation-class-for="Password">
                             <label asp-for="Password">@T["Password"]</label>
                             <input asp-for="Password" class="form-control" type="password" />
                             <span asp-validation-for="Password"></span>
@@ -117,12 +117,12 @@
         </div>
     </div>
 
-    <div class="collapse" id="@Html.Id("SpecifiedPickupDirectoryOptions")" data-parent="#@Html.Id("DeliveryMethodOptions")">
+    <div class="collapse" id="@Html.Id("SpecifiedPickupDirectoryOptions")" data-bs-parent="#@Html.Id("DeliveryMethodOptions")">
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title">@T["Specified pickup directory delivery options"]</h2>
 
-                <div class="form-group" asp-validation-class-for="PickupDirectoryLocation">
+                <div class="mb-3" asp-validation-class-for="PickupDirectoryLocation">
                     <label asp-for="PickupDirectoryLocation">@T["Pickup directory location"]</label>
                     <input asp-for="PickupDirectoryLocation" class="form-control" type="text" />
                     <span asp-validation-for="PickupDirectoryLocation"></span>
@@ -138,7 +138,7 @@
         function showSelectedCollapse() {
             var val = $(this).val();
             var option = $("option", this).filter(function (i, el) { return $(el).val() == val; });
-            var target = option.data("target");
+            var target = option.data("bs-target");
             if (target) {
                 $(target).collapse("show");
             }

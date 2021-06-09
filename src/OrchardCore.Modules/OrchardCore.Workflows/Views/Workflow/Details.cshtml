@@ -15,17 +15,17 @@
     </ol>
 </nav>
 </zone>
-<nav class="form-group">
+<nav class="mb-3">
     <ul class="nav nav-pills" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="workflow-tab" data-toggle="pill" href="#workflow" role="tab" aria-controls="workflow" aria-selected="true">Workflow</a>
+            <a class="nav-link active" id="workflow-tab" data-bs-toggle="pill" href="#workflow" role="tab" aria-controls="workflow" aria-selected="true">Workflow</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="state-tab" data-toggle="pill" href="#state" role="tab" aria-controls="state">@T["State"]</a>
+            <a class="nav-link" id="state-tab" data-bs-toggle="pill" href="#state" role="tab" aria-controls="state">@T["State"]</a>
         </li>
         @*TODO: Enable this when workflow logging is implemented.*@
         @*<li class="nav-item">
-                <a class="nav-link" id="log-tab" data-toggle="pill" href="#log" role="tab" aria-controls="log">Log</a>
+                <a class="nav-link" id="log-tab" data-bs-toggle="pill" href="#log" role="tab" aria-controls="log">Log</a>
             </li>*@
     </ul>
 </nav>
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
             <div class="workflow-container">
                 <div class="workflow-canvas-container">
                     <div class="workflow-canvas" data-workflow-type="@Model.WorkflowTypeJson">
@@ -74,7 +74,7 @@
         </div>
     </div>
     <div id="state" class="tab-pane" role="tabpanel" aria-labelledby="state-tab">
-        <div class="card form-group">
+        <div class="card">
             <div class="card-body">
                 <pre>@Model.WorkflowJson</pre>
             </div>
@@ -82,14 +82,14 @@
     </div>
     @*TODO: Enable this when workflow logging is implemented.*@
     @*<div id="log" class="tab-pane" role="tabpanel" aria-labelledby="log-tab">
-            <div class="card form-group">
+            <div class="card">
                 <div class="card-body">
                     Pretty LOG goes here...
                 </div>
             </div>
         </div>*@
 </div>
-<div class="form-group">
+<div class="mb-3">
     <a class="btn btn-secondary" asp-route-action="Index" asp-route-workflowTypeId="@Model.WorkflowType.Id">@T["Back"]</a>
     <a class="btn btn-danger" data-message="@T["Are you sure you want to delete this workflow instance?"]" data-url-af="RemoveUrl UnsafeUrl" asp-action="Delete" asp-route-id="@Model.Workflow.Id">@T["Delete"]</a>
 </div>

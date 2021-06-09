@@ -2,20 +2,20 @@
 
 <p class="alert alert-warning">@T["The current tenant will be reloaded when the settings are saved."]</p>
 
-<div class="form-group" asp-validation-class-for="SiteKey">
+<div class="mb-3" asp-validation-class-for="SiteKey">
     <label asp-for="SiteKey">@T["Site Key"]</label>
     <input asp-for="SiteKey" class="form-control" type="text" />
     <span asp-validation-for="SiteKey"></span>
     <span class="hint">@T["Your Google's reCaptcha Site Key."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="SecretKey">
+<div class="mb-3" asp-validation-class-for="SecretKey">
     <label asp-for="SecretKey">@T["Secret Key"]</label>
     <input asp-for="SecretKey" class="form-control" type="text" autocomplete="off" />
     <span asp-validation-for="SecretKey"></span>
     <span class="hint">@T["Your Google's reCaptcha Secret Key."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <span class="hint">@T["Get your reCaptcha at"] <a href="https://developers.google.com/recaptcha/" target="_blank">https://developers.google.com/recaptcha/</a></span>
 </div>

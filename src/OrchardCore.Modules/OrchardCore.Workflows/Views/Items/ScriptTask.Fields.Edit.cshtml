@@ -1,14 +1,14 @@
 @using OrchardCore.Workflows.ViewModels;
 @model ScriptTaskViewModel
 
-<div class="form-group" asp-validation-class-for="AvailableOutcomes">
+<div class="mb-3" asp-validation-class-for="AvailableOutcomes">
     <label asp-for="AvailableOutcomes">@T["Available Outcomes"]</label>
     <input asp-for="AvailableOutcomes" class="form-control" />
     <span asp-validation-for="AvailableOutcomes"></span>
     <span class="hint">@T["A comma-separated list of available outcomes."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Script">
+<div class="mb-3" asp-validation-class-for="Script">
     <label asp-for="Script">@T["Script"]</label>
     <textarea asp-for="Script" class="form-control" placeholder="e.g. js: setOutcome('Done');"></textarea>
     <span asp-validation-for="Script"></span>

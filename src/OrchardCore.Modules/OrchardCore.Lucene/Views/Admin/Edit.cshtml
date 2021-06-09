@@ -10,26 +10,26 @@ else
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Edit" method="post">
     <input asp-for="IsCreate" type="hidden" />
-    <div class="form-group" asp-validation-class-for="IndexName">
+    <div class="mb-3" asp-validation-class-for="IndexName">
         <label asp-for="IndexName">@T["Index Name"]</label>
         <input asp-for="IndexName" class="form-control" readonly="@(!Model.IsCreate)" />
         <span asp-validation-for="IndexName" class="text-danger"></span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="AnalyzerName">
+    <div class="mb-3" asp-validation-class-for="AnalyzerName">
         <label asp-for="AnalyzerName">@T["Analyzer Name"]</label>
-        <select asp-for="AnalyzerName" asp-items="Model.Analyzers" class="form-control"></select>
+        <select asp-for="AnalyzerName" asp-items="Model.Analyzers" class="form-select"></select>
         <span asp-validation-for="AnalyzerName" class="text-danger"></span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Culture">
+    <div class="mb-3" asp-validation-class-for="Culture">
         <label asp-for="Culture">@T["Culture"]</label>
-        <select asp-for="Culture" asp-items="Model.Cultures" class="form-control"></select>
+        <select asp-for="Culture" asp-items="Model.Cultures" class="form-select"></select>
         <span class="hint">@T["The content culture that it will index."]</span>
         <span asp-validation-for="Culture" class="text-danger"></span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="IndexedContentTypes">
+    <div class="mb-3" asp-validation-class-for="IndexedContentTypes">
         <label asp-for="IndexedContentTypes">@T["Content Types"]</label>
         <span class="hint dashed">@T["The content types to index. Choose at least one."]</span>
         @if (Model.IsCreate)
@@ -43,17 +43,17 @@ else
         <span asp-validation-for="IndexedContentTypes" class="text-danger"></span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="IndexLatest">
+    <div class="mb-3" asp-validation-class-for="IndexLatest">
         <label asp-for="IndexLatest">@T["Index options"]</label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" asp-for="IndexLatest" class="custom-control-input">
-            <label class="custom-control-label" asp-for="IndexLatest">@T["Index latest version"]</label>
+        <div class="form-check">
+            <input type="checkbox" asp-for="IndexLatest" class="form-check-input">
+            <label class="form-check-label" asp-for="IndexLatest">@T["Index latest version"]</label>
             <span class="hint dashed">@T["Check to index draft if it exists, otherwise only the published version is indexed."]</span>
         </div>
         <span asp-validation-for="IndexLatest" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         @if (Model.IsCreate)
         {
             <button class="btn btn-primary create" type="submit">@T["Create"]</button>

@@ -26,12 +26,12 @@
                 <h4>@T["Log in"]</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
+                <div class="mb-3">
                     <label asp-for="UserName">@T["Username or email address"]</label>
                     <input asp-for="UserName" class="form-control" autofocus tabindex="1" />
                     <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                     <label asp-for="Password">
                         @T["Password"]
                         @if (allowResetPassword)
@@ -41,15 +41,13 @@
                     </label>
                     <div class="input-group">
                         <input asp-for="Password" class="form-control" tabindex="2" />
-                        <div class="input-group-append">
-                            <button tabindex="-1" class="btn btn-secondary" type="button" id="togglePassword"><i class="icon fa fa-eye"></i></button>
-                        </div>
+                        <button tabindex="-1" class="btn btn-secondary" type="button" id="togglePassword"><i class="icon fa fa-eye"></i></button>
                     </div>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="form-group custom-control custom-checkbox">
-                    <input asp-for="RememberMe" class="custom-control-input" tabindex="3">
-                    <label asp-for="RememberMe" class="custom-control-label">@T["Remember me"]</label>
+                <div class="mb-3 form-check">
+                    <input asp-for="RememberMe" class="form-check-input" tabindex="3">
+                    <label asp-for="RememberMe" class="form-check-label">@T["Remember me"]</label>
                 </div>
                 @await RenderSectionAsync("AfterLogin", required: false)
                 <div></div>

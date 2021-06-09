@@ -2,21 +2,21 @@
 
 @await DisplayAsync(await New.ShortcodeModal())
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Render" checked="@Model.Render" />
-        <label class="custom-control-label" asp-for="Render">@T["Render"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Render" checked="@Model.Render" />
+        <label class="form-check-label" asp-for="Render">@T["Render"]</label>
         <span class="hint">— @T["Whether to render metadata for this page."]</span>   
     </div> 
 </div>
 
-<div class="form-group" asp-validation-class-for="PageTitle">
+<div class="mb-3" asp-validation-class-for="PageTitle">
     <label asp-for="PageTitle">@T["Page Title"] </label>
     <input asp-for="PageTitle" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["Override the default generated web browser page title (recommended to keep under 70 characters)."]</span>
 </div>  
 
-<div class="form-group" asp-validation-class-for="MetaDescription">
+<div class="mb-3" asp-validation-class-for="MetaDescription">
     <label asp-for="MetaDescription">@T["Meta Description"] </label>
     <textarea asp-for="MetaDescription" class="form-control content-preview-text shortcode-modal-input"></textarea>
     <span class="hint">@T["The meta description to render for this page."]</span>
@@ -24,20 +24,20 @@
 
 @if (Model.Settings.DisplayKeywords)
 { 
-<div class="form-group" asp-validation-class-for="MetaKeywords">
+<div class="mb-3" asp-validation-class-for="MetaKeywords">
     <label asp-for="MetaKeywords">@T["Meta Keywords"] </label>
     <input asp-for="MetaKeywords" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["The meta keywords to render for this page, comma separated."]</span>
 </div>
 }
 
-<div class="form-group" asp-validation-class-for="Canonical">
+<div class="mb-3" asp-validation-class-for="Canonical">
     <label asp-for="Canonical">@T["Canonical"] </label>
     <input asp-for="Canonical" class="form-control content-preview-text" />
     <span class="hint">@T["Override the default canonical url."]</span>
 </div>  
 
-<div class="form-group" asp-validation-class-for="MetaRobots">
+<div class="mb-3" asp-validation-class-for="MetaRobots">
     <label asp-for="MetaRobots">@T["Meta Robots"] </label>
     <input asp-for="MetaRobots" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["The robots meta to render for this page."]</span>
@@ -100,17 +100,15 @@
 </script>
 
 <script type="text/x-template" id="meta-tags-modal">
-    <div class="modal fade @Html.IdFor(m => m)-ModalBody text-left" role="dialog" aria-hidden="true">
+    <div class="modal fade @Html.IdFor(m => m)-ModalBody text-start" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@T["Edit Data"]</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="meta-tags-textarea">@T["Custom Meta Tags"]</label>
                         <textarea id="meta-tags-textarea" name="meta-tags-textarea" rows="8" class="form-control" v-bind:value="JSON.stringify(data.metaTags)" v-on:input="data.metaTags = JSON.parse($event.target.value)"></textarea>
                         <span class="hint">@T["A JSON representation of the allowed values, e.g. {0}", "[ { content: 'First content', name: 'name1', property: 'prop1', httpEquiv: 'http-equiv1', charset: 'charset1' }, { content: 'Second content', name: 'name2', property: 'prop2', httpEquiv: 'http-equiv2', charset: 'charset2' } ]"]</span>
@@ -118,16 +116,16 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-submit" v-on:click="closeModal()">@T["OK"]</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
                 </div>
             </div>
         </div>
     </div>
 </script>
 
-<div id="@Html.IdFor(m => m)" class="form-group">
+<div id="@Html.IdFor(m => m)" class="mb-3">
     <label asp-for="CustomMetaTags">@T["Custom Meta Tags"]</label>
-    <a href="javascript:void(0)" v-on:click="showModal" class="float-right" title="@T["Edit Data"]"><i class="fas fa-edit"></i></a>
+    <a href="javascript:void(0)" v-on:click="showModal" class="float-end" title="@T["Edit Data"]"><i class="fas fa-edit"></i></a>
     <meta-tags-table :data="sharedState"></meta-tags-table>
     <meta-tags-modal :data="sharedState" v-on:reload-data="reloadData()"></meta-tags-modal>
 </div>

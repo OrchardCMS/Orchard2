@@ -1,16 +1,16 @@
 @using OrchardCore.Workflows.Http.ViewModels;
 @model HttpRequestTaskViewModel
 
-<div class="form-group" asp-validation-class-for="Url">
+<div class="mb-3" asp-validation-class-for="Url">
     <label asp-for="Url">@T["URL"]</label>
     <input type="text" asp-for="Url" class="form-control code" />
     <span asp-validation-for="Url"></span>
     <span class="hint">@T["The URL to send the request to. Supports Liquid syntax."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="HttpMethod">
+<div class="mb-3" asp-validation-class-for="HttpMethod">
     <label asp-for="HttpMethod">@T["HTTP Method"]</label>
-    <select asp-for="HttpMethod" class="form-control">
+    <select asp-for="HttpMethod" class="form-select">
         <option value="GET">GET</option>
         <option value="POST">POST</option>
         <option value="PUT">PUT</option>
@@ -21,9 +21,9 @@
     <span class="hint">@T["The HTTP Method. For example: GET, POST, PUT, PATCH, OPTIONS, HEAD, DELETE"]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ContentType">
+<div class="mb-3" asp-validation-class-for="ContentType">
     <label asp-for="ContentType">@T["Content Type"]</label>
-    <select asp-for="ContentType" class="form-control">
+    <select asp-for="ContentType" class="form-select">
         <option>text/plain</option>
         <option>application/x-www-form-urlencoded</option>
         <option>application/json</option>
@@ -34,21 +34,21 @@
 </div>
 
 @*TODO: Only display Body field when appropriate for the selected HTTP method.*@
-<div class="form-group" asp-validation-class-for="Body">
+<div class="mb-3" asp-validation-class-for="Body">
     <label asp-for="Body">@T["Body"]</label>
     <textarea asp-for="Body"></textarea>
     <span asp-validation-for="Body"></span>
     <span class="hint">@T["The body to send with POST, PUT and PATCH requests. With Liquid support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Headers">
+<div class="mb-3" asp-validation-class-for="Headers">
     <label asp-for="Headers">@T["Headers"]</label>
     <textarea asp-for="Headers"></textarea>
     <span asp-validation-for="Headers"></span>
     <span class="hint">@T["Provide additional HTTP headers, one per line. For example: Authorization: Bearer 123ABC. With Liquid support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="HttpResponseCodes">
+<div class="mb-3" asp-validation-class-for="HttpResponseCodes">
     <label asp-for="HttpResponseCodes">@T["HTTP Response Codes"]</label>
     <input type="text" class="form-control" asp-for="HttpResponseCodes" />
     <span asp-validation-for="HttpResponseCodes"></span>

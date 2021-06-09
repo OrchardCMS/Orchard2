@@ -16,7 +16,7 @@
     }
 }
 
-<div class="form-group">
+<div class="mb-3">
 
     @if (listSettings.Editor == EditorOption.Radio)
     {
@@ -24,9 +24,9 @@
         <label asp-for="Text">@Model.PartFieldDefinition.DisplayName()</label>
         @foreach (var option in options)
         {
-            <div class="custom-control custom-radio" asp-for="Text">
-                @Html.RadioButton("Text", option.Value, option.Selected, new { @class = "custom-control-input content-preview-text", id = Html.IdFor(m => m.Text) + "_" + i })
-                <label class="custom-control-label" for="@(Html.IdFor(m => m.Text) + "_" + i)">@option.Text</label>
+            <div class="form-check" asp-for="Text">
+                @Html.RadioButton("Text", option.Value, option.Selected, new { @class = "form-check-input content-preview-text", id = Html.IdFor(m => m.Text) + "_" + i })
+                <label class="form-check-label" for="@(Html.IdFor(m => m.Text) + "_" + i)">@option.Text</label>
             </div>
             i++;
         }

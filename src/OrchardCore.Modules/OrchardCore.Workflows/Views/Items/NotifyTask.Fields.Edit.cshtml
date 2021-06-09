@@ -2,14 +2,14 @@
 @using OrchardCore.Workflows.ViewModels;
 @model NotifyTaskViewModel
 
-<div class="form-group" asp-validation-class-for="NotificationType">
+<div class="mb-3" asp-validation-class-for="NotificationType">
     <label asp-for="NotificationType">@T["Notification Type"]</label>
-    <select asp-for="NotificationType" class="form-control" asp-items="Html.GetEnumSelectList<NotifyType>()"></select>
+    <select asp-for="NotificationType" class="form-select" asp-items="Html.GetEnumSelectList<NotifyType>()"></select>
     <span asp-validation-for="NotificationType"></span>
     <span class="hint">@T["The notification type."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Message">
+<div class="mb-3" asp-validation-class-for="Message">
     <label asp-for="Message">@T["Message"]</label>
     <input type="text" asp-for="Message" class="form-control code" />
     <span asp-validation-for="Message"></span>

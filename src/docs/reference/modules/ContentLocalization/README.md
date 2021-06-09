@@ -77,7 +77,7 @@ You should override this shape in your theme.
     ``` liquid
     <ul>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="oc-culture-picker" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{Model.CurrentCulture.DisplayName}}</a>
+            <a class="nav-link dropdown-toggle" href="#" id="oc-culture-picker" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{Model.CurrentCulture.DisplayName}}</a>
             <div class="dropdown-menu" aria-labelledby="oc-culture-picker">
             {% for culture in Model.SupportedCultures %}
                 {% if culture.Name != Model.CurrentCulture.Name  %}
@@ -94,7 +94,7 @@ You should override this shape in your theme.
     ``` html
     <ul>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="oc-culture-picker" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Model.CurrentCulture.DisplayName</a>
+            <a class="nav-link dropdown-toggle" href="#" id="oc-culture-picker" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Model.CurrentCulture.DisplayName</a>
             <div class="dropdown-menu" aria-labelledby="oc-culture-picker">
                 @foreach (var culture in Model.SupportedCultures)
                 {

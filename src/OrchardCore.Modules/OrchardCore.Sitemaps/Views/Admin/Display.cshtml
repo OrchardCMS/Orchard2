@@ -8,23 +8,21 @@
 }
 <div class="card mb-3">
     <div class="card-body bg-primary p-3">
-        <div class="input-group input-group-sm w-lg-50 d-inline-flex">
-            @if (Model.Sitemap.Enabled)
-            {
-                <a asp-action="Index" asp-controller="Sitemap" asp-area="OrchardCore.Sitemaps" asp-route-sitemapId="@Model.Sitemap.SitemapId" target="_blank" class="btn btn-success btn-sm">@T["View"]</a>
-            }
-        </div>
-        <div class="btn-group float-right">
+        <div class="float-end">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalSources">
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalSources">
                 @T["Add Source"]
             </button>
         </div>
+        @if (Model.Sitemap.Enabled)
+        {
+            <a asp-action="Index" asp-controller="Sitemap" asp-area="OrchardCore.Sitemaps" asp-route-sitemapId="@Model.Sitemap.SitemapId" target="_blank" class="btn btn-success btn-sm">@T["View"]</a>
+        }
     </div>
 </div>
 @* do we need antiforgery here ?*@
 <form>
-    <div class="form-group">
+    <div class="mb-3">
         @if (Model.Items.Any())
         {
             <ul class="list-group">
@@ -45,7 +43,7 @@
             </div>
         }
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         <a class="btn btn-secondary" asp-route-controller="admin" asp-route-action="List">@T["Back"]</a>
     </div>
 </form>
@@ -56,9 +54,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="available-sources-title">@T["Available Sources"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="card-columns">
@@ -69,7 +65,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
             </div>
         </div>
     </div>

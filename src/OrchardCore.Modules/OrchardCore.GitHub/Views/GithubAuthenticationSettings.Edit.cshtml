@@ -13,7 +13,7 @@
 
 <h3>@T["GitHub Authentication Settings"]</h3>
 
-<div class="form-group row" asp-validation-class-for="ClientID">
+<div class="mb-3 row" asp-validation-class-for="ClientID">
     <div class="col-large">
         <label asp-for="ClientID">@T["Client ID"]</label>
         <input asp-for="ClientID" class="form-control" />
@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<div class="form-group row" asp-validation-class-for="ClientSecret">
+<div class="mb-3 row" asp-validation-class-for="ClientSecret">
     <div class="col-large">
         <label asp-for="ClientSecret">@T["Client secret"]</label>
         <input asp-for="ClientSecret" class="form-control" type="password" value="@Model.ClientSecret" />
@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<div class="form-group row" asp-validation-class-for="CallbackUrl">
+<div class="mb-3 row" asp-validation-class-for="CallbackUrl">
     <div class="col-large">
         <label asp-for="CallbackUrl">@T["CallbackPath"]</label>
         <input asp-for="CallbackUrl" class="form-control" placeholder="/signin-github" />
@@ -40,10 +40,10 @@
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="SaveTokens">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="SaveTokens">
-        <label class="custom-control-label" asp-for="SaveTokens">@T["Store tokens"]</label>
+<div class="mb-3" asp-validation-class-for="SaveTokens">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="SaveTokens">
+        <label class="form-check-label" asp-for="SaveTokens">@T["Store tokens"]</label>
         <span class="hint dashed">@T["Store external authentication tokens for reuse"]</span>
     </div>
 </div>

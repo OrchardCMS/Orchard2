@@ -1,33 +1,33 @@
 @model OrchardCore.Admin.ViewModels.AdminSettingsViewModel
 
-<fieldset class="form-group" asp-validation-class-for="DisplayDarkMode">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="DisplayDarkMode" class="custom-control-input" type="checkbox" />
-        <label asp-for="DisplayDarkMode" class="custom-control-label">@T["Enable dark mode admin theme"]</label>
+<fieldset class="mb-3" asp-validation-class-for="DisplayDarkMode">
+    <div class="form-check">
+        <input asp-for="DisplayDarkMode" class="form-check-input" type="checkbox" />
+        <label asp-for="DisplayDarkMode" class="form-check-label">@T["Enable dark mode admin theme"]</label>
     </div>
     <span class="hint">@T["Whether a dark mode admin theme can be displayed."]</span>
 </fieldset>
 
-<fieldset class="form-group" asp-validation-class-for="DisplayMenuFilter">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="DisplayMenuFilter" class="custom-control-input" type="checkbox" />
-        <label asp-for="DisplayMenuFilter" class="custom-control-label">@T["Enable Admin Menu filter"]</label>
+<fieldset class="mb-3" asp-validation-class-for="DisplayMenuFilter">
+    <div class="form-check">
+        <input asp-for="DisplayMenuFilter" class="form-check-input" type="checkbox" />
+        <label asp-for="DisplayMenuFilter" class="form-check-label">@T["Enable Admin Menu filter"]</label>
     </div>
     <span class="hint">@T["Whether a quick search to filter the admin menu is displayed."]</span>
 </fieldset>
 
-<fieldset class="form-group" asp-validation-class-for="DisplayNewMenu">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="DisplayNewMenu" class="custom-control-input" type="checkbox" />
-        <label asp-for="DisplayNewMenu" class="custom-control-label">@T["Display New menu"]</label>
+<fieldset class="mb-3" asp-validation-class-for="DisplayNewMenu">
+    <div class="form-check">
+        <input asp-for="DisplayNewMenu" class="form-check-input" type="checkbox" />
+        <label asp-for="DisplayNewMenu" class="form-check-label">@T["Display New menu"]</label>
     </div>
     <span class="hint">@T["Whether a New menu is displayed in the admin menu."]</span>
 </fieldset>
 
-<fieldset class="form-group" asp-validation-class-for="DisplayTitlesInTopbar">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="DisplayTitlesInTopbar" class="custom-control-input" type="checkbox" />
-        <label asp-for="DisplayTitlesInTopbar" class="custom-control-label">@T["Display titles in top bar"]</label>
+<fieldset class="mb-3" asp-validation-class-for="DisplayTitlesInTopbar">
+    <div class="form-check">
+        <input asp-for="DisplayTitlesInTopbar" class="form-check-input" type="checkbox" />
+        <label asp-for="DisplayTitlesInTopbar" class="form-check-label">@T["Display titles in top bar"]</label>
     </div>
     <span class="hint">@T["Whether the titles are displayed in the top bar."]</span>
 </fieldset>

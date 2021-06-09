@@ -29,7 +29,7 @@
                    class="btn btn-success btn-sm">
                     @T["Edit"]
                 </a>
-                <button type="button" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#modalMenuItems" data-menuitemid="@Model.ContentItem.ContentItemId">
+                <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#modalMenuItems" data-menuitemid="@Model.ContentItem.ContentItemId">
                     @T["Add"]
                 </button>
                 <a asp-action="Delete"
@@ -69,7 +69,7 @@
             }
         }
     </ol>
-    @*<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalMenuItems" data-menuitemid="@Model.ContentItem.ContentItemId">
+    @*<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalMenuItems" data-menuitemid="@Model.ContentItem.ContentItemId">
             @T["+"]
         </button>*@
 </li>

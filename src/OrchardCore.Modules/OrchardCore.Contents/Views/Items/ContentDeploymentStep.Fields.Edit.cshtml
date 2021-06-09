@@ -8,16 +8,16 @@
 <h5>@T["Content Types"]</h5>
 <span class="hint">@T["The content types to add as part of the plan."]</span>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="ExportAsSetupRecipe" />
-        <label class="custom-control-label" asp-for="ExportAsSetupRecipe">@T["Export As Setup recipe"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="ExportAsSetupRecipe" />
+        <label class="form-check-label" asp-for="ExportAsSetupRecipe">@T["Export As Setup recipe"]</label>
         <span class="hint">@T["Check if the data should be exported as a Setup recipe."]</span>
     </div>
     <div class="alert alert-warning">@T["If checked, you will have to manually declare variables for the Content Picker fields, Taxonomy fields, Tags fields and List item ids and replace them where needed in the recipe. Any reference to these content items will be lost."]</div>
 </div>
 
-<div class="form-group w-md-50">
+<div class="mb-3 w-md-50">
     <ul class="list-group">
         @foreach (var contentTypeDefinition in ContentDefinitionManager.ListTypeDefinitions().OrderBy(i => i.Name))
         {
@@ -25,9 +25,9 @@
             var checkd = contentTypes?.Contains(name);
 
             <li class="list-group-item">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="@(Html.IdFor(m => m.ContentTypes) + "_" + contentTypeDefinition.Name)" name="@Html.NameFor(m => m.ContentTypes)" value="@name" checked="@checkd">
-                    <label class="custom-control-label" for="@(Html.IdFor(m => m.ContentTypes) + "_" + contentTypeDefinition.Name)">@contentTypeDefinition.DisplayName</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="@(Html.IdFor(m => m.ContentTypes) + "_" + contentTypeDefinition.Name)" name="@Html.NameFor(m => m.ContentTypes)" value="@name" checked="@checkd">
+                    <label class="form-check-label" for="@(Html.IdFor(m => m.ContentTypes) + "_" + contentTypeDefinition.Name)">@contentTypeDefinition.DisplayName</label>
                 </div>
             </li>
         }

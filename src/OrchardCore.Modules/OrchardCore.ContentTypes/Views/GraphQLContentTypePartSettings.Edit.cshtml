@@ -11,10 +11,10 @@
     var hidden = hiddenByDefault ? true : settings.Hidden;
 }
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Settings.Collapse" checked="@collapsed" asp-is-disabled="@collapsedByDefault" />
-        <label class="custom-control-label" asp-for="Settings.Collapse">@T["Collapse"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Settings.Collapse" checked="@collapsed" asp-is-disabled="@collapsedByDefault" />
+        <label class="form-check-label" asp-for="Settings.Collapse">@T["Collapse"]</label>
         @if (collapsedByDefault)
         {
             <span class="hint">@T["NB. Setting is collapsed by default, and cannot be overwritten."]</span>
@@ -24,9 +24,9 @@
             <span class="hint">@T["Check to collapse fields in the GraphQL schema."]</span>
         }
     </div>
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Settings.Hidden" checked="@hidden" asp-is-disabled="@hiddenByDefault" />
-        <label class="custom-control-label" asp-for="Settings.Hidden">@T["Hide"]</label>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Settings.Hidden" checked="@hidden" asp-is-disabled="@hiddenByDefault" />
+        <label class="form-check-label" asp-for="Settings.Hidden">@T["Hide"]</label>
         @if (hiddenByDefault)
         {
             <span class="hint">@T["NB. Setting is collapsed by default, and cannot be overwritten."]</span>

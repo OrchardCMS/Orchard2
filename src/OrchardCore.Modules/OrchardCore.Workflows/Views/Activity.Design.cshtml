@@ -18,13 +18,13 @@
     @if (isEvent)
     {
         <div class="clearfix">
-            <div class="float-right">
+            <div class="float-end">
                 <i class="fa @activityTypeClass"></i>
             </div>
         </div>
     }
     <div class="activity-commands">
-        <a class="btn btn-outline-secondary activity-start-action" href="#" data-toggle="button" title="@T["Startup task"]"><i class="fa fa-power-off"></i></a>
+        <a class="btn btn-outline-secondary activity-start-action" href="#" data-bs-toggle="button" title="@T["Startup task"]"><i class="fa fa-power-off"></i></a>
         @if (hasEditor)
         {
             <a class="btn btn-primary activity-edit-action" asp-action="Edit" asp-controller="Activity" asp-route-workflowtypeid="@Model.WorkflowTypeId" asp-route-activityid="@activityRecord.ActivityId" asp-route-returnurl="@Model.ReturnUrl" data-persist-workflow="true" title="@T["Edit"]"><i class="fa fa-pencil"></i></a>

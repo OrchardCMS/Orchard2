@@ -8,16 +8,16 @@
 <script asp-name="codemirror-mode-sql" at="Foot"></script>
 <script asp-name="codemirror-addon-hint-sql-hint" at="Foot"></script>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="ReturnDocuments" checked="@Model.ReturnDocuments" />
-        <label class="custom-control-label" asp-for="ReturnDocuments">@T["Return Documents"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="ReturnDocuments" checked="@Model.ReturnDocuments" />
+        <label class="form-check-label" asp-for="ReturnDocuments">@T["Return Documents"]</label>
         <span class="hint dashed">@T["Check to return the corresponding documents."]</span>
     </div>
     <span class="hint">@T["When checked, the result has to be a list of document ids."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Query">@T["Query"]</label>
     <textarea asp-for="Query" rows="12" class="form-control"></textarea>
     <span class="hint">@T["The SQL query to execute."]</span>

@@ -1,47 +1,47 @@
 @using OrchardCore.Tenants.Workflows.ViewModels
 @model SetupTenantTaskViewModel
 
-<div class="form-group" asp-validation-class-for="TenantNameExpression">
+<div class="mb-3" asp-validation-class-for="TenantNameExpression">
     <label asp-for="TenantNameExpression">@T["Tenant name"] <span asp-validation-for="TenantNameExpression"></span></label>
     <input type="text" asp-for="TenantNameExpression" class="form-control code" autofocus />
     <span class="hint">@T["Select the name of tenant to setup."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="SiteNameExpression">
+<div class="mb-3" asp-validation-class-for="SiteNameExpression">
     <label asp-for="SiteNameExpression">@T["Site name"] <span asp-validation-for="SiteNameExpression"></span></label>
     <input type="text" asp-for="SiteNameExpression" class="form-control code" />
 </div>
 
-<div class="form-group" asp-validation-class-for="AdminUsernameExpression">
+<div class="mb-3" asp-validation-class-for="AdminUsernameExpression">
     <label asp-for="AdminUsernameExpression">@T["Admin user name"] <span asp-validation-for="AdminUsernameExpression"></span></label>
     <input type="text" asp-for="AdminUsernameExpression" class="form-control code" />
 </div>
 
-<div class="form-group" asp-validation-class-for="AdminEmailExpression">
+<div class="mb-3" asp-validation-class-for="AdminEmailExpression">
     <label asp-for="AdminEmailExpression">@T["Admin email"] <span asp-validation-for="AdminEmailExpression"></span></label>
     <input type="text" asp-for="AdminEmailExpression" class="form-control code" />
 </div>
-<div class="form-group" asp-validation-class-for="AdminPasswordExpression">
+<div class="mb-3" asp-validation-class-for="AdminPasswordExpression">
     <label asp-for="AdminPasswordExpression">@T["Admin password"] <span asp-validation-for="AdminPasswordExpression"></span></label>
     <input type="text" asp-for="AdminPasswordExpression" class="form-control code" />
 </div>
 
-<div class="form-group" asp-validation-class-for="DatabaseProviderExpression">
+<div class="mb-3" asp-validation-class-for="DatabaseProviderExpression">
     <label asp-for="DatabaseProviderExpression">@T["What type of database to use?"] <span asp-validation-for="DatabaseProviderExpression"></span></label>
     <input type="text" asp-for="DatabaseProviderExpression" class="form-control code" />
 </div>
 
-<div class="form-group" asp-validation-class-for="DatabaseTablePrefixExpression">
+<div class="mb-3" asp-validation-class-for="DatabaseTablePrefixExpression">
     <label asp-for="DatabaseTablePrefixExpression">@T["Table Prefix"] <span asp-validation-for="DatabaseTablePrefixExpression"></span></label>
     <input type="text" asp-for="DatabaseTablePrefixExpression" class="form-control code" />
 </div>
 
-<div class="form-group" asp-validation-class-for="DatabaseConnectionStringExpression">
+<div class="mb-3" asp-validation-class-for="DatabaseConnectionStringExpression">
     <label asp-for="DatabaseConnectionStringExpression">@T["Connection string"] <span asp-validation-for="DatabaseConnectionStringExpression"></span></label>
     <input type="text" asp-for="DatabaseConnectionStringExpression" class="form-control code" />
 </div>
 
-<div class="form-group" asp-validation-class-for="RecipeNameExpression">
+<div class="mb-3" asp-validation-class-for="RecipeNameExpression">
     <label asp-for="RecipeNameExpression">@T["Recipe"] <span asp-validation-for="RecipeNameExpression"></span></label>
     <input type="text" asp-for="RecipeNameExpression" class="form-control code" />
 </div>

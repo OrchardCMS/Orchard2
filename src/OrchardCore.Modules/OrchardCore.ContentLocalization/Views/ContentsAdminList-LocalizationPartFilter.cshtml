@@ -1,8 +1,8 @@
 @model LocalizationContentsAdminFilterViewModel
 
-<div class="form-group mb-n1 filter">
+<div class="mb-0 filter">
     <div class="btn-group mt-1">
-        <select asp-for="SelectedCulture" asp-items="Model.Cultures" class="selectpicker culture-selectpicker show-tick mr-2" data-header="@T["Filter by culture"]" data-live-search="true" data-selected-text-format="static" data-width="fit" title="@T["Culture"]" data-style="btn-sm">
+        <select asp-for="SelectedCulture" asp-items="Model.Cultures" class="selectpicker culture-selectpicker show-tick me-2" data-header="@T["Filter by culture"]" data-live-search="true" data-selected-text-format="static" data-width="fit" title="@T["Culture"]" data-style="btn-sm">
         </select>
     </div>
 </div>

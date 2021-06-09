@@ -16,7 +16,7 @@
 <zone Name="Title"><h1>@RenderTitleSegments(T["View As JSON {0}", Html.Raw(typeDisplayName)])</h1></zone>
 
 <form asp-action="Download" asp-route-contentItemId="@contentItem.ContentItemId" method="post" enctype="multipart/form-data">
-    <div class="form-group">
+    <div class="mb-3">
         <div class="d-flex flex-row-reverse">
             <div class="btn">
                 <i class="far fa-copy" id="json-copy-to-clipboard"></i>

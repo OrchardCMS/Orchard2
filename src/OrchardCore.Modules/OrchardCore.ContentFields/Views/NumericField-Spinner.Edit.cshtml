@@ -14,27 +14,21 @@
     string serverDecimalSeparator = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
 }
 
-<div class="form-group">
+<div class="mb-3">
     <div class="row">
         <div class="col-md-6 col-lg-4">
             <label asp-for="Value">@name</label>
             <div class="input-group mb-2">
                 @if (settings.Minimum.HasValue)
                 {
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">@min</div>
-                    </div>
+                    <span class="input-group-text">@min</span>
                 }
                 <input asp-for="Value" typeof="text" class="form-control content-preview-select" placeholder="@settings.Placeholder" required="@settings.Required" />
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" onclick="numericFieldSpinner('@(id)', @(scale), -@(step), @(min), @(max))"><i class="fa fa-minus" aria-hidden="true"></i></button>
-                    <button class="btn btn-outline-secondary" type="button" onclick="numericFieldSpinner('@(id)', @(scale), +@(step), @(min), @(max))"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                </div>
+                <button class="btn btn-outline-secondary" type="button" onclick="numericFieldSpinner('@(id)', @(scale), -@(step), @(min), @(max))"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                <button class="btn btn-outline-secondary" type="button" onclick="numericFieldSpinner('@(id)', @(scale), +@(step), @(min), @(max))"><i class="fa fa-plus" aria-hidden="true"></i></button>
                 @if (settings.Maximum.HasValue)
                 {
-                    <div class="input-group-append">
-                        <div class="input-group-text">@max</div>
-                    </div>
+                    <span class="input-group-text">@max</span>
                 }
             </div>
         </div>

@@ -6,7 +6,7 @@
 }
 
 <div id="@Html.IdFor(m => m)" class="type-part-editor type-part-editor-monaco">
-    <div class="form-group">
+    <div class="mb-3">
         <label asp-for="Options">@T["Enter the editor options, language is always set to `html` when saved."]</label>
         <div id="@Html.IdFor(m => m)_editor" style="min-height: 200px;" class="form-control"></div>
         <span class="hint"><a href="https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandaloneeditorconstructionoptions.html" target="_blank">@T["Documentation for options"]</a></span>

@@ -1,9 +1,9 @@
 @model OrchardCore.Taxonomies.Settings.TaxonomyFieldTagsEditorSettings
 
-<div class="form-group field-editor field-editor-tags">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Open" type="checkbox" class="custom-control-input" />
-        <label class="custom-control-label" asp-for="Open">@T["Open"]</label>
+<div class="mb-3 field-editor field-editor-tags">
+    <div class="form-check">
+        <input asp-for="Open" type="checkbox" class="form-check-input" />
+        <label class="form-check-label" asp-for="Open">@T["Open"]</label>
         <span class="hint dashed">@T["Whether new tags can be created inline. Note: When creating tags inline only the display text term property will be set."]</span>
     </div>
 </div>

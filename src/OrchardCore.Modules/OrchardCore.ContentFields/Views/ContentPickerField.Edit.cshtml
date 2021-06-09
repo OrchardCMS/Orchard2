@@ -19,7 +19,7 @@
 
 <div id="@vueElementId" class="vue-multiselect" data-part="@partName" data-field="@fieldName" data-editor-type="ContentPicker" data-selected-items="@selectedItems" data-search-url="@searchUrl" data-multiple="@multiple">
 
-    <div class="form-group">
+    <div class="mb-3">
         <ul class="list-group w-xl-50 content-picker-default__list" v-show="arrayOfItems.length" v-cloak>
             <draggable v-model="arrayOfItems">
                 <li v-for="(item, i) in arrayOfItems"
@@ -35,7 +35,7 @@
         </ul>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <div class="w-xl-50">
             <input asp-for="ContentItemIds" type="hidden" v-model="selectedIds" />
             <vue-multiselect v-model="value" :options="options" track-by="id"
@@ -46,7 +46,7 @@
                              :disabled="isDisabled"
                              select-label="@T["Select"]" deselect-label="@T["Remove"]">
                 <template slot="option" slot-scope="props">
-                    <div v-cloak><span>{{ props.option.displayText }}</span><span class="small ml-2" v-show="!props.option.hasPublished">(@T["Not published"])</span></div>
+                    <div v-cloak><span>{{ props.option.displayText }}</span><span class="small ms-2" v-show="!props.option.hasPublished">(@T["Not published"])</span></div>
                 </template>
                 <template slot="noResult">
                     @T["No result found"]

@@ -21,7 +21,7 @@
 }
 
 <li class="menu-item display-summary list-group-item" id="menu-id-@Model.Index" data-index="@Model.Index" data-treenode-id="@Model.MenuItem.UniqueId">
-    <div class="menu-item menu-item-title border rounded p-2 pl-3 mb-1 d-flex flex-row justify-content-between align-items-center @disabledClass" title="@Model.MenuItem.UniqueId">
+    <div class="menu-item menu-item-title border rounded p-2 ps-3 mb-1 d-flex flex-row justify-content-between align-items-center @disabledClass" title="@Model.MenuItem.UniqueId">
         @if (Model.Content.Items.Count < 1)
         {
             <div class="related">
@@ -50,8 +50,8 @@
                         asp-route-id="@Model.AdminMenuId"
                         asp-route-treeNodeId="@Model.MenuItem.UniqueId"
                         class="btn btn-danger" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
-                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="sr-only">@T["Toggle Dropdown"]</span>
+                    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-reference="parent" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="visually-hidden">@T["Toggle Dropdown"]</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a asp-controller="Node"

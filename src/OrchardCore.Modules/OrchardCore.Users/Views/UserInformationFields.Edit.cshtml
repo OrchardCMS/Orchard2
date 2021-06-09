@@ -1,23 +1,19 @@
 @model EditUserInformationViewModel
 
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="UserName">@T["User name"]</label>
-    <div class="input-group row col-md-4">
-        <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fa fa-user"></i></span>
-        </div>
-        <input asp-for="UserName" class="form-control" autofocus asp-is-disabled="@Model.IsEditingDisabled"/>
+    <div class="input-group col-md-4">
+        <span class="input-group-text"><i class="fa fa-user"></i></span>
+        <input asp-for="UserName" class="form-control" autofocus asp-is-disabled="@Model.IsEditingDisabled" />
         <span asp-validation-for="UserName" class="text-danger">@T["The user name is required."]</span>
     </div>
 </div>
-<div class="form-group" asp-validation-class-for="Email">
+<div class="mb-3" asp-validation-class-for="Email">
     <label asp-for="Email">@T["Email"]</label>
-    <div class="input-group row col-md-4">
-        <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-        </div>
-        <input asp-for="Email" class="form-control" type="email" asp-is-disabled="@Model.IsEditingDisabled"/>
+    <div class="input-group col-md-4">
+        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+        <input asp-for="Email" class="form-control" type="email" asp-is-disabled="@Model.IsEditingDisabled" />
         <span asp-validation-for="Email" class="text-danger">@T["The email is invalid."]</span>
     </div>
 </div>

@@ -11,7 +11,7 @@
 
 <form asp-action="AddFieldTo" asp-route-returnUrl="@ViewData["returnUrl"]">
     @Html.ValidationSummary()
-    <div class="form-group">
+    <div class="mb-3">
         <div class="w-md-75 w-xl-50">
             <label for="DisplayName">@T["Display Name"]</label>
             <input asp-for="DisplayName" class="form-control" autofocus />
@@ -19,7 +19,7 @@
         <span class="hint">@T["Name of the field as it will be displayed in screens."]</span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <div class="w-sm-75 w-md-50 w-lg-25">
             <label for="Name">@T["Technical Name"]</label>
             <input asp-for="Name" class="form-control" />
@@ -27,22 +27,22 @@
         <span class="hint">@T["Technical name of the field."]</span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <label for="DisplayName">@T["Field Type"]</label>
         <ul class="list-group w-md-50">
             @for (var i = 0; i < Model.Fields.Count; i++)
             {
                 <li class="list-group-item">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" asp-for="FieldTypeName" id="@Html.IdFor(m => m.Fields[i])" value="@Model.Fields[i]" checked="@(i == 0)">
-                        <label class="custom-control-label" asp-for="Fields[i]">@Model.Fields[i].CamelFriendly()</label>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" asp-for="FieldTypeName" id="@Html.IdFor(m => m.Fields[i])" value="@Model.Fields[i]" checked="@(i == 0)">
+                        <label class="form-check-label" asp-for="Fields[i]">@Model.Fields[i].CamelFriendly()</label>
                     </div>
                 </li>
             }
         </ul>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         @if (Url.IsLocalUrl(returnUrl))
         {

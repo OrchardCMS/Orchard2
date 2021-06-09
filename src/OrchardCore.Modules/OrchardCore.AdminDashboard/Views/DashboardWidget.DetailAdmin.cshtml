@@ -6,8 +6,8 @@
             @await DisplayAsync(Model.Header)
             @if(Model.ActionsMenu != null )
             {
-                <div class="btn-group float-right" title="@T["Actions"]">
-                    <a type="button" class="btn btn-sm " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="btn-group float-end" title="@T["Actions"]">
+                    <a type="button" class="btn btn-sm " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <div class="actions-menu dropdown-menu">

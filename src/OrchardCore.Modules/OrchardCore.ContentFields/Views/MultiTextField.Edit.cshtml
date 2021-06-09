@@ -12,7 +12,7 @@
         options.Add(new SelectListItem { Text = option.Name, Value = option.Value, Selected = isSelected });
     }
 }
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Values">@Model.PartFieldDefinition.DisplayName()</label>
     <div class="row col-md-6 col-lg-4">
         <select class="form-control content-preview-select" asp-for="Values" asp-items="options" multiple

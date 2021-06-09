@@ -1,25 +1,25 @@
 @using OrchardCore.Contents.Workflows.ViewModels
 @model UpdateContentTaskViewModel
 
-<div class="form-group" asp-validation-class-for="ContentItemIdExpression">
+<div class="mb-3" asp-validation-class-for="ContentItemIdExpression">
     <label asp-for="ContentItemIdExpression">@T["Content Item ID"]</label>
     <input type="text" asp-for="ContentItemIdExpression" class="form-control code" asp-validation-class-for="ContentItemIdExpression" />
     <span asp-validation-for="ContentItemIdExpression"></span>
     <span class="hint">@T["Enter a JavaScript expression that evaluates to the Content Item's ID (ContentItemId) to be updated. For example: correlationId()."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ContentProperties">
+<div class="mb-3" asp-validation-class-for="ContentProperties">
     <label asp-for="ContentProperties">@T["Content Properties"]</label>
     <textarea asp-for="ContentProperties" class="form-control"></textarea>
     <span asp-validation-for="ContentProperties"></span>
     <span class="hint">@T["Optionally provide values for the content parts, fields and their properties in JSON format. With Liquid support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Publish">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Publish" />
-        <label class="custom-control-label" asp-for="Publish">@T["Publish"]</label>
-        <span class="hint">— @T["Check if you want the content item to be published when being updated. Leave unchecked to create a draft version."]</span>
+<div class="mb-3" asp-validation-class-for="Publish">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Publish" />
+        <label class="form-check-label" asp-for="Publish">@T["Publish"]</label>
+        <span class="hint">ï¿½ @T["Check if you want the content item to be published when being updated. Leave unchecked to create a draft version."]</span>
     </div>
 </div>
 

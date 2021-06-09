@@ -10,7 +10,7 @@
     <input type="hidden" asp-for="DeploymentStepId" />
     <input type="hidden" asp-for="DeploymentStepType" />
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary create" type="submit">@T["Create"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Display" asp-route-controller="DeploymentPlan" asp-route-id="@Model.DeploymentPlanId">@T["Cancel"]</a>
     </div>

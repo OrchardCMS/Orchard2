@@ -18,15 +18,15 @@
 
     if (contentItem.ModifiedUtc.HasValue)
     {
-        <span class="badge ta-badge font-weight-normal" data-toggle="tooltip" title="@await DisplayAsync(await New.DateTime(Utc: contentItem.ModifiedUtc, Format: "g"))">
+        <span class="badge ta-badge font-weight-normal" data-bs-toggle="tooltip" title="@await DisplayAsync(await New.DateTime(Utc: contentItem.ModifiedUtc, Format: "g"))">
             <i class="fa fa-calendar text-secondary"></i> <time datetime="@modifiedUtc">@await DisplayAsync(await New.Timespan(Utc: contentItem.ModifiedUtc))</time>
         </span>
     }
 
     if (!String.IsNullOrEmpty(contentItem.Author))
     {
-        <span class="badge ta-badge font-weight-normal" data-toggle="tooltip" title="@T["Author"]">
-            <i class="fa fa-user text-secondary mr-1"></i>@contentItem.Author
+        <span class="badge ta-badge font-weight-normal" data-bs-toggle="tooltip" title="@T["Author"]">
+            <i class="fa fa-user text-secondary me-1"></i>@contentItem.Author
         </span>
     }
 }

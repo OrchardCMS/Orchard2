@@ -10,7 +10,7 @@
 <script asp-src="~/OrchardCore.Media/Scripts/media.js" asp-name="media" at="Foot" depends-on="admin, vuejs, sortable, vuedraggable, jQuery-ui"></script>
 <style asp-src="~/OrchardCore.Media/Styles/media.min.css" debug-src="~/OrchardCore.Media/Styles/media.css"></style>
 
-<div class="form-group" id="@Html.IdFor(m => m)" data-for="@Html.IdFor(m => m.Paths)">
+<div class="mb-3" id="@Html.IdFor(m => m)" data-for="@Html.IdFor(m => m.Paths)">
     <label asp-for="Paths">@Model.PartFieldDefinition.DisplayName()</label>
     @if (!string.IsNullOrWhiteSpace(settings.Hint))
     {
@@ -31,7 +31,7 @@
             <a href="javascript:;" v-on:click="removeSelected" class="btn btn-secondary btn-sm" v-bind:class="{ disabled : !selectedMedia }"><i class="fas fa-trash-alt"></i></a>
         </div>
         <label class="selected-media-name">
-            <code class="text-right" v-if="selectedMedia">@T["{{{{ selectedMedia.name }}}}{{{{ selectedMedia.mediaText === '' ? '' : ', ' + selectedMedia.mediaText }}}} ({{{{ isNaN(fileSize)? 0 : fileSize }}}} KB)"]</code>
+            <code class="text-end" v-if="selectedMedia">@T["{{{{ selectedMedia.name }}}}{{{{ selectedMedia.mediaText === '' ? '' : ', ' + selectedMedia.mediaText }}}} ({{{{ isNaN(fileSize)? 0 : fileSize }}}} KB)"]</code>
         </label>
     </div>
 
@@ -47,14 +47,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@T["Select Media"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary mediaFieldSelectButton">@T["OK"]</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
     var settings = Model.PartFieldDefinition.GetSettings<YoutubeFieldSettings>();
 }
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="RawAddress">@Model.PartFieldDefinition.DisplayName()</label>
     <input asp-for="RawAddress" class="form-control content-preview-text" required="@settings.Required" />
     @if (!String.IsNullOrEmpty(settings.Hint))

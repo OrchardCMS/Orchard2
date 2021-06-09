@@ -1,18 +1,18 @@
 @model OrchardCore.ContentLocalization.Models.ContentCulturePickerSettings
 
-<div class="form-group" asp-validation-class-for="SetCookie">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="SetCookie" />
+<div class="mb-3" asp-validation-class-for="SetCookie">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="SetCookie" />
         <span asp-validation-for="SetCookie"></span>
-        <label class="custom-control-label" asp-for="SetCookie">@T["Set Cookie"]</label>
+        <label class="form-check-label" asp-for="SetCookie">@T["Set Cookie"]</label>
         <span class="hint dashed">@T["Sets the localization cookie when switching cultures using the ContentCulturePicker"]</span>
     </div>
 </div>
-<div class="form-group" asp-validation-class-for="RedirectToHomepage">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="RedirectToHomepage" />
+<div class="mb-3" asp-validation-class-for="RedirectToHomepage">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="RedirectToHomepage" />
         <span asp-validation-for="RedirectToHomepage"></span>
-        <label class="custom-control-label" asp-for="RedirectToHomepage">@T["Homepage redirect "]</label>
+        <label class="form-check-label" asp-for="RedirectToHomepage">@T["Homepage redirect "]</label>
         <span class="hint dashed">@T["Redirects to the homepage of the target culture if the ContentItem of the target culture does not exist."]</span>
     </div>
 </div>

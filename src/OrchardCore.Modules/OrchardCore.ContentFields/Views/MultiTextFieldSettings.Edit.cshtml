@@ -1,14 +1,14 @@
 @model OrchardCore.ContentFields.ViewModels.MultiTextFieldSettingsViewModel
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Required" type="checkbox" class="custom-control-input">
-        <label class="custom-control-label" asp-for="Required">@T["Required"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Required" type="checkbox" class="form-check-input">
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
         <span class="hint">— @T["Whether a value is required."]</span>
     </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <div class="row col-sm-6">
         <label asp-for="Hint">@T["Hint"]</label>
         <textarea asp-for="Hint" rows="2" class="form-control"></textarea>
@@ -41,9 +41,9 @@
                     <input type="text" class="form-control courrier" v-model="option.value" placeholder="Enter a value" />
                 </td>
                 <td class="text-center align-middle">
-                    <div class="custom-control custom-checkbox ml-2">
-                        <input type="checkbox" class="custom-control-input" :id="'customRadio_' + index" v-model="option.default">
-                        <label class="custom-control-label" title="@T["Set as default"]" v-bind:for="'customRadio_' + index"></label>
+                    <div class="form-check ms-2">
+                        <input type="checkbox" class="form-check-input" :id="'customRadio_' + index" v-model="option.default">
+                        <label class="form-check-label" title="@T["Set as default"]" v-bind:for="'customRadio_' + index"></label>
                     </div>
                 </td>
                 <td class="text-center">
@@ -66,22 +66,20 @@
 </script>
 
 <script type="text/x-template" id="options-modal">
-    <div class="modal fade @Html.IdFor(m => m)-ModalBody text-left" role="dialog" aria-hidden="true">
+    <div class="modal fade @Html.IdFor(m => m)-ModalBody text-start" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@T["Edit Data"]</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="options-textarea">@T["Options"]</label>
                         <textarea id="options-textarea" name="options-textarea" rows="8" class="form-control" v-bind:value="JSON.stringify(data.options)" v-on:input="data.options = JSON.parse($event.target.value)"></textarea>
                         <span class="hint">@T["A JSON representation of the allowed values, e.g. {0}", "[ { name: 'First option', value: 'option1' }, { name: 'Second option', value: 'option2' } ]"]</span>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="options-defaultvalue">@T["Default value"]</label>
                         <input id="options-defaultvalue" name="options-defaultvalue" class="form-control" type="text" v-model="data.selected" />
                         <span class="hint">@T["(Optional) The default to assign to the text field."]</span>
@@ -89,7 +87,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-submit" v-on:click="closeModal()">@T["OK"]</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
                 </div>
             </div>
         </div>
@@ -100,7 +98,7 @@
     <div class="row">
         <div class="col-sm-6">
             <label asp-for="Options">@T["Options"]</label>
-            <a href="javascript:void(0)" v-on:click="showModal" class="float-right" title="@T["Edit Data"]"><i class="fas fa-edit"></i></a>
+            <a href="javascript:void(0)" v-on:click="showModal" class="float-end" title="@T["Edit Data"]"><i class="fas fa-edit"></i></a>
             <options-table :data="sharedState"></options-table>
             <options-modal :data="sharedState" v-on:reload-data="reloadData()"></options-modal>
         </div>

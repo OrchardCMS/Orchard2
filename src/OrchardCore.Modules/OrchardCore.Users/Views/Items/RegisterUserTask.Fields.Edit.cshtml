@@ -3,20 +3,20 @@
 
 @model RegisterUserTaskViewModel
 
-<div class="form-group form-check" asp-validation-class-for="SendConfirmationEmail">
+<div class="mb-3 form-check" asp-validation-class-for="SendConfirmationEmail">
     <input type="checkbox" asp-for="SendConfirmationEmail" class="form-check-input" />
     <span asp-validation-for="SendConfirmationEmail"></span>
     <label asp-for="SendConfirmationEmail" class="form-check-label">@T["Send confirmation email"]</label>
 </div>
 
-<div class="form-group" asp-validation-class-for="ConfirmationEmailSubject">
+<div class="mb-3" asp-validation-class-for="ConfirmationEmailSubject">
     <label asp-for="ConfirmationEmailSubject">@T["Subject for confirmation email"]</label>
     <input type="text" asp-for="ConfirmationEmailSubject" class="form-control code" />
     <span asp-validation-for="ConfirmationEmailSubject"></span>
     <span class="hint">@T["The subject of the message. Supports Liquid syntax."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ConfirmationEmailTemplate">
+<div class="mb-3" asp-validation-class-for="ConfirmationEmailTemplate">
     <label asp-for="ConfirmationEmailTemplate">@T["Template for confirmation email"]</label>
     <input type="text" asp-for="ConfirmationEmailTemplate" class="form-control code" />
     <span asp-validation-for="ConfirmationEmailTemplate"></span>

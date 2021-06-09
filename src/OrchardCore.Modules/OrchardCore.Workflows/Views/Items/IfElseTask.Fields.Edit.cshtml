@@ -1,7 +1,7 @@
 @using OrchardCore.Workflows.ViewModels;
 @model IfElseTaskViewModel
 
-<div class="form-group" asp-validation-class-for="ConditionExpression">
+<div class="mb-3" asp-validation-class-for="ConditionExpression">
     <label asp-for="ConditionExpression">@T["Condition Expression"]</label>
     <input type="text" asp-for="ConditionExpression" class="form-control code" />
     <span asp-validation-for="ConditionExpression"></span>

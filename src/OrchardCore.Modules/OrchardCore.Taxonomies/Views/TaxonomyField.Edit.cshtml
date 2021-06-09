@@ -22,7 +22,7 @@
     </div>
 }
 
-<div class="form-group">
+<div class="mb-3">
     @for (var i = 0; i < Model.TermEntries.Count; i++)
     {
         var entry = Model.TermEntries[i];
@@ -30,7 +30,7 @@
 
         if (entry.Level == previousLevel + 1)
         {
-            WriteLiteral("<div class=\"pl-3\">");
+            WriteLiteral("<div class=\"ps-3\">");
             closingDivs = entry.Level;
         }
         for (var e = entry.Level; e < previousLevel; e++)
@@ -41,17 +41,17 @@
 
         @if (!settings.Unique)
         {
-            <div class="custom-control custom-checkbox">
+            <div class="form-check">
                 @if (!settings.LeavesOnly || Model.TermEntries[i].IsLeaf)
                 {
-                    <input asp-for="@Model.TermEntries[i].Selected" type="checkbox" class="custom-control-input" />
+                    <input asp-for="@Model.TermEntries[i].Selected" type="checkbox" class="form-check-input" />
                 }
                 else
                 {
-                    <input asp-for="@Model.TermEntries[i].Selected" type="checkbox" disabled="disabled" class="custom-control-input" />
+                    <input asp-for="@Model.TermEntries[i].Selected" type="checkbox" disabled="disabled" class="form-check-input" />
                 }
 
-                <label class="custom-control-label" asp-for="@Model.TermEntries[i].Selected">
+                <label class="form-check-label" asp-for="@Model.TermEntries[i].Selected">
                     @term
                 </label>
                 <input asp-for="@Model.TermEntries[i].ContentItemId" type="hidden" />
@@ -59,7 +59,7 @@
         }
         else
         {
-            <div class="custom-control custom-radio">
+            <div class="form-check">
                 @if (!settings.LeavesOnly || Model.TermEntries[i].IsLeaf)
                 {
                     <input id="@Html.IdFor(x => x.TermEntries[i].Selected)"
@@ -67,7 +67,7 @@
                            type="radio"
                            value="@Model.TermEntries[i].ContentItemId"
                            checked="@(Model.TermEntries[i].Selected ? "checked" : null)"
-                           class="custom-control-input" />
+                           class="form-check-input" />
                 }
                 else
                 {
@@ -77,9 +77,9 @@
                            value="@Model.TermEntries[i].ContentItemId"
                            disabled="disabled"
                            checked="@(Model.TermEntries[i].Selected ? "checked" : null)"
-                           class="custom-control-input" />
+                           class="form-check-input" />
                 }
-                <label class="custom-control-label" asp-for="@Model.TermEntries[i].Selected">
+                <label class="form-check-label" asp-for="@Model.TermEntries[i].Selected">
                     @term
                 </label>
             </div>

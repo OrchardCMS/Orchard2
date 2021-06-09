@@ -1,13 +1,13 @@
 @using OrchardCore.Forms.ViewModels;
 @model ButtonPartEditViewModel
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Text">@T["Text"]</label>
     <input asp-for="Text" type="text" class="form-control content-preview-text" />
     <span class="hint">@T["The text to display on the button."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Type">@T["Type"]</label>
     <select asp-for="Type" class="form-control content-preview-select">
         <option value="submit">Submit</option>

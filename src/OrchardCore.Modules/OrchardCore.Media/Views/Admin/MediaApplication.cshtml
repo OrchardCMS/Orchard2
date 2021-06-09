@@ -23,18 +23,18 @@
         <div id="mediaContainerMain" v-cloak>
             <div class="media-container-top-bar">
                 <nav class="nav action-bar pb-3 pt-3 pl-3">
-                    <div class="form-inline mr-auto">
-                        <a href="javascript:;" class="btn btn-light btn-sm mr-2" v-on:click="selectAll">
+                    <div class="form-inline me-auto">
+                        <a href="javascript:;" class="btn btn-light btn-sm me-2" v-on:click="selectAll">
                             @T["Select All"]
                         </a>
-                        <a href="javascript:;" class="btn btn-light btn-sm mr-2" v-on:click="unSelectAll" :class="{disabled: selectedMedias.length < 1 }">
+                        <a href="javascript:;" class="btn btn-light btn-sm me-2" v-on:click="unSelectAll" :class="{disabled: selectedMedias.length < 1 }">
                             @T["Select None"]
                         </a>
-                        <a href="javascript:;" class="btn btn-light btn-sm mr-2" v-on:click="invertSelection">
+                        <a href="javascript:;" class="btn btn-light btn-sm me-2" v-on:click="invertSelection">
                             @T["Invert"]
                         </a>
-                        <a href="javascript:;" class="btn btn-light btn-sm mr-2" v-on:click="deleteMediaList" :class="{disabled: selectedMedias.length < 1 }">
-                            @T["Delete"] <span class="badge badge-pill badge-light" v-show="selectedMedias.length > 0">{{ selectedMedias.length}}</span>
+                        <a href="javascript:;" class="btn btn-light btn-sm me-2" v-on:click="deleteMediaList" :class="{disabled: selectedMedias.length < 1 }">
+                            @T["Delete"] <span class="badge rounded-pill badge-light" v-show="selectedMedias.length > 0">{{ selectedMedias.length}}</span>
                         </a>
                     </div>
                     <div class="btn-group visibility-buttons">
@@ -49,23 +49,21 @@
                         <button type="button" id="toggle-thumbsize-button" class="btn btn-light btn-sm" :class="{selected: smallThumbs}" v-on:click="smallThumbs = true">
                             <span title="@T["Small Thumbs"]"><i class="fa fa-compress"></i></span>
                         </button>
-                        <button type="button" id="toggle-thumbsize-button" class="btn btn-light btn-sm mr-2" :class="{selected: !smallThumbs}" v-on:click="smallThumbs = false">
+                        <button type="button" id="toggle-thumbsize-button" class="btn btn-light btn-sm me-2" :class="{selected: !smallThumbs}" v-on:click="smallThumbs = false">
                             <span title="@T["Large Thumbs"]"><i class="fa fa-expand"></i></span>
                         </button>
                     </div>
 
-                    <div class="nav-item ml-2">
+                    <div class="nav-item ms-2">
                         <div class="media-filter">
                             <div class="input-group input-group-sm">
                                 <span class="fa fa-filter icon-inside-input"></span>
                                 <input type="text" id="media-filter-input" v-model="mediaFilter" class="form-control input-filter" placeholder="@T["Filter..."]" aria-label="@T["Filter..."]">
-                                <div class="input-group-append">
-                                    <button id="clear-media-filter-button" class="btn btn-outline-secondary" type="button" :disabled="mediaFilter == '' " v-on:click="mediaFilter = '' "><i class="fa fa-times"></i></button>
-                                </div>
+                                <button id="clear-media-filter-button" class="btn btn-outline-secondary" type="button" :disabled="mediaFilter == '' " v-on:click="mediaFilter = '' "><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                     </div>
-                    <div class="d-inline-flex ml-2 mr-3 mb-1 pt-1">
+                    <div class="d-inline-flex ms-2 me-3 mb-1 pt-1">
                         <div class="btn-group btn-group-sm">
                             <label for="fileupload" class="btn btn-sm btn-primary fileinput-button upload-button">
                                 <input id="fileupload" type="file" name="files" multiple="multiple">
@@ -101,8 +99,8 @@
                                   :selected-medias="selectedMedias"
                                   :thumb-size="thumbSize"></media-items-grid>
 
-                <div class="alert-info pt-2 pb-2 pl-2 pr-2" v-show="mediaItems.length > 0 && filteredMediaItems.length < 1">@T["Nothing to show with this filter"]</div>
-                <div class="alert-info pt-2 pb-2 pl-2 pr-2" v-show="mediaItems.length < 1">@T["This folder is empty"]</div>
+                <div class="alert-info p-2" v-show="mediaItems.length > 0 && filteredMediaItems.length < 1">@T["Nothing to show with this filter"]</div>
+                <div class="alert-info p-2" v-show="mediaItems.length < 1">@T["This folder is empty"]</div>
             </div>
             <div v-show="filteredMediaItems.length > 0" class="media-container-footer p-3">
                 <pager :source-items="filteredMediaItems"> </pager>
@@ -157,12 +155,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelTitle">@T["Create Folder"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <div class="mb-3">
                     <label for="input" class="form-control-label" id="input-label">@T["Folder name"]</label>
                     <input type="text" id="create-folder-name" class="form-control">
                 </div>
@@ -170,7 +166,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="modalFooterOk">@T["Ok"]</button>
-                <button type="button" class="btn btn-light" data-dismiss="modal">@T["Cancel"]</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">@T["Cancel"]</button>
             </div>
         </div>
     </div>
@@ -181,12 +177,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modelTitle">@T["Rename Item"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <div class="mb-3">
                     <label for="input" class="form-control-label" id="input-label">@T["New Name"]</label>
                     <input type="text" id="new-item-name" class="form-control">
                     <input type="hidden" id="old-item-name" value="">
@@ -195,7 +189,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="renameMediaModalFooterOk">@T["Ok"]</button>
-                <button type="button" class="btn btn-light" data-dismiss="modal">@T["Cancel"]</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">@T["Cancel"]</button>
             </div>
         </div>
     </div>

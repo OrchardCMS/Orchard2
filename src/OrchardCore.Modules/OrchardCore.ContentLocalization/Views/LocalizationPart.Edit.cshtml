@@ -5,17 +5,15 @@
 
 <input asp-for="LocalizationSet" type="hidden" />
 <input asp-for="Culture" type="hidden" />
-<div class="form-group content-localization" id="localizationPartEdit">
-    <div class="card">
-        <div class="card-header" id="contentLocalizationToggle">
-            <button class="d-flex align-items-center justify-content-between btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#contentLocalizationCard" aria-expanded="true" aria-controls="collapseOne">
+<div class="accordion mb-3 content-localization" id="localizationPartEdit">
+    <div class="accordion-item">
+        <div class="accordion-header" id="contentLocalizationToggle">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contentLocalizationCard" aria-expanded="true" aria-controls="collapseOne">
                 @T["Current Culture: {1} | {0}", Model.CultureInfo.Name, Model.CultureInfo.DisplayName]
-                <i class="fa fa-angle-down"></i>
             </button>
         </div>
-
-        <div id="contentLocalizationCard" class="collapse" aria-labelledby="contentLocalizationToggle" data-parent="#localizationPartEdit">
-            <div class="card-body">
+        <div id="contentLocalizationCard" class="collapse" aria-labelledby="contentLocalizationToggle" data-bs-parent="#localizationPartEdit">
+            <div class="accordion-body">
                 @if (!Model.ContentItemCultures.Any())
                 {
                     <p>@T["Your site does not have any cultures. Current System culture is {1} | {0}", CultureInfo.InstalledUICulture.Name, CultureInfo.InstalledUICulture.DisplayName]</p>

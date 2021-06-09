@@ -27,7 +27,7 @@
 <script asp-src="~/OrchardCore.ContentFields/Scripts/vue-multiselect-multitextfieldpicker.min.js" debug-src="~/OrchardCore.ContentFields/Scripts/vue-multiselect-multitextfieldpicker.js" asp-name="multitextfieldpicker" at="Foot" depends-on="vuejs, vue-multiselect"></script>
 <style asp-src="~/OrchardCore.ContentFields/Styles/vue-multiselect-multitextfieldpicker.min.css" debug-src="~/OrchardCore.ContentFields/Styles/vue-multiselect-multitextfieldpicker.css" asp-name="multitextfieldpicker" depends-on="vue-multiselect"></style>
 
-<div class="form-group">
+<div class="mb-3">
     <label>@Model.PartFieldDefinition.DisplayName()</label>
     <div id="@vueElementId" class="multitextfieldpicker" data-selectedvalues="@jSelectedValues" data-options="@jOptions" data-valueskey="@valuesKey">
         <div class="w-xl-50">

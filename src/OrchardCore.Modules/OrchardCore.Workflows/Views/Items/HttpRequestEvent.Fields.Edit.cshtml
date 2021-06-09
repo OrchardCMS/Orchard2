@@ -4,9 +4,9 @@
 @model HttpRequestEventViewModel
 @inject IAntiforgery antiforgery
 
-<div class="form-group" asp-validation-class-for="HttpMethod">
+<div class="mb-3" asp-validation-class-for="HttpMethod">
     <label asp-for="HttpMethod">@T["HTTP Method"]</label>
-    <select asp-for="HttpMethod" class="form-control" asp-items="Model.GetAvailableHttpMethods()"></select>
+    <select asp-for="HttpMethod" class="form-select" asp-items="Model.GetAvailableHttpMethods()"></select>
     <span asp-validation-for="HttpMethod"></span>
     <span class="hint">@T["The HTTP method to match."]</span>
 </div>
@@ -16,27 +16,21 @@
         var antiforgeryTokenSet = antiforgery.GetTokens(Context);
     }
     <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">@Url.GetBaseUrl()</span>
-        </div>
+        <span class="input-group-text" id="basic-addon3">@Url.GetBaseUrl()</span>
         <input asp-for="Url" type="text" id="workflow-url-text" class="form-control" readonly />
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="button" id="generate-url-button" title="@T["Generate a new URL"]" data-generate-url="@Url.Action("GenerateUrl", "HttpWorkflow")" data-antiforgery-token="@antiforgeryTokenSet.RequestToken" data-antiforgery-header-name="@antiforgeryTokenSet.HeaderName">@T["Regenerate"]</button>
-        </div>
-        <div class="input-group-append">
-            <span class="btn btn-secondary" onclick="select_all_and_copy(document.getElementById('workflow-url-text'))"><i class="fas fa-copy"></i> @T["Copy"]</span>
-        </div>
+        <button class="btn btn-primary" type="button" id="generate-url-button" title="@T["Generate a new URL"]" data-generate-url="@Url.Action("GenerateUrl", "HttpWorkflow")" data-antiforgery-token="@antiforgeryTokenSet.RequestToken" data-antiforgery-header-name="@antiforgeryTokenSet.HeaderName">@T["Regenerate"]</button>
+        <span class="btn btn-secondary" onclick="select_all_and_copy(document.getElementById('workflow-url-text'))"><i class="fas fa-copy"></i> @T["Copy"]</span>
     </div>
     <span class="hint"><i class="fa fa-exclamation-triangle"></i> @T["Anyone that invokes this URL will trigger this workflow. Keep it in a safe place."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <input type="checkbox" asp-for="ValidateAntiforgeryToken" />
     <label asp-for="ValidateAntiforgeryToken">@T["Validate Antiforgery Token"]</label>
     <span class="hint">@T["Uncheck this option if the request comes from a service that invokes this URL as a webhook. If this URL is requested from a form, then keep this option checked to ensure the form values have not been tampered with."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <input type="number" asp-for="TokenLifeSpan" id="token-lifespan" class="form-control" />
     <label asp-for="TokenLifeSpan">@T["Token Life Span"]</label>
     <span class="hint"><i class="fa fa-exclamation-triangle"></i> @T["Hit the <b>Regenerate</b> button after changing this value."]</span>

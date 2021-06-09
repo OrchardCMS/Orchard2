@@ -12,9 +12,9 @@
     <div class="col col-xl-9">
 
         @*Panel Switcher*@
-        <div class="custom-control custom-checkbox">
-            <input asp-for="ShowAll" class="custom-control-input" id="ContentTypesAdminNode_ShowAll" />
-            <label asp-for="ShowAll" class="custom-control-label">@T["Show All Content Types"]</label>
+        <div class="form-check">
+            <input asp-for="ShowAll" class="form-check-input" id="ContentTypesAdminNode_ShowAll" />
+            <label asp-for="ShowAll" class="form-check-label">@T["Show All Content Types"]</label>
         </div>
 
         @*Show All Panel*@
@@ -23,13 +23,13 @@
                 @T["Show All Content Types"]
             </div>
             <div class="card-body">
-                <div class="form-group">
+                <div class="mb-3">
                     <label asp-for="IconClass">@T["Default Icon"]</label>
 
                     <div class="input-group mb-3">
                         <div class="btn-toolbar" role="toolbar" aria-label="Icon Selector Toolbar">
 
-                            <div class="btn-group input-group mr-2" role="group" aria-label="Icon Selector">
+                            <div class="btn-group input-group me-2" role="group" aria-label="Icon Selector">
                                 <button type="button" class="btn btn-primary sample-icon">
                                     <i id="@("sample-icon-" + Html.IdFor(m=>m.IconClass))" class="@Model.IconClass"></i>
                                 </button>
@@ -69,18 +69,18 @@
                             {
                                 var name = Model.ContentTypes[i].ContentTypeId;
                                 var checkd = Model.ContentTypes[i].IsChecked;
-                                <li class="list-group-item d-flex align-items-center  @(checkd ? "" : "disabled-content-type")">
+                                <li class="list-group-item d-flex align-items-center @(checkd ? "" : "disabled-content-type")">
                                     <div class="flex-grow-1">
                                         <input type="hidden" name="@Html.NameFor(m => m.ContentTypes[i].ContentTypeId)" value="@Model.ContentTypes[i].ContentTypeId" />
-                                        <div class="custom-control custom-checkbox">
-                                            <input asp-for="ContentTypes[i].IsChecked" class="custom-control-input content-type-checkbox" />
-                                            <label class="custom-control-label" for="@Html.IdFor(m => m.ContentTypes[i].IsChecked)">@name</label>
+                                        <div class="form-check">
+                                            <input asp-for="ContentTypes[i].IsChecked" class="form-check-input content-type-checkbox" />
+                                            <label class="form-check-label" for="@Html.IdFor(m => m.ContentTypes[i].IsChecked)">@name</label>
                                         </div>
                                     </div>
 
                                     <div class="btn-toolbar icon-toolbar" role="toolbar" aria-label="Icon Selector Toolbar">
 
-                                        <div class="btn-group input-group mr-2" role="group" aria-label="Icon Selector">
+                                        <div class="btn-group input-group me-2" role="group" aria-label="Icon Selector">
                                             <button type="button" class="btn btn-primary sample-icon">
                                                 <i id="@("sample-icon-" + Html.IdFor(m => m.ContentTypes[i].IconClass))"
                                                     class="@(Model.ContentTypes[i].IconClass)"></i>
@@ -121,9 +121,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@T["Pick an icon"]</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
                     <div id="inline-picker" class="icp icp-auto" data-placement="inline"></div>

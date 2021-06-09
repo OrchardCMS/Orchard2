@@ -4,10 +4,10 @@
     var settings = Model.PartFieldDefinition.GetSettings<BooleanFieldSettings>();
 }
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Value" type="checkbox" class="custom-control-input content-preview-select" checked="@Model.Value" />
-        <label class="custom-control-label" asp-for="Value">
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Value" type="checkbox" class="form-check-input content-preview-select" checked="@Model.Value" />
+        <label class="form-check-label" asp-for="Value">
             @(string.IsNullOrEmpty(settings.Label) ? Model.PartFieldDefinition.DisplayName() : settings.Label)
             @if (!String.IsNullOrEmpty(settings.Hint))
             {

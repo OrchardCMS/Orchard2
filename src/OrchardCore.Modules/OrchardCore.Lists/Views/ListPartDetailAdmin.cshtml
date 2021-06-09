@@ -28,26 +28,24 @@ else
     <form>
         <div class="card mb-3 position-sticky action-bar">
             <div class="card-body bg-primary p-3">
-                <div class="form-group mb-n1">
+                <div class="mb-0">
                     <div class="input-group input-group-sm w-50 d-inline-flex has-filter">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-sm dropdown-toggle" style="border:1px solid lightgrey" type="button" data-toggle="dropdown" id="filter-dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-filter" title="@T["Filters"]"></i>
-                            </button>
-                            <div class="dropdown-menu @if (CultureInfo.CurrentUICulture.IsRightToLeft()) {<text>dropdown-menu-right</text>}" aria-labelledby="filter-dropdown">
-                                @* Latest not surfaced here to be consistent with the main content items list filter. *@
-                                <a class="dropdown-item" href="?Status=Draft">@T["Only draft items"]</a>
-                                <a class="dropdown-item" href="?Status=Published">@T["Only published items"]</a>
-                                <a class="dropdown-item" href="?Status=Owner">@T["Owned by me"]</a>
-                            </div>
+                        <button class="btn btn-sm dropdown-toggle" style="border:1px solid lightgrey" type="button" data-bs-toggle="dropdown" id="filter-dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-filter" title="@T["Filters"]"></i>
+                        </button>
+                        <div class="dropdown-menu @if (CultureInfo.CurrentUICulture.IsRightToLeft()) {<text>dropdown-menu-right</text>}" aria-labelledby="filter-dropdown">
+                            @* Latest not surfaced here to be consistent with the main content items list filter. *@
+                            <a class="dropdown-item" href="?Status=Draft">@T["Only draft items"]</a>
+                            <a class="dropdown-item" href="?Status=Published">@T["Only published items"]</a>
+                            <a class="dropdown-item" href="?Status=Owner">@T["Owned by me"]</a>
                         </div>
                         <i class="fa fa-search form-control-feedback"></i>
                         <input name="@nameof(ListPartFilterViewModel.Status)" value="@Model.ListPartFilterViewModel.Status" class="form-control" type="hidden" />
                         <input name="@nameof(ListPartFilterViewModel.DisplayText)" value="@Model.ListPartFilterViewModel.DisplayText" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
                     </div>
 
-                    <div class="form-group d-inline-flex float-right mb-0">
-                        <div class="float-right">
+                    <div class="mb-3 d-inline-flex float-end mb-0">
+                        <div class="float-end">
                             @if (Model.ContainedContentTypeDefinitions.Count() == 1)
                             {
                                 var contentTypeDefinition = Model.ContainedContentTypeDefinitions.FirstOrDefault();
@@ -63,7 +61,7 @@ else
                                 <a class="btn btn-sm btn-primary" edit-for="@Model.ListPart.ContentItem" asp-route-returnUrl="@FullRequestPath">
                                     @T["Edit {0}", @Model.ListPart.ContentItem.DisplayText]
                                 </a>
-                                <a class="btn btn-sm btn-success dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="btn btn-sm btn-success dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @T["Create"]
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">

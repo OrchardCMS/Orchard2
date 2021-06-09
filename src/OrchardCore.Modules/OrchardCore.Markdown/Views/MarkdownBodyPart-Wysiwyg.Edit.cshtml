@@ -14,7 +14,7 @@
 
 @await DisplayAsync(await New.ShortcodeModal())
 
-<div class="form-group mde-editor">
+<div class="mb-3 mde-editor">
     <label asp-for="Markdown">@Model.TypePartDefinition.DisplayName()</label>
     <span class="hint">@T["The markdown text of the content item."]</span>
     <textarea asp-for="Markdown" rows="5" class="form-control content-preview-text"></textarea>

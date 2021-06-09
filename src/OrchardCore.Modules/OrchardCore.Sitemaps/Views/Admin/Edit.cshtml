@@ -10,20 +10,18 @@
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="SitemapId" />
-    <div class="form-group" asp-validation-class-for="Name">
+    <div class="mb-3" asp-validation-class-for="Name">
         <label asp-for="Name">@T["Name"]</label>
         <input asp-for="Name" class="form-control" autofocus />
         <span asp-validation-for="Name" class="text-danger">@T["The name is required."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Path">
+    <div class="mb-3" asp-validation-class-for="Path">
         <label asp-for="Path">@T["Permalink"]</label>
         <div class="input-group">
             @if (!String.IsNullOrWhiteSpace(Site.BaseUrl))
             {
-                <div class="input-group-prepend">
-                    <div class="input-group-text">@Site.BaseUrl</div>
-                </div>
+                <span class="input-group-text">@Site.BaseUrl</span>
             }
             <input asp-for="Path" class="form-control" />
         </div>
@@ -31,13 +29,13 @@
         <span asp-validation-for="Path" class="text-danger d-block"></span>
     </div>
 
-    <div class="form-group custom-control custom-checkbox">
-        <input asp-for="Enabled" class="custom-control-input" />
-        <label asp-for="Enabled" class="custom-control-label">@T["Enabled"]</label>
+    <div class="mb-3 form-check">
+        <input asp-for="Enabled" class="form-check-input" />
+        <label asp-for="Enabled" class="form-check-label">@T["Enabled"]</label>
         <span class="hint">@T["Uncheck to disable routing to this sitemap."]</span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="List">@T["Cancel"]</a>
     </div>

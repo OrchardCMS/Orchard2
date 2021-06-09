@@ -1,6 +1,6 @@
 @model OrchardCore.Flows.ViewModels.FlowPartSettingsViewModel
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="ContainedContentTypes">@T["Restrict Content Types"]</label>
     <span class="hint">@T["The content types that this flow can contain."]</span>
     @await Component.InvokeAsync("SelectContentTypes", new { selectedContentTypes = Model.ContainedContentTypes, htmlName = Html.NameFor(m => m.ContainedContentTypes), stereotype = "Widget" })

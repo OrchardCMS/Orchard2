@@ -4,31 +4,31 @@
 
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Create" method="post">
-    <div class="form-group" asp-validation-class-for="Name">
+    <div class="mb-3" asp-validation-class-for="Name">
         <label asp-for="Name">@T["Name"]</label>
         <input asp-for="Name" class="form-control" autofocus />
         <span asp-validation-for="Name" class="text-danger">@T["The name is required."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Url">
+    <div class="mb-3" asp-validation-class-for="Url">
         <label asp-for="Url">@T["Url"]</label>
         <input asp-for="Url" class="form-control" />
         <span asp-validation-for="Url" class="text-danger">@T["The url is required."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="ClientName">
+    <div class="mb-3" asp-validation-class-for="ClientName">
         <label asp-for="ClientName">@T["Client Name"]</label>
         <input asp-for="ClientName" class="form-control" />
         <span asp-validation-for="ClientName" class="text-danger">@T["The client name is required."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="ApiKey">
+    <div class="mb-3" asp-validation-class-for="ApiKey">
         <label asp-for="ApiKey">@T["Api Key"]</label>
         <input asp-for="ApiKey" type="password" class="form-control" />
         <span asp-validation-for="ApiKey" class="text-danger">@T["The api key is required."]</span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary create" type="submit">@T["Create"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
     </div>

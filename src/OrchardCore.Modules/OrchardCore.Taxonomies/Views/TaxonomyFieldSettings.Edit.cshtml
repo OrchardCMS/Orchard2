@@ -10,18 +10,18 @@
     var taxonomies = await Session.Query<ContentItem, ContentItemIndex>().Where(x => x.ContentType == "Taxonomy" && x.Latest).ListAsync();
 }
 
-<div class="form-group">
-    <div class="w-md-75 w-xl-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-md-75 w-xl-50 pe-md-3">
         <label asp-for="Hint">@T["Hint"]</label>
         <textarea asp-for="Hint" rows="2" class="form-control"></textarea>
     </div>
     <span class="hint">@T["The hint text to display for this field on the editor."]</span>
 </div>
 
-<div class="form-group">
-    <div class="w-md-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-md-50 pe-md-3">
         <label asp-for="TaxonomyContentItemId">@T["Taxonomy"]</label>
-        <select asp-for="TaxonomyContentItemId" class="form-control">
+        <select asp-for="TaxonomyContentItemId" class="form-select">
             @foreach (var taxonomy in taxonomies)
             {
                 <option value="@taxonomy.ContentItemId">@taxonomy</option>
@@ -30,26 +30,26 @@
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Required" type="checkbox" class="custom-control-input" />
-        <label class="custom-control-label" asp-for="Required">@T["Required"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Required" type="checkbox" class="form-check-input" />
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
         <span class="hint dashed">@T["Whether at least one element is selected."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Unique" type="checkbox" class="custom-control-input" />
-        <label class="custom-control-label" asp-for="Unique">@T["Unique"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Unique" type="checkbox" class="form-check-input" />
+        <label class="form-check-label" asp-for="Unique">@T["Unique"]</label>
         <span class="hint dashed">@T["Whether only one element can be selected."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="LeavesOnly" type="checkbox" class="custom-control-input" />
-        <label class="custom-control-label" asp-for="LeavesOnly">@T["Leaves only"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="LeavesOnly" type="checkbox" class="form-check-input" />
+        <label class="form-check-label" asp-for="LeavesOnly">@T["Leaves only"]</label>
         <span class="hint dashed">@T["Whether leaves are the only items that can be selected."]</span>
     </div>
 </div>

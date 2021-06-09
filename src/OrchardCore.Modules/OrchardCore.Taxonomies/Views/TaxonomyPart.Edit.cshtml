@@ -20,7 +20,7 @@
     var termContentTypes = ContentDefinitionManager.ListTypeDefinitions().Where(t => String.IsNullOrEmpty(t.GetSettings<ContentTypeSettings>().Stereotype)).OrderBy(x => x.DisplayName);
     var index = 0;
 }
-<div class="form-group" asp-validation-class-for="TermContentType">
+<div class="mb-3" asp-validation-class-for="TermContentType">
     <label asp-for="TermContentType" >@T["Term Content Type"]</label>
     <select asp-for="TermContentType" class="form-control col-small" asp-items="@(new SelectList(termContentTypes, "Name", "DisplayName"))">
     </select>

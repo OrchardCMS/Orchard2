@@ -2,10 +2,10 @@
 @model FlowMetadata
 
 <div class="btn-group btn-group-sm" role="group">
-    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-align-left" aria-hidden="true"></i>
     </button>
-    <div class="dropdown-menu btn-group-toggle" data-toggle="buttons">
+    <div class="dropdown-menu btn-group-toggle" data-bs-toggle="buttons">
         <label class="btn btn-secondary dropdown-item @(Model.Alignment == FlowAlignment.Left ? "active" : null)">
             <input asp-for="Alignment" id="@Html.IdFor(x => x.Alignment)_Left" type="radio" autocomplete="off" value="Left"><i class="fa fa-align-left" aria-hidden="true"></i> @T["Left"]
         </label>
@@ -22,10 +22,10 @@
 </div>
 
 <div class="btn-group btn-group-sm" role="group">
-    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @T[Model.Size + "%"]
     </button>
-    <div class="dropdown-menu btn-group-toggle" data-toggle="buttons">
+    <div class="dropdown-menu btn-group-toggle" data-bs-toggle="buttons">
         <label class="btn btn-secondary dropdown-item @(Model.Size == 25 ? "active" : null)">
             <input asp-for="Size" id="@Html.IdFor(x => x.Size)_25" type="radio" autocomplete="off" value="25">@T["25%"]
         </label>

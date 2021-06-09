@@ -12,10 +12,10 @@
 }
 
 <div class="row">
-    <div class="form-group col-md-12">
+    <div class="mb-3 col-md-12">
         <label asp-for="Url">@Model.PartFieldDefinition.DisplayName()</label>
     </div>
-    <div class="form-group col-md-6" asp-validation-class-for="Url">
+    <div class="mb-3 col-md-6" asp-validation-class-for="Url">
         @if (string.IsNullOrEmpty(settings.UrlPlaceholder))
         {
             <label asp-for="Url" class="@urlClass">@T["Url"]</label>
@@ -28,7 +28,7 @@
     </div>
     @if (settings.LinkTextMode == LinkTextMode.Optional || settings.LinkTextMode == LinkTextMode.Required)
     {
-        <div class="form-group col-md-6" asp-validation-class-for="Text">
+        <div class="mb-3 col-md-6" asp-validation-class-for="Text">
             @if (string.IsNullOrEmpty(settings.TextPlaceholder))
             {
                 <label asp-for="Text" class="@textClass">@T["Link text"]</label>

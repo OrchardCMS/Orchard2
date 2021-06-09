@@ -4,7 +4,9 @@
     <nav class="card">
         <ul class="navbar-nav card-body bg-primary">
             <li class="nav-item">
-                <input type="file" name="importedPackage" accept=".zip,.json" />
+                <div class="mb-3">
+                    <input type="file" name="importedPackage" class="form-control" accept=".zip,.json" />
+                </div>
                 <button class="btn btn-primary import" type="submit">@T["Import"]</button>
             </li>
         </ul>

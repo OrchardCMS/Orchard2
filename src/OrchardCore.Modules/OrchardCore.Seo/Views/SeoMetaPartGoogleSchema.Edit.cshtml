@@ -1,6 +1,6 @@
 @model OrchardCore.Seo.ViewModels.SeoMetaPartGoogleSchemaViewModel
 
-<div class="form-group" asp-validation-class-for="GoogleSchema">
+<div class="mb-3" asp-validation-class-for="GoogleSchema">
     <label asp-for="GoogleSchema">@T["Google Schema"] </label>
     <textarea asp-for="GoogleSchema" class="form-control content-preview-text" rows="5"></textarea>
     <span class="hint">@T["The Social Meta Settings Google Schema is used by default, or can be overridden here."]</span>

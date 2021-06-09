@@ -7,43 +7,43 @@
     <input type="hidden" asp-for="ReturnUrl" />
 
     <ul class="nav nav-tabs">
-        <li class="nav-item pr-md-2">
-            <a class="nav-link active" id="properties-tab" data-toggle="tab" href="#properties" role="tab" aria-controls="site" aria-selected="true">@T["Properties"]</a>
+        <li class="nav-item pe-md-2">
+            <a class="nav-link active" id="properties-tab" data-bs-toggle="tab" href="#properties" role="tab" aria-controls="site" aria-selected="true">@T["Properties"]</a>
         </li>
-        <li class="nav-item pr-md-2">
-            <a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="resources">@T["Advanced"]</a>
+        <li class="nav-item pe-md-2">
+            <a class="nav-link" id="advanced-tab" data-bs-toggle="tab" href="#advanced" role="tab" aria-controls="resources">@T["Advanced"]</a>
         </li>
     </ul>
 
     <div class="tab-content" id="tabs">
         <div class="tab-pane fade show active" id="properties" role="tabpanel" aria-labelledby="properties-tab">
-            <div class="form-group" asp-validation-class-for="Name">
+            <div class="mb-3" asp-validation-class-for="Name">
                 <label asp-for="Name">@T["Name"]</label>
                 <input asp-for="Name" class="form-control" autofocus />
                 <span asp-validation-for="Name" class="text-danger"></span>
                 <div class="hint">@T["The name of the workflow."]</div>
             </div>
 
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input asp-for="IsEnabled" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" asp-for="IsEnabled">@T["Enabled"]</label>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input asp-for="IsEnabled" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" asp-for="IsEnabled">@T["Enabled"]</label>
                     <span class="hint">@T["Uncheck to prevent workflows of this type from being executed."]</span>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input asp-for="IsSingleton" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" asp-for="IsSingleton">@T["Single instance"]</label>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input asp-for="IsSingleton" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" asp-for="IsSingleton">@T["Single instance"]</label>
                     <span class="hint">@T["Check to ensure only one workflow of this type can execute at a time. Leave unchecked to allow any number of workflows to execute at the same time."]</span>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input asp-for="DeleteFinishedWorkflows" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" asp-for="DeleteFinishedWorkflows">@T["Delete successfully completed workflows"]</label>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input asp-for="DeleteFinishedWorkflows" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" asp-for="DeleteFinishedWorkflows">@T["Delete successfully completed workflows"]</label>
                     <span class="hint">@T["Check to automatically delete workflows that have completed successfully. Leave unchecked to maintain a history of executed workflows."]</span>
                 </div>
             </div>
@@ -53,13 +53,13 @@
         </div>
 
         <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="LockTimeout">@T["Lock timeout (ms)"]</label>
                 <input asp-for="LockTimeout" type="number" max="30000" class="form-control">
                 <span class="hint">@T["The timeout in milliseconds to acquire a lock before resuming a given workflow instance of this type atomically. Leave it to zero to not use any locking."]</span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="LockExpiration">@T["Lock expiration (ms)"]</label>
                 <input asp-for="LockExpiration" type="number" max="30000" class="form-control">
                 <span class="hint">@T["The expiration in milliseconds of the lock acquired before resuming a workflow instance of this type atomically. Leave it to zero to not use any locking."]</span>
@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         <a class="btn btn-secondary cancel" role="button" href="@Model.ReturnUrl">@T["Cancel"]</a>
     </div>

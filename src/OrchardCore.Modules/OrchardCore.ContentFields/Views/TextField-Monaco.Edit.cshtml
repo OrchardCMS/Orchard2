@@ -6,7 +6,7 @@
     var culture = await Orchard.GetContentCultureAsync(Model.Field.ContentItem);
 }
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Text">@Model.PartFieldDefinition.DisplayName()</label>
     <div id="@Html.IdFor(x => x.Text)_editor" asp-for="Text" style="min-height: 400px;" class="form-control" dir="@culture.GetLanguageDirection()"></div>
     <textarea asp-for="Text" hidden>@Html.Raw(Model.Text)</textarea>

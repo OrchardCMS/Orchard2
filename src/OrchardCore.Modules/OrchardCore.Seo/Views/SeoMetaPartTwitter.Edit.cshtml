@@ -1,30 +1,30 @@
 @model OrchardCore.Seo.ViewModels.SeoMetaPartTwitterViewModel
 
-<div class="form-group" asp-validation-class-for="TwitterTitle">
+<div class="mb-3" asp-validation-class-for="TwitterTitle">
     <label asp-for="TwitterTitle">@T["Twitter Title"] </label>
     <input asp-for="TwitterTitle" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["The Title is used by default, then the Page Title, or can be overridden here."]</span>
 </div>  
 
-<div class="form-group" asp-validation-class-for="TwitterDescription">
+<div class="mb-3" asp-validation-class-for="TwitterDescription">
     <label asp-for="TwitterDescription">@T["Twitter Description"] </label>
     <textarea asp-for="TwitterDescription" class="form-control content-preview-text shortcode-modal-input"></textarea>
     <span class="hint">@T["The Meta Description is used by default, or can be overridden here."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="TwitterCard">
+<div class="mb-3" asp-validation-class-for="TwitterCard">
     <label asp-for="TwitterCard">@T["Twitter Card"] </label>
     <input asp-for="TwitterCard" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["The Social Meta Settings Twitter Card is used by default, or can be overridden here."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="TwitterCreator">
+<div class="mb-3" asp-validation-class-for="TwitterCreator">
     <label asp-for="TwitterCreator">@T["Twitter Creator"] </label>
     <input asp-for="TwitterCreator" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["The Social Meta Settings Twitter Creator is used by default, or can be overridden here."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="TwitterSite">
+<div class="mb-3" asp-validation-class-for="TwitterSite">
     <label asp-for="TwitterSite">@T["Twitter Site"] </label>
     <input asp-for="TwitterSite" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["The Social Meta Settings Twitter Site is used by default, or can be overridden here."]</span>

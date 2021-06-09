@@ -19,14 +19,14 @@
 <style asp-src="~/OrchardCore.AdminDashboard/Styles/dashboard.min.css" debug-src="~/OrchardCore.AdminDashboard/Styles/dashboard.css" depends-on="jQuery-ui" at="Head"></style>
 <script asp-name="jQuery-ui" at="Foot"></script>
 
-<div class="float-right mb-3 d-inline-flex">
-    <a class="btn btn-success btn-sm  mr-1" asp-action="Index">
+<div class="float-end mb-3 d-inline-flex">
+    <a class="btn btn-success btn-sm me-1" asp-action="Index">
         @T["Close Editor"]
     </a>
     @if (Model.Creatable.Any())
     {
         <div class="dropdown order-md-1">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="new-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="new-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @T["Add Widget"]
             </button>
             <div class="dropdown-menu dropdown-menu-right scrollable" aria-labelledby="bulk-action-menu-button">
@@ -38,13 +38,11 @@
         </div>
     }
 </div>
-<zone Name="Title"><h1 class="float-left">@RenderTitleSegments(T["Dashboard"])</h1></zone>
+<zone Name="Title"><h1 class="float-start">@RenderTitleSegments(T["Dashboard"])</h1></zone>
 <div class="clearfix"></div>
 
 <div id="dashboard-undo-message" class="alert alert-success alert-dismissible show d-none" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <form id="dashboard-undo-form" asp-action="Update" method="POST">
         @for (int index = 0; index < Model.Dashboards.Count(); index++)
         {

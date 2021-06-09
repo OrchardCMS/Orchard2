@@ -1,16 +1,16 @@
 @model SitemapPartViewModel
 <div class="row">
-    <div class="col-12 form-group">
-        <div class="custom-control custom-checkbox">
-            <input asp-for="OverrideSitemapConfig" class="custom-control-input" />
-            <label asp-for="OverrideSitemapConfig" class="custom-control-label">@T["Override sitemap configuration"]</label>
+    <div class="col-12">
+        <div class="form-check">
+            <input asp-for="OverrideSitemapConfig" class="form-check-input" />
+            <label asp-for="OverrideSitemapConfig" class="form-check-label">@T["Override sitemap configuration"]</label>
             <span class="hint dashed">@T["Check to override sitemap configuration."]</span>
         </div>
     </div>
-    <div class="col-12 form-group">
-        <div class="custom-control custom-checkbox sitemap-form-group" style="@(Model.OverrideSitemapConfig ? "" : "display: none")">
-            <input asp-for="Exclude" class="custom-control-input" />
-            <label asp-for="Exclude" class="custom-control-label">@T["Exclude"]</label>
+    <div class="col-12">
+        <div class="form-check sitemap-form-group" style="@(Model.OverrideSitemapConfig ? "" : "display: none")">
+            <input asp-for="Exclude" class="form-check-input" />
+            <label asp-for="Exclude" class="form-check-label">@T["Exclude"]</label>
             <span class="hint dashed">@T["Check to exclude this content item from the site map."]</span>
         </div>
     </div>
@@ -18,14 +18,14 @@
 <div class="row">
     <div class="col-xl-6 form-group sitemap-form-group" asp-validation-class-for="ChangeFrequency" style="@(Model.OverrideSitemapConfig ? "" : "display: none")">
         <label asp-for="ChangeFrequency">@T["Change Frequency"] </label>
-        <select asp-for="ChangeFrequency" class="form-control" asp-items="Html.GetEnumSelectList<ChangeFrequency>()"></select>
+        <select asp-for="ChangeFrequency" class="form-select" asp-items="Html.GetEnumSelectList<ChangeFrequency>()"></select>
         <span class="hint">@T["The frequency this content item is likely to change."]</span>
     </div>
 </div>
 <div class="row">
     <div class="col-xl-6 form-group sitemap-form-group" asp-validation-class-for="Priority" style="@(Model.OverrideSitemapConfig ? "" : "display: none")">
         <label asp-for="Priority">@T["Priority"] </label>
-        <select asp-for="Priority" class="form-control">
+        <select asp-for="Priority" class="form-select">
             <option value="0">@T["0.0"]</option>
             <option value="1">@T["0.1"]</option>
             <option value="2">@T["0.2"]</option>

@@ -5,7 +5,7 @@
 <div asp-validation-summary="All"></div>
 <form asp-action="Edit" method="post">
     <input type="hidden" value="@Model.Name" name="sourceName" />
-    <div class="form-group " asp-validation-class-for="Name">
+    <div class="mb-3 " asp-validation-class-for="Name">
         <div class="w-100 w-md-50">
             <label asp-for="Name">@T["Name"]</label>
             <input asp-for="Name" class="form-control" autofocus />
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Hint">
+    <div class="mb-3" asp-validation-class-for="Hint">
         <div class="w-100 w-md-50">
             <label asp-for="Hint">@T["Hint"]</label>
             <textarea asp-for="Hint" rows="2" class="form-control"></textarea>
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="form-group" asp-validation-class-for="SelectedWidth">
+    <div class="mb-3" asp-validation-class-for="SelectedWidth">
         <div class="w-100 w-md-50">
             <label asp-for="SelectedWidth">@T["Width"]</label>
             <select asp-for="SelectedWidth" asp-items="@Model.AvailableWidths" class="form-control content-preview-select" asp-validation-class-for="SelectedWidth"></select>
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div class="form-group" asp-validation-class-for="SelectedHeight">
+    <div class="mb-3" asp-validation-class-for="SelectedHeight">
         <div class="w-100 w-md-50">
             <label asp-for="SelectedHeight">@T["Height"]</label>
             <select asp-for="SelectedHeight" asp-items="@Model.AvailableHeights" class="form-control content-preview-select" asp-validation-class-for="SelectedHeight"></select>
@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <div class="form-group" asp-validation-class-for="SelectedMode">
+    <div class="mb-3" asp-validation-class-for="SelectedMode">
         <div class="w-100 w-md-50">
             <label asp-for="SelectedMode">@T["Resize Mode"]</label>
             <select asp-for="SelectedMode" asp-items="Model.AvailableResizeModes" class="form-control content-preview-select" asp-validation-class-for="SelectedMode"></select>
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <div class="form-group" asp-validation-class-for="BackgroundColor" style="@(Model.SelectedMode == ResizeMode.Pad || Model.SelectedMode == ResizeMode.BoxPad ? "" : "display: none;")">
+    <div class="mb-3" asp-validation-class-for="BackgroundColor" style="@(Model.SelectedMode == ResizeMode.Pad || Model.SelectedMode == ResizeMode.BoxPad ? "" : "display: none;")">
         <div class="w-100 w-md-50">
             <label asp-for="BackgroundColor">@T["Background Color"]</label>
             <input type="text" asp-for="BackgroundColor" class="form-control" />
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div class="form-group" asp-validation-class-for="SelectedFormat">
+    <div class="mb-3" asp-validation-class-for="SelectedFormat">
         <div class="w-100 w-md-50">
             <label asp-for="SelectedFormat">@T["Format"]</label>
             <select asp-for="SelectedFormat" asp-items="Model.AvailableFormats" class="form-control content-preview-select" asp-validation-class-for="SelectedFormat"></select>
@@ -86,7 +86,7 @@
         </div>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Quality">
+    <div class="mb-3" asp-validation-class-for="Quality">
         <div class="w-100 w-md-50">
             <label asp-for="Quality">@T["Quality"]</label>
             <input asp-for="Quality" class="form-control" min="1" max="100" />
@@ -97,11 +97,11 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <div class="btn-group">
             <button type="submit" name="submit" class="btn btn-success save">@T["Save"]</button>
-            <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">@T["Toggle Dropdown"]</span>
+            <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-reference="parent" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="visually-hidden">@T["Toggle Dropdown"]</span>
             </button>
             <div class="dropdown-menu">
                 <button class="dropdown-item save-continue" name="submit" type="submit" value="SaveAndContinue">@T["and continue"]</button>

@@ -8,19 +8,19 @@
 
 @* the form is necessary to generate and antiforgery token for the delete action *@
 <form asp-action="Index">
-    <input type="submit" name="submit.Filter" id="submitFilter" class="sr-only" />
+    <input type="submit" name="submit.Filter" id="submitFilter" class="visually-hidden" />
     <input asp-for="Options.BulkAction" type="hidden" />
-    <input type="submit" name="submit.BulkAction" class="sr-only" />
+    <input type="submit" name="submit.BulkAction" class="visually-hidden" />
 
     <div class="card mb-3 position-sticky action-bar">
         <div class="card-body bg-primary p-3">
-            <div class="form-group mb-n1">
+            <div class="mb-0">
                 <div class="input-group input-group-sm w-sm-50 w-25 d-inline-flex has-search">
                     <i class="fa fa-search form-control-feedback"></i>
                     <input asp-for="Options.Search" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
                 </div>
-                <div class="btn-group float-right">
-                    <a asp-route-action="Create" class="btn btn-sm btn-secondary float-right create" role="button">@T["Add Remote Instance"]</a>
+                <div class="btn-group float-end">
+                    <a asp-route-action="Create" class="btn btn-sm btn-secondary float-end create" role="button">@T["Add Remote Instance"]</a>
                 </div>
             </div>
         </div>
@@ -30,17 +30,17 @@
         {
             <li class="list-group-item bg-primary">
                 <div class="row">
-                    <div class="form-group col mb-n1 text-nowrap">
-                        <div class="custom-control custom-checkbox mt-2 mr-n2">
-                            <input type="checkbox" class="custom-control-input" id="select-all">
-                            <label class="custom-control-label" for="select-all" id="select-all-label" title="@T["Select All"]"></label>
+                    <div class="mb-3 col mb-n1 text-nowrap">
+                        <div class="form-check mt-2 me-n2">
+                            <input type="checkbox" class="form-check-input" id="select-all">
+                            <label class="form-check-label" for="select-all" id="select-all-label" title="@T["Select All"]"></label>
                             <label id="items" for="select-all">@T.Plural(Model.RemoteInstances.Count(), "1 item", "{0} items")<span class="text-muted" title="@T["Items {0} to {1}", startIndex, endIndex]">@T.Plural((int)Model.Pager.TotalItemCount, " / {0} item in total", " / {0} items in total")</span></label>
                             <label id="selected-items" class="text-muted" for="select-all"></label>
                         </div>
                     </div>
-                    <div class="form-group col-2 mb-n1" style="display:none" id="actions">
-                        <span class="dropdown float-right mt-1">
-                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bulk-action-menu-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="mb-3 col-2 mb-n1" style="display:none" id="actions">
+                        <span class="dropdown float-end mt-1">
+                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bulk-action-menu-button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @T["Actions"]
                             </button>
                             <span class="dropdown-menu dropdown-menu-right" aria-labelledby="bulk-action-menu-button">
@@ -57,9 +57,9 @@
             @foreach (var entry in Model.RemoteInstances)
             {
                 <li class="list-group-item">
-                    <div class="custom-control custom-checkbox float-left">
-                        <input type="checkbox" class="custom-control-input" value="@entry.Id" name="itemIds" id="itemIds-@entry.Id">
-                        <label class="custom-control-label" for="itemIds-@entry.Id">&nbsp;</label>
+                    <div class="form-check float-start">
+                        <input type="checkbox" class="form-check-input" value="@entry.Id" name="itemIds" id="itemIds-@entry.Id">
+                        <label class="form-check-label" for="itemIds-@entry.Id">&nbsp;</label>
                     </div>
                     <div class="properties">
                         <div class="related">

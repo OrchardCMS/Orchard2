@@ -97,7 +97,7 @@
 <h2>Hello from @ViewContext.RouteData.Values["page"]</h2>
 
 <form asp-route-id="@Model.Id" method="post">
-    <button asp-page-handler="Delete" class="btn btn-sm btn-danger float-right mx-1">Delete</button>
+    <button asp-page-handler="Delete" class="btn btn-sm btn-danger float-end mx-1">Delete</button>
     <input asp-for="Text" />
-    <button asp-page-handler="Update" class="btn btn-sm btn-warning float-right mx-1">Update</button>
+    <button asp-page-handler="Update" class="btn btn-sm btn-warning float-end mx-1">Update</button>
 </form>

@@ -7,7 +7,7 @@
     var culture = await Orchard.GetContentCultureAsync(Model.AliasPart.ContentItem);
 }
 
-<div class="form-group" asp-validation-class-for="Alias">
+<div class="mb-3" asp-validation-class-for="Alias">
     <label asp-for="Alias">@T["Alias"] </label>
     <input asp-for="Alias" class="form-control text-muted" disabled="@(Model.Settings?.Options == AliasPartOptions.GeneratedDisabled)" dir="@culture.GetLanguageDirection()" />
     <span asp-validation-for="Alias"></span>

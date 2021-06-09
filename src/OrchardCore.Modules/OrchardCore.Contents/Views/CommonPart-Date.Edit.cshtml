@@ -1,7 +1,7 @@
 @using OrchardCore.Contents.ViewModels;
 @model DateEditorViewModel
 
-<div class="form-group" asp-validation-class-for="LocalDateTime">
+<div class="mb-3" asp-validation-class-for="LocalDateTime">
     <div class="w-md-50 w-lg-25">
         <label asp-for="LocalDateTime">@T["Created"]</label>
         <input asp-for="LocalDateTime" asp-format="{0:yyyy-MM-ddTHH:mm}" class="form-control" type="datetime-local" />

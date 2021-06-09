@@ -23,7 +23,7 @@
 
 <div class="card mb-3">
     <div class="card-body bg-primary p-3">
-        <button type="button" @(canAddMenuItem ? null : "disabled=\"disabled\"") class="btn btn-primary" data-toggle="modal" data-target="#modalMenuItems">
+        <button type="button" @(canAddMenuItem ? null : "disabled=\"disabled\"") class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMenuItems">
             @T["Add Menu Item"]
         </button>
     </div>
@@ -46,9 +46,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="available-menu-items-title">@T["Available Menu Items"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -66,7 +64,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
             </div>
         </div>
     </div>

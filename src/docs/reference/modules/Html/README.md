@@ -83,7 +83,7 @@ Sample content:
 @using OrchardCore.Html.ViewModels;
 @model HtmlBodyPartViewModel
 
-<fieldset class="form-group">
+<fieldset class="mb-3">
     <label asp-for="Body">@T["Body"]</label>
     <textarea asp-for="Body" rows="5" class="form-control"></textarea>
     <span class="hint">@T["The body of the content item."]</span>

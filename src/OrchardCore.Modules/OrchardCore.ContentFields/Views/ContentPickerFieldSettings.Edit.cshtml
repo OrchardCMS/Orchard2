@@ -14,29 +14,29 @@
 
 <script asp-name="vuejs" at="Foot"></script>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Required" type="checkbox" class="custom-control-input">
-        <label class="custom-control-label" asp-for="Required">@T["Required"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Required" type="checkbox" class="form-check-input">
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
         <span class="hint dashed">@T["Whether to ensure at least one element is selected."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Multiple" type="checkbox" class="custom-control-input">
-        <label class="custom-control-label" asp-for="Multiple">@T["Allow multiple"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Multiple" type="checkbox" class="form-check-input">
+        <label class="form-check-label" asp-for="Multiple">@T["Allow multiple"]</label>
         <span class="hint dashed">@T["Whether to allow multiple elements to be selected."]</span>
     </div>
 </div>
 
-<div id="contentTypesVue" class="form-group">
+<div id="contentTypesVue" class="mb-3">
     <label asp-for="DisplayedContentTypes">@T["Content Types"]</label>
     <span class="hint">@T["The content types to display. Choose at least one."]</span>
 
-    <div class="custom-control custom-checkbox">
-        <input asp-for="DisplayAllContentTypes" type="checkbox" class="custom-control-input" v-model="displayAllContentTypes">
-        <label class="custom-control-label" asp-for="DisplayAllContentTypes">@T["Display All Content Types"]</label>
+    <div class="form-check">
+        <input asp-for="DisplayAllContentTypes" type="checkbox" class="form-check-input" v-model="displayAllContentTypes">
+        <label class="form-check-label" asp-for="DisplayAllContentTypes">@T["Display All Content Types"]</label>
         <span class="hint dashed">@T["Whether to allow picker to display all content types."]</span>
     </div>
 
@@ -45,18 +45,18 @@
     </div>
 </div>
 
-<div class="form-group">
-    <div class="w-md-75 w-xl-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-md-75 w-xl-50 pe-md-3">
         <label asp-for="Hint">@T["Hint"]</label>
         <textarea asp-for="Hint" rows="2" class="form-control"></textarea>
     </div>
     <span class="hint">@T["The hint text to display for this field on the editor."]</span>
 </div>
 
-@*<div class="form-group">
+@*<div class="mb-3">
         <div class="w-sm-50">
             <label asp-for="SearchResultProvider">@T["Search Result Provider"]</label>
-            <select asp-for="SearchResultProvider" asp-items="resultProviderItems" class="form-control"></select>
+            <select asp-for="SearchResultProvider" asp-items="resultProviderItems" class="form-select"></select>
         </div>
         <span class="hint">@T["The search result provider to use when selecting content items."]</span>
     </div>*@

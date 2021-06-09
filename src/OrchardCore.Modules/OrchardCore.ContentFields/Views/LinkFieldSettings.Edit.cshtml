@@ -1,17 +1,17 @@
 @model OrchardCore.ContentFields.Settings.LinkFieldSettings
 @using OrchardCore.ContentFields.Settings
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Required" checked="@Model.Required" />
-        <label class="custom-control-label" asp-for="Required">@T["Required"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Required" checked="@Model.Required" />
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
         <span class="hint dashed">@T["Whether the url is required."]</span>
     </div>
 </div>
-<div class="form-group">
-    <div class="w-100 w-md-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-100 w-md-50 pe-md-3">
         <label asp-for="LinkTextMode">@T["Text"]</label>
-        <select asp-for="LinkTextMode" class="form-control">
+        <select asp-for="LinkTextMode" class="form-select">
             <option value="@LinkTextMode.Optional" selected="@(Model.LinkTextMode == LinkTextMode.Optional)">@T["Text is optional"]</option>
             <option value="@LinkTextMode.Required" selected="@(Model.LinkTextMode == LinkTextMode.Required)">@T["Text is required"]</option>
             <option value="@LinkTextMode.Static" selected="@(Model.LinkTextMode == LinkTextMode.Static)">@T["Use the default value"]</option>
@@ -20,37 +20,37 @@
     </div>
 </div>
 <div class="row">
-    <div class="form-group col-md-6">
+    <div class="mb-3 col-md-6">
         <label asp-for="Hint">@T["Hint for the url"]</label>
         <input asp-for="Hint" type="text" class="form-control" />
         <span class="hint">@T["The hint text to display for the url on the editor."]</span>
     </div>
-    <div class="form-group col-md-6">
+    <div class="mb-3 col-md-6">
         <label asp-for="HintLinkText">@T["Hint for the text"]</label>
         <input asp-for="HintLinkText" type="text" class="form-control" />
         <span class="hint">@T["The hint text to display for the text of the link on the editor."]</span>
     </div>
 </div>
 <div class="row">
-    <div class="form-group col-md-6">
+    <div class="mb-3 col-md-6">
         <label asp-for="UrlPlaceholder">@T["Watermark for the url"]</label>
         <input asp-for="UrlPlaceholder" type="text" class="form-control" />
         <span class="hint">@T["A hint (placeholder) to display when the input of the url is empty."]</span>
     </div>
-    <div class="form-group col-md-6">
+    <div class="mb-3 col-md-6">
         <label asp-for="TextPlaceholder">@T["Watermark for the text"]</label>
         <input asp-for="TextPlaceholder" type="text" class="form-control" />
         <span class="hint">@T["A hint (placeholder) to display when the input of the text is empty."]</span>
     </div>
 </div>
 <div class="row">
-    <div class="form-group col-md-6">
+    <div class="mb-3 col-md-6">
         <label asp-for="DefaultUrl">@T["Default value of the url"]</label>
         <input asp-for="DefaultUrl" type="text" class="form-control" />
         <span class="hint">@T["A valid url proposed when creating a content item."]</span>
         <span asp-validation-for="DefaultUrl" class="text-danger"></span>
     </div>
-    <div class="form-group col-md-6">
+    <div class="mb-3 col-md-6">
         <label asp-for="DefaultText">@T["Default value of the text"]</label>
         <input asp-for="DefaultText" type="text" class="form-control" />
         <span class="hint">@T["The default link text proposed when creating a content item."]</span>

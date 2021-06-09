@@ -6,26 +6,24 @@
     <div class="col-6">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="form-group" asp-validation-class-for="Path">
+                <div class="mb-3" asp-validation-class-for="Path">
                     <label asp-for="Path">@T["Path"] </label>
                     <div class="input-group">
                         @if (!String.IsNullOrWhiteSpace(Site.BaseUrl))
                         {
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">@Site.BaseUrl</div>
-                            </div>
+                            <span class="input-group-text">@Site.BaseUrl</span>
                         }
                         <input asp-for="Path" class="form-control" autofocus />
                     </div>
                     <span asp-validation-for="Path"></span>
                     <span class="hint">@T["The path to add to the sitemap. e.g. path/to/something"]</span>
                 </div>
-                <div class="form-group" asp-validation-class-for="ChangeFrequency">
+                <div class="mb-3" asp-validation-class-for="ChangeFrequency">
                     <label asp-for="ChangeFrequency">@T["Change Frequency"] </label>
                     <select asp-for="ChangeFrequency" class="form-control w-25" asp-items="Html.GetEnumSelectList<ChangeFrequency>()"></select>
                     <span class="hint">@T["The default frequency with which this path is likely to change."]</span>
                 </div>
-                <div class="form-group" asp-validation-class-for="Priority">
+                <div class="mb-3" asp-validation-class-for="Priority">
                     <label asp-for="Priority">@T["Priority"] </label>
                     <select asp-for="Priority" class="form-control w-25">
                         <option value="0">@T["0.0"]</option>

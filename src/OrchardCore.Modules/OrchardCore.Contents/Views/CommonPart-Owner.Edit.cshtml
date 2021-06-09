@@ -1,7 +1,7 @@
 @using OrchardCore.Contents.ViewModels;
 @model OwnerEditorViewModel
 
-<div class="form-group" asp-validation-class-for="OwnerName">
+<div class="mb-3" asp-validation-class-for="OwnerName">
     <label asp-for="OwnerName">@T["Owner Name"]</label>
     <input asp-for="OwnerName" class="form-control" />
     <span asp-validation-for="OwnerName"></span>

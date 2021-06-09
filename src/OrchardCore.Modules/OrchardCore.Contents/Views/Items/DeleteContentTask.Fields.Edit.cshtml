@@ -1,7 +1,7 @@
 @using OrchardCore.Contents.Workflows.ViewModels
 @model DeleteContentTaskViewModel
 
-<div class="form-group" asp-validation-class-for="Expression">
+<div class="mb-3" asp-validation-class-for="Expression">
     <label asp-for="Expression">@T["Expression"]</label>
     <input type="text" asp-for="Expression" class="form-control code" autofocus />
     <span asp-validation-for="Expression"></span>

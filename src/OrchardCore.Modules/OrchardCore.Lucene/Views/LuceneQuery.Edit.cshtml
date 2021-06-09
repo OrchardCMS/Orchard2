@@ -4,9 +4,9 @@
 <script asp-name="codemirror" depends-on="admin" at="Foot"></script>
 <script asp-name="codemirror-mode-javascript" at="Foot"></script>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Index">@T["Index"]</label>
-    <select asp-for="Index" class="form-control">
+    <select asp-for="Index" class="form-select">
         @foreach (var index in Model.Indices)
         {
             <option value="@index">@index</option>
@@ -15,15 +15,15 @@
     <span class="hint">@T["The lucene index to search on"]</span>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="ReturnContentItems" checked="@Model.ReturnContentItems" />
-        <label class="custom-control-label" asp-for="ReturnContentItems">@T["Return Content Items"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="ReturnContentItems" checked="@Model.ReturnContentItems" />
+        <label class="form-check-label" asp-for="ReturnContentItems">@T["Return Content Items"]</label>
         <span class="hint dashed">@T["Check to return the corresponding content items."]</span>
     </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Query">@T["Query"]</label>
     <textarea asp-for="Query" rows="12" class="form-control"></textarea>
     <span class="hint">@T["The search query uses the Elasticsearch format. Some documentation can be found here <a target=\"_blank\" href=\"https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html\">https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html</a>"]</span>

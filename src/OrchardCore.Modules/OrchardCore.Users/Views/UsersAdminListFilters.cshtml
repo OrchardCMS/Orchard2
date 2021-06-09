@@ -1,9 +1,9 @@
 @model UserIndexOptions
 
-<div class="form-group mb-n1 filter">
+<div class="mb-0 filter">
     <div class="btn-group mt-1">
-        <select asp-for="SelectedRole" asp-items="Model.UserRoleFilters" class="selectpicker userroles-selectpicker show-tick mr-2" data-header="@T["Filter by role"]" data-live-search="true" data-selected-text-format="static" data-width="fit" title="@T["Role"]" data-style="btn-sm" data-dropdown-align-right="auto"></select>
-        <select asp-for="Filter" asp-items="@Model.UserFilters" class="selectpicker userstatuses-selectpicker show-tick mr-2" data-header="@T["Filter by status"]" data-selected-text-format="static" data-width="fit" data-dropdown-align-right="auto" title="@T["Show"]" data-style="btn-sm"></select>
+        <select asp-for="SelectedRole" asp-items="Model.UserRoleFilters" class="selectpicker userroles-selectpicker show-tick me-2" data-header="@T["Filter by role"]" data-live-search="true" data-selected-text-format="static" data-width="fit" title="@T["Role"]" data-style="btn-sm" data-dropdown-align-right="auto"></select>
+        <select asp-for="Filter" asp-items="@Model.UserFilters" class="selectpicker userstatuses-selectpicker show-tick me-2" data-header="@T["Filter by status"]" data-selected-text-format="static" data-width="fit" data-dropdown-align-right="auto" title="@T["Show"]" data-style="btn-sm"></select>
         <select asp-for="Order" asp-items="@Model.UserSorts" class="selectpicker usersorts-selectpicker show-tick" data-header="@T["Sort by"]" data-width="fit" data-selected-text-format="static" data-dropdown-align-right="true" title="@T["Sort"]" data-style="btn-sm"></select>
     </div>
 </div>

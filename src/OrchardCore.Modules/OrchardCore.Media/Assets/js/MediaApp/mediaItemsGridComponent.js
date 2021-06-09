@@ -17,9 +17,9 @@ Vue.component('media-items-grid', {
                         <i v-else class="fa fa-file-o fa-lg" :data-mime="media.mime"></i>
                     </div>
                 <div class="media-container-main-item-title card-body">
-                        <a href="javascript:;" class="btn btn-light btn-sm float-right inline-media-button edit-button" v-on:click.stop="renameMedia(media)"><i class="fa fa-edit"></i></a>
-                        <a href="javascript:;" class="btn btn-light btn-sm float-right inline-media-button delete-button" v-on:click.stop="deleteMedia(media)"><i class="fa fa-trash"></i></a>
-                        <a :href="media.url" target="_blank" class="btn btn-light btn-sm float-right inline-media-button view-button""><i class="fa fa-download"></i></a>
+                        <a href="javascript:;" class="btn btn-light btn-sm float-end inline-media-button edit-button" v-on:click.stop="renameMedia(media)"><i class="fa fa-edit"></i></a>
+                        <a href="javascript:;" class="btn btn-light btn-sm float-end inline-media-button delete-button" v-on:click.stop="deleteMedia(media)"><i class="fa fa-trash"></i></a>
+                        <a :href="media.url" target="_blank" class="btn btn-light btn-sm float-end inline-media-button view-button""><i class="fa fa-download"></i></a>
                         <span class="media-filename card-text small" :title="media.name">{{ media.name }}</span>
                     </div>
                  </li>

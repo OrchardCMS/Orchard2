@@ -13,27 +13,27 @@
 <h3 class="mb-n1">@T["Full-text"]</h3>
 <span class="hint">@T["The full-text content is used in search queries to find content items from free-text searches."]</span>
 
-<div class="border rounded mt-2 pt-3 pl-3 pr-3 mb-3">
-    <div class="form-group custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="IncludeDisplayText" checked="@Model.IncludeDisplayText" />
-        <label class="custom-control-label" asp-for="IncludeDisplayText">@T["Include display text"]</label>
+<div class="border rounded mt-2 pt-3 ps-3 ps-3 mb-3">
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IncludeDisplayText" checked="@Model.IncludeDisplayText" />
+        <label class="form-check-label" asp-for="IncludeDisplayText">@T["Include display text"]</label>
         <span class="hint dashed">@T["Check to include the display text in the full-text content."]</span>
     </div>
 
-    <div class="form-group custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="IncludeBodyAspect" checked="@Model.IncludeBodyAspect" />
-        <label class="custom-control-label" asp-for="IncludeBodyAspect">@T["Include body parts"]</label>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IncludeBodyAspect" checked="@Model.IncludeBodyAspect" />
+        <label class="form-check-label" asp-for="IncludeBodyAspect">@T["Include body parts"]</label>
         <span class="hint dashed">@T["Check to include the body parts content in the full-text content."]</span>
     </div>
 
-    <div class="form-group custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="IncludeFullTextTemplate" data-toggle="collapse" data-target="#fulltext-template" checked="@Model.IncludeFullTextTemplate" />
-        <label class="custom-control-label" asp-for="IncludeFullTextTemplate">@T["Use custom full-text"]</label>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IncludeFullTextTemplate" data-bs-toggle="collapse" data-bs-target="#fulltext-template" checked="@Model.IncludeFullTextTemplate" />
+        <label class="form-check-label" asp-for="IncludeFullTextTemplate">@T["Use custom full-text"]</label>
         <span class="hint dashed">@T["Check to define a custom Liquid template generating some text to include in the full-text content."]</span>
     </div>
 
     <div id="fulltext-template" class="collapse">
-        <div class="form-group row">
+        <div class="mb-3 row">
             <div class="col">
                 <textarea asp-for="FullTextTemplate" type="text" class="form-control"></textarea>
                 <span class="hint">@T["Tip: Include custom fields like <code>{{{{ Model.Content.Article.Summary.Text }}}}</code>."]</span>

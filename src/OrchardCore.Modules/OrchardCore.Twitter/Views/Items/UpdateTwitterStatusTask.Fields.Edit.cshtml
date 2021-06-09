@@ -2,7 +2,7 @@
 
 @model UpdateTwitterStatusTaskViewModel
 
-<div class="form-group" asp-validation-class-for="StatusTemplate">
+<div class="mb-3" asp-validation-class-for="StatusTemplate">
     <label asp-for="StatusTemplate">@T["Template for updating twitter status"]</label>
     <input type="text" asp-for="StatusTemplate" class="form-control code" />
     <span asp-validation-for="StatusTemplate"></span>

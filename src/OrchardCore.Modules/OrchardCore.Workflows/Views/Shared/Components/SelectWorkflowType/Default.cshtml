@@ -1,6 +1,6 @@
 @model SelectWorkflowTypeViewModel
 
-<select name="@Model.HtmlName" class="form-control">
+<select name="@Model.HtmlName" class="form-select">
     <option value="">@T["-"]</option>
     @for (var i = 0; i < Model.WorkflowTypeSelections.Count; i++)
     {

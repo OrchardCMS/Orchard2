@@ -4,33 +4,33 @@
 
 <p class="alert alert-warning">@T["The current tenant will be reloaded when the settings are saved."]</p>
 <ul class="nav nav-tabs">
-    <li class="nav-item pr-md-2">
-        <a class="nav-link active" id="site-tab" data-toggle="tab" href="#site" role="tab" aria-controls="site" aria-selected="true">@T["Site"]</a>
+    <li class="nav-item pe-md-2">
+        <a class="nav-link active" id="site-tab" data-bs-toggle="tab" href="#site" role="tab" aria-controls="site" aria-selected="true">@T["Site"]</a>
     </li>
-    <li class="nav-item pr-md-2">
-        <a class="nav-link" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources">@T["Resources"]</a>
+    <li class="nav-item pe-md-2">
+        <a class="nav-link" id="resources-tab" data-bs-toggle="tab" href="#resources" role="tab" aria-controls="resources">@T["Resources"]</a>
     </li>    
     <li class="nav-item">
-        <a class="nav-link" id="cache-tab" data-toggle="tab" href="#cache" role="tab" aria-controls="cache">@T["Cache"]</a>
+        <a class="nav-link" id="cache-tab" data-bs-toggle="tab" href="#cache" role="tab" aria-controls="cache">@T["Cache"]</a>
     </li>
 </ul>
 <div class="tab-content" id="tabs">
     <div class="tab-pane fade show active" id="site" role="tabpanel" aria-labelledby="site-tab">
-        <div class="form-group" asp-validation-class-for="SiteName">
+        <div class="mb-3" asp-validation-class-for="SiteName">
             <label asp-for="SiteName">@T["Site name"]</label>
             <input asp-for="SiteName" class="form-control" />
             <span asp-validation-for="SiteName"></span>
             <span class="hint">@T["The site name."]</span>
         </div>
 
-        <div class="form-group" asp-validation-class-for="PageTitleFormat">
+        <div class="mb-3" asp-validation-class-for="PageTitleFormat">
             <label asp-for="PageTitleFormat">@T["Page title format"]</label>
             <input asp-for="PageTitleFormat" class="form-control" />
             <span asp-validation-for="PageTitleFormat"></span>
             <span class="hint">@T["The default format of page titles."]</span>
         </div>
 
-        <div class="form-group" asp-validation-class-for="BaseUrl">
+        <div class="mb-3" asp-validation-class-for="BaseUrl">
             <label asp-for="BaseUrl">@T["Base url"]</label>
             <input asp-for="BaseUrl" class="form-control" />
             <span asp-validation-for="BaseUrl"></span>
@@ -38,9 +38,9 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-xl-8" asp-validation-class-for="TimeZone">
+            <div class="mb-3 col-xl-8" asp-validation-class-for="TimeZone">
                 <label asp-for="TimeZone">@T["Default Time Zone"]</label>
-                <select asp-for="TimeZone" class="form-control">
+                <select asp-for="TimeZone" class="form-select">
                     <option value="">@T["Local to server"]</option>
                     @foreach (var timezone in Clock.GetTimeZones().OrderBy(t => t.ToString()))
                     {
@@ -54,8 +54,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xl-4 form-group" asp-validation-class-for="PageSize">
+        <div class="mb-3">
+            <div class="col-xl-4" asp-validation-class-for="PageSize">
                 <label asp-for="PageSize">@T["Page size"]</label>
                 <input asp-for="PageSize" type="number" class="form-control" />
                 <span asp-validation-for="PageSize"></span>
@@ -65,33 +65,33 @@
     </div>
     <div class="tab-pane fade" id="resources" role="tabpanel" aria-labelledby="resources-tab">
         <h5>@T["Settings for scripts and stylesheets"]</h5>
-        <div class="form-group" asp-validation-class-for="AppendVersion">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="@Model.AppendVersion" />
-                <label class="custom-control-label" asp-for="@Model.AppendVersion">@T["Use resources cache busting"]</label>
+        <div class="mb-3" asp-validation-class-for="AppendVersion">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.AppendVersion" />
+                <label class="form-check-label" asp-for="@Model.AppendVersion">@T["Use resources cache busting"]</label>
                 <span class="hint dashed">@T["Whether cache busting (append a version) is used for scripts and stylesheets"]</span>
             </div>
         </div>
 
-        <div class="form-group" asp-validation-class-for="UseCdn">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="@Model.UseCdn" />
-                <label class="custom-control-label" asp-for="@Model.UseCdn">@T["Use framework CDN (Content Delivery Network)"]</label>
+        <div class="mb-3" asp-validation-class-for="UseCdn">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="@Model.UseCdn" />
+                <label class="form-check-label" asp-for="@Model.UseCdn">@T["Use framework CDN (Content Delivery Network)"]</label>
                 <span class="hint dashed">@T["Whether a framework CDN is used for registered scripts and stylesheets, such as jQuery, or their local version"]</span>
             </div>
         </div>
 
-        <div class="form-group" asp-validation-class-for="CdnBaseUrl">
+        <div class="mb-3" asp-validation-class-for="CdnBaseUrl">
             <label asp-for="CdnBaseUrl">@T["Site CDN (Content Delivery Network) base url"]</label>
             <input asp-for="CdnBaseUrl" class="form-control" />
             <span asp-validation-for="CdnBaseUrl"></span>
             <span class="hint">@T["A base CDN URL prefixed to the local scripts and stylesheets. It is disabled if the value is empty or if the Resource Debug Mode is enabled, e.g. <em>https://cdn.mysite.com</em>"]</span>
         </div>
 
-        <div class="row form-group">
+        <div class="mb-3">
             <div class="col-xl-6" asp-validation-class-for="ResourceDebugMode">
                 <label asp-for="ResourceDebugMode">@T["Resource Debug Mode"]</label>
-                <select asp-for="ResourceDebugMode" class="form-control">
+                <select asp-for="ResourceDebugMode" class="form-select">
                     <option value="@ResourceDebugMode.FromConfiguration.ToString()">@T["From environment — disabled in <em>Production</em>, enabled otherwise"]</option>
                     <option value="@ResourceDebugMode.Enabled.ToString()">@T["Enabled — use debuggable version of resources"]</option>
                     <option value="@ResourceDebugMode.Disabled.ToString()">@T["Disabled — use minified version of resources"]</option>
@@ -102,10 +102,10 @@
     </div>
     <div class="tab-pane fade" id="cache" role="tabpanel" aria-labelledby="cache-tab">
         <h5>@T["Settings for dynamic caches"]</h5>
-        <div class="row form-group">
+        <div class="mb-3">
             <div class="col-xl-6" asp-validation-class-for="CacheMode">
                 <label asp-for="CacheMode">@T["Cache Mode"]</label>
-                <select asp-for="CacheMode" class="form-control">
+                <select asp-for="CacheMode" class="form-select">
                     <option value="@CacheMode.FromConfiguration.ToString()">@T["From environment — enabled in <em>Production</em>, disabled otherwise"]</option>
                     <option value="@CacheMode.Enabled.ToString()">@T["Enabled"]</option>
                     <option value="@CacheMode.DebugEnabled.ToString()">@T["Enabled with cache debug mode"]</option>

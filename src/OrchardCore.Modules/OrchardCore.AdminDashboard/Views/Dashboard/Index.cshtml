@@ -22,14 +22,14 @@
 
 @if (hasManageDashboardPermission)
 {
-    <div class="btn-group float-right mb-3">
+    <div class="btn-group float-end mb-3">
         <a class="btn btn-primary btn-sm" asp-action="Manage">
             @T["Manage Dashboard"]
         </a>
     </div>
 }
 
-<zone Name="Title"><h1 class="float-left">@RenderTitleSegments(T["Dashboard"])</h1></zone>
+<zone Name="Title"><h1 class="float-start">@RenderTitleSegments(T["Dashboard"])</h1></zone>
 <div class="clearfix"></div>
 
 <div class="dashboard-container" style="--dashboard-columns: calc( @(settings.ColumnScale) * var(--dashboard-columns-default));">

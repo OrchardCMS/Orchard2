@@ -8,38 +8,38 @@
 <script asp-name="codemirror-addon-mode-multiplex" at="Foot"></script>
 <script asp-name="codemirror-mode-xml" at="Foot"></script>
 
-<div class="form-group" asp-validation-class-for="UseSiteTheme">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseSiteTheme" />
+<div class="mb-3" asp-validation-class-for="UseSiteTheme">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseSiteTheme" />
         <span asp-validation-for="UseSiteTheme"></span>
-        <label class="custom-control-label" asp-for="UseSiteTheme">@T["Use site theme for login page"]</label>
+        <label class="form-check-label" asp-for="UseSiteTheme">@T["Use site theme for login page"]</label>
         <span class="hint dashed">@T["Requires an active site theme."]</span>
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="UseExternalProviderIfOnlyOneDefined">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseExternalProviderIfOnlyOneDefined" />
+<div class="mb-3" asp-validation-class-for="UseExternalProviderIfOnlyOneDefined">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseExternalProviderIfOnlyOneDefined" />
         <span asp-validation-for="UseExternalProviderIfOnlyOneDefined"></span>
-        <label class="custom-control-label" asp-for="UseExternalProviderIfOnlyOneDefined">@T["Use external provider for login."]</label>
+        <label class="form-check-label" asp-for="UseExternalProviderIfOnlyOneDefined">@T["Use external provider for login."]</label>
         <span class="hint dashed">@T["If only one external provider is defined, auto challenge the provider to login. You should also configure registration options"]</span>
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="DisableLocalLogin">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisableLocalLogin" />
+<div class="mb-3" asp-validation-class-for="DisableLocalLogin">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisableLocalLogin" />
         <span asp-validation-for="DisableLocalLogin"></span>
-        <label class="custom-control-label" asp-for="DisableLocalLogin">@T["Disable local password login."]</label>
+        <label class="form-check-label" asp-for="DisableLocalLogin">@T["Disable local password login."]</label>
         <span class="hint dashed">@T["When selected, users are not allowed to login with username/password. Make sure there is at least one admin with linked account"]</span>
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="UseScriptToSyncRoles">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseScriptToSyncRoles" />
+<div class="mb-3" asp-validation-class-for="UseScriptToSyncRoles">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseScriptToSyncRoles" />
         <span asp-validation-for="UseScriptToSyncRoles"></span>
-        <label class="custom-control-label" asp-for="UseScriptToSyncRoles">@T["Use a script to set user roles based on external provider claims"]</label>
+        <label class="form-check-label" asp-for="UseScriptToSyncRoles">@T["Use a script to set user roles based on external provider claims"]</label>
         <span class="hint dashed">@T["If selected, any IExternalLoginEventHandlers defined in modules are not triggered"]</span>
     </div>
     <pre>
@@ -72,7 +72,7 @@
 </pre>
 </div>
 
-<div class="form-group" asp-validation-class-for="SyncRolesScript">
+<div class="mb-3" asp-validation-class-for="SyncRolesScript">
     <button type="button" class="btn btn-secondary mb-2" onclick="resetScript()">@T["Reset Script"]</button>
     <textarea asp-for="SyncRolesScript" rows="1" class="form-control content-preview-text"></textarea>
 </div>

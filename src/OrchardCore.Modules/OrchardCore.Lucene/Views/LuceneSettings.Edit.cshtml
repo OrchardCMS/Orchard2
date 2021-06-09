@@ -2,9 +2,9 @@
 
 @if (Model.SearchIndexes.Any())
 {
-<div class="form-group" asp-validation-class-for="SearchIndex">
+<div class="mb-3" asp-validation-class-for="SearchIndex">
     <label asp-for="SearchIndex">@T["Default search index"]</label>
-    <select asp-for="SearchIndex" class="form-control">
+    <select asp-for="SearchIndex" class="form-select">
         @foreach (var index in Model.SearchIndexes)
         {
             <option value="@index" selected="@(Model.SearchIndex == index)">@index</option>
@@ -19,17 +19,17 @@ else
     <div class="alert alert-warning">@T["You need to create at least an index to set as the Search index."]</div>
 }
 
-<div class="form-group" asp-validation-class-for="SearchFields">
+<div class="mb-3" asp-validation-class-for="SearchFields">
     <label asp-for="SearchFields">@T["Default searched fields"]</label>
     <input asp-for="SearchFields" class="form-control" />
     <span asp-validation-for="SearchFields"></span>
     <span class="hint">@T["A comma separated list of fields to use for search pages. The default value is <code>Content.ContentItem.FullText</code>."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="AllowLuceneQueriesInSearch">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="AllowLuceneQueriesInSearch" />
-        <label class="custom-control-label" asp-for="AllowLuceneQueriesInSearch">@T["Allow Lucene queries in search forms"]</label>
+<div class="mb-3" asp-validation-class-for="AllowLuceneQueriesInSearch">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="AllowLuceneQueriesInSearch" />
+        <label class="form-check-label" asp-for="AllowLuceneQueriesInSearch">@T["Allow Lucene queries in search forms"]</label>
         <span class="hint dashed">@T["Whether search queries should be allowed to use <a href=\"https://lucene.apache.org/core/2_9_4/queryparsersyntax.html\">Lucene query parser syntax</a>."] <a  class="seedoc" href="http://www.lucenetutorial.com/lucene-query-syntax.html" target="_blank">@T["See documentation"]</a></span>
     </div>
 </div>

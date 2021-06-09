@@ -25,8 +25,8 @@
 
     if (Model.HasItems)
     {
-        tag.Attributes["data-toggle"] = "collapse";
-        tag.Attributes["data-target"] = "#m" + Model.GetHashCode().ToString();
+        tag.Attributes["data-bs-toggle"] = "collapse";
+        tag.Attributes["data-bs-target"] = "#m" + Model.GetHashCode().ToString();
         tag.Attributes["aria-expanded"] = "false";
         tag.Attributes["aria-controls"] = "m" + Model.GetHashCode().ToString();
         tag.TagRenderMode = TagRenderMode.Normal;

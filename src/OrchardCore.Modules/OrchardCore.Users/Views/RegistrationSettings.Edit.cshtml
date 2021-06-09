@@ -9,9 +9,9 @@
 <script asp-name="codemirror-addon-mode-multiplex" at="Foot"></script>
 <script asp-name="codemirror-mode-xml" at="Foot"></script>
 
-<div class="form-group" asp-validation-class-for="UsersCanRegister">
+<div class="mb-3" asp-validation-class-for="UsersCanRegister">
     <label asp-for="UsersCanRegister">@T["Configure users registration."]</label>
-    <select asp-for="UsersCanRegister" class="form-control">
+    <select asp-for="UsersCanRegister" class="form-select">
         @foreach (UserRegistrationType option in Enum.GetValues(typeof(UserRegistrationType)))
         {
             <option value="@option" selected="@(Model.UsersCanRegister == option)">@T[option.ToString()]</option>
@@ -28,32 +28,32 @@
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="UsersMustValidateEmail">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UsersMustValidateEmail" data-toggle="collapse" data-target="#warnEmailValidation" />
+<div class="mb-3" asp-validation-class-for="UsersMustValidateEmail">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UsersMustValidateEmail" data-bs-toggle="collapse" data-bs-target="#warnEmailValidation" />
         <span asp-validation-for="UsersMustValidateEmail"></span>
-        <label class="custom-control-label" asp-for="UsersMustValidateEmail">@T["Users must verify their email address"]</label>
+        <label class="form-check-label" asp-for="UsersMustValidateEmail">@T["Users must verify their email address"]</label>
     </div>
 </div>
 
 <div class="alert alert-warning collapse" id="warnEmailValidation">@T["The users whose email address has not been confirmed will not be able to login or reset their password."]</div>
 
-<div class="form-group" asp-validation-class-for="UseSiteTheme">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseSiteTheme" />
+<div class="mb-3" asp-validation-class-for="UseSiteTheme">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseSiteTheme" />
         <span asp-validation-for="UseSiteTheme"></span>
-        <label class="custom-control-label" asp-for="UseSiteTheme">@T["Use site theme for registration page"]</label>
+        <label class="form-check-label" asp-for="UseSiteTheme">@T["Use site theme for registration page"]</label>
         <span class="hint dashed">@T["Requires an active site theme."]</span>
     </div>
 </div>
 
-<h5 class="form-group">@T["External Authentication"]<span class="hint dashed">@T["Settings when registering with external authentication providers"]</span></h5>
+<h5 class="mb-3">@T["External Authentication"]<span class="hint dashed">@T["Settings when registering with external authentication providers"]</span></h5>
 
-<div class="form-group" asp-validation-class-for="UseScriptToGenerateUsername">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseScriptToGenerateUsername" />
+<div class="mb-3" asp-validation-class-for="UseScriptToGenerateUsername">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseScriptToGenerateUsername" />
         <span asp-validation-for="UseScriptToGenerateUsername"></span>
-        <label class="custom-control-label" asp-for="UseScriptToGenerateUsername">@T["Use a script to generate userName based on external provider claims"]</label>
+        <label class="form-check-label" asp-for="UseScriptToGenerateUsername">@T["Use a script to generate userName based on external provider claims"]</label>
         <span class="hint dashed">@T["If selected, any IExternalLoginEventHandlers defined in modules are not triggered"]</span>
     </div>
     <pre>
@@ -81,32 +81,32 @@
 ********************************************************************************************
 </pre>
 </div>
-<div class="form-group" asp-validation-class-for="GenerateUsernameScript">
+<div class="mb-3" asp-validation-class-for="GenerateUsernameScript">
     <button type="button" class="btn btn-secondary mb-2" onclick="resetScript()">@T["Reset Script"]</button>
     <textarea asp-for="GenerateUsernameScript" rows="1" class="form-control content-preview-text"></textarea>
 </div>
 
-<div class="form-group" asp-validation-class-for="NoUsernameForExternalUsers">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="NoUsernameForExternalUsers" data-external-registration />
+<div class="mb-3" asp-validation-class-for="NoUsernameForExternalUsers">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="NoUsernameForExternalUsers" data-external-registration />
         <span asp-validation-for="NoUsernameForExternalUsers"></span>
-        <label class="custom-control-label" asp-for="NoUsernameForExternalUsers">@T["Do not ask username"]</label>
+        <label class="form-check-label" asp-for="NoUsernameForExternalUsers">@T["Do not ask username"]</label>
         <span class="hint dashed">@T["When a new user logs in with an external provider, they are not required to provide a local username. You can customize how it works by providing an IExternalLoginEventHandler or writing a script."]</span>
     </div>
 </div>
-<div class="form-group" asp-validation-class-for="NoEmailForExternalUsers">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="NoEmailForExternalUsers" data-external-registration />
+<div class="mb-3" asp-validation-class-for="NoEmailForExternalUsers">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="NoEmailForExternalUsers" data-external-registration />
         <span asp-validation-for="NoEmailForExternalUsers"></span>
-        <label class="custom-control-label" asp-for="NoEmailForExternalUsers">@T["Do not ask email address"]</label>
+        <label class="form-check-label" asp-for="NoEmailForExternalUsers">@T["Do not ask email address"]</label>
         <span class="hint dashed">@T["When a new user logs in with an external provider and the email claim is defined, they are not required to provide a local email address."]</span>
     </div>
 </div>
-<div class="form-group" asp-validation-class-for="NoPasswordForExternalUsers">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="NoPasswordForExternalUsers" data-external-registration />
+<div class="mb-3" asp-validation-class-for="NoPasswordForExternalUsers">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="NoPasswordForExternalUsers" data-external-registration />
         <span asp-validation-for="NoPasswordForExternalUsers"></span>
-        <label class="custom-control-label" asp-for="NoPasswordForExternalUsers">@T["Do not create local password for external users"]</label>
+        <label class="form-check-label" asp-for="NoPasswordForExternalUsers">@T["Do not create local password for external users"]</label>
         <span class="hint dashed">@T["When a new user logs in with an external provider, they are not required to provide a local password."]</span>
     </div>
 </div>

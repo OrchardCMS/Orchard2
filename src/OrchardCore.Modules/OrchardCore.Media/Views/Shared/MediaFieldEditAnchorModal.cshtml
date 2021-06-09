@@ -3,9 +3,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@T["Select an anchor"]</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body w-100" ref="modalBody">
                     <div class="bg-secondary d-flex justify-content-center">
@@ -19,7 +17,7 @@
                     <div class="d-flex w-100 justify-content-between">
                         <button type="button" class="btn btn-primary " v-on:click="resetAnchor">@T["Reset Anchor"]</button>
                         <div>
-                            <button type="button" class="btn btn-success" data-dismiss="modal">@T["OK"]</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">@T["OK"]</button>
                             <button type="button" class="btn btn-secondary" v-on:click="cancelAnchoringModal">@T["Cancel"]</button>
                         </div>
                     </div>

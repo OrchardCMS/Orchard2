@@ -7,7 +7,7 @@
 }
 <h5>@T["Site Settings"]</h5>
 
-<div class="form-group">
+<div class="mb-3">
     <span class="hint">@T["The site settings to add as part of the plan."]</span>
     <ul class="list-group w-md-50">
         @foreach (var setting in typeof(SiteSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -26,9 +26,9 @@
             var checkd = settings?.Contains(name);
 
             <li class="list-group-item">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="@(Html.IdFor(m => m.Settings) + "-" + @name)" name="@Html.NameFor(m => m.Settings)" value="@name" checked="@checkd">
-                    <label class="custom-control-label" for="@(Html.IdFor(m => m.Settings) + "-" + @name)">@name</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="@(Html.IdFor(m => m.Settings) + "-" + @name)" name="@Html.NameFor(m => m.Settings)" value="@name" checked="@checkd">
+                    <label class="form-check-label" for="@(Html.IdFor(m => m.Settings) + "-" + @name)">@name</label>
                 </div>
             </li>
         }

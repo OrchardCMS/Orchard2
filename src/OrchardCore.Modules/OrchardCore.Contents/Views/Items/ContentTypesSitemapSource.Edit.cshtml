@@ -3,14 +3,14 @@
 <h5>@T["Content Types"]</h5>
 
 @*Panel Switcher*@
-<div class="form-group custom-control custom-checkbox">
-    <input asp-for="IndexAll" class="custom-control-input" />
-    <label asp-for="IndexAll" class="custom-control-label">@T["Index All Content Types"]</label>
+<div class="mb-3 form-check">
+    <input asp-for="IndexAll" class="form-check-input" />
+    <label asp-for="IndexAll" class="form-check-label">@T["Index All Content Types"]</label>
 </div>
 
-<div id="ContentTypesSitemapSource_LimitItems_Container" class="form-group custom-control custom-checkbox" style="@(Model.IndexAll ? "display: none" : "")">
-    <input asp-for="LimitItems" class="custom-control-input" />
-    <label asp-for="LimitItems" class="custom-control-label">@T["Limit Items"]</label>
+<div id="ContentTypesSitemapSource_LimitItems_Container" class="mb-3 form-check" style="@(Model.IndexAll ? "display: none" : "")">
+    <input asp-for="LimitItems" class="form-check-input" />
+    <label asp-for="LimitItems" class="form-check-label">@T["Limit Items"]</label>
     <span class="hint">@T["Limit the amount of content items to provide from this source. Note: Only one content type is selectable when this option is selected."]</span>
 </div>
 
@@ -22,12 +22,12 @@
                 @T["Index All Content Types"]
             </div>
             <div class="card-body">
-                <div class="form-group" asp-validation-class-for="ChangeFrequency">
+                <div class="mb-3" asp-validation-class-for="ChangeFrequency">
                     <label asp-for="ChangeFrequency">@T["Change Frequency"] </label>
                     <select asp-for="ChangeFrequency" class="form-control w-25" asp-items="Html.GetEnumSelectList<ChangeFrequency>()"></select>
                     <span class="hint">@T["The default frequency with which these content types are likely to change."]</span>
                 </div>
-                <div class="form-group" asp-validation-class-for="Priority">
+                <div class="mb-3" asp-validation-class-for="Priority">
                     <label asp-for="Priority">@T["Priority"] </label>
                     <select asp-for="Priority" class="form-control w-25">
                         <option value="0">@T["0.0"]</option>
@@ -67,22 +67,22 @@
                             <div class="col-12 col-md-4">
                                 <input type="hidden" name="@Html.NameFor(m => m.ContentTypes[i].ContentTypeName)"
                                        value="@Model.ContentTypes[i].ContentTypeName" />
-                                <div class="form-group custom-control custom-checkbox">
-                                    <input asp-for="ContentTypes[i].IsChecked" class="custom-control-input content-type-checkbox" />
-                                    <label asp-for="ContentTypes[i].IsChecked" class="custom-control-label">@Model.ContentTypes[i].ContentTypeDisplayName</label>
+                                <div class="mb-3 form-check">
+                                    <input asp-for="ContentTypes[i].IsChecked" type="checkbox" class="form-check-input" />
+                                    <label asp-for="ContentTypes[i].IsChecked" class="form-check-label">@Model.ContentTypes[i].ContentTypeDisplayName</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
-                                <div class="form-group" asp-validation-class-for="ContentTypes[i].ChangeFrequency">
+                                <div class="mb-3" asp-validation-class-for="ContentTypes[i].ChangeFrequency">
                                     <label asp-for="ContentTypes[i].ChangeFrequency">@T["Change Frequency"] </label>
-                                    <select asp-for="ContentTypes[i].ChangeFrequency" class="form-control" asp-items="Html.GetEnumSelectList<ChangeFrequency>()" disabled="@notChecked"></select>
+                                    <select asp-for="ContentTypes[i].ChangeFrequency" class="form-select" asp-items="Html.GetEnumSelectList<ChangeFrequency>()" disabled="@notChecked"></select>
                                     <span class="hint">@T["The default frequency these content types are likely to change."]</span>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
-                                <div class="form-group" asp-validation-class-for="ContentTypes[i].Priority">
+                                <div class="mb-3" asp-validation-class-for="ContentTypes[i].Priority">
                                     <label asp-for="ContentTypes[i].Priority">@T["Priority"] </label>
-                                    <select asp-for="ContentTypes[i].Priority" class="form-control" disabled="@notChecked">
+                                    <select asp-for="ContentTypes[i].Priority" class="form-select" disabled="@notChecked">
                                         <option value="0">@T["0.0"]</option>
                                         <option value="1">@T["0.1"]</option>
                                         <option value="2">@T["0.2"]</option>
@@ -125,22 +125,22 @@
                             <div class="col-12 col-md-3">
                                 <input type="hidden" name="@Html.NameFor(m => m.LimitedContentTypes[i].ContentTypeName)"
                                        value="@Model.LimitedContentTypes[i].ContentTypeName" />
-                                <div class="form-group custom-control custom-radio">
-                                    <input type="radio" id="LimitedContentTypes_@i" asp-for="LimitedContentType" value="@Model.LimitedContentTypes[i].ContentTypeName" class="custom-control-input content-type-radio" />
-                                    <label for="LimitedContentTypes_@i" class="custom-control-label">@Model.LimitedContentTypes[i].ContentTypeDisplayName</label>
+                                <div class="mb-3 form-check">
+                                    <input type="radio" id="LimitedContentTypes_@i" asp-for="LimitedContentType" value="@Model.LimitedContentTypes[i].ContentTypeName" class="form-check-input" />
+                                    <label for="LimitedContentTypes_@i" class="form-check-label">@Model.LimitedContentTypes[i].ContentTypeDisplayName</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 ">
-                                <div class="form-group" asp-validation-class-for="LimitedContentTypes[i].ChangeFrequency">
+                                <div class="mb-3" asp-validation-class-for="LimitedContentTypes[i].ChangeFrequency">
                                     <label asp-for="LimitedContentTypes[i].ChangeFrequency">@T["Change Frequency"] </label>
-                                    <select asp-for="LimitedContentTypes[i].ChangeFrequency" class="form-control" asp-items="Html.GetEnumSelectList<ChangeFrequency>()" disabled="@notChecked"></select>
+                                    <select asp-for="LimitedContentTypes[i].ChangeFrequency" class="form-select" asp-items="Html.GetEnumSelectList<ChangeFrequency>()" disabled="@notChecked"></select>
                                     <span class="hint">@T["The default frequency these content types are likely to change."]</span>
                                 </div>
                             </div>
                             <div class="col-12 col-md-3">
-                                <div class="form-group" asp-validation-class-for="LimitedContentTypes[i].Priority">
+                                <div class="mb-3" asp-validation-class-for="LimitedContentTypes[i].Priority">
                                     <label asp-for="LimitedContentTypes[i].Priority">@T["Priority"] </label>
-                                    <select asp-for="LimitedContentTypes[i].Priority" class="form-control" disabled="@notChecked">
+                                    <select asp-for="LimitedContentTypes[i].Priority" class="form-select" disabled="@notChecked">
                                         <option value="0">@T["0.0"]</option>
                                         <option value="1">@T["0.1"]</option>
                                         <option value="2">@T["0.2"]</option>
@@ -158,11 +158,11 @@
                             </div>
                             <div class="col-12 col-md-3 limit-items">
                                 <div class="d-flex flex-column justify-content-center content-types-take-container">
-                                    <div class="form-group form-inline">
+                                    <div class="mb-3 form-inline">
                                         <label asp-for="LimitedContentTypes[i].Skip" class="form-label pr-3">@T["Skip"]</label>
                                         <input asp-for="LimitedContentTypes[i].Skip" class="form-control w-100" readonly="@notChecked" />
                                     </div>
-                                    <div class="form-group form-inline">
+                                    <div class="mb-3 form-inline">
                                         <label asp-for="LimitedContentTypes[i].Take" class="form-label pr-3">@T["Take"]</label>
                                         <input asp-for="LimitedContentTypes[i].Take" class="form-control w-100" readonly="@notChecked" />
                                     </div>

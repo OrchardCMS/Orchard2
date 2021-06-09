@@ -1,5 +1,5 @@
 @model ContentOptionsViewModel
-<div class="form-group d-inline-flex float-right mb-0">
+<div class="mb-3 d-inline-flex float-end mb-0">
     <div class="btn-group">
         @if (Model.CreatableTypes.Any())
         {
@@ -10,7 +10,7 @@
             else
             {
                 <div class="dropdown order-md-1">
-                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="new-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="new-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @T["New"]
                     </button>
                     <div class="dropdown-menu dropdown-menu-right scrollable" aria-labelledby="bulk-action-menu-button">

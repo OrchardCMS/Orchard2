@@ -6,28 +6,28 @@
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Edit" method="post">
 
-    <div class="form-group" asp-validation-class-for="Name">
+    <div class="mb-3" asp-validation-class-for="Name">
         <label asp-for="Name">@T["Name"]</label>
         <input asp-for="Name" class="form-control" readonly autofocus />
         <span asp-validation-for="Name" class="text-danger"></span>
         <span class="hint">@T["The name of the tenant."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Description">
+    <div class="mb-3" asp-validation-class-for="Description">
         <label asp-for="Description">@T["Description"]</label>
         <input asp-for="Description" class="form-control" autofocus />
         <span asp-validation-for="Description" class="text-danger"></span>
         <span class="hint">@T["The description of the tenant."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="RequestUrlPrefix">
+    <div class="mb-3" asp-validation-class-for="RequestUrlPrefix">
         <label asp-for="RequestUrlPrefix">@T["Url Prefix"]</label>
         <input asp-for="RequestUrlPrefix" class="form-control" autofocus />
         <span asp-validation-for="RequestUrlPrefix" class="text-danger"></span>
         <span class="hint">@T["(Optional) Example: If prefix is \"site1\", the tenant URL is \"https://orchardcore.net/site1\""]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="RequestUrlHost">
+    <div class="mb-3" asp-validation-class-for="RequestUrlHost">
         <label asp-for="RequestUrlHost">@T["Hostname"]</label>
         <input asp-for="RequestUrlHost" class="form-control" autofocus />
         <span asp-validation-for="RequestUrlHost" class="text-danger"></span>
@@ -42,8 +42,8 @@
             <span class="text-muted form-text small">@T["Optionally specify which presets should be used for the Setup experience."]</span>
         </h6>
         <div class="row recipes" asp-validation-class-for="RecipeName">
-            <div class="form-group col-md-6">
-                <select asp-for="RecipeName" class="form-control">
+            <div class="mb-3 col-md-6">
+                <select asp-for="RecipeName" class="form-select">
 
                     <option value=""></option>
                     @foreach (var recipe in Model.Recipes)
@@ -63,9 +63,9 @@
         <div class="row">
             @if(!Model.DatabaseConfigurationPreset)
             {
-                <div class="form-group col-md-6">
+                <div class="mb-3 col-md-6">
                     <label asp-for="DatabaseProvider">@T["What type of database to use?"]</label>
-                    <select asp-for="DatabaseProvider" class="form-control">
+                    <select asp-for="DatabaseProvider" class="form-select">
                         <option value="" data-connection-string="false">@T["None"]</option>
                         @foreach (var provider in DatabaseProviders)
                         {
@@ -74,7 +74,7 @@
                     </select>
                 </div>
             }
-            <div class="form-group col-md-6" asp-validation-class-for="TablePrefix">
+            <div class="mb-3 col-md-6" asp-validation-class-for="TablePrefix">
                 <label asp-for="TablePrefix">@T["Table Prefix"]</label>
                 <span asp-validation-for="TablePrefix" class="text-danger"></span>
                 <input asp-for="TablePrefix" class="form-control" />
@@ -84,7 +84,7 @@
         @if(!Model.DatabaseConfigurationPreset)
         { 
             <div class="row connectionString" asp-validation-class-for="ConnectionString">
-                <div class="form-group col-md-12">
+                <div class="mb-3 col-md-12">
                     <label asp-for="ConnectionString">@T["Connection string"]</label>
                     <input asp-for="ConnectionString" class="form-control" />
                     <span asp-validation-for="ConnectionString" class="text-danger"></span>
@@ -94,7 +94,7 @@
         }
     }
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
     </div>

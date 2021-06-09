@@ -14,31 +14,27 @@
 
 @if (Model.Settings.AllowDisabled)
 {
-    <div class="form-group">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="Disabled" checked="@Model.Disabled" />
-            <label class="custom-control-label" asp-for="Disabled">@T["Disabled"]</label>
+    <div class="mb-3">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="Disabled" checked="@Model.Disabled" />
+            <label class="form-check-label" asp-for="Disabled">@T["Disabled"]</label>
             <span class="hint dashed">@T["Check to disable autoroute for this content item."]</span>
         </div>
     </div>
 }
 
 <div class="autoroute-disabled" style="@(Model.Disabled ? "display: none" : "")">
-    <div class="form-group" asp-validation-class-for="Path">
+    <div class="mb-3" asp-validation-class-for="Path">
         <label asp-for="Path">@T["Permalink"]</label>
         <div class="input-group">
             @if (!String.IsNullOrWhiteSpace(site.BaseUrl))
             {
-                <div class="input-group-prepend">
-                    <div class="input-group-text">@site.BaseUrl</div>
-                </div>
+                <span class="input-group-text">@site.BaseUrl</span>
             }
             <input asp-for="Path" class="form-control" disabled="@(!Model.Settings.AllowCustomPath)" />
             @if (hasPublished)
             {
-                <div class="input-group-append">
-                    <div class="input-group-text"><a display-for="@contentItem" class="text-info" target="_blank"><i class="fa fa-external-link"></i></a></div>
-                </div>
+                <span class="input-group-text"><a display-for="@contentItem" class="text-info" target="_blank"><i class="fa fa-external-link"></i></a></span>
             }
             <span asp-validation-for="Path"></span>
         </div>
@@ -63,10 +59,10 @@
         {
             if (showHomepageOption)
             {
-                <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" asp-for="SetHomepage" checked="@Model.SetHomepage" />
-                        <label class="custom-control-label" asp-for="SetHomepage">@T["Set as homepage"]</label>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="SetHomepage" checked="@Model.SetHomepage" />
+                        <label class="form-check-label" asp-for="SetHomepage">@T["Set as homepage"]</label>
                         <span class="hint dashed">@T["Check to set this content item as the homepage once published."]</span>
                     </div>
                 </div>
@@ -76,10 +72,10 @@
 
     @if (Model.Settings.AllowUpdatePath)
     {
-        <div class="form-group">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="UpdatePath" checked="@Model.UpdatePath" />
-                <label class="custom-control-label" asp-for="UpdatePath">@T["Refresh the path"]</label>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="UpdatePath" checked="@Model.UpdatePath" />
+                <label class="form-check-label" asp-for="UpdatePath">@T["Refresh the path"]</label>
                 <span class="hint dashed">@T["Check to refresh the path. Warning: the previous URL won't be accessible anymore."]</span>
             </div>
         </div>
@@ -87,10 +83,10 @@
 
     @if (containedContentItemsAspect.Accessors.Any() && Model.Settings.AllowRouteContainedItems)
     {
-        <div class="form-group">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="RouteContainedItems" checked="@Model.RouteContainedItems" />
-                <label class="custom-control-label" asp-for="RouteContainedItems">@T["Route contained items"]</label>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="RouteContainedItems" checked="@Model.RouteContainedItems" />
+                <label class="form-check-label" asp-for="RouteContainedItems">@T["Route contained items"]</label>
                 <span class="hint dashed">@T["Check to enabling the routing of child content items."]</span>
             </div>
         </div>
@@ -98,10 +94,10 @@
 
     @if (Model.Settings.ManageContainedItemRoutes && Model.Settings.AllowAbsolutePath)
     {
-        <div class="form-group">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="Absolute" checked="@Model.Absolute" />
-                <label class="custom-control-label" asp-for="Absolute">@T["Absolute"]</label>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="Absolute" checked="@Model.Absolute" />
+                <label class="form-check-label" asp-for="Absolute">@T["Absolute"]</label>
                 <span class="hint dashed">@T["Check to specify that a child content item will be routed to an absolute path."]</span>
             </div>
         </div>

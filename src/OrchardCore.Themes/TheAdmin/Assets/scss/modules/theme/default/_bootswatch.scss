@@ -17,9 +17,10 @@
 }
 
 .ta-badge {
-    @extend .badge-light;
+    @extend .bg-light;
 
-    background-color: darken(#f8f9fa, 5%)
+    background-color: darken(#f8f9fa, 5%);
+    color: $gray-700;
 }
 
 .ta-navbar-brand {

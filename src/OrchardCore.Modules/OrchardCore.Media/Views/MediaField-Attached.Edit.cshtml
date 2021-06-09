@@ -10,7 +10,7 @@
 <script asp-src="~/OrchardCore.Media/Scripts/media.js" asp-name="media" at="Foot" depends-on="admin, vuejs, sortable, vuedraggable, jQuery-ui"></script>
 <style asp-src="~/OrchardCore.Media/Styles/media.min.css" debug-src="~/OrchardCore.Media/Styles/media.css"></style>
 
-<div class="form-group" id="@mediaFieldId" data-for="@Html.IdFor(m => m.Paths)">
+<div class="mb-3" id="@mediaFieldId" data-for="@Html.IdFor(m => m.Paths)">
     <label asp-for="Paths">@Model.PartFieldDefinition.DisplayName()</label>
     @if (!string.IsNullOrWhiteSpace(settings.Hint))
     {
@@ -34,7 +34,7 @@
             <a href="javascript:;" v-on:click="removeSelected" class="btn btn-secondary btn-sm" v-bind:class="{ disabled : !selectedMedia }"><i class="fas fa-trash-alt"></i></a>
         </div>
         <label class="selected-media-name">
-            <code class="text-right" v-if="selectedMedia">@T["{{{{ selectedMedia.name }}}}{{{{ selectedMedia.mediaText === '' ? '' : ', ' + selectedMedia.mediaText }}}} ({{{{ isNaN(fileSize)? 0 : fileSize }}}} KB)"]</code>
+            <code class="text-end" v-if="selectedMedia">@T["{{{{ selectedMedia.name }}}}{{{{ selectedMedia.mediaText === '' ? '' : ', ' + selectedMedia.mediaText }}}} ({{{{ isNaN(fileSize)? 0 : fileSize }}}} KB)"]</code>
         </label>
     </div>
 

@@ -1,16 +1,16 @@
 @using OrchardCore.Workflows.Http.ViewModels;
 @model HttpResponseTaskViewModel
 
-<div class="form-group" asp-validation-class-for="HttpStatusCode">
+<div class="mb-3" asp-validation-class-for="HttpStatusCode">
     <label asp-for="HttpStatusCode">@T["HTTP Status Code"]</label>
     <input type="text" asp-for="HttpStatusCode" class="form-control" />
     <span asp-validation-for="HttpStatusCode"></span>
     <span class="hint">@T["The HTTP Status Code to send back. <a href=\"https://en.wikipedia.org/wiki/List_of_HTTP_status_codes\" target=\"_blank\">Click here</a> for a complete list."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ContentType">
+<div class="mb-3" asp-validation-class-for="ContentType">
     <label asp-for="ContentType">@T["Content Type"]</label>
-    <select asp-for="ContentType" class="form-control">
+    <select asp-for="ContentType" class="form-select">
         <option>text/plain</option>
         <option>application/x-www-form-urlencoded</option>
         <option>application/json</option>
@@ -21,14 +21,14 @@
 </div>
 
 @*TODO: Only display Content field when appropriate for the selected HTTP status code.*@
-<div class="form-group" asp-validation-class-for="Content">
+<div class="mb-3" asp-validation-class-for="Content">
     <label asp-for="Content">@T["Content"]</label>
     <textarea asp-for="Content"></textarea>
     <span asp-validation-for="Content"></span>
     <span class="hint">@T["The body to send back. With Liquid support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Headers">
+<div class="mb-3" asp-validation-class-for="Headers">
     <label asp-for="Headers">@T["Headers"] </label>
     <textarea asp-for="Headers"></textarea>
     <span asp-validation-for="Headers"></span>

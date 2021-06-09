@@ -20,16 +20,16 @@
 
 <form asp-action="EditField" asp-route-returnUrl="@ViewData["returnUrl"]">
     @Html.ValidationSummary()
-    <div class="form-group">
-        <div class="w-md-75 w-xl-50 pr-md-3">
+    <div class="mb-3">
+        <div class="w-md-75 w-xl-50 pe-md-3">
             <label asp-for="DisplayName">@T["Display Name"]</label>
             <input asp-for="DisplayName" autofocus class="form-control" />
         </div>
         <span class="hint">@T["Name of the field as it will be displayed in screens."]</span>
     </div>
 
-    <div class="form-group">
-        <div class="w-sm-75 w-md-50 w-lg-25 pr-md-3">
+    <div class="mb-3">
+        <div class="w-sm-75 w-md-50 w-lg-25 pe-md-3">
             <label asp-for="Name">@T["Technical Name"]</label>
             <input asp-for="Name" class="form-control" readonly />
         </div>
@@ -38,23 +38,23 @@
 
     @if (Model.Shape.Shortcuts != null)
     {
-        <div class="form-group">
+        <div class="mb-3">
             @await DisplayAsync(Model.Shape.Shortcuts)
         </div>
     }
 
     @if (Model.Shape.Content != null)
     {
-        <div class="form-group">
+        <div class="mb-3">
             @await DisplayAsync(Model.Shape.Content)
         </div>
 
         @if (editorShapes.Any())
         {
-            <div class="form-group">
-                <div class="w-100 w-md-50 pr-md-3">
+            <div class="mb-3">
+                <div class="w-100 w-md-50 pe-md-3">
                     <label asp-for="Editor">@T["What type of editor should be used?"]</label>
-                    <select asp-for="Editor" class="form-control" id="field-editor-select">
+                    <select asp-for="Editor" class="form-select" id="field-editor-select">
                         @foreach (var editorShape in editorShapes)
                         {
                             dynamic shape = await Factory.CreateAsync(editorShape);
@@ -66,16 +66,16 @@
             </div>
         }
 
-        <div id="field-editor-container" class="form-group" style="display: none">
+        <div id="field-editor-container" class="mb-3" style="display: none">
             @await DisplayAsync(Model.Shape.Editor)
         </div>
 
         @if (displayShapes.Any())
         {
-            <div class="form-group">
-                <div class="w-100 w-md-50 pr-md-3">
+            <div class="mb-3">
+                <div class="w-100 w-md-50 pe-md-3">
                     <label asp-for="DisplayMode">@T["What type of display mode should be used?"]</label>
-                    <select asp-for="DisplayMode" class="form-control" id="field-display-select">
+                    <select asp-for="DisplayMode" class="form-select" id="field-display-select">
                         @foreach (var displayShape in displayShapes)
                         {
                             dynamic shape = await Factory.CreateAsync(displayShape);
@@ -87,12 +87,12 @@
             </div>
         }
 
-        <div id="field-display-container" class="form-group" style="display: none">
+        <div id="field-display-container" class="mb-3" style="display: none">
             @await DisplayAsync(Model.Shape.DisplayMode)
         </div>
     }
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit" name="submit.Save" value="Save">@T["Save"]</button>
         @if (Url.IsLocalUrl(returnUrl))
         {

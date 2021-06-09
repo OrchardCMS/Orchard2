@@ -7,7 +7,7 @@
 
 @await DisplayAsync(await New.ShortcodeModal())
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Html">@Model.TypePartDefinition.DisplayName()</label>
     <div id="@Html.IdFor(x => x.Html)_editor" asp-for="Text" style="min-height: 400px;" class="form-control" dir="@culture.GetLanguageDirection()"></div>
     <textarea asp-for="Html" class="content-preview-text" hidden>@Html.Raw(Model.Html)</textarea>

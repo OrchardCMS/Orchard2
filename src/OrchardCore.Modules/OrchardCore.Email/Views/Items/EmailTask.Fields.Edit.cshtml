@@ -1,51 +1,51 @@
 @using OrchardCore.Email.Workflows.ViewModels;
 @model EmailTaskViewModel
 
-<div class="form-group" asp-validation-class-for="AuthorExpression">
+<div class="mb-3" asp-validation-class-for="AuthorExpression">
     <label asp-for="AuthorExpression">@T["From"]</label>
     <input type="text" asp-for="AuthorExpression" class="form-control code" />
     <span asp-validation-for="AuthorExpression"></span>
     <span class="hint">@T["The author's email address that defines who the email is from. Leave blank to use the configured email address. With Liquid support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="SenderExpression">
+<div class="mb-3" asp-validation-class-for="SenderExpression">
     <label asp-for="SenderExpression">@T["Sender"]</label>
     <input type="text" asp-for="SenderExpression" class="form-control code" />
     <span asp-validation-for="SenderExpression"></span>
     <span class="hint">@T["The sender's email address. Required if not the same than the \"From\" email address. With Liquid support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ReplyToExpression">
+<div class="mb-3" asp-validation-class-for="ReplyToExpression">
     <label asp-for="SenderExpression">@T["ReplyTo"]</label>
     <input type="text" asp-for="ReplyToExpression" class="form-control code" />
     <span asp-validation-for="ReplyToExpression"></span>
     <span class="hint">@T["The \"reply to\" email address. Required if you want email replies be sent to a different address than the \"From\" address. With Liquid support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="RecipientsExpression">
+<div class="mb-3" asp-validation-class-for="RecipientsExpression">
     <label asp-for="RecipientsExpression">@T["Recipients"]</label>
     <input type="text" asp-for="RecipientsExpression" class="form-control code" />
     <span asp-validation-for="RecipientsExpression"></span>
     <span class="hint">@T["The comma-separated list of recipient email addresses. With Liquid support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="SubjectExpression">
+<div class="mb-3" asp-validation-class-for="SubjectExpression">
     <label asp-for="SubjectExpression">@T["Subject"]</label>
     <input type="text" asp-for="SubjectExpression" class="form-control code" />
     <span asp-validation-for="SubjectExpression"></span>
     <span class="hint">@T["The subject of the email message. With Liquid support."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Body">@T["Body"]</label>
     <textarea asp-for="Body" rows="5" class="form-control"></textarea>
     <span class="hint">@T["The body of the email message. With Liquid support."]</span>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="IsBodyHtml" />
-        <label class="custom-control-label" asp-for="IsBodyHtml">@T["Does the Body contain HTML?"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="IsBodyHtml" />
+        <label class="form-check-label" asp-for="IsBodyHtml">@T["Does the Body contain HTML?"]</label>
         <span class="hint dashed">@T["If checked, indicates the body of the email message is HTML. If unchecked, indicates the body of the email message is plain text."]</span>
     </div>
 </div>

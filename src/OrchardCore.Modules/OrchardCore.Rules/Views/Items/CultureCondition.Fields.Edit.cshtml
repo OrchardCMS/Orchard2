@@ -2,8 +2,8 @@
 
 <h5>@T["Culture"]</h5>
 
-<div class="form-group" asp-validation-class-for="SelectedOperation">
-    <div class="w-sm-75 w-md-50 w-lg-25 pr-md-3">
+<div class="mb-3" asp-validation-class-for="SelectedOperation">
+    <div class="w-sm-75 w-md-50 w-lg-25 pe-md-3">
         <label asp-for="SelectedOperation">@T["Operation"]</label>
         @await Component.InvokeAsync("SelectStringOperation", new { selectedOperation = Model.SelectedOperation, htmlName = Html.NameFor(m => m.SelectedOperation) })
         <span asp-validation-for="SelectedOperation"></span>
@@ -11,8 +11,8 @@
     <span class="hint">@T["Select the condition operator."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Value">
-    <div class="w-sm-75 w-md-50 w-lg-25 pr-md-3">
+<div class="mb-3" asp-validation-class-for="Value">
+    <div class="w-sm-75 w-md-50 w-lg-25 pe-md-3">
         <label asp-for="Value">@T["Value"]</label>
         <input asp-for="Value" class="form-control" type="text" />
         <span asp-validation-for="Value"></span>

@@ -7,9 +7,9 @@
 
 <div class="row">
     <div class="col-xl-9 col-sm-12 title">
-        <div class="custom-control custom-checkbox float-left">
-            <input type="checkbox" class="custom-control-input" value="@contentItem.Id" name="itemIds" id="itemIds-@contentItem.Id">
-            <label class="custom-control-label" for="itemIds-@contentItem.Id"></label>
+        <div class="form-check float-start">
+            <input type="checkbox" class="form-check-input" value="@contentItem.Id" name="itemIds" id="itemIds-@contentItem.Id">
+            <label class="form-check-label" for="itemIds-@contentItem.Id"></label>
         </div>
         @if (await AuthorizationService.AuthorizeAsync(User, CommonPermissions.EditContent, contentItem))
         {
@@ -34,7 +34,7 @@
         }
     </div>
     <div class="col-xl-3 col-sm-12">
-        <div class="float-right button-group">
+        <div class="float-end button-group">
             @if (Model.Actions != null)
             {
                 @await DisplayAsync(Model.Actions)
@@ -42,7 +42,7 @@
             @if (Model.ActionsMenu != null)
             {
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm text-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-sm text-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @T["Actions"]
                     </button>
                     <div class="actions-menu dropdown-menu dropdown-menu-right">

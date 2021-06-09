@@ -6,7 +6,7 @@
 <form autocomplete="off">
 
     <div class="row">
-        <div class="form-group col-xl-4 col-sm-6">
+        <div class="mb-3 col-xl-4 col-sm-6">
             <div class="input-group input-group-sm filter-options">
                 <input id="search-box" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
             </div>
@@ -16,7 +16,7 @@
 
 <form asp-action="Edit" method="post">
     <h5>@T["Edit Role Detail"]</h5>
-    <div class="form-group" asp-validation-class-for="RoleDescription">
+    <div class="mb-3" asp-validation-class-for="RoleDescription">
         <label asp-for="RoleDescription">@T["Role description"]</label>
         <input asp-for="RoleDescription" class="form-control" />
     </div>
@@ -24,10 +24,10 @@
 
     <h5>@T["Role permissions"]</h5>
 
-    <div class="properties ml-2">
+    <div class="properties ms-2">
         @T["Allow"] <span class="hint dashed">@T["Permission is granted explicitly."]</span>
     </div>
-    <div class="properties ml-2">
+    <div class="properties ms-2">
         @T["Effective"] <span class="hint dashed">@T["Permission is implied by a higher level permission, or explicitly granted."]</span>
     </div>
     <hr>
@@ -52,21 +52,21 @@
                                 @permission.Description
                             @if (permission.IsSecurityCritical)
                             {
-                                <div class="float-right">
-                                    <span class="badge badge-danger" data-toggle="tooltip" data-html="true" title="@T["This permission could allow a user to elevate their other permissions. Grant it with extreme consideration."]">@T["Security Critical"]</span>
+                                <div class="float-end">
+                                    <span class="badge badge-danger" data-bs-toggle="tooltip" data-html="true" title="@T["This permission could allow a user to elevate their other permissions. Grant it with extreme consideration."]">@T["Security Critical"]</span>
                                 </div>
                             }
                         </td>
                         <td class="col-1">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="Checkbox.@permission.Name" name="Checkbox.@permission.Name" checked="@(Model.Role.RoleClaims.Any(x => x.ClaimValue == permission.Name))" value="true">
-                                <label class="custom-control-label" for="Checkbox.@permission.Name"></label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="Checkbox.@permission.Name" name="Checkbox.@permission.Name" checked="@(Model.Role.RoleClaims.Any(x => x.ClaimValue == permission.Name))" value="true">
+                                <label class="form-check-label" for="Checkbox.@permission.Name"></label>
                             </div>
                         </td>
                         <td class="col-1">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" disabled="disabled" id="Effective.@permission.Name" name="Effective.@permission.Name" checked="@(Model.EffectivePermissions.Contains(permission.Name))">
-                                <label class="custom-control-label" for="Effective.@permission.Name"></label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" disabled="disabled" id="Effective.@permission.Name" name="Effective.@permission.Name" checked="@(Model.EffectivePermissions.Contains(permission.Name))">
+                                <label class="form-check-label" for="Effective.@permission.Name"></label>
                             </div>
                         </td>
                     </tr>
@@ -76,7 +76,7 @@
         </fieldset>
     }
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
     </div>

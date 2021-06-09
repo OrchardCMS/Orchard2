@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "dependencies": {
     "blueimp-file-upload": "10.31.0",
-    "bootstrap": "4.6.0"
+    "bootstrap": "5.0.1"
   }
 }

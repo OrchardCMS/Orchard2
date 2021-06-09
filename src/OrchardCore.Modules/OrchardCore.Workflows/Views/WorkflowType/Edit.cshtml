@@ -14,14 +14,14 @@
 <div class="card mb-3">
     <div class="card-body bg-primary p-3">
         <div class="input-group input-group-sm w-lg-50 d-inline-flex">
-            <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#activity-picker" data-picker-title="@T["Available Events"]" data-activity-type="Event">
+            <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#activity-picker" data-picker-title="@T["Available Events"]" data-activity-type="Event">
                 @T["Add Event"]
             </button>
-            <button type="button" id="add-task-button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#activity-picker" data-picker-title="@T["Available Tasks"]" data-activity-type="Task">
+            <button type="button" id="add-task-button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#activity-picker" data-picker-title="@T["Available Tasks"]" data-activity-type="Task">
                 @T["Add Task"]
             </button>
         </div>
-        <div class="btn-group float-right">
+        <div class="btn-group float-end">
             <a class="btn btn-secondary btn-sm" asp-action="EditProperties" asp-route-id="@Model.WorkflowType.Id" asp-route-returnUrl="@FullRequestPath">@T["Properties"]</a>
             <a class="btn btn-secondary btn-sm" asp-action="Index" asp-controller="Workflow" asp-route-workflowtypeid="@Model.WorkflowType.Id" asp-route-returnUrl="@FullRequestPath">@T["Instances"] <span class="badge ta-badge">@Model.WorkflowCount</span></a>
         </div>
@@ -31,7 +31,7 @@
 <div asp-validation-summary="ModelOnly"></div>
 
 <form asp-action="Edit" method="post" id="workflowEditorForm">
-    <div class="form-group">
+    <div class="mb-3">
         <div class="workflow-container">
             <div class="workflow-canvas-container">
                 <div class="workflow-canvas" data-workflow-type="@Model.WorkflowTypeJson" data-workflow-delete-activity-prompt="@T["Are you sure you want to delete this activity?"]" data-workflow-local-id="@Model.LocalId" data-workflow-load-local-state="@Model.LoadLocalState.ToString().ToLower()">
@@ -44,8 +44,8 @@
         </div>
         <input asp-for="State" id="workflowStateInput" type="hidden" />
     </div>
-    <div class="form-group">
-        <div class="form-group">
+    <div class="mb-3">
+        <div class="mb-3">
             <button class="btn btn-primary save" type="submit">@T["Save"]</button>
             <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
         </div>
@@ -58,24 +58,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="activity-picker-label">@T["Available Activities"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-3 col-md-3 col-lg-2">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <input class="form-control" type="search" placeholder="@T["Filter"]" aria-label="@T["Filter"]" autofocus />
                         </div>
                         <ul class="nav nav-pills flex-column activity-picker-categories">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#all" data-toggle="pill">All</a>
+                                <a class="nav-link active" href="#all" data-bs-toggle="pill">All</a>
                             </li>
                             @foreach (var category in Model.ActivityCategories)
                             {
                                 <li class="nav-item" data-category="@category.Name.HtmlClassify()">
-                                    <a class="nav-link" href="#@category.Name.HtmlClassify()" data-toggle="pill">@category</a>
+                                    <a class="nav-link" href="#@category.Name.HtmlClassify()" data-bs-toggle="pill">@category</a>
                                 </li>
                             }
                         </ul>
@@ -91,7 +89,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
     @T["The current tenant will be reloaded when the settings are saved."]
 </p>
 
-<div class="form-group" asp-validation-class-for="EnableXForwardedFor">
+<div class="mb-3" asp-validation-class-for="EnableXForwardedFor">
     <div class="form-check">
         <label class="form-check-label">
             <input asp-for="EnableXForwardedFor" class="form-check-input" />
@@ -15,7 +15,7 @@
     <span class="hint">@T["Current request value;"] @Context.Connection.RemoteIpAddress</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="EnableXForwardedProto">
+<div class="mb-3" asp-validation-class-for="EnableXForwardedProto">
     <div class="form-check">
         <label class="form-check-label">
             <input asp-for="EnableXForwardedProto" class="form-check-input" />
@@ -26,7 +26,7 @@
     <span class="hint">@T["Current request value;"] @Context.Request.Scheme</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="EnableXForwardedHost">
+<div class="mb-3" asp-validation-class-for="EnableXForwardedHost">
     <div class="form-check">
         <label class="form-check-label">
             <input asp-for="EnableXForwardedHost" class="form-check-input" />

@@ -7,7 +7,7 @@
 }
 
 <div class="form-row" id="GeoPointFields">
-    <div class="form-group col-md-4 col-lg-3">
+    <div class="mb-3 col-md-4 col-lg-3">
         <label asp-for="Latitude">Latitude</label>
         <input asp-for="Latitude" type="number" min="-90.000000" max="90.000000" step=".000001" placeholder="00.000000" class="form-control content-preview-text" required="@settings.Required" data-latitude />
         @if (!string.IsNullOrEmpty(settings.Hint))
@@ -15,7 +15,7 @@
             <span class="hint">@settings.Hint</span>
         }
     </div>
-    <div class="form-group col-md-4 col-lg-3">
+    <div class="mb-3 col-md-4 col-lg-3">
         <label asp-for="Longitude">Longitude</label>
         <input asp-for="Longitude" type="number" min="-180.000000" max="180.000000" step=".000001" placeholder="00.000000" class="form-control content-preview-text" required="@settings.Required" data-longitude />
         @if (!string.IsNullOrEmpty(settings.Hint))
@@ -25,7 +25,7 @@
     </div>
 </div>
 <div class="form-row">
-    <div class="form-group col-md-8 col-lg-6">
+    <div class="mb-3 col-md-8 col-lg-6">
         <div id="map" style="height : 200px"></div>
     </div>
 </div>

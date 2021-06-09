@@ -1,22 +1,22 @@
 @model OrchardCore.Lucene.Settings.ContentIndexSettingsViewModel
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="ContentIndexSettings.Included" data-toggle="collapse" data-target="#index-settings" checked="@Model.ContentIndexSettings.Included" />
-        <label class="custom-control-label" asp-for="ContentIndexSettings.Included">@T["Include this element in the index"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="ContentIndexSettings.Included" data-bs-toggle="collapse" data-bs-target="#index-settings" checked="@Model.ContentIndexSettings.Included" />
+        <label class="form-check-label" asp-for="ContentIndexSettings.Included">@T["Include this element in the index"]</label>
         <span class="hint dashed">@T["Check to include the value of this element in the index."]</span>
     </div>
     <div id="index-settings" class="collapse">
 
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="ContentIndexSettings.Stored" checked="@Model.ContentIndexSettings.Stored" />
-            <label class="custom-control-label" asp-for="ContentIndexSettings.Stored">@T["Stored"]</label>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="ContentIndexSettings.Stored" checked="@Model.ContentIndexSettings.Stored" />
+            <label class="form-check-label" asp-for="ContentIndexSettings.Stored">@T["Stored"]</label>
             <span class="hint dashed">@T["Check to be able to retrieve the value from the index."]</span>
         </div>
 
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="ContentIndexSettings.Analyzed" checked="@Model.ContentIndexSettings.Analyzed" />
-            <label class="custom-control-label" asp-for="ContentIndexSettings.Analyzed">@T["Analyzed"]</label>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="ContentIndexSettings.Analyzed" checked="@Model.ContentIndexSettings.Analyzed" />
+            <label class="form-check-label" asp-for="ContentIndexSettings.Analyzed">@T["Analyzed"]</label>
             <span class="hint dashed">@T["Check to analyze the value as readable text."]</span>
         </div>
     </div>

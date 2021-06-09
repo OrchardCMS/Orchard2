@@ -3,13 +3,13 @@
 @if (Model.Roles.Any())
 {
     <h6>@T["Roles"]</h6>
-    <div class="form-group">
+    <div class="mb-3">
         @for (var i = 0; i < Model.Roles.Length; i++)
         {
-            <div class="custom-control custom-checkbox">
-                <input asp-for="Roles[i].IsSelected" type="checkbox" class="custom-control-input" asp-is-disabled="@Model.Roles[i].IsEditingDisabled">
+            <div class="form-check">
+                <input asp-for="Roles[i].IsSelected" type="checkbox" class="form-check-input" asp-is-disabled="@Model.Roles[i].IsEditingDisabled">
                 <input type="hidden" asp-for="Roles[i].Role" />
-                <label class="custom-control-label cursor-pointer" asp-for="Roles[i].IsSelected">@Model.Roles[i].Role</label>
+                <label class="form-check-label cursor-pointer" asp-for="Roles[i].IsSelected">@Model.Roles[i].Role</label>
             </div>
         }
     </div>

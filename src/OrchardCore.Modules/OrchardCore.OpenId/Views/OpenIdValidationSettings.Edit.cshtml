@@ -9,9 +9,9 @@
        "of the tenant hosting the authorization server."]
 </p>
 
-<div class="form-group" asp-validation-class-for="Tenant">
+<div class="mb-3" asp-validation-class-for="Tenant">
     <label asp-for="Tenant">@T["Authorization server tenant"]</label>
-    <select asp-for="Tenant" class="form-control">
+    <select asp-for="Tenant" class="form-select">
         <option value="" selected="@(Model.Tenant == null)">(none)</option>
         @foreach (var tenant in Model.AvailableTenants)
         {
@@ -21,24 +21,24 @@
     <span asp-validation-for="Tenant"></span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Authority">
+<div class="mb-3" asp-validation-class-for="Authority">
     <label asp-for="Authority">@T["Authority"]</label>
     <input asp-for="Authority" class="form-control" />
     <span asp-validation-for="Authority"></span>
     <span class="hint">@T["The address of the remote OpenID Connect server. Using a HTTPS address is strongly recommended."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Audience">
+<div class="mb-3" asp-validation-class-for="Audience">
     <label asp-for="Audience">@T["Audience"]</label>
     <input asp-for="Audience" class="form-control" />
     <span asp-validation-for="Audience"></span>
     <span class="hint">@T["The unique name associated with this tenant. If none is provided, the tenant name is automatically used as the default audience."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="DisableTokenTypeValidation">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisableTokenTypeValidation">
-        <label class="custom-control-label" asp-for="DisableTokenTypeValidation">@T["Disable token type validation"]</label>
+<div class="mb-3" asp-validation-class-for="DisableTokenTypeValidation">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisableTokenTypeValidation">
+        <label class="form-check-label" asp-for="DisableTokenTypeValidation">@T["Disable token type validation"]</label>
         <span class="hint dashed">@T["Token type validation can be disabled to accept JWT tokens issued by servers that don't support the 'at+jwt' type header."]</span>
     </div>
 </div>

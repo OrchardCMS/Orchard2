@@ -17,7 +17,7 @@
 
 <script asp-name="jquery-ui" at="Foot"></script>
 
-<div class="form-group">
+<div class="mb-3">
     @foreach (var zone in Model.AvailableZones)
     {
         var widgetTemplatePlaceholderId = Guid.NewGuid().ToString("n");
@@ -127,7 +127,7 @@
                     <div class="btn-widget-add-below-wrapper w-100">
                         <div class="btn-widget-add-below w-100 border border-info">
                             <div class="btn-group ">
-                                <button type="button" title="@T["Add Widget"]" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" title="@T["Add Widget"]" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                 </button>
                                 <div class="dropdown-menu">

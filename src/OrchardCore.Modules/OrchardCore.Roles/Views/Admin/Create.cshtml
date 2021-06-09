@@ -5,18 +5,18 @@
 
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Create" method="post">
-    <div class="form-group" asp-validation-class-for="RoleName">
+    <div class="mb-3" asp-validation-class-for="RoleName">
         <label asp-for="RoleName">@T["Role name"]</label>
         <input asp-for="RoleName" class="form-control" autofocus />
         <span asp-validation-for="RoleName" class="text-danger">@T["The role name is required."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="RoleDescription">
+    <div class="mb-3" asp-validation-class-for="RoleDescription">
         <label asp-for="RoleDescription">@T["Role description"]</label>
         <input asp-for="RoleDescription" class="form-control" autofocus />
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary create" type="submit">@T["Create"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
     </div>

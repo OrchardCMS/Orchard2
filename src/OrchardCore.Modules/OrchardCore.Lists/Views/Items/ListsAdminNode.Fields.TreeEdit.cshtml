@@ -9,16 +9,16 @@
 
 <div class="row mb-4">
     <div class="col-xl-6">
-        <div class="form-group">
+        <div class="mb-3">
             <label asp-for="ContentType"></label>
-            <select asp-for="ContentType" asp-items="Model.ContentTypes" class="form-control"></select>
+            <select asp-for="ContentType" asp-items="Model.ContentTypes" class="form-select"></select>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             <label asp-for="IconForContentItems">@T["Icon for the content items"]</label>
             <div class="btn-toolbar icon-toolbar" role="toolbar" aria-label="Icon Selector Toolbar">
 
-                <div class="btn-group input-group mr-2" role="group" aria-label="Icon Selector">
+                <div class="btn-group input-group me-2" role="group" aria-label="Icon Selector">
                     <button type="button" class="btn btn-primary sample-icon">
                         <i id="@("sample-icon-" + Html.IdFor(m => m.IconForContentItems))"
                            class="@(Model.IconForContentItems)"></i>
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="form-group row add-parent-link-fieldset">
+        <div class="mb-3 row add-parent-link-fieldset">
             <div class="col">
                 <label asp-for="AddContentTypeAsParent">
                     <input asp-for="AddContentTypeAsParent" class="add-parent-link-checkbox" />
@@ -53,12 +53,12 @@
                 <span class="hint">Determines if there will be a parent item containing the content item links.</span>
             </div>
         </div>
-        <div class="form-group row @(Model.AddContentTypeAsParent ? "" : "collapse") icon-picker-for-content-type">
+        <div class="mb-3 row @(Model.AddContentTypeAsParent ? "" : "collapse") icon-picker-for-content-type">
             <div class="col">
                 <label asp-for="IconForParentLink">@T["Icon for the parent menu item"]</label>
                 <div class="btn-toolbar icon-toolbar" role="toolbar" aria-label="Icon Selector Toolbar">
 
-                    <div class="btn-group input-group mr-2" role="group" aria-label="Icon Selector">
+                    <div class="btn-group input-group me-2" role="group" aria-label="Icon Selector">
                         <button type="button" class="btn btn-primary sample-icon">
                             <i id="@("sample-icon-" + Html.IdFor(m => m.IconForParentLink))"
                                class="@(Model.IconForParentLink)"></i>
@@ -93,9 +93,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@T["Pick an icon"]</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
                     <div id="inline-picker" class="icp icp-auto" data-placement="inline"></div>

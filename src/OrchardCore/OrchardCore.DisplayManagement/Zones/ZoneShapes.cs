@@ -239,7 +239,6 @@ namespace OrchardCore.DisplayManagement.Zones
             return htmlContentBuilder;
         }
 
-
         [Shape]
         public async Task<IHtmlContent> ColumnGrouping(IDisplayHelper DisplayAsync, GroupingViewModel Shape, IShapeFactory ShapeFactory)
         {

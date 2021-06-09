@@ -6,23 +6,23 @@
 
 <form asp-action="AddReusablePartTo">
     @Html.ValidationSummary()
-    <div class="form-group">
+    <div class="mb-3">
 
         @if (Model.PartSelections.Any())
         {
-            <div class="form-group">
+            <div class="mb-3">
                 <label for="DisplayName">@T["Display Name"]</label>
                 <input asp-for="DisplayName" class="form-control" autofocus />
                 <span class="hint">@T["Name of the reusable part as it will be displayed in screens."]</span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label for="Name">@T["Technical Name"]</label>
                 <input asp-for="Name" class="form-control" />
                 <span class="hint">@T["Technical name of the reusable part."]</span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label for="Description">@T["Description"]</label>
                 <input asp-for="Description" class="form-control" />
                 <span class="hint">@T["Description of the reusable part."]</span>
@@ -32,9 +32,9 @@
                 @foreach (var partSelection in Model.PartSelections)
                 {
                     <li class="list-group-item">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" asp-for="SelectedPartName" id="@Html.IdFor(m => m.PartSelections[i].PartName)" value="@Model.PartSelections[i].PartName">
-                            <label class="custom-control-label" asp-for="PartSelections[i].PartName">@partSelection.PartDisplayName</label>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" asp-for="SelectedPartName" id="@Html.IdFor(m => m.PartSelections[i].PartName)" value="@Model.PartSelections[i].PartName">
+                            <label class="form-check-label" asp-for="PartSelections[i].PartName">@partSelection.PartDisplayName</label>
                             @if (!String.IsNullOrEmpty(partSelection.PartDescription))
                             {
                                 <span class="hint dashed">@partSelection.PartDescription</span>
@@ -50,7 +50,7 @@
             <p class="alert alert-warning">@T["There are no available named parts."]</p>
         }
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         @if (Model.PartSelections.Any())
         {
             <button class="btn btn-primary save" type="submit">@T["Save"]</button>

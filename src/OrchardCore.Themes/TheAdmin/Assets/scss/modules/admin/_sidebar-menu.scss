@@ -13,7 +13,6 @@ body:not(.left-sidebar-compact) {
         color: $admin-menu-font-color;
         border-right: $border-content;
         transition: left 0.2s ease-in-out, width 0.2s ease-in-out;
-        font-family: "Segoe UI VSS (Regular)", "Segoe UI", "-apple-system", BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Ubuntu, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
         ::-webkit-scrollbar {
             width: 4px;

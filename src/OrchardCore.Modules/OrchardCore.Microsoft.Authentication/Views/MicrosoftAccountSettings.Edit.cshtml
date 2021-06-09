@@ -13,31 +13,31 @@
 
 <h3>@T["Microsoft Account Authentication Settings"]</h3>
 
-<div class="form-group" asp-validation-class-for="AppId">
+<div class="mb-3" asp-validation-class-for="AppId">
     <label>@T["AppId"]</label>
     <input asp-for="AppId" class="form-control" />
     <span asp-validation-for="AppId"></span>
     <span class="hint">@T["The Application ID found on the Microsoft developer portal parameters."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="AppSecret">
+<div class="mb-3" asp-validation-class-for="AppSecret">
     <label>@T["Secret Key"]</label>
     <input asp-for="AppSecret" class="form-control" type="password" value="@Model.AppSecret" />
     <span asp-validation-for="AppSecret"></span>
     <span class="hint">@T["The Application secret key found on the Microsoft developer portal parameters."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="CallbackPath">
+<div class="mb-3" asp-validation-class-for="CallbackPath">
     <label>@T["CallbackPath"]</label>
     <input asp-for="CallbackPath" class="form-control" placeholder="/signin-microsoft" />
     <span asp-validation-for="CallbackPath"></span>
     <span class="hint">@T["The request path within the application's base path where the user-agent will be returned. The middleware will process this request when it arrives."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="SaveTokens">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="SaveTokens">
-        <label class="custom-control-label" asp-for="SaveTokens">@T["Store tokens"]</label>
+<div class="mb-3" asp-validation-class-for="SaveTokens">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="SaveTokens">
+        <label class="form-check-label" asp-for="SaveTokens">@T["Store tokens"]</label>
         <span class="hint dashed">@T["Store external authentication tokens for reuse"]</span>
     </div>
 </div>

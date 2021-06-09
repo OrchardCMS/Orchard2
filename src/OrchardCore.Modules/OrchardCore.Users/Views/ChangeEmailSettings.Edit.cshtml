@@ -1,9 +1,9 @@
 @model OrchardCore.Users.Models.ChangeEmailSettings
 
-<div class="form-group" asp-validation-class-for="AllowChangeEmail">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="AllowChangeEmail" />
+<div class="mb-3" asp-validation-class-for="AllowChangeEmail">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="AllowChangeEmail" />
         <span asp-validation-for="AllowChangeEmail"></span>
-        <label class="custom-control-label" asp-for="AllowChangeEmail">@T["Allow the users to change their email"]</label>
+        <label class="form-check-label" asp-for="AllowChangeEmail">@T["Allow the users to change their email"]</label>
     </div>
 </div>

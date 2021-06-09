@@ -3,13 +3,13 @@
 <script asp-name="bootstrap-select" depends-on="admin" at="Foot"></script>
 
 <!-- Hidden submit button do not remove -->
-<input type="submit" name="submit.Filter" id="submitFilter" class="sr-only" />
-<input type="submit" name="submit.BulkAction" class="sr-only" />
+<input type="submit" name="submit.Filter" id="submitFilter" class="visually-hidden" />
+<input type="submit" name="submit.BulkAction" class="visually-hidden" />
 @Html.HiddenFor(o => o.Options.BulkAction)
 
 <div class="card mb-3 position-sticky action-bar">
     <div class="card-body bg-primary p-3">
-        <div class="form-group mb-n1">
+        <div class="mb-0">
             @await DisplayAsync(Model.Header.Search)
             @await DisplayAsync(Model.Header.Create)
         </div>

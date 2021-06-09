@@ -9,7 +9,7 @@
 <script asp-name="fontpickerScript" asp-src="~/OrchardCore.ContentFields/Scripts/fontawesome-iconpicker.min.js" debug-src="~/OrchardCore.ContentFields/Scripts/fontawesome-iconpicker.js" at="Foot" depends-on="jquery"></script>
 <script asp-name="iconpickerCustomScript" asp-src="~/OrchardCore.ContentFields/Scripts/iconpicker-custom.js" at="Foot"></script>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Text">@Model.PartFieldDefinition.DisplayName()</label>
     <input type="hidden" asp-for="Text" id="@Html.IdFor(m=>m.Text)" />
     <div class="btn-toolbar" role="toolbar" aria-label="Icon Selector Toolbar">
@@ -17,9 +17,9 @@
             <button type="button" class="btn btn-primary iconpicker-component">
                 <i class="fa fa-fw fa-heart"></i>
             </button>
-            <button type="button" id="@Html.IdForModel()" class="icp icp-dd btn btn-primary dropdown-toggle" data-selected="fa-car" data-toggle="dropdown">
+            <button type="button" id="@Html.IdForModel()" class="icp icp-dd btn btn-primary dropdown-toggle" data-selected="fa-car" data-bs-toggle="dropdown">
                 <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
+                <span class="visually-hidden">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu"></div>
         </div>

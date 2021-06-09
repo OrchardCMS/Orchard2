@@ -1,41 +1,41 @@
 @model OrchardCore.Seo.ViewModels.SeoMetaPartSettingsViewModel
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisplayKeywords" checked="@Model.DisplayKeywords">
-        <label class="custom-control-label" asp-for="DisplayKeywords">@T["Display Keywords"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisplayKeywords" checked="@Model.DisplayKeywords">
+        <label class="form-check-label" asp-for="DisplayKeywords">@T["Display Keywords"]</label>
         <span class="hint dashed">@T["Check to display the Keywords panel."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisplayCustomMetaTags" checked="@Model.DisplayCustomMetaTags">
-        <label class="custom-control-label" asp-for="DisplayCustomMetaTags">@T["Display Custom Meta Tags"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisplayCustomMetaTags" checked="@Model.DisplayCustomMetaTags">
+        <label class="form-check-label" asp-for="DisplayCustomMetaTags">@T["Display Custom Meta Tags"]</label>
         <span class="hint dashed">@T["Check to display the Custom Meta Tags."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisplayOpenGraph" checked="@Model.DisplayOpenGraph">
-        <label class="custom-control-label" asp-for="DisplayOpenGraph">@T["Display Open Graph"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisplayOpenGraph" checked="@Model.DisplayOpenGraph">
+        <label class="form-check-label" asp-for="DisplayOpenGraph">@T["Display Open Graph"]</label>
         <span class="hint dashed">@T["Check to display the Open Graph panel."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisplayTwitter" checked="@Model.DisplayTwitter">
-        <label class="custom-control-label" asp-for="DisplayTwitter">@T["Display Twitter"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisplayTwitter" checked="@Model.DisplayTwitter">
+        <label class="form-check-label" asp-for="DisplayTwitter">@T["Display Twitter"]</label>
         <span class="hint dashed">@T["Check to display the Twitter panel."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="DisplayGoogleSchema" checked="@Model.DisplayGoogleSchema">
-        <label class="custom-control-label" asp-for="DisplayGoogleSchema">@T["Display Google Schema"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="DisplayGoogleSchema" checked="@Model.DisplayGoogleSchema">
+        <label class="form-check-label" asp-for="DisplayGoogleSchema">@T["Display Google Schema"]</label>
         <span class="hint dashed">@T["Check to display the Google Schema panel."]</span>
     </div>
 </div>

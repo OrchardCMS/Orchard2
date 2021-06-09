@@ -8,13 +8,13 @@
 <div class="row">
     <div class="col-lg col-12 title d-flex">
         <div class="selectors-container d-flex">
-            <div class="custom-control custom-checkbox float-left">
-                <input type="checkbox" class="custom-control-input" value="@contentItem.Id" name="itemIds" id="itemIds-@contentItem.Id">
-                <label class="custom-control-label" for="itemIds-@contentItem.Id"></label>
+            <div class="form-check float-start">
+                <input type="checkbox" class="form-check-input" value="@contentItem.Id" name="itemIds" id="itemIds-@contentItem.Id">
+                <label class="form-check-label" for="itemIds-@contentItem.Id"></label>
             </div>
         </div>
         <div class="summary d-flex flex-column flex-md-row">
-            <div class="contentitem mr-2">
+            <div class="contentitem me-2">
                 @if (await AuthorizationService.AuthorizeAsync(User, CommonPermissions.EditContent, contentItem))
                 {
                     <a admin-for="@contentItem" asp-route-returnUrl="@FullRequestPath" />
@@ -24,24 +24,24 @@
                     @contentItem
                 }
             </div>
-            <div class="contenttype mr-1">
+            <div class="contenttype me-1">
                 <span class="badge ta-badge font-weight-normal"><i class="far fa-file-alt text-secondary"></i> @contentItem.ContentType</span>
             </div>
             @if (Model.Header != null)
             {
-                <div class="header mr-1">
+                <div class="header me-1">
                     @await DisplayAsync(Model.Header)
                 </div>
             }
             @if (Model.Tags != null)
             {
-                <div class="tags mr-1">
+                <div class="tags me-1">
                     @await DisplayAsync(Model.Tags)
                 </div>
             }
             @if (Model.Meta != null)
             {
-                <div class="metadata mr-1">
+                <div class="metadata me-1">
                     @await DisplayAsync(Model.Meta)
                 </div>
             }
@@ -56,7 +56,7 @@
             @if (Model.ActionsMenu != null)
             {
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle actions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span>@T["Actions"]</span>
                     </button>
                     <div class="actions-menu dropdown-menu dropdown-menu-right">

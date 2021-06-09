@@ -1,21 +1,21 @@
 @model OrchardCore.Lists.ViewModels.ListPartSettingsViewModel
 
-<div class="form-group" asp-validation-class-for="PageSize">
+<div class="mb-3" asp-validation-class-for="PageSize">
     <label asp-for="PageSize">@T["Page Size"]</label>
     <input asp-for="PageSize" class="form-control" />
     <span asp-validation-for="PageSize" class="text-danger"></span>
     <span class="hint">@T["The number of items to display per page."]</span>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="EnableOrdering">
-        <label class="custom-control-label" asp-for="EnableOrdering">@T["Enable Ordering"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="EnableOrdering">
+        <label class="form-check-label" asp-for="EnableOrdering">@T["Enable Ordering"]</label>
         <span class="hint dashed">@T["Check this option to enable manual ordering of items."]</span>
     </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="ContainedContentTypes">@T["Contained Content Types"]</label>
     <span class="hint">@T["The content types that this list can contain, e.g. Blog Post for a Blog."]</span>
     @await Component.InvokeAsync("SelectContentTypes", new { selectedContentTypes = Model.ContainedContentTypes, htmlName = Html.NameFor(m => m.ContainedContentTypes) })

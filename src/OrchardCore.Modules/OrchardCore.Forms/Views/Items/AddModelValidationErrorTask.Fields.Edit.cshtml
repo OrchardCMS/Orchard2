@@ -1,14 +1,14 @@
 @using OrchardCore.Forms.Workflows.ViewModels;
 @model AddModelValidationErrorTaskViewModel
 
-<div class="form-group" asp-validation-class-for="Key">
+<div class="mb-3" asp-validation-class-for="Key">
     <label asp-for="Key">@T["Key"]</label>
     <input type="text" asp-for="Key" class="form-control" />
     <span asp-validation-for="Key"></span>
     <span class="hint">@T["The name of the form field that has an invalid value."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ErrorMessage">
+<div class="mb-3" asp-validation-class-for="ErrorMessage">
     <label asp-for="ErrorMessage">@T["Error Message"]</label>
     <input type="text" asp-for="ErrorMessage" class="form-control" />
     <span asp-validation-for="ErrorMessage"></span>

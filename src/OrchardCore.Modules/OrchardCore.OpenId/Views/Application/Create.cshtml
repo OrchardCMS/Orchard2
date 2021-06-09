@@ -10,103 +10,103 @@
 
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Create" method="post">
-    <div class="form-group" asp-validation-class-for="ClientId">
+    <div class="mb-3" asp-validation-class-for="ClientId">
         <label asp-for="ClientId">@T["Client Id"]</label>
         <input asp-for="ClientId" class="form-control" autofocus />
         <span asp-validation-for="ClientId" class="text-danger"></span>
     </div>
-    <div class="form-group" asp-validation-class-for="DisplayName">
+    <div class="mb-3" asp-validation-class-for="DisplayName">
         <label asp-for="DisplayName">@T["Display Name"]</label>
         <input asp-for="DisplayName" class="form-control" autofocus />
         <span asp-validation-for="DisplayName" class="text-danger"></span>
     </div>
-    <div class="form-group" asp-validation-class-for="Type">
+    <div class="mb-3" asp-validation-class-for="Type">
         <label asp-for="Type">@T["Type"]</label>
-        <select asp-for="Type" class="form-control">
+        <select asp-for="Type" class="form-select">
             <option value="@OpenIddictConstants.ClientTypes.Confidential">@T["Confidential client"]</option>
             <option value="@OpenIddictConstants.ClientTypes.Public">@T["Public client"]</option>
         </select>
         <div class="hint">@T["Confidential applications MUST send their client secret when communicating with the token and revocation endpoints. This guarantees that only the legit client can exchange an authorization code or get a refresh token."]</div>
     </div>
-    <div class="form-group" asp-validation-class-for="ClientSecret">
+    <div class="mb-3" asp-validation-class-for="ClientSecret">
         <label asp-for="ClientSecret">@T["Client Secret"]</label>
         <input asp-for="ClientSecret" class="form-control" autofocus autocomplete="off" />
         <span asp-validation-for="ClientSecret" class="text-danger"></span>
     </div>
 
     <h3>Flows</h3>
-    <div id="AllowAuthorizationCodeFlowFieldSet" class="form-group collapse" asp-validation-class-for="AllowAuthorizationCodeFlow">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="AllowAuthorizationCodeFlow" data-toggle="collapse" data-target="#AllowAuthorizationCodeFlowRecommendedHint" checked="@Model.AllowAuthorizationCodeFlow">
-            <label class="custom-control-label" asp-for="AllowAuthorizationCodeFlow">@T["Allow Authorization Code Flow"]</label>
+    <div id="AllowAuthorizationCodeFlowFieldSet" class="mb-3 collapse" asp-validation-class-for="AllowAuthorizationCodeFlow">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="AllowAuthorizationCodeFlow" data-bs-toggle="collapse" data-bs-target="#AllowAuthorizationCodeFlowRecommendedHint" checked="@Model.AllowAuthorizationCodeFlow">
+            <label class="form-check-label" asp-for="AllowAuthorizationCodeFlow">@T["Allow Authorization Code Flow"]</label>
             <span class="hint dashed">@T["More info:"] <a href="http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth">http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth</a></span>
         </div>
         <div id="AllowAuthorizationCodeFlowRecommendedHint" class="hint collapse">@T["Recommended Parameters:"] grant_type = 'code', client_id, client_secret,  scope ('openid, profile, roles)')</div>
     </div>
 
-    <div id="AllowImplicitFlowFieldSet" class="form-group collapse" asp-validation-class-for="AllowImplicitFlow">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="AllowImplicitFlow" data-toggle="collapse" data-target="#AllowImplicitFlowRecommendedHint" checked="@Model.AllowImplicitFlow">
-            <label class="custom-control-label" asp-for="AllowImplicitFlow">@T["Allow Implicit Flow"]</label>
+    <div id="AllowImplicitFlowFieldSet" class="mb-3 collapse" asp-validation-class-for="AllowImplicitFlow">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="AllowImplicitFlow" data-bs-toggle="collapse" data-bs-target="#AllowImplicitFlowRecommendedHint" checked="@Model.AllowImplicitFlow">
+            <label class="form-check-label" asp-for="AllowImplicitFlow">@T["Allow Implicit Flow"]</label>
             <span class="hint dashed">@T["More info:"] <a href="http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth">http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth</a></span>
         </div>
         <div id="AllowImplicitFlowRecommendedHint" class="hint collapse">@T["Recommended Parameters:"] grant_type = 'id_token token', client_id, client_secret, redirect_uri ='', nonce,  scope ('openid, profile, roles')</div>
     </div>
 
-    <div id="AllowHybridFlowFieldSet" class="form-group collapse" asp-validation-class-for="AllowHybridFlow">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="AllowHybridFlow" data-toggle="collapse" data-target="#AllowHybridFlowRecommendedHint" checked="@Model.AllowHybridFlow">
-            <label class="custom-control-label" asp-for="AllowHybridFlow">@T["Allow Hybrid Flow"]</label>
+    <div id="AllowHybridFlowFieldSet" class="mb-3 collapse" asp-validation-class-for="AllowHybridFlow">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="AllowHybridFlow" data-bs-toggle="collapse" data-bs-target="#AllowHybridFlowRecommendedHint" checked="@Model.AllowHybridFlow">
+            <label class="form-check-label" asp-for="AllowHybridFlow">@T["Allow Hybrid Flow"]</label>
             <span class="hint dashed">@T["More info:"] <a href="http://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth">http://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth</a></span>
         </div>
         <div id="AllowHybridFlowRecommendedHint" class="hint collapse">@T["Recommended Parameters:"] grant_type = 'code id_token', client_id, client_secret, redirect_uri ='', nonce,  scope ('openid, profile, roles')</div>
     </div>
 
-    <div id="AllowPasswordFlowFieldSet" class="form-group collapse" asp-validation-class-for="AllowPasswordFlow">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="AllowPasswordFlow" data-toggle="collapse" data-target="#AllowPasswordFlowRecommendedHint" checked="@Model.AllowPasswordFlow">
-            <label class="custom-control-label" asp-for="AllowPasswordFlow">@T["Allow Password Flow"]</label>
+    <div id="AllowPasswordFlowFieldSet" class="mb-3 collapse" asp-validation-class-for="AllowPasswordFlow">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="AllowPasswordFlow" data-bs-toggle="collapse" data-bs-target="#AllowPasswordFlowRecommendedHint" checked="@Model.AllowPasswordFlow">
+            <label class="form-check-label" asp-for="AllowPasswordFlow">@T["Allow Password Flow"]</label>
             <span class="hint dashed">@T["More info:"] <a href="https://tools.ietf.org/html/rfc6749#section-1.3.3">https://tools.ietf.org/html/rfc6749#section-1.3.3</a></span>
         </div>
         <div id="AllowPasswordFlowRecommendedHint" class="hint collapse">@T["Recommended Parameters:"] grant_type = 'password', client_id, client_secret, username, password,  scope ('openid, profile, roles)')</div>
     </div>
 
-    <div id="AllowClientCredentialsFlowFieldSet" class="form-group collapse" asp-validation-class-for="AllowClientCredentialsFlow">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="AllowClientCredentialsFlow" data-toggle="collapse" data-target="#AllowClientCredentialsFlowRecommendedHint" checked="@Model.AllowClientCredentialsFlow">
-            <label class="custom-control-label" asp-for="AllowClientCredentialsFlow">@T["Allow Client Credentials Flow"]</label>
+    <div id="AllowClientCredentialsFlowFieldSet" class="mb-3 collapse" asp-validation-class-for="AllowClientCredentialsFlow">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="AllowClientCredentialsFlow" data-bs-toggle="collapse" data-bs-target="#AllowClientCredentialsFlowRecommendedHint" checked="@Model.AllowClientCredentialsFlow">
+            <label class="form-check-label" asp-for="AllowClientCredentialsFlow">@T["Allow Client Credentials Flow"]</label>
             <span class="hint dashed">@T["More info:"] <a href="https://tools.ietf.org/html/rfc6749#section-1.3.4">https://tools.ietf.org/html/rfc6749#section-1.3.4</a></span>
         </div>
         <div id="AllowClientCredentialsFlowRecommendedHint" class="hint collapse">@T["Recommended Parameters:"] grant_type = 'client_credentials', client_id, client_secret,  scope ('openid, profile, roles')</div>
     </div>
 
-    <div id="AllowRefreshTokenFlowFieldSet" class="form-group collapse" asp-validation-class-for="AllowRefreshTokenFlow">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="AllowRefreshTokenFlow" data-toggle="collapse" data-target="#AllowRefreshTokenFlowRecommendedHint" checked="@Model.AllowRefreshTokenFlow" disabled=@((Model.AllowPasswordFlow || Model.AllowAuthorizationCodeFlow) ? null : "")>
-            <label class="custom-control-label" asp-for="AllowRefreshTokenFlow">@T["Allow Refresh Token Flow"]</label>
+    <div id="AllowRefreshTokenFlowFieldSet" class="mb-3 collapse" asp-validation-class-for="AllowRefreshTokenFlow">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="AllowRefreshTokenFlow" data-bs-toggle="collapse" data-bs-target="#AllowRefreshTokenFlowRecommendedHint" checked="@Model.AllowRefreshTokenFlow" disabled=@((Model.AllowPasswordFlow || Model.AllowAuthorizationCodeFlow) ? null : "")>
+            <label class="form-check-label" asp-for="AllowRefreshTokenFlow">@T["Allow Refresh Token Flow"]</label>
             <span class="hint dashed">@T["More info:"] <a href="http://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens">http://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens</a></span>
         </div>
         <div id="AllowRefreshTokenFlowRecommendedHint" class="hint collapse">@T["Recommended Parameters:"] grant_type = 'refresh_token', client_id, client_secret, refresh_token</div>
     </div>
 
-    <div id="RedirectSection" class="form-group collapse">
+    <div id="RedirectSection" class="mb-3 collapse">
         <div asp-validation-class-for="RedirectUris">
             <label asp-for="RedirectUris">@T["Redirect Uris"]</label>
-            <input asp-for="RedirectUris" class="form-control" autofocus />
+            <input asp-for="RedirectUris" class="form-select" autofocus />
             <span asp-validation-for="RedirectUris" class="text-danger"></span>
         </div>
         <div class="hint">
             @T["Space delimited list of redirect URIs."]
         </div>
-        <div class="form-group collapse" id="AllowLogoutEndpointFieldSet">
-            <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" asp-for="AllowLogoutEndpoint" data-toggle="collapse" data-target="#postLogoutRedirectUris" checked="@Model.AllowLogoutEndpoint">
-                    <label class="custom-control-label" asp-for="AllowLogoutEndpoint">@T["Allow Logout Endpoint"]</label>
+        <div class="mb-3 collapse" id="AllowLogoutEndpointFieldSet">
+            <div class="mb-3">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" asp-for="AllowLogoutEndpoint" data-bs-toggle="collapse" data-bs-target="#postLogoutRedirectUris" checked="@Model.AllowLogoutEndpoint">
+                    <label class="form-check-label" asp-for="AllowLogoutEndpoint">@T["Allow Logout Endpoint"]</label>
                 </div>
             </div>
-            <div class="form-group collapse" id="postLogoutRedirectUris" name="postLogoutRedirectUris">
-                <div class="form-group" asp-validation-class-for="PostLogoutRedirectUris">
+            <div class="mb-3 collapse" id="postLogoutRedirectUris" name="postLogoutRedirectUris">
+                <div class="mb-3" asp-validation-class-for="PostLogoutRedirectUris">
                     <label asp-for="PostLogoutRedirectUris">@T["Logout Redirect Uris"]</label>
                     <input asp-for="PostLogoutRedirectUris" class="form-control" autofocus />
                     <span asp-validation-for="PostLogoutRedirectUris" class="text-danger"></span>
@@ -116,9 +116,9 @@
                 </div>
             </div>
         </div>
-        <div class="form-group" asp-validation-class-for="ConsentType">
+        <div class="mb-3" asp-validation-class-for="ConsentType">
             <label asp-for="ConsentType">@T["Consent type"]</label>
-            <select asp-for="ConsentType" class="form-control">
+            <select asp-for="ConsentType" class="form-select">
                 <option value="@OpenIddictConstants.ConsentTypes.Explicit">@T["Explicit consent"]</option>
                 <option value="@OpenIddictConstants.ConsentTypes.Implicit">@T["Implicit consent"]</option>
                 <option value="@OpenIddictConstants.ConsentTypes.External">@T["External consent"]</option>
@@ -134,31 +134,31 @@
         </div>
     </div>
 
-    <div class="form-group" id="ScopeGroup" name="ScopeGroup">
+    <div class="mb-3" id="ScopeGroup" name="ScopeGroup">
         <h6>@T["Allowed Scopes"]</h6>
         @for (var i = 0; i < Model.ScopeEntries.Count; i++)
         {
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="ScopeEntries[i].Selected">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="ScopeEntries[i].Selected">
                 <input type="hidden" asp-for="ScopeEntries[i].Name">
-                <label class="custom-control-label" asp-for="ScopeEntries[i].Selected">@Model.ScopeEntries[i].Name</label>
+                <label class="form-check-label" asp-for="ScopeEntries[i].Selected">@Model.ScopeEntries[i].Name</label>
             </div>
         }
     </div>
 
-    <div class="form-group collapse" id="RoleGroup" name="RoleGroup">
+    <div class="mb-3 collapse" id="RoleGroup" name="RoleGroup">
         <h6>@T["Client Credentials Roles"]</h6>
         @for (var i = 0; i < Model.RoleEntries.Count; i++)
         {
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="RoleEntries[i].Selected">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="RoleEntries[i].Selected">
                 <input type="hidden" asp-for="RoleEntries[i].Name">
-                <label class="custom-control-label" asp-for="RoleEntries[i].Selected">@Model.RoleEntries[i].Name</label>
+                <label class="form-check-label" asp-for="RoleEntries[i].Selected">@Model.RoleEntries[i].Name</label>
             </div>
         }
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
     </div>

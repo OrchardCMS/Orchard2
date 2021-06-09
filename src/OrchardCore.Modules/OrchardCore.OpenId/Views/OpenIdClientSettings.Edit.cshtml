@@ -4,35 +4,35 @@
 
 <p class="alert alert-warning">@T["The current tenant will be reloaded when the settings are saved."]</p>
 
-<div class="form-group" asp-validation-class-for="DisplayName">
+<div class="mb-3" asp-validation-class-for="DisplayName">
     <label>@T["Display Name"]</label>
     <input asp-for="DisplayName" class="form-control" />
     <span asp-validation-for="DisplayName"></span>
     <span class="hint">@T["Display name of the IdP"]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Authority">
+<div class="mb-3" asp-validation-class-for="Authority">
     <label>@T["Authority"]</label>
     <input asp-for="Authority" class="form-control" />
     <span asp-validation-for="Authority"></span>
     <span class="hint">@T["Authority to use when making OpenIdConnect calls"]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ClientId">
+<div class="mb-3" asp-validation-class-for="ClientId">
     <label>@T["ClientId"]</label>
     <input asp-for="ClientId" class="form-control" />
     <span asp-validation-for="ClientId"></span>
     <span class="hint">@T["the 'client_id'"]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="CallbackPath">
+<div class="mb-3" asp-validation-class-for="CallbackPath">
     <label>@T["CallbackPath"]</label>
     <input asp-for="CallbackPath" placeholder="/signin-oidc" class="form-control" />
     <span asp-validation-for="CallbackPath"></span>
     <span class="hint">@T["The request path within the application's base path where the user-agent will be returned. The middleware will process this request when it arrives."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="SignedOutCallbackPath">
+<div class="mb-3" asp-validation-class-for="SignedOutCallbackPath">
     <label>@T["SignedOut CallbackPath"]</label>
     <input asp-for="SignedOutCallbackPath" placeholder="/signout-callback-oidc" class="form-control" />
     <span asp-validation-for="SignedOutCallbackPath"></span>
@@ -40,34 +40,34 @@
     <a class="hint" href="http://openid.net/specs/openid-connect-session-1_0.html#RedirectionAfterLogout" target="_blank">@T["See post_logout_redirect_uri from "]http://openid.net/specs/openid-connect-session-1_0.html#RedirectionAfterLogout</a>
 </div>
 
-<div class="form-group" asp-validation-class-for="SignedOutRedirectUri">
+<div class="mb-3" asp-validation-class-for="SignedOutRedirectUri">
     <label>@T["SignedOut Redirect Uri"]</label>
     <input asp-for="SignedOutRedirectUri" placeholder="/" class="form-control" />
     <span asp-validation-for="SignedOutRedirectUri"></span>
     <span class="hint">@T["The uri where the user agent will be redirected to after application is signed out from the identity provider. The redirect will happen after the SignedOutCallbackPath is invoked."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="Scopes">
+<div class="mb-3" asp-validation-class-for="Scopes">
     <label asp-for="Scopes">@T["Scopes"]</label>
     <input asp-for="Scopes" class="form-control" />
     <span asp-validation-for="Scopes"></span>
     <span class="hint">@T["extra scopes except openid and profile"]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="StoreExternalTokens">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="StoreExternalTokens">
-        <label class="custom-control-label" asp-for="StoreExternalTokens">@T["Store tokens"]</label>
+<div class="mb-3" asp-validation-class-for="StoreExternalTokens">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="StoreExternalTokens">
+        <label class="form-check-label" asp-for="StoreExternalTokens">@T["Store tokens"]</label>
         <span class="hint dashed">@T["Store external authentication tokens for reuse"]</span>
     </div>
 </div>
 
 <h3>@T["Code Authentication Flow"]</h3>
 <h5 class="mb-3"><a class="hint" href="http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth" target="_blank">@T["see: "]http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth</a></h5>
-<div class="form-group" asp-validation-class-for="UseCodeFlow">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseCodeFlow">
-        <label class="custom-control-label" asp-for="UseCodeFlow">@T["Use 'code' response type"]</label>
+<div class="mb-3" asp-validation-class-for="UseCodeFlow">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseCodeFlow">
+        <label class="form-check-label" asp-for="UseCodeFlow">@T["Use 'code' response type"]</label>
         <span class="hint dashed"><a href="http://openid.net/specs/openid-connect-core-1_0.html#codeExample" target="_blank">@T["example:"] http://openid.net/specs/openid-connect-core-1_0.html#codeExample</a></span>
     </div>
 </div>
@@ -75,26 +75,26 @@
 <h3>@T["Hybrid Authentication Flow"]</h3>
 <h5 class="mb-3"><a class="hint" href="http://openid.net/specs/openid-connect-core-1_0.html#HybridAuthRequest" target="_blank">@T["see: "]http://openid.net/specs/openid-connect-core-1_0.html#HybridAuthRequest</a></h5>
 
-<div class="form-group" asp-validation-class-for="UseCodeIdTokenFlow">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseCodeIdTokenFlow">
-        <label class="custom-control-label" asp-for="UseCodeIdTokenFlow">@T["Use 'code id_token' response type"]</label>
+<div class="mb-3" asp-validation-class-for="UseCodeIdTokenFlow">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseCodeIdTokenFlow">
+        <label class="form-check-label" asp-for="UseCodeIdTokenFlow">@T["Use 'code id_token' response type"]</label>
         <span class="hint dashed"><a href="http://openid.net/specs/openid-connect-core-1_0.html#code-id_tokenExample" target="_blank">@T["example:"] http://openid.net/specs/openid-connect-core-1_0.html#code-id_tokenExample</a></span>
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="UseCodeIdTokenTokenFlow">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseCodeIdTokenTokenFlow">
-        <label class="custom-control-label" asp-for="UseCodeIdTokenTokenFlow">@T["Use 'code id_token token' response type"]</label>
+<div class="mb-3" asp-validation-class-for="UseCodeIdTokenTokenFlow">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseCodeIdTokenTokenFlow">
+        <label class="form-check-label" asp-for="UseCodeIdTokenTokenFlow">@T["Use 'code id_token token' response type"]</label>
         <span class="hint dashed"><a href="http://openid.net/specs/openid-connect-core-1_0.html#code-id_token-tokenExample" target="_blank">@T["example:"] http://openid.net/specs/openid-connect-core-1_0.html#code-id_token-tokenExample</a></span>
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="UseCodeTokenFlow">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseCodeTokenFlow">
-        <label class="custom-control-label" asp-for="UseCodeTokenFlow">@T["Use 'code token' response type"]</label>
+<div class="mb-3" asp-validation-class-for="UseCodeTokenFlow">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseCodeTokenFlow">
+        <label class="form-check-label" asp-for="UseCodeTokenFlow">@T["Use 'code token' response type"]</label>
         <span class="hint dashed"><a href="http://openid.net/specs/openid-connect-core-1_0.html#code-tokenExample" target="_blank">@T["example:"] http://openid.net/specs/openid-connect-core-1_0.html#code-tokenExample</a></span>
     </div>
 </div>
@@ -102,25 +102,25 @@
 <h3>@T["Implicit Authentication Flow"]</h3>
 <h5 class="mb-3"><a class="hint" href="http://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthRequest" target="_blank">@T["see: "]http://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthRequest</a></h5>
 
-<div class="form-group" asp-validation-class-for="UseIdTokenFlow">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseIdTokenFlow">
-        <label class="custom-control-label" asp-for="UseIdTokenFlow">@T["Use 'id_token' response type"]</label>
+<div class="mb-3" asp-validation-class-for="UseIdTokenFlow">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseIdTokenFlow">
+        <label class="form-check-label" asp-for="UseIdTokenFlow">@T["Use 'id_token' response type"]</label>
         <span class="hint dashed"><a href="http://openid.net/specs/openid-connect-core-1_0.html#id_tokenExample" target="_blank">@T["example:"] http://openid.net/specs/openid-connect-core-1_0.html#id_tokenExample</a></span>
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="UseIdTokenTokenFlow">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="UseIdTokenTokenFlow">
-        <label class="custom-control-label" asp-for="UseIdTokenTokenFlow">@T["Use 'id_token token' response type"]</label>
+<div class="mb-3" asp-validation-class-for="UseIdTokenTokenFlow">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="UseIdTokenTokenFlow">
+        <label class="form-check-label" asp-for="UseIdTokenTokenFlow">@T["Use 'id_token token' response type"]</label>
         <span class="hint dashed"><a href="http://openid.net/specs/openid-connect-core-1_0.html#id_token-tokenExample" target="_blank">@T["example:"] http://openid.net/specs/openid-connect-core-1_0.html#id_token-tokenExample</a></span>
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="ResponseMode">
+<div class="mb-3" asp-validation-class-for="ResponseMode">
     <label>@T["Response Mode"]</label>
-    <select asp-for="ResponseMode" class="form-control">
+    <select asp-for="ResponseMode" class="form-select">
         <option id="@OpenIdConnectResponseMode.FormPost" value="@OpenIdConnectResponseMode.FormPost">@T[OpenIdConnectResponseMode.FormPost]</option>
         @*<option id="@OpenIdConnectResponseMode.Fragment" value="@OpenIdConnectResponseMode.Fragment">@T[OpenIdConnectResponseMode.Fragment]</option>*@
         <option id="@OpenIdConnectResponseMode.Query" value="@OpenIdConnectResponseMode.Query">@T[OpenIdConnectResponseMode.Query]</option>
@@ -129,7 +129,7 @@
     <span class="hint">@T["Configure Response Mode see: http://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthResponse"]</span>
 </div>
 
-<div class="form-group collapse" asp-validation-class-for="ClientSecret">
+<div class="mb-3 collapse" asp-validation-class-for="ClientSecret">
     <label>@T["Client Secret"]</label>
     <input asp-for="ClientSecret" class="form-control" type="password" autocomplete="off" />
     <span asp-validation-for="ClientSecret"></span>

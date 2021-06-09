@@ -20,7 +20,7 @@
 
 <div id="@vueElementId" class="vue-multiselect" data-part="@partName" data-field="@fieldName" data-content-type="@contentTypeName" data-editor-type="UserPicker" data-selected-users="@selectedUsers" data-search-url="@searchUrl" data-multiple="@multiple">
 
-    <div class="form-group">
+    <div class="mb-3">
         <ul class="list-group w-xl-50 user-picker-default__list" v-show="arrayOfUsers.length" v-cloak>
             <draggable v-model="arrayOfUsers">
                 <li v-for="(user, i) in arrayOfUsers"
@@ -36,7 +36,7 @@
         </ul>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <div class="w-xl-50">
             <input asp-for="UserIds" type="hidden" v-model="selectedIds" />
             <vue-multiselect v-model="value" :options="options" track-by="id"
@@ -47,7 +47,7 @@
                              :disabled="isDisabled"
                              select-label="@T["Select"]" deselect-label="@T["Remove"]">
                 <template slot="option" slot-scope="props">
-                    <div v-cloak><span>{{ props.option.displayText }}</span><span class="small ml-2" v-show="!props.option.isEnabled">(@T["Not enabled"])</span></div>
+                    <div v-cloak><span>{{ props.option.displayText }}</span><span class="small ms-2" v-show="!props.option.isEnabled">(@T["Not enabled"])</span></div>
                 </template>
                 <template slot="noResult">
                     @T["No result found"]

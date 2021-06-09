@@ -1,9 +1,9 @@
 @model UserIndexOptions
 
-<div class="form-group mb-n1 text-nowrap">
-    <div class="custom-control custom-checkbox mt-2 mr-n2">
-        <input type="checkbox" class="custom-control-input" id="select-all">
-        <label class="custom-control-label" for="select-all" id="select-all-label" title="@T["Select All"]"></label>
+<div class="mb-0 text-nowrap">
+    <div class="form-check mt-2 me-n2">
+        <input type="checkbox" class="form-check-input" id="select-all">
+        <label class="form-check-label" for="select-all" id="select-all-label" title="@T["Select All"]"></label>
         <label id="items" for="select-all">@T.Plural((int)Model.UsersCount, "1 item", "{0} items")<span class="text-muted" title="@T["Items {0} to {1}", (int)Model.StartIndex, (int)Model.EndIndex]">@T.Plural((int)Model.TotalItemCount, " / {0} item in total", " / {0} items in total")</span></label>
         <label id="selected-items" class="text-muted" for="select-all"></label>
     </div>

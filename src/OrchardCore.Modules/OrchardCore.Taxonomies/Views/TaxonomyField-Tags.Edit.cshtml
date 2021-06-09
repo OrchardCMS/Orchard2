@@ -41,10 +41,10 @@
 }
 else
 {
-    <div class="form-group">
+    <div class="mb-3">
         <div id="@vueElementId" class="tags" data-taxonomy-content-item-id="@Model.Taxonomy.ContentItemId" data-open="@open.ToString().ToLower()" data-leaves-only="@taxonomySettings.LeavesOnly.ToString().ToLower()" data-create-tag-error-message="@T["Error creating tag"]" data-all-tag-terms="@Model.TagTermEntries" data-create-tag-url="@createTagUrl">
 
-            <div class="form-group">
+            <div class="mb-3">
                 <div class="w-xl-50">
                     <input asp-for="TermContentItemIds" type="hidden" v-model="selectedTagTermsIds" />
 

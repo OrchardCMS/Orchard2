@@ -13,10 +13,10 @@
 
 <nav class="card mb-3">
     <div class="card-body bg-primary p-3">
-        <div class="form-group mb-n1">
-            <div class="dropdown float-right order-md-1">
+        <div class="mb-0">
+            <div class="dropdown float-end order-md-1">
                 <!-- Button trigger modal -->
-                <a asp-route-action="Create" class="btn btn-sm btn-primary" role="button" data-toggle="modal" data-target="#modalTreeNodes">
+                <a asp-route-action="Create" class="btn btn-sm btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#modalTreeNodes">
                     @T["Add Node"]
                 </a>
             </div>
@@ -27,7 +27,7 @@
 <div asp-validation-summary="All"></div>
 
 <form id="presetForm" asp-action="List">
-    <div class="form-group">
+    <div class="mb-3">
         @if (Model.AdminMenu.MenuItems.Any())
         {
             var updater = ModelUpdaterAccessor.ModelUpdater;
@@ -55,7 +55,7 @@
         }
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <a class="btn btn-secondary" asp-route-controller="menu" asp-route-action="List">@T["Back"]</a>
     </div>
 </form>
@@ -66,9 +66,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="admin-tree-nodes-title">@T["Available Admin Nodes"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="card-columns">
@@ -81,7 +79,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
             </div>
         </div>
     </div>

@@ -13,14 +13,14 @@
 
 <h3>@T["Facebook Integration"]</h3>
 
-<div class="form-group" asp-validation-class-for="AppId">
+<div class="mb-3" asp-validation-class-for="AppId">
     <label>@T["Application Identifier"]</label>
     <input asp-for="AppId" class="form-control" autocomplete="off" />
     <span asp-validation-for="AppId"></span>
     <span class="hint">@T["The Application ID found on the Facebook developer portal parameters."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="AppSecret">
+<div class="mb-3" asp-validation-class-for="AppSecret">
     <label>@T["Secret Key"]</label>
     <input asp-for="AppSecret" class="form-control" type="password" value="@Model.AppSecret" autocomplete="off" />
     <span asp-validation-for="AppSecret"></span>
@@ -34,19 +34,19 @@
     <div class="col-lg-6 col-xl-9">
         <label>@T["Javascript Sdk js"]</label>
     </div>
-    <div class="form-group col-lg-6 col-xl-3" asp-validation-class-for="Version">
+    <div class="mb-3 col-lg-6 col-xl-3" asp-validation-class-for="Version">
         <input asp-for="Version" class="form-control" value="@Model.Version" />
         <span asp-validation-for="Version"></span>
         <span class="hint">@T["Determines which versions of the Graph API and any API dialogs or plugins are invoked. Default is v3.2"]</span>
     </div>
 
-    <div class="form-group col-lg-6 col-xl-3" asp-validation-class-for="SdkJs">
+    <div class="mb-3 col-lg-6 col-xl-3" asp-validation-class-for="SdkJs">
         <input asp-for="SdkJs" class="form-control" value="@Model.SdkJs" />
         <span asp-validation-for="SdkJs"></span>
         <span class="hint">@T["Determines which sdk js file to load. Default is sdk.js but you can change it as needed. Eg. to render the chat plugin use sdk/xfbml.customerchat.js and <a target=\"_blank\" href=\"https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin#steps\">follow instructions</a>"]</span>
     </div>
 
-    <div class="form-group my-2 col-lg-6 col-xl-3" asp-validation-class-for="FBInit">
+    <div class="mb-3 my-2 col-lg-6 col-xl-3" asp-validation-class-for="FBInit">
         <div class="form-check">
             <input class="form-check-input" asp-for="FBInit" type="checkbox" checked="@Model.FBInit" />
             <label class="form-check-label">@T["Init on every page"]</label>
@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div class="form-group" asp-validation-class-for="FBInitParams">
+<div class="mb-3" asp-validation-class-for="FBInitParams">
     <label>@T["Parameters for the FB.init() call"]</label>
     <textarea asp-for="FBInitParams" class="form-control" rows="5"></textarea>
     <span asp-validation-for="FBInitParams"></span>

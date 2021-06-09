@@ -178,7 +178,7 @@ available on the `MenuItem` shape are still available.
 
     if ((bool)(Model.HasItems))
     {
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="@Url.Content((string)link.Url)">@link.Name<b class="caret"></b></a>
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="@Url.Content((string)link.Url)">@link.Name<b class="caret"></b></a>
     }
     else
     {

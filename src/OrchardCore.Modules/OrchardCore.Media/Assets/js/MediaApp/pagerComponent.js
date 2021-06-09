@@ -16,7 +16,7 @@ Vue.component('pager', {
                 <li v-if="link !== -1" class="page-item page-number"  :class="{active : current == link - 1}" v-for="link in pageLinks">
                     <a class="page-link" href="#" v-on:click="goTo(link - 1)" :aria-label="'Goto Page' + link">
                         {{link}}
-                        <span v-if="current == link -1" class="sr-only">(current)</span>
+                        <span v-if="current == link -1" class="visually-hidden">(current)</span>
                     </a>
                 </li>
                 <li class="page-item" :class="{disabled : !canDoNext}">
@@ -25,7 +25,7 @@ Vue.component('pager', {
                 <li class="page-item media-last-button" :class="{disabled : !canDoLast}">
                     <a class="page-link" href="#" :tabindex="canDoLast ? 0 : -1" v-on:click="goLast">{{ T.pagerLastButton }}</a>
                 </li>
-                <li class="page-item ml-4 page-size-info">
+                <li class="page-item ms-4 page-size-info">
                     <div style="display: flex;">
                         <span class="page-link disabled text-muted page-size-label">{{ T.pagerPageSizeLabel }}</span>
                         <select id="pageSizeSelect" class="page-link" v-model="pageSize">
@@ -39,10 +39,10 @@ Vue.component('pager', {
         </nav>
         <nav class="d-flex justify-content-center">
             <ul class="pagination pagination-sm m-0 mt-2">
-                <li class="page-item ml-4 page-info">
+                <li class="page-item ms-4 page-info">
                     <span class="page-link disabled text-muted ">{{ T.pagerPageLabel }} {{current + 1}}/{{totalPages}}</span>
                 </li>
-                <li class="page-item ml-4 total-info">
+                <li class="page-item ms-4 total-info">
                     <span class="page-link disabled text-muted "> {{ T.pagerTotalLabel }} {{total}}</span>
                 </li>
             </ul>

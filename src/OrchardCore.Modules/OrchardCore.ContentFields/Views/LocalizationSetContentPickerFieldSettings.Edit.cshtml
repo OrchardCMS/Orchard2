@@ -1,30 +1,30 @@
 @model OrchardCore.ContentFields.Settings.LocalizationSetContentPickerFieldSettings
 @using OrchardCore.ContentManagement;
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Required" type="checkbox" class="custom-control-input">
-        <label class="custom-control-label" asp-for="Required">@T["Required"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Required" type="checkbox" class="form-check-input">
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
         <span class="hint dashed">@T["Whether to ensure at least one element is selected."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Multiple" type="checkbox" class="custom-control-input">
-        <label class="custom-control-label" asp-for="Multiple">@T["Allow multiple"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Multiple" type="checkbox" class="form-check-input">
+        <label class="form-check-label" asp-for="Multiple">@T["Allow multiple"]</label>
         <span class="hint dashed">@T["Whether to allow multiple elements to be selected."]</span>
     </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="DisplayedContentTypes">@T["Content Types"]</label>
     <span class="hint">@T["The content types to display. Choose at least one."]</span>
     @await Component.InvokeAsync("SelectContentTypes", new { selectedContentTypes = Model.DisplayedContentTypes, htmlName = Html.NameFor(m => m.DisplayedContentTypes) })
 </div>
 
-<div class="form-group">
-    <div class="w-md-75 w-xl-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-md-75 w-xl-50 pe-md-3">
         <label asp-for="Hint">@T["Hint"]</label>
         <textarea asp-for="Hint" rows="2" class="form-control"></textarea>
     </div>

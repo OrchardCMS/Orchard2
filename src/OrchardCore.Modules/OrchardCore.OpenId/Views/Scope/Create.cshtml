@@ -5,44 +5,44 @@
 
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Create" method="post">
-    <div class="form-group" asp-validation-class-for="Name">
+    <div class="mb-3" asp-validation-class-for="Name">
         <label asp-for="Name">@T["Name"]</label>
         <input asp-for="Name" class="form-control" autofocus />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="DisplayName">
+    <div class="mb-3" asp-validation-class-for="DisplayName">
         <label asp-for="DisplayName">@T["Display Name"]</label>
         <input asp-for="DisplayName" class="form-control" />
         <span asp-validation-for="DisplayName" class="text-danger"></span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Description">
+    <div class="mb-3" asp-validation-class-for="Description">
         <label asp-for="Description">@T["Description"]</label>
         <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
-    <div class="form-group" id="TenantGroup" name="TenantGroup">
+    <div class="mb-3" id="TenantGroup" name="TenantGroup">
         <h6>@T["Tenants"]</h6>
         @for (var index = 0; index < Model.Tenants.Count; index++)
         {
             <input type="hidden" asp-for="Tenants[index].Name" />
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" asp-for="Tenants[index].Selected" checked="@Model.Tenants[index].Current" disabled="@Model.Tenants[index].Current">
-                <label class="custom-control-label" asp-for="Tenants[index].Selected">@Model.Tenants[index].Name</label>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" asp-for="Tenants[index].Selected" checked="@Model.Tenants[index].Current" disabled="@Model.Tenants[index].Current">
+                <label class="form-check-label" asp-for="Tenants[index].Selected">@Model.Tenants[index].Name</label>
             </div>
         }
         <span class="hint">@T["Note: the server tenant is always included in the access token audiences, even if no scope is requested."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Resources">
+    <div class="mb-3" asp-validation-class-for="Resources">
         <label asp-for="Resources">@T["Additional resources (API audiences)"]</label>
         <input asp-for="Resources" class="form-control" />
         <span asp-validation-for="Resources" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
     </div>

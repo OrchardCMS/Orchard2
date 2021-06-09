@@ -1,7 +1,7 @@
 @using OrchardCore.Workflows.ViewModels;
 @model ForkTaskViewModel
 
-<div class="form-group" asp-validation-class-for="Forks">
+<div class="mb-3" asp-validation-class-for="Forks">
     <label asp-for="Forks">@T["Forks"]</label>
     <input asp-for="Forks" class="form-control" />
     <span asp-validation-for="Forks"></span>

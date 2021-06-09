@@ -1,7 +1,7 @@
 @using OrchardCore.Workflows.ViewModels;
 @model ActivityMetadataEditViewModel
 
-<div class="form-group" asp-validation-class-for="Title">
+<div class="mb-3" asp-validation-class-for="Title">
     <label asp-for="Title">@T["Title"]</label>
     <input type="text" asp-for="Title" class="form-control" />
     <span asp-validation-for="Title"></span>

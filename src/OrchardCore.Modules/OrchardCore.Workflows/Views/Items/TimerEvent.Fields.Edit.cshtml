@@ -1,7 +1,7 @@
 @using OrchardCore.Workflows.Timers;
 @model TimerEventViewModel
 
-<div class="form-group" asp-validation-class-for="CronExpression">
+<div class="mb-3" asp-validation-class-for="CronExpression">
     <label asp-for="CronExpression">@T["CRON Expression"]</label>
     <input type="text" asp-for="CronExpression" class="form-control" autofocus />
     <span asp-validation-for="CronExpression"></span>

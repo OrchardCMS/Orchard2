@@ -8,7 +8,7 @@ Vue.component('folder', {
             <div :class="{folderhovered: isHovered , treeroot: level == 1}" >
                 <a href="javascript:;" :style="{ padding${document.dir == "ltr" ? "Left" : "Right"}:padding + 'px' }" v-on:click="select"  draggable="false" class="folder-menu-item">
                   <span v-on:click.stop="toggle" class="expand" :class="{opened: open, closed: !open, empty: empty}"><i v-if="open" class="fas fa-chevron-${document.dir == "ltr" ? "right" : "left"}"></i></span> 
-                  <div class="folder-name ml-2">{{model.name}}</div>
+                  <div class="folder-name ms-2">{{model.name}}</div>
                     <div class="btn-group folder-actions" >
                             <a v-cloak href="javascript:;" class="btn btn-sm" v-on:click="createFolder" v-if="isSelected || isRoot"><i class="fas fa-plus"></i></a>
                             <a v-cloak href="javascript:;" class="btn btn-sm" v-on:click="deleteFolder" v-if="isSelected && !isRoot"><i class="fas fa-trash"></i></a>

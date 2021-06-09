@@ -1,18 +1,18 @@
 @model OrchardCore.Seo.ViewModels.SeoMetaPartOpenGraphViewModel
 
-<div class="form-group" asp-validation-class-for="OpenGraphType">
+<div class="mb-3" asp-validation-class-for="OpenGraphType">
     <label asp-for="OpenGraphType">@T["Open Graph Type"] </label>
     <input asp-for="OpenGraphType" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["The Social Meta Settings Open Graph Type is used by default, or can be overridden here."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="OpenGraphTitle">
+<div class="mb-3" asp-validation-class-for="OpenGraphTitle">
     <label asp-for="OpenGraphTitle">@T["Open Graph Title"] </label>
     <input asp-for="OpenGraphTitle" class="form-control content-preview-text shortcode-modal-input" />
     <span class="hint">@T["The Title is used by default, then the Page Title, or can be overridden here."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="OpenGraphDescription">
+<div class="mb-3" asp-validation-class-for="OpenGraphDescription">
     <label asp-for="OpenGraphDescription">@T["Open Graph Description"] </label>
     <textarea asp-for="OpenGraphDescription" class="form-control content-preview-text shortcode-modal-input"></textarea>
     <span class="hint">@T["The Meta Description is used by default, or can be overridden here."]</span>

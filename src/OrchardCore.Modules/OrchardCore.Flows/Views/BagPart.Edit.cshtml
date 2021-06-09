@@ -17,7 +17,7 @@
 
 <script asp-name="jQuery-ui" at="Foot"></script>
 
-<div class="form-group">
+<div class="mb-3">
     <div id="@widgetTemplatePlaceholderId" class="widget-template-placeholder widget-template-placeholder-bagpart bagpart-@partName.HtmlClassify() row mx-0" data-buildeditorurl="@Url.Action("BuildEditor", "Admin", new { area = "OrchardCore.Flows" })">
         @{ var htmlFieldPrefix = this.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix; }
         @foreach (var widget in Model.BagPart.ContentItems)
@@ -52,7 +52,7 @@
     </div>
 
     <div class="btn-group btn-bag-add">
-        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             @T["Add Item"]
         </button>
         <div class="dropdown-menu">

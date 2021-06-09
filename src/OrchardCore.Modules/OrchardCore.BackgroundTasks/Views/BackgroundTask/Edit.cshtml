@@ -6,29 +6,29 @@
 <form asp-action="Edit" method="post">
 
     <ul class="nav nav-tabs">
-        <li class="nav-item pr-md-2">
-            <a class="nav-link active" id="properties-tab" data-toggle="tab" href="#properties" role="tab" aria-controls="site" aria-selected="true">@T["Properties"]</a>
+        <li class="nav-item pe-md-2">
+            <a class="nav-link active" id="properties-tab" data-bs-toggle="tab" href="#properties" role="tab" aria-controls="site" aria-selected="true">@T["Properties"]</a>
         </li>
-        <li class="nav-item pr-md-2">
-            <a class="nav-link" id="advanced-tab" data-toggle="tab" href="#advanced" role="tab" aria-controls="resources">@T["Advanced"]</a>
+        <li class="nav-item pe-md-2">
+            <a class="nav-link" id="advanced-tab" data-bs-toggle="tab" href="#advanced" role="tab" aria-controls="resources">@T["Advanced"]</a>
         </li>
     </ul>
 
     <div class="tab-content" id="tabs">
         <div class="tab-pane fade show active" id="properties" role="tabpanel" aria-labelledby="properties-tab">
-            <div class="form-group" asp-validation-class-for="Name">
+            <div class="mb-3" asp-validation-class-for="Name">
                 <label asp-for="Name">@T["Name"]</label>
                 <input asp-for="Name" class="form-control" readonly />
                 <span class="hint">@T["The task on which this settings will apply."]</span>
             </div>
 
-            <div class="form-group" asp-validation-class-for="Schedule">
+            <div class="mb-3" asp-validation-class-for="Schedule">
                 <label asp-for="Schedule">@T["Schedule"]</label>
                 <input asp-for="Schedule" class="form-control" autofocus />
                 <span class="hint">@T["The task schedule as a cron expression."]</span>
             </div>
 
-            <div class="form-group" asp-validation-class-for="Description">
+            <div class="mb-3" asp-validation-class-for="Description">
                 <input asp-for="Enable" class="form-control" type="hidden" />
                 <input asp-for="DefaultSchedule" class="form-control" type="hidden" />
                 <input asp-for="Description" class="form-control" type="hidden" />
@@ -39,14 +39,14 @@
         </div>
 
         <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
-            <div class="form-group" asp-validation-class-for="LockTimeout">
+            <div class="mb-3" asp-validation-class-for="LockTimeout">
                 <label asp-for="LockTimeout">@T["Lock timeout (ms)"]</label>
                 <input asp-for="LockTimeout" type="number" min="0" max="30000" class="form-control">
                 <span class="hint">@T["The timeout in milliseconds to acquire a lock before executing the task atomically. Leave it to zero to not use any locking."]</span>
                 <span class="hint">@T["Ignored if there is no distributed lock feature enabled."]</span>
             </div>
 
-            <div class="form-group" asp-validation-class-for="LockExpiration">
+            <div class="mb-3" asp-validation-class-for="LockExpiration">
                 <label asp-for="LockExpiration">@T["Lock expiration (ms)"]</label>
                 <input asp-for="LockExpiration" type="number" min="0" max="30000" class="form-control">
                 <span class="hint">@T["The expiration in milliseconds of the lock acquired before executing the task atomically. Leave it to zero to not use any locking."]</span>
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button id="use-default-schedule" class="btn btn-success">@T["Reset Schedule"]</button>
         <button class="btn btn-primary save" type="submit">@T["Save"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>

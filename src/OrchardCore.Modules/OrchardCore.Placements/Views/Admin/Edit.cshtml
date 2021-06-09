@@ -18,23 +18,23 @@
         @Html.HiddenFor(m => m.ShapeType)
     }
 
-    <div class="form-group" asp-validation-class-for="ShapeType">
+    <div class="mb-3" asp-validation-class-for="ShapeType">
         <label asp-for="ShapeType">@T["Shape type"]</label>
         <input asp-for="ShapeType" asp-is-disabled="!Model.Creating" class="form-control" required autofocus />
         <span asp-validation-for="ShapeType"></span>
         <span class="hint">@T["The type of the shape."]</span>
     </div>
 
-    <div class="form-group" asp-validation-class-for="Nodes">
+    <div class="mb-3" asp-validation-class-for="Nodes">
         <label asp-for="Nodes">@T["Placement rules"]</label>
         <textarea asp-for="Nodes" rows="10" class="form-control"></textarea>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <div class="btn-group">
             <button type="submit" name="submit" class="btn btn-primary">@T["Save"]</button>
-            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">@T["Toggle Dropdown"]</span>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-reference="parent" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="visually-hidden">@T["Toggle Dropdown"]</span>
             </button>
             <div class="dropdown-menu">
                 <button class="dropdown-item" name="submit" type="submit" value="SaveAndContinue">@T["and continue"]</button>

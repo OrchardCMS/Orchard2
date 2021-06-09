@@ -10,7 +10,7 @@
 
 <script asp-src="~/OrchardCore.Liquid/codemirror/liquid.js" at="Foot"></script>
 
-<div class="form-group row">
+<div class="mb-3 row">
     <div class="col-large">
         <label asp-for="Pattern">@T["Pattern"]</label>
         <textarea asp-for="Pattern" rows="5" class="form-control"></textarea>
@@ -18,66 +18,66 @@
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="AllowCustomPath" checked="@Model.AllowCustomPath">
-        <label class="custom-control-label" asp-for="AllowCustomPath">@T["Allow custom path"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="AllowCustomPath" checked="@Model.AllowCustomPath">
+        <label class="form-check-label" asp-for="AllowCustomPath">@T["Allow custom path"]</label>
         <span class="hint dashed">@T["Check to allow users to set a custom path, otherwise it will be automatically generated."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="AllowUpdatePath" checked="@Model.AllowUpdatePath">
-        <label class="custom-control-label" asp-for="AllowUpdatePath">@T["Allow path updates"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="AllowUpdatePath" checked="@Model.AllowUpdatePath">
+        <label class="form-check-label" asp-for="AllowUpdatePath">@T["Allow path updates"]</label>
         <span class="hint dashed">@T["Check to allow users to refresh the path once a content item is already published."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="ShowHomepageOption" checked="@Model.ShowHomepageOption">
-        <label class="custom-control-label" asp-for="ShowHomepageOption">@T["Show homepage options"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="ShowHomepageOption" checked="@Model.ShowHomepageOption">
+        <label class="form-check-label" asp-for="ShowHomepageOption">@T["Show homepage options"]</label>
         <span class="hint dashed">@T["Check to allow the content items of this content type to be set as the homepage. It will only be visible to users with the appropriate permission."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="AllowDisabled" checked="@Model.AllowDisabled">
-        <label class="custom-control-label" asp-for="AllowDisabled">@T["Allow disabled"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="AllowDisabled" checked="@Model.AllowDisabled">
+        <label class="form-check-label" asp-for="AllowDisabled">@T["Allow disabled"]</label>
         <span class="hint dashed">@T["Check to allow the content items of this content type to disable autoroute."]</span>
     </div>
 </div>
 
 <fieldset>
-    <h5 class="form-group">@T["Container Settings"]<span class="hint dashed">@T["Settings for parent or child content items."]</span></h5>
-    <div class="form-group">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="AllowRouteContainedItems" checked="@Model.AllowRouteContainedItems">
-            <label class="custom-control-label" asp-for="AllowRouteContainedItems">@T["Allow contained item routing"]</label>
+    <h5 class="mb-3">@T["Container Settings"]<span class="hint dashed">@T["Settings for parent or child content items."]</span></h5>
+    <div class="mb-3">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="AllowRouteContainedItems" checked="@Model.AllowRouteContainedItems">
+            <label class="form-check-label" asp-for="AllowRouteContainedItems">@T["Allow contained item routing"]</label>
             <span class="hint dashed">@T["Check to allow users to enable routing of child content items. This setting must be applied to the parent content item."]</span>
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="ManageContainedItemRoutes" checked="@Model.ManageContainedItemRoutes">
-            <label class="custom-control-label" asp-for="ManageContainedItemRoutes">@T["Manage contained item routes"]</label>
+    <div class="mb-3">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="ManageContainedItemRoutes" checked="@Model.ManageContainedItemRoutes">
+            <label class="form-check-label" asp-for="ManageContainedItemRoutes">@T["Manage contained item routes"]</label>
             <span class="hint dashed">@T["Check to allow this part to apply routes to child content items. This setting must be applied to the child content item."]</span>
         </div>
     </div>
 
-    <div class="form-group d-flex">
-        <div class="d-flex custom-control custom-checkbox manage-contained-item-routes" style="@(Model.ManageContainedItemRoutes ? "" : "display: none")">
-            <input type="checkbox" class="custom-control-input" asp-for="AllowAbsolutePath" checked="@Model.AllowAbsolutePath">
-            <label class="custom-control-label" asp-for="AllowAbsolutePath">@T["Allow absolute path"]</label>
+    <div class="mb-3 d-flex">
+        <div class="d-flex form-check manage-contained-item-routes" style="@(Model.ManageContainedItemRoutes ? "" : "display: none")">
+            <input type="checkbox" class="form-check-input" asp-for="AllowAbsolutePath" checked="@Model.AllowAbsolutePath">
+            <label class="form-check-label" asp-for="AllowAbsolutePath">@T["Allow absolute path"]</label>
 
         </div>
-        <div class="d-flex flex-column ml-2 pt-1">
+        <div class="d-flex flex-column ms-2 pt-1">
             <span class="hint dashed">@T["Check to allow users to enable absolute paths for child content items. When disabled the path is relative to the parents path."]</span>
-            <span class="hint ml-3">@T["When relative : https://mysite.com/my-parent/my-child-item."]</span>
-            <span class="hint ml-3">@T["When absolute : https://mysite.com/my-child-item."]</span>
+            <span class="hint ms-3">@T["When relative : https://mysite.com/my-parent/my-child-item."]</span>
+            <span class="hint ms-3">@T["When absolute : https://mysite.com/my-child-item."]</span>
         </div>
     </div>
 </fieldset>

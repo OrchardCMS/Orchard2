@@ -1,35 +1,35 @@
 @model OrchardCore.Media.Settings.MediaFieldSettings
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Required" checked="@Model.Required">
-        <label class="custom-control-label" asp-for="Required">@T["Required"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Required" checked="@Model.Required">
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
         <span class="hint">— @T["Whether a media is required."]</span>
     </div>
 </div>
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Multiple" checked="@Model.Multiple">
-        <label class="custom-control-label" asp-for="Multiple">@T["Multiple"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Multiple" checked="@Model.Multiple">
+        <label class="form-check-label" asp-for="Multiple">@T["Multiple"]</label>
         <span class="hint">— @T["Whether multiple media can be selected."]</span>
     </div>
 </div>
-<div class="form-group ">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="AllowMediaText" checked="@Model.AllowMediaText">
-        <label class="custom-control-label" asp-for="AllowMediaText">@T["Allow media text"]</label>
+<div class="mb-3 ">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="AllowMediaText" checked="@Model.AllowMediaText">
+        <label class="form-check-label" asp-for="AllowMediaText">@T["Allow media text"]</label>
         <span class="hint">— @T["Whether media text editing is allowed."]</span>
     </div>
 </div>
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="AllowAnchors" checked="@Model.AllowAnchors">
-        <label class="custom-control-label" asp-for="AllowAnchors">@T["Allow anchors"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="AllowAnchors" checked="@Model.AllowAnchors">
+        <label class="form-check-label" asp-for="AllowAnchors">@T["Allow anchors"]</label>
         <span class="hint">— @T["Whether selecting an anchor point for resizing is allowed."]</span>
     </div>
 </div>
-<div class="form-group">
-    <div class="w-md-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-md-50 pe-md-3">
         <label asp-for="Hint">@T["Hint"]</label>
         <input asp-for="Hint" type="text" class="form-control" />
     </div>

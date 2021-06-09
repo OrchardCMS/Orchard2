@@ -4,7 +4,7 @@
     var settings = Model.PartFieldDefinition.GetSettings<TextFieldSettings>();
 }
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Text">@Model.PartFieldDefinition.DisplayName()</label>
     <input asp-for="Text" class="form-control content-preview-text" type="color" />
     @if (!String.IsNullOrEmpty(settings.Hint))

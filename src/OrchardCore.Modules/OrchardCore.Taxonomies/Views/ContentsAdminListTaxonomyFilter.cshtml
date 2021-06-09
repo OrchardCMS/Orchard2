@@ -1,8 +1,8 @@
 @model TaxonomyContentsAdminFilterViewModel
 
-<div class="form-group mb-n1 filter">
+<div class="mb-0 filter">
     <div class="btn-group mt-1">
-        <select asp-for="SelectedContentItemId" asp-items="Model.Taxonomies" class="selectpicker taxonomy-selectpicker show-tick mr-2" data-header="@T["Filter by {0}", Model.DisplayText]" data-live-search="true" data-selected-text-format="static" data-width="fit" title="@T["{0}", Model.DisplayText]" data-style="btn-sm">
+        <select asp-for="SelectedContentItemId" asp-items="Model.Taxonomies" class="selectpicker taxonomy-selectpicker show-tick me-2" data-header="@T["Filter by {0}", Model.DisplayText]" data-live-search="true" data-selected-text-format="static" data-width="fit" title="@T["{0}", Model.DisplayText]" data-style="btn-sm">
         </select>
     </div>
 </div>

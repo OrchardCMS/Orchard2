@@ -11,7 +11,7 @@
 
 @await DisplayAsync(await New.ShortcodeModal())
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Html">@Model.TypePartDefinition.DisplayName()</label>
     @if (culture.IsRightToLeft())
     {

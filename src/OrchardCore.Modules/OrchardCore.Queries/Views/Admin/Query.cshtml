@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-6">
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="DecodedQuery">@T["Template"]</label>
                 <textarea asp-for="DecodedQuery" rows="12" class="form-control"></textarea>
                 <span class="hint">@T["You can <a href=\"{0}\">click here</a> to query all content items.", Html.Raw(Url.Action("Query", "Admin", new { area = "OrchardCore.Queries", Query = matchAllQuery }))]</span>
@@ -28,7 +28,7 @@
         </div>
         <div class="col-md-6">
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="Parameters">@T["Parameters"]</label>
                 <textarea asp-for="Parameters" rows="1" class="form-control"></textarea>
                 <span class="hint">@T["An optional Json object containing the parameter values for this query."]</span>
@@ -38,7 +38,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="mb-3">
                 <button type="submit" class="btn btn-primary">@T["Query"]</button>
             </div>
         </div>
@@ -48,13 +48,13 @@
 {
     <div class="row">
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="mb-3">
                 <label asp-for="RawSql">@T["Final SQL Query"]</label>
                 <textarea asp-for="RawSql" rows="12" class="form-control"></textarea>
                 <span class="hint">@T["The query as it will be executed by the SQL database."]</span>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 <a href="@Url.Action("Create", "Admin", new { area = "OrchardCore.Queries", id = "Sql", query = Model.DecodedQuery })" class="btn btn-success">@T["Create"]</a>
             </div>
         </div>

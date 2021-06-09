@@ -1,14 +1,14 @@
 ﻿@using OrchardCore.Lists.Feeds
 @model ListFeedEditViewModel
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="FeedProxyUrl">@T["Feed proxy Url"]</label>
     <input asp-for="FeedProxyUrl" class="form-control" />
     <span class="hint">@T["Provide a custom public url which will be used to proxy the local rss feed."]</span>
     <span class="hint">@T["The current feed is available at <a href=\"{0}\" target=\"_blank\">{0}</a>.", Url.Action("Index", "Feed", new { area = "OrchardCore.Feeds", ContentItemId = Model.ContentItem.ContentItemId }, Context.Request.Scheme)]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="FeedItemsCount">@T["Feed items count"]</label>
     <input asp-for="FeedItemsCount" class="form-control" />
     <span class="hint">@T["The number of elements to display in the feed."]</span>

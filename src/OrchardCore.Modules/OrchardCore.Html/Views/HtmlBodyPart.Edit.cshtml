@@ -7,7 +7,7 @@
 
 @await DisplayAsync(await New.ShortcodeModal())
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Html">@Model.TypePartDefinition.DisplayName()</label>
     <textarea asp-for="Html" rows="5" class="form-control content-preview-text" dir="@culture.GetLanguageDirection()"></textarea>
     <span class="hint">@T["The body of the content item."]</span>

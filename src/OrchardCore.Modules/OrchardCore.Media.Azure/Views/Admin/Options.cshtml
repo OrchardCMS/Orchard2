@@ -6,7 +6,7 @@
     <a class="seedoc" href="@(OrchardCore.Admin.Constants.DocsUrl)reference/modules/Media.Azure/#configuration" target="_blank">@T["See documentation"]</a>
 </p>
 
-<div class="form-group row">
+<div class="mb-3 row">
     <label asp-for="ConnectionString" class="col-sm-2 col-form-label">@T["Connection String"]</label>
     <div class="col-sm-10">
         <code>
@@ -22,24 +22,24 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="mb-3 row">
         <label asp-for="ContainerName" class="col-sm-2 col-form-label">@T["Container Name"]</label>
         <div class="col-sm-10">
             <code><input type="text" class="form-control-plaintext" value="@Model.ContainerName" /></code>
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="mb-3 row">
         <label asp-for="BasePath" class="col-sm-2 col-form-label">@T["Base Path"]</label>
         <div class="col-sm-10">
             <code><input type="text" class="form-control-plaintext" value="@Model.BasePath" /></code>
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" asp-for="CreateContainer" checked="@Model.CreateContainer" disabled />
-            <label class="custom-control-label" asp-for="CreateContainer">@T["Create Container"]</label>
+    <div class="mb-3">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" asp-for="CreateContainer" checked="@Model.CreateContainer" disabled />
+            <label class="form-check-label" asp-for="CreateContainer">@T["Create Container"]</label>
             <span class="hint">@T["Whether a blob container is created on startup if it does not exist."]</span>
         </div>
     </div>

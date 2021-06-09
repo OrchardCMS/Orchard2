@@ -65,28 +65,30 @@
 
     var passwordTooltip = T["Password must have at least {0}.", passwordOptions];
 }
-<div class="form-group">
-    @if (LocOptions.Value.SupportedUICultures.Count() > 1)
-    {
-        var query = new Dictionary<string, StringValues>(Context.Request.Query);
-        query.Remove("ui-culture");
-        var queryString = QueryString.Create(query);
-
-        <div class="float-right form-inline p-2">
-            <label for="culturesList" class="mr-2">@T["Change language"]</label>
-            <select id="culturesList" class="form-control" onchange="setLocalizationUrl()">
-                @foreach (var culture in LocOptions.Value.SupportedUICultures.OrderBy(x => x.NativeName))
-                {
-                    var uriString = UriHelper.BuildRelative(Context.Request.PathBase, Context.Request.Path, queryString.Add("ui-culture", culture.Name));
-
-                    <option value="@culture" data-url="@uriString" selected="@(culture.Name == Orchard.CultureName())">@(culture.NativeName ?? culture.Name)</option>
-                }
-            </select>
-        </div>
-    }
-</div>
 <form asp-action="Index">
     <div class="bg-light p-2">
+        @if (LocOptions.Value.SupportedUICultures.Count() > 1)
+        {
+            var query = new Dictionary<string, StringValues>(Context.Request.Query);
+            query.Remove("ui-culture");
+            var queryString = QueryString.Create(query);
+
+            <div class="row float-end">
+                <div class="col">
+                    <label for="culturesList" class="mt-2">@T["Change language"]</label>
+                </div>
+                <div class="col">
+                    <select id="culturesList" class="form-select" onchange="setLocalizationUrl()">
+                        @foreach (var culture in LocOptions.Value.SupportedUICultures.OrderBy(x => x.NativeName))
+                        {
+                            var uriString = UriHelper.BuildRelative(Context.Request.PathBase, Context.Request.Path, queryString.Add("ui-culture", culture.Name));
+
+                            <option value="@culture" data-url="@uriString" selected="@(culture.Name == Orchard.CultureName())">@(culture.NativeName ?? culture.Name)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
         <h1>@T["Setup"]</h1>
         <p class="lead">@T["Please answer a few questions to configure your site."]</p>
     </div>
@@ -98,7 +100,7 @@
     }
 
     <div class="row mt-2">
-        <div class="form-group col-md-4" asp-validation-class-for="SiteName">
+        <div class="mb-3 col-md-4" asp-validation-class-for="SiteName">
             <div>
                 <label asp-for="SiteName">@T["What is the name of your site?"]</label>
                 <input asp-for="SiteName" class="form-control" autofocus required />
@@ -108,7 +110,7 @@
         </div>
         @if (!Model.RecipeNamePreset)
         {
-            <div class="form-group col-md-4">
+            <div class="mb-3 col-md-4">
                 <input type="hidden" asp-for="RecipeName" required />
                 <nav>
                     <div asp-validation-class-for="RecipeName">
@@ -116,7 +118,7 @@
                         @if (defaultRecipe == null)
                         {
                             <div id="noRecipes" class="dropdown disabled">
-                                <button id="noRecipeButton" title="@T["No Recipes Available"]" class="btn btn-secondary dropdown-toggle disabled" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button id="noRecipeButton" title="@T["No Recipes Available"]" class="btn btn-secondary dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @T["No Recipes Available"]
                                 </button>
                             </div>
@@ -124,7 +126,7 @@
                         else
                         {
                             <div id="recipes" class="dropdown">
-                                <button id="recipeButton" title="@defaultRecipe.Description" class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button id="recipeButton" title="@defaultRecipe.Description" class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @defaultRecipe.DisplayName
                                 </button>
                                 <div class="dropdown-menu">
@@ -140,9 +142,9 @@
                 <span class="text-muted form-text small">@T["Recipes allow you to setup your site with additional pre-configured options, features and settings out of the box."]</span>
             </div>
         }
-        <div class="form-group col-md-4" asp-validation-class-for="SiteTimeZone">
+        <div class="mb-3 col-md-4" asp-validation-class-for="SiteTimeZone">
             <label asp-for="SiteTimeZone">@T["Default Time Zone"]</label>
-            <select asp-for="SiteTimeZone" class="form-control">
+            <select asp-for="SiteTimeZone" class="form-select">
                 @foreach (var timezone in Clock.GetTimeZones())
                 {
                     <option value="@timezone.TimeZoneId" selected="@(timezone.TimeZoneId == localTimeZone.TimeZoneId)">
@@ -157,9 +159,9 @@
     @if (!Model.DatabaseConfigurationPreset)
     {
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="mb-3 col-md-6">
                 <label asp-for="DatabaseProvider">@T["What type of database to use?"]</label>
-                <select asp-for="DatabaseProvider" class="form-control" required>
+                <select asp-for="DatabaseProvider" class="form-select" required>
                     @foreach (var provider in Model.DatabaseProviders)
                     {
                         <option value="@provider.Value" data-connection-string="@provider.HasConnectionString" data-table-prefix="@provider.HasTablePrefix" data-connection-string-sample="@T["The connection string to your database instance. e.g., {0}", provider.SampleConnectionString]">@provider.Name</option>
@@ -169,7 +171,7 @@
                 <span class="text-muted form-text small">@T["The database is used to store the site's configuration and its contents."]</span>
             </div>
 
-            <div class="form-group col-md-6 tablePrefix" asp-validation-class-for="TablePrefix">
+            <div class="mb-3 col-md-6 tablePrefix" asp-validation-class-for="TablePrefix">
                 <label asp-for="TablePrefix">@T["Table Prefix"]</label>
                 <input asp-for="TablePrefix" class="form-control" />
                 <span asp-validation-for="TablePrefix" class="text-danger"></span>
@@ -178,13 +180,11 @@
         </div>
 
         <div class="row connectionString" asp-validation-class-for="ConnectionString">
-            <div class="form-group col-md-12">
+            <div class="mb-3 col-md-12">
                 <label asp-for="ConnectionString">@T["Connection string"]</label>
                 <div class="input-group mb-2 mb-sm-0">
                     <input asp-for="ConnectionString" class="form-control pwd" type="password" required />
-                    <div class="input-group-append" title="@T["Show/hide connection string"]">
-                        <button type="button" id="toggleConnectionString" class="btn btn-secondary" tabindex="-1" aria-hidden="true"><i class="icon fa fa-eye"></i></button>
-                    </div>
+                    <button type="button" id="toggleConnectionString" class="btn btn-secondary" tabindex="-1" aria-hidden="true" title="@T["Show/hide connection string"]"><i class="icon fa fa-eye"></i></button>
                 </div>
                 <span asp-validation-for="ConnectionString" class="text-danger"></span>
                 <span id="connectionStringHint" class="text-muted form-text small"></span>
@@ -195,44 +195,40 @@
         <legend>@T["Super User"]</legend>
         <span class="text-muted form-text small">@T["The super user has all the rights. It should be used only during Setup and for disaster recovery."]</span>
         <div class="row">
-            <div class="form-group col-md-6" asp-validation-class-for="UserName">
+            <div class="mb-3 col-md-6" asp-validation-class-for="UserName">
                 <label asp-for="UserName">@T["User name"]</label>
                 <input asp-for="UserName" class="form-control" required />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
-            <div class="form-group col-md-6" asp-validation-class-for="Email">
+            <div class="mb-3 col-md-6" asp-validation-class-for="Email">
                 <label for="Email">@T["Email"]</label>
                 <input asp-for="Email" class="form-control" type="email" required />
                 <span asp-validation-for="Email" class="text-danger">@T["The email is invalid."]</span>
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-6" asp-validation-class-for="Password">
+            <div class="mb-3 col-md-6" asp-validation-class-for="Password">
                 <label asp-for="Password">@T["Password"]</label>
                 <div class="input-group">
-                    <input asp-for="Password" class="form-control" data-toggle="popover" data-placement="top" data-trigger="focus" data-title="@T["Password strength"]" data-content="@passwordTooltip" required pattern="@passwordRegex" />
-                    <div class="input-group-append">
-                        <button tabindex="-1" class="btn btn-secondary" type="button" id="togglePassword"><i class="icon fa fa-eye"></i></button>
-                    </div>
+                    <input asp-for="Password" class="form-control" data-bs-toggle="popover" data-bs-placement="top" data-trigger="focus" data-title="@T["Password strength"]" data-bs-content="@passwordTooltip" required pattern="@passwordRegex" />
+                    <button tabindex="-1" class="btn btn-secondary" type="button" id="togglePassword"><i class="icon fa fa-eye"></i></button>
                 </div>
                 <div id="passwordStrength"></div>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <div class="form-group col-md-6" asp-validation-class-for="PasswordConfirmation">
+            <div class="mb-3 col-md-6" asp-validation-class-for="PasswordConfirmation">
                 <label asp-for="PasswordConfirmation">@T["Password Confirmation"]</label>
                 <div class="input-group">
                     <input asp-for="PasswordConfirmation" class="form-control" title="@passwordTooltip" required pattern="@passwordRegex" />
-                    <div class="input-group-append">
-                        <button tabindex="-1" class="btn btn-secondary" type="button" id="togglePasswordConfirmation"><i class="icon fa fa-eye"></i></button>
-                    </div>
+                    <button tabindex="-1" class="btn btn-secondary" type="button" id="togglePasswordConfirmation"><i class="icon fa fa-eye"></i></button>
                 </div>
                 <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
             </div>
         </div>
     </fieldset>
     <div class="row">
-        <div class="form-group col-md-4">
+        <div class="mb-3 col-md-4">
             <input type="hidden" asp-for="Secret" value="@Model.Secret" />
             <button class="btn btn-primary" type="submit" id="SubmitButton">@T["Finish Setup"]</button>
         </div>

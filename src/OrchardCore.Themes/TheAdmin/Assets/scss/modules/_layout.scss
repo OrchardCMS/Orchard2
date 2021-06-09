@@ -9,6 +9,7 @@ body {
     margin-bottom: $footer-height;
     cursor: default;
     height: 100%;
+    font-family: "Segoe UI VSS (Regular)", "Segoe UI", "-apple-system", BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Ubuntu, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 @include cursor-class(move);
@@ -70,18 +71,7 @@ body {
 }
 
 .related {
-    @extend .float-right;
-}
-
-// No transitions on load
-// Prevents Firefox and Edge transitions on load.
-// This class is added by default and removed trought Javascript
-// after a few milliseconds.
-// https://css-tricks.com/transitions-only-after-page-load/
-// ------------------------------
-.disable.custom-control-input:checked ~ .custom-control-label::before {
-    border-color: red;
-    background-color: red;
+    @extend .float-end;
 }
 
 .action-bar {

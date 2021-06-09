@@ -31,14 +31,14 @@
 
     @if (Model.Editor.Shortcuts != null)
     {
-        <div class="form-group">
+        <div class="mb-3">
             @await DisplayAsync(Model.Editor.Shortcuts)
         </div>
     }
 
     @await DisplayAsync(Model.Editor)
 
-    <div class="form-group">
+    <div class="mb-3">
         <h3>@T["Fields"]</h3>
 
         <ul class="list-group sortable" id="fields">
@@ -56,11 +56,11 @@
 
                             @if (!string.IsNullOrEmpty(field.DisplayMode()))
                             {
-                                <span class="badge ta-badge font-weight-normal" data-toggle="tooltip" title="@T["Display mode"]"><i class="fas fa-tv text-info"></i> @field.DisplayMode()</span>
+                                <span class="badge ta-badge font-weight-normal" data-bs-toggle="tooltip" title="@T["Display mode"]"><i class="fas fa-tv text-info"></i> @field.DisplayMode()</span>
                             }
                             @if (!string.IsNullOrEmpty(field.Editor()))
                             {
-                                <span class="badge ta-badge font-weight-normal" data-toggle="tooltip" title="@T["Editor"]"><i class="fa fa-edit text-info"></i> @field.Editor()</span>
+                                <span class="badge ta-badge font-weight-normal" data-bs-toggle="tooltip" title="@T["Editor"]"><i class="fa fa-edit text-info"></i> @field.Editor()</span>
                             }
                         </div>
                         <input type="hidden" asp-for="OrderedFieldNames" value="@field.Name" />
@@ -69,10 +69,10 @@
             }
         </ul>
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         <a asp-route-action="AddFieldTo" asp-route-id="@Model.TypeDefinition.Name" asp-route-returnUrl="@FullRequestPath" class="btn btn-info btn-sm" role="button">@T["Add Field"]</a>
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         <h3>@T["Parts"]</h3>
 
         <ul class="list-group sortable" id="parts">
@@ -101,11 +101,11 @@
 
                         @if (!string.IsNullOrEmpty(part.DisplayMode()))
                         {
-                            <span class="badge ta-badge font-weight-normal" data-toggle="tooltip" title="@T["Display mode"]"><i class="fas fa-tv text-info"></i> @part.DisplayMode()</span>
+                            <span class="badge ta-badge font-weight-normal" data-bs-toggle="tooltip" title="@T["Display mode"]"><i class="fas fa-tv text-info"></i> @part.DisplayMode()</span>
                         }
                         @if (!string.IsNullOrEmpty(part.Editor()))
                         {
-                            <span class="badge ta-badge font-weight-normal" data-toggle="tooltip" title="@T["Editor"]"><i class="fa fa-edit text-info"></i> @part.Editor()</span>
+                            <span class="badge ta-badge font-weight-normal" data-bs-toggle="tooltip" title="@T["Editor"]"><i class="fa fa-edit text-info"></i> @part.Editor()</span>
                         }
                     </div>
                     <input type="hidden" asp-for="OrderedPartNames" value="@part.Name" />
@@ -114,12 +114,12 @@
         </ul>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <a asp-route-action="AddPartsTo" asp-route-id="@Model.TypeDefinition.Name" class="btn btn-info btn-sm" role="button">@T["Add Parts"]</a>
         <a asp-route-action="AddReusablePartTo" asp-route-id="@Model.TypeDefinition.Name" class="btn btn-info btn-sm" role="button">@T["Add Named Part"]</a>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button class="btn btn-primary save" type="submit" name="submit.Save" value="Save">@T["Save"]</button>
         <button class="btn btn-danger delete" type="submit" name="submit.Delete" value="Delete" data-url-af="RemoveUrl">@T["Delete"]</button>
     </div>

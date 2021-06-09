@@ -2,10 +2,10 @@
 
 <h5>@T["All Content"]</h5>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="ExportAsSetupRecipe" />
-        <label class="custom-control-label" asp-for="ExportAsSetupRecipe">@T["Export As Setup recipe"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="ExportAsSetupRecipe" />
+        <label class="form-check-label" asp-for="ExportAsSetupRecipe">@T["Export As Setup recipe"]</label>
         <span class="hint">@T["Check if the data should be exported as a Setup recipe."]</span>
     </div>
     <div class="alert alert-warning">@T["If checked, you will have to manually declare variables for the Content Picker fields, Taxonomy fields, Tags fields and List item ids and replace them where needed in the recipe. Any reference to these content items will be lost."]</div>

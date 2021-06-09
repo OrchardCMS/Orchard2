@@ -26,9 +26,9 @@
                     <input type="text" class="form-control courrier" v-model="option.value" placeholder="Enter a value" />
                 </td>
                 <td class="text-center align-middle">
-                    <div class="custom-control custom-radio ml-2">
-                        <input type="radio" class="custom-control-input" :id="'customRadio_' + index" name="@Html.NameFor(m => m.DefaultValue)" v-bind:value="option.value" v-model="data.selected" v-on:click="uncheck(index)">
-                        <label class="custom-control-label" title="@T["Set as default"]" v-bind:for="'customRadio_' + index"></label>
+                    <div class="form-check ms-2">
+                        <input type="radio" class="form-check-input" :id="'customRadio_' + index" name="@Html.NameFor(m => m.DefaultValue)" v-bind:value="option.value" v-model="data.selected" v-on:click="uncheck(index)">
+                        <label class="form-check-label" title="@T["Set as default"]" v-bind:for="'customRadio_' + index"></label>
                     </div>
                 </td>
                 <td class="text-center">
@@ -51,22 +51,20 @@
 </script>
 
 <script type="text/x-template" id="options-modal">
-    <div class="modal fade @Html.IdFor(m => m)-ModalBody text-left" role="dialog" aria-hidden="true">
+    <div class="modal fade @Html.IdFor(m => m)-ModalBody text-start" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@T["Edit Data"]</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="options-textarea">@T["Options"]</label>
                         <textarea id="options-textarea" name="options-textarea" rows="8" class="form-control" v-bind:value="JSON.stringify(data.options)" v-on:input="data.options = JSON.parse($event.target.value)"></textarea>
                         <span class="hint">@T["A JSON representation of the allowed values, e.g. {0}", "[ { name: 'First option', value: 'option1' }, { name: 'Second option', value: 'option2' } ]"]</span>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="options-defaultvalue">@T["Default value"]</label>
                         <input id="options-defaultvalue" name="options-defaultvalue" class="form-control" type="text" v-model="data.selected" />
                         <span class="hint">@T["(Optional) The default to assign to the text field."]</span>
@@ -74,7 +72,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-submit" v-on:click="closeModal()">@T["OK"]</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
                 </div>
             </div>
         </div>
@@ -83,9 +81,9 @@
 
 <div id="@Html.IdFor(m => m)" class="field-editor field-editor-predefinedlist">
     <div class="row">
-        <div class="form-group col-sm-6">
+        <div class="mb-3 col-sm-6">
             <label asp-for="Editor">@T["What type of list editor should be used?"]</label>
-            <select asp-for="Editor" class="form-control">
+            <select asp-for="Editor" class="form-select">
                 <option value="@nameof(EditorOption.Dropdown)">@T["Drop down list"]</option>
                 <option value="@nameof(EditorOption.Radio)">@T["Radio buttons"]</option>
             </select>
@@ -95,7 +93,7 @@
     <div class="row">
         <div class="col-sm-6">
             <label asp-for="Options">@T["Options"]</label>
-            <a href="javascript:void(0)" v-on:click="showModal" class="float-right" title="@T["Edit Data"]"><i class="fas fa-edit"></i></a>
+            <a href="javascript:void(0)" v-on:click="showModal" class="float-end" title="@T["Edit Data"]"><i class="fas fa-edit"></i></a>
             <options-table :data="sharedState"></options-table>
             <options-modal :data="sharedState" v-on:reload-data="reloadData()"></options-modal>
         </div>

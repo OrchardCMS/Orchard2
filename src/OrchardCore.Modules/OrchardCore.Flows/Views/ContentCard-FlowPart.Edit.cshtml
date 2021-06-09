@@ -13,7 +13,7 @@
 }
 
 <div class="widget widget-editor card my-1 @(Model.Inline != true ? "collapsed" : "")">
-    <div class="widget-editor-header card-header text-muted py-1 pl-3 pr-1">
+    <div class="widget-editor-header card-header text-muted py-1 ps-3 pe-1">
         @if (Model.CanMove != false)
         {
             <div class="widget-editor-handle"><i class="fas fa-arrows-alt"></i></div>
@@ -33,7 +33,7 @@
                         <button class="toggleAll btn btn-secondary btn-sm" onclick="toggleWidgets(); return false;" title="@T["Toggle all widgets"]">
                             <i class="fa fa-angle-double-up" aria-hidden="true"></i>
                         </button>
-                        <button type="button" title="@T["Insert Widget"]" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" title="@T["Insert Widget"]" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -54,7 +54,7 @@
                 }
             </div>
         </div>
-        <div class="btn-group btn-group-sm float-right" role="group">
+        <div class="btn-group btn-group-sm float-end" role="group">
             @if (Model.CanDelete != false)
             {
                 <button type="button" class="btn btn-danger widget-delete" data-title="@T["Delete"]" data-message="@T["Are you sure you want to remove this item?"]"><i class="fa fa-trash" aria-hidden="true"></i></button>

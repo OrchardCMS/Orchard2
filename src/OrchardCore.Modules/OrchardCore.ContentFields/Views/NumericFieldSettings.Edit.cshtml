@@ -8,56 +8,56 @@
     string maximum = (Model.Maximum.HasValue) ? Math.Round(Model.Maximum.Value, Model.Scale).ToString(CultureInfo.InvariantCulture) : "";
 }
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="Required" type="checkbox" class="custom-control-input">
-        <label class="custom-control-label" asp-for="Required">@T["Required"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input asp-for="Required" type="checkbox" class="form-check-input">
+        <label class="form-check-label" asp-for="Required">@T["Required"]</label>
         <span class="hint dashed">@T["Whether a value is required."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="w-md-75 w-xl-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-md-75 w-xl-50 pe-md-3">
         <label asp-for="Hint">@T["Hint"]</label>
         <textarea asp-for="Hint" rows="2" class="form-control"></textarea>
     </div>
     <span class="hint">@T["The hint text to display for this field on the editor."]</span>
 </div>
 
-<div class="form-group">
-    <div class="w-md-75 w-xl-50 pr-md-3">
+<div class="mb-3">
+    <div class="w-md-75 w-xl-50 pe-md-3">
         <label for="Placeholder">@T["Watermark (placeholder)"]</label>
         <input asp-for="Placeholder" type="text" class="form-control" />
     </div>
     <span class="hint">@T["A hint to display when the input is empty. (optional)"]</span>
 </div>
 
-<div class="form-group">
-    <div class="w-sm-75 w-md-50 w-lg-25 pr-md-3">
+<div class="mb-3">
+    <div class="w-sm-75 w-md-50 w-lg-25 pe-md-3">
         <label for="Scale">@T["Scale"]</label>
         <input asp-for="Scale" class="form-control" min="0" max="5" step="1" type="number" />
     </div>
     <span class="hint">@T["The number of digits after the decimal point."]</span>
 </div>
 
-<div class="form-group">
-    <div class="w-sm-75 w-md-50 w-lg-25 pr-md-3">
+<div class="mb-3">
+    <div class="w-sm-75 w-md-50 w-lg-25 pe-md-3">
         <label for="Minimum">@T["Minimum"]</label>
         <input asp-for="Minimum" class="form-control" />@*step="@step" type="number"*@
     </div>
     <span class="hint">@T["The minimum value allowed. (optional)"]</span>
 </div>
 
-<div class="form-group">
-    <div class="w-sm-75 w-md-50 w-lg-25 pr-md-3">
+<div class="mb-3">
+    <div class="w-sm-75 w-md-50 w-lg-25 pe-md-3">
         <label for="Maximum">@T["Maximum"]</label>
         <input asp-for="Maximum" class="form-control" />@*step="@step" type="number"*@
     </div>
     <span class="hint">@T["The maximum value allowed. (optional)"]</span>
 </div>
 
-<div class="form-group">
-    <div class="w-sm-75 w-md-50 w-lg-25 pr-md-3">
+<div class="mb-3">
+    <div class="w-sm-75 w-md-50 w-lg-25 pe-md-3">
         <label for="DefaultValue">@T["Default value"]</label>
         <input asp-for="DefaultValue" class="form-control" min="@minimum" max="@maximum" step="@stepAttribute" type="number" />
     </div>

@@ -10,13 +10,13 @@
 <div class="dropdown-divider"></div>
 @if (hasDraft)
 {
-    <button class="dropdown-item btn-sm" type="button" data-toggle="modal" data-target="#modalExportContentToDeploymentTargetActionTarget" data-content-item-id="@contentItem.ContentItemId" data-latest=@Boolean.TrueString>@T["Export Draft to Deployment Target"]</button>
+    <button class="dropdown-item btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalExportContentToDeploymentTargetActionTarget" data-content-item-id="@contentItem.ContentItemId" data-latest=@Boolean.TrueString>@T["Export Draft to Deployment Target"]</button>
     if (hasPublished)
     {
-        <button class="dropdown-item btn-sm" type="button" data-toggle="modal" data-target="#modalExportContentToDeploymentTargetActionTarget" data-content-item-id="@contentItem.ContentItemId">@T["Export Published to Deployment Target"]</button>
+        <button class="dropdown-item btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalExportContentToDeploymentTargetActionTarget" data-content-item-id="@contentItem.ContentItemId">@T["Export Published to Deployment Target"]</button>
     }
 }
 else
 {
-    <button class="dropdown-item btn-sm" type="button" data-toggle="modal" data-target="#modalExportContentToDeploymentTargetActionTarget" data-content-item-id="@contentItem.ContentItemId">@T["Export to Deployment Target"]</button>
+    <button class="dropdown-item btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalExportContentToDeploymentTargetActionTarget" data-content-item-id="@contentItem.ContentItemId">@T["Export to Deployment Target"]</button>
 }

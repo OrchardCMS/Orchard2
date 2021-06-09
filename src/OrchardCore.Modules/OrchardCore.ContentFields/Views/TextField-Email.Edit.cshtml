@@ -4,12 +4,10 @@
     var settings = Model.PartFieldDefinition.GetSettings<TextFieldSettings>();
 }
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Text">@Model.PartFieldDefinition.DisplayName()</label>
     <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <div class="input-group-text">@@</div>
-        </div>
+        <span class="input-group-text">@@</span>
         <input asp-for="Text" class="form-control content-preview-text" type="email" />
     </div>
     @if (!String.IsNullOrEmpty(settings.Hint))

@@ -4,18 +4,18 @@
 
 @if (Site.As<RegistrationSettings>().UsersMustValidateEmail)
 {
-    <div class="form-group">
-        <div class="custom-control custom-checkbox">
-            <input asp-for="EmailConfirmed" type="checkbox" class="custom-control-input" asp-is-disabled="@Model.IsEditingDisabled">
-            <label class="custom-control-label" asp-for="EmailConfirmed">@T["Email confirmed"]</label>
+    <div class="mb-3">
+        <div class="form-check">
+            <input asp-for="EmailConfirmed" type="checkbox" class="form-check-input" asp-is-disabled="@Model.IsEditingDisabled">
+            <label class="form-check-label" asp-for="EmailConfirmed">@T["Email confirmed"]</label>
         </div>
     </div>
 }
 
-<div class="form-group">
-    <div class="custom-control custom-switch">
-        <input asp-for="IsEnabled" type="checkbox" class="custom-control-input" checked="@Model.IsEnabled" asp-is-disabled="@Model.IsEditingDisabled"/>
-        <label asp-for="IsEnabled" class="custom-control-label cursor-pointer">@T["Is enabled?"]</label>
+<div class="mb-3">
+    <div class="form-check form-switch">
+        <input asp-for="IsEnabled" type="checkbox" class="form-check-input" checked="@Model.IsEnabled" asp-is-disabled="@Model.IsEditingDisabled"/>
+        <label asp-for="IsEnabled" class="form-check-label cursor-pointer">@T["Is enabled?"]</label>
         <span class="hint dashed">@T["Uncheck to disable this user account."]</span>
     </div>
 </div>

@@ -7,16 +7,14 @@ function confirmDialog({callback, ...options}) {
             <div class="modal-content">\
                 <div class="modal-header">\
                     <h5 class="modal-title">' + title + '</h5>\
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
-                        <span aria-hidden="true">&times;</span>\
-                    </button>\
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>\
                 </div>\
                 <div class="modal-body">\
                     <p>' + message +'</p>\
                 </div>\
                 <div class="modal-footer">\
                     <button id="modalOkButton" type="button" class="btn ' + okClass + '">' + okText + '</button>\
-                    <button id="modalCancelButton" type="button" class="btn ' + cancelClass + '" data-dismiss="modal">' + cancelText + '</button>\
+                    <button id="modalCancelButton" type="button" class="btn ' + cancelClass + '" data-bs-dismiss="modal">' + cancelText + '</button>\
                 </div>\
             </div>\
         </div>\
@@ -133,7 +131,7 @@ $(function () {
 });
 
 $(function () {
-    $('input[data-toggle="collapse"]').each(function () {
+    $('input[data-bs-toggle="collapse"]').each(function () {
         // Prevent bootstrap from altering its behavior
         // c.f. https://github.com/twbs/bootstrap/issues/21079
         $(this).removeAttr("data-toggle");
@@ -141,7 +139,7 @@ $(function () {
         // Expand the section if necessary
         var target = $($(this).data('target'));
         if ($(this).prop('checked')) {
-            target.addClass('show');
+            target.addClass('visible');
         }
 
         $(this).on('change', function (e) {
@@ -155,7 +153,7 @@ $(function () {
 });
 
 $(function () {
-    $('input[data-toggle="collapse active"]').each(function () {
+    $('input[data-bs-toggle="collapse active"]').each(function () {
         // Prevent bootstrap from altering its behavior for inputs that hide target when input value is checked
         // c.f. https://github.com/twbs/bootstrap/issues/21079
         $(this).removeAttr("data-toggle");
@@ -205,4 +203,4 @@ function isNumber(str) {
     return str.length === 1 && str.match(/[0-9]/i);
 }
 
-$('[data-toggle="tooltip"]').tooltip();
+//$('[data-bs-toggle="tooltip"]').tooltip();

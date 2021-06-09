@@ -5,57 +5,57 @@
 <form asp-action="Index" asp-controller="Admin" asp-area="OrchardCore.Email" method="post">
     @Html.ValidationSummary()
 
-    <div class="form-group">
-        <div class="form-group" asp-validation-class-for="To">
+    <div class="mb-3">
+        <div class="mb-3" asp-validation-class-for="To">
             <label asp-for="To">@T["To"]</label>
             <input asp-for="To" class="form-control" type="text" />
             <span asp-validation-for="To"></span>
         </div>
     </div>
-    <div class="form-group">
-        <div class="form-group" asp-validation-class-for="Sender">
+    <div class="mb-3">
+        <div class="mb-3" asp-validation-class-for="Sender">
             <label asp-for="Sender">@T["Sender"]</label>
             <input asp-for="Sender" class="form-control" type="text" />
             <span asp-validation-for="Sender"></span>
             <span class="hint">@T["The sender is optional, it is useful when the email author is different than the email submitter."]</span>
         </div>
     </div>
-    <div class="form-group">
-        <div class="form-group" asp-validation-class-for="Bcc">
+    <div class="mb-3">
+        <div class="mb-3" asp-validation-class-for="Bcc">
             <label asp-for="Bcc">@T["Bcc"]</label>
             <input asp-for="Bcc" class="form-control" type="text" />
             <span asp-validation-for="Bcc"></span>
         </div>
     </div>
-    <div class="form-group">
-        <div class="form-group" asp-validation-class-for="Cc">
+    <div class="mb-3">
+        <div class="mb-3" asp-validation-class-for="Cc">
             <label asp-for="Cc">@T["Cc"]</label>
             <input asp-for="Cc" class="form-control" type="text" />
             <span asp-validation-for="Cc"></span>
         </div>
     </div>
-    <div class="form-group">
-        <div class="form-group" asp-validation-class-for="ReplyTo">
+    <div class="mb-3">
+        <div class="mb-3" asp-validation-class-for="ReplyTo">
             <label asp-for="ReplyTo">@T["Reply To"]</label>
             <input asp-for="ReplyTo" class="form-control" type="text" />
             <span asp-validation-for="ReplyTo"></span>
         </div>
     </div>
-    <div class="form-group">
-        <div class="form-group" asp-validation-class-for="Subject">
+    <div class="mb-3">
+        <div class="mb-3" asp-validation-class-for="Subject">
             <label asp-for="Subject">@T["Subject"]</label>
             <input asp-for="Subject" class="form-control" type="text" required />
             <span asp-validation-for="Subject"></span>
         </div>
     </div>
-    <div class="form-group">
-        <div class="form-group" asp-validation-class-for="Body">
+    <div class="mb-3">
+        <div class="mb-3" asp-validation-class-for="Body">
             <label asp-for="Body">@T["Body"]</label>
             <textarea asp-for="Body" class="form-control" rows="5"></textarea>
             <span asp-validation-for="Body"></span>
         </div>
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         <button type="submit" id="emailtestsend" class="button grey">@T["Send"]</button>
     </div>
 </form>

@@ -14,7 +14,7 @@
 <div class="row mb-3">
     <div class="col-sm-6">
         <label asp-for="Options">@T["Options"]</label>
-        <select asp-for="Options" class="form-control">
+        <select asp-for="Options" class="form-select">
             <option value="@TitlePartOptions.Editable" selected="@(Model.Options == TitlePartOptions.Editable)">@T["Title is editable"]</option>
             <option value="@TitlePartOptions.EditableRequired" selected="@(Model.Options == TitlePartOptions.EditableRequired)">@T["Title is editable and required"]</option>
             <option value="@TitlePartOptions.GeneratedDisabled" selected="@(Model.Options == TitlePartOptions.GeneratedDisabled)">@T["Title is generated and input is disabled"]</option>
@@ -22,10 +22,10 @@
         </select>
     </div>
 </div>
-<div class="form-group pb-1">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="RenderTitle" class="custom-control-input" />
-        <label asp-for="RenderTitle" class="custom-control-label">@T["Render Title"]</label>
+<div class="mb-3 pb-1">
+    <div class="form-check">
+        <input asp-for="RenderTitle" class="form-check-input" />
+        <label asp-for="RenderTitle" class="form-check-label">@T["Render Title"]</label>
         <span class="hint dashed">@T["Check to render the title in display views."]</span>
     </div>
 </div>

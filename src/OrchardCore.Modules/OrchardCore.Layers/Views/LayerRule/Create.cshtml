@@ -10,7 +10,7 @@
     <input type="hidden" asp-for="Name" />
     <input type="hidden" asp-for="ConditionGroupId" />
 
-    <div class="form-group mt-3">
+    <div class="mb-3 mt-3">
         <button class="btn btn-primary create" type="submit">@T["Create"]</button>
         <a class="btn btn-secondary cancel" role="button" asp-route-action="Edit" asp-route-controller="Admin" asp-route-name="@Model.Name">@T["Cancel"]</a>
     </div>

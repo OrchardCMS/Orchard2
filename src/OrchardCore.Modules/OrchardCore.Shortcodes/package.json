@@ -2,6 +2,6 @@
   "name": "orchardcore.shortcodes",
   "version": "1.0.0",
   "dependencies": {
-    "bootstrap": "4.6.0"
+    "bootstrap": "5.0.1"
   }
 }

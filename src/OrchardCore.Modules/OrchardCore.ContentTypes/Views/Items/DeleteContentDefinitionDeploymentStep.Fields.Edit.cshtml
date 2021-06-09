@@ -1,13 +1,13 @@
 @model DeleteContentDefinitionStepViewModel
 
-<div class="form-group" asp-validation-class-for="ContentTypes">
+<div class="mb-3" asp-validation-class-for="ContentTypes">
     <label asp-for="ContentTypes">@T["Content Type Definitions"]</label>
     <input asp-for="ContentTypes" class="form-control" type="text" />
     <span asp-validation-for="ContentTypes"></span>
     <span class="hint">@T["A comma separated list of content type definitions to delete"]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ContentParts">
+<div class="mb-3" asp-validation-class-for="ContentParts">
     <label asp-for="ContentParts">@T["Content Part Definitions"]</label>
     <input asp-for="ContentParts" class="form-control" type="text" />
     <span asp-validation-for="ContentParts"></span>

@@ -1,28 +1,28 @@
 @using OrchardCore.Workflows.ViewModels;
 @model ForLoopTaskViewModel
 
-<div class="form-group" asp-validation-class-for="FromExpression">
+<div class="mb-3" asp-validation-class-for="FromExpression">
     <label asp-for="FromExpression">@T["From Expression"]</label>
     <input type="text" asp-for="FromExpression" class="form-control code" />
     <span asp-validation-for="FromExpression"></span>
     <span class="hint">@T["The start value. With JavaScript support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="ToExpression">
+<div class="mb-3" asp-validation-class-for="ToExpression">
     <label asp-for="ToExpression">@T["To Expression"]</label>
     <input type="text" asp-for="ToExpression" class="form-control code" />
     <span asp-validation-for="ToExpression"></span>
     <span class="hint">@T["The end value. With JavaScript support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="StepExpression">
+<div class="mb-3" asp-validation-class-for="StepExpression">
     <label asp-for="StepExpression">@T["Step Expression"]</label>
     <input type="text" asp-for="StepExpression" class="form-control code" />
     <span asp-validation-for="StepExpression"></span>
     <span class="hint">@T["The loop Step value. With JavaScript support."]</span>
 </div>
 
-<div class="form-group" asp-validation-class-for="LoopVariableName">
+<div class="mb-3" asp-validation-class-for="LoopVariableName">
     <label asp-for="LoopVariableName">@T["Looping Variable"]</label>
     <input type="text" asp-for="LoopVariableName" class="form-control" />
     <span asp-validation-for="LoopVariableName"></span>

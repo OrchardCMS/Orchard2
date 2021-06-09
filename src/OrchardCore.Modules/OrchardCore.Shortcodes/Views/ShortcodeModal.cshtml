@@ -40,24 +40,22 @@ and call @await DisplayAsync(await New.ShortcodeModal()) from the fields view
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="shortcodeModalLabel">@T["Available Shortcodes"]</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-3 col-md-3 col-lg-2">
-                                <div class="form-group">
+                                <div class="mb-3">
                                     <input class="form-control" type="search" placeholder="@T["Filter"]" aria-label="@T["Filter"]" v-model="filter" ref="filter" />
                                 </div>
                                 <ul class="nav nav-pills flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="#all" data-toggle="pill" v-on:click="setCategory('')">All</a>
+                                        <a class="nav-link active" href="#all" data-bs-toggle="pill" v-on:click="setCategory('')">All</a>
                                     </li>                                   
                                     @foreach (var category in categories)
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#@category.HtmlClassify()" data-toggle="pill" v-on:click="setCategory('@category')">@category</a>
+                                            <a class="nav-link" href="#@category.HtmlClassify()" data-bs-toggle="pill" v-on:click="setCategory('@category')">@category</a>
                                         </li>
                                     }
                                 </ul>
@@ -76,7 +74,7 @@ and call @await DisplayAsync(await New.ShortcodeModal()) from the fields view
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@T["Cancel"]</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T["Cancel"]</button>
                     </div>
                 </div>
             </div>

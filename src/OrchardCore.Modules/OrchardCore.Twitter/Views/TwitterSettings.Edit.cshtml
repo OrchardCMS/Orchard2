@@ -11,7 +11,7 @@
 
 <h3>@T["Twitter Integration Settings"]</h3>
 
-<div class="form-group row" asp-validation-class-for="APIKey">
+<div class="mb-3 row" asp-validation-class-for="APIKey">
     <div class="col-large">
         <label asp-for="APIKey">@T["API key"]</label>
         <input asp-for="APIKey" class="form-control" autocomplete="off" />
@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="form-group row" asp-validation-class-for="APISecretKey">
+<div class="mb-3 row" asp-validation-class-for="APISecretKey">
     <div class="col-large">
         <label asp-for="APISecretKey">@T["API secret key"]</label>
         <input asp-for="APISecretKey" class="form-control" type="password" value="@Model.APISecretKey" autocomplete="off" />
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="form-group row" asp-validation-class-for="AccessToken">
+<div class="mb-3 row" asp-validation-class-for="AccessToken">
     <div class="col-large">
         <label asp-for="AccessToken">@T["Access Token"]</label>
         <input asp-for="AccessToken" class="form-control" autocomplete="off" />
@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<div class="form-group row" asp-validation-class-for="AccessTokenSecret">
+<div class="mb-3 row" asp-validation-class-for="AccessTokenSecret">
     <div class="col-large">
         <label asp-for="AccessTokenSecret">@T["Access Token Secret"]</label>
         <input asp-for="AccessTokenSecret" class="form-control" type="password" value="@Model.AccessTokenSecret" autocomplete="off" />

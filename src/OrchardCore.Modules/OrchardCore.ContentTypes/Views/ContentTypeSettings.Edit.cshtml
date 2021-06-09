@@ -1,46 +1,46 @@
 @model ContentTypeSettingsViewModel
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Creatable">
-        <label class="custom-control-label" asp-for="Creatable">@T["Creatable"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Creatable">
+        <label class="form-check-label" asp-for="Creatable">@T["Creatable"]</label>
         <span class="hint dashed">@T["Determines if an instance of this content type can be created through the UI."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Listable">
-        <label class="custom-control-label" asp-for="Listable">@T["Listable"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Listable">
+        <label class="form-check-label" asp-for="Listable">@T["Listable"]</label>
         <span class="hint dashed">@T["Determines if an instance of this content type can be listed through the UI."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Draftable">
-        <label class="custom-control-label" asp-for="Draftable">@T["Draftable"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Draftable">
+        <label class="form-check-label" asp-for="Draftable">@T["Draftable"]</label>
         <span class="hint dashed">@T["Determines if this content type supports draft versions."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Versionable">
-        <label class="custom-control-label" asp-for="Versionable">@T["Versionable"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Versionable">
+        <label class="form-check-label" asp-for="Versionable">@T["Versionable"]</label>
         <span class="hint dashed">@T["Determines if this content type supports versioning."]</span>
     </div>
 </div>
 
-<div class="form-group">
-    <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" asp-for="Securable">
-        <label class="custom-control-label" asp-for="Securable">@T["Securable"]</label>
+<div class="mb-3">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" asp-for="Securable">
+        <label class="form-check-label" asp-for="Securable">@T["Securable"]</label>
         <span class="hint dashed">@T["Determines if this content type can have custom permissions."]</span>
     </div>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <div class="w-md-75 w-xl-50">
         <label asp-for="Stereotype">@T["Stereotype"]</label>
         <input asp-for="Stereotype" type="text" class="form-control">

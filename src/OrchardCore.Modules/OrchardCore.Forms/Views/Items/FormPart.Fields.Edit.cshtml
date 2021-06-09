@@ -1,13 +1,13 @@
 @using OrchardCore.Forms.ViewModels;
 @model FormPartEditViewModel
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Action">@T["Action"]</label>
     <input type="text" asp-for="Action" class="form-control content-preview-text" />
     <span class="hint">@T["The URL to submit the form to."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="Method">@T["Method"]</label>
     <select asp-for="Method" class="form-control content-preview-select">
         <option value="POST">POST</option>
@@ -16,7 +16,7 @@
     <span class="hint">@T["The HTTP method to use when submitting the form."]</span>
 </div>
 
-<div class="form-group">
+<div class="mb-3">
     <label asp-for="EncType">@T["EncType"]</label>
     <select asp-for="EncType" class="form-control content-preview-select">
         <option value="application/x-www-form-urlencoded">application/x-www-form-urlencoded	</option>
@@ -26,10 +26,10 @@
     <span class="hint">@T["The enctype to use when submitting the form using POST method."]</span>
 </div>
 
-<div class="form-group pb-1">
-    <div class="custom-control custom-checkbox">
-        <input asp-for="EnableAntiForgeryToken" class="custom-control-input" />
-        <label asp-for="EnableAntiForgeryToken" class="custom-control-label">@T["Anti Forgery Token"]</label>
+<div class="mb-3 pb-1">
+    <div class="form-check">
+        <input asp-for="EnableAntiForgeryToken" class="form-check-input" />
+        <label asp-for="EnableAntiForgeryToken" class="form-check-label">@T["Anti Forgery Token"]</label>
         <span class="hint">@T["Check to generate an Anti Forgery Token in the form."]</span>
     </div>
 </div>
