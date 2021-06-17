@@ -354,7 +354,7 @@ namespace OrchardCore.Users.Controllers
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     };
                     var script = $"js: function syncRoles(context) {{\n{loginSettings.SyncRolesScript}\n}}\nvar context={JsonConvert.SerializeObject(context, jsonSerializerSettings)};\nsyncRoles(context);\nreturn context;";
-                    dynamic evaluationResult = _scriptingManager.Evaluate(script, null, null, null);
+                    dynamic evaluationResult = await _scriptingManager.EvaluateAsync(script, null, null, null);
                     rolesToAdd = (evaluationResult.rolesToAdd as object[]).Select(i => i.ToString()).ToArray();
                     rolesToRemove = (evaluationResult.rolesToRemove as object[]).Select(i => i.ToString()).ToArray();
                 }
@@ -776,7 +776,7 @@ namespace OrchardCore.Users.Controllers
                 var script = $"js: function generateUsername(context) {{\n{registrationSettings.GenerateUsernameScript}\n}}\nvar context = {JsonConvert.SerializeObject(context, jsonSerializerSettings)};\ngenerateUsername(context);\nreturn context;";
                 try
                 {
-                    dynamic evaluationResult = _scriptingManager.Evaluate(script, null, null, null);
+                    dynamic evaluationResult = await _scriptingManager.EvaluateAsync(script, null, null, null);
                     if (evaluationResult?.userName == null)
                         throw new Exception("GenerateUsernameScript did not return a username");
                     return evaluationResult.userName;

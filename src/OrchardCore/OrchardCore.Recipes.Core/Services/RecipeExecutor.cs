@@ -162,7 +162,7 @@ namespace OrchardCore.Recipes.Services
                 var scriptingManager = scope.ServiceProvider.GetRequiredService<IScriptingManager>();
 
                 // Substitutes the script elements by their actual values
-                EvaluateJsonTree(scriptingManager, recipeStep, recipeStep.Step);
+                await EvaluateJsonTree(scriptingManager, recipeStep, recipeStep.Step);
 
                 if (_logger.IsEnabled(LogLevel.Information))
                 {
@@ -188,7 +188,7 @@ namespace OrchardCore.Recipes.Services
         /// <summary>
         /// Traverse all the nodes of the json document and replaces their value if they are scripted.
         /// </summary>
-        private void EvaluateJsonTree(IScriptingManager scriptingManager, RecipeExecutionContext context, JToken node)
+        private async Task EvaluateJsonTree(IScriptingManager scriptingManager, RecipeExecutionContext context, JToken node)
         {
             switch (node.Type)
             {
@@ -196,14 +196,14 @@ namespace OrchardCore.Recipes.Services
                     var array = (JArray)node;
                     for (var i = 0; i < array.Count; i++)
                     {
-                        EvaluateJsonTree(scriptingManager, context, array[i]);
+                        await EvaluateJsonTree(scriptingManager, context, array[i]);
                     }
 
                     break;
                 case JTokenType.Object:
                     foreach (var property in (JObject)node)
                     {
-                        EvaluateJsonTree(scriptingManager, context, property.Value);
+                       await EvaluateJsonTree(scriptingManager, context, property.Value);
                     }
 
                     break;
@@ -223,7 +223,7 @@ namespace OrchardCore.Recipes.Services
 
                         value = value.Trim('[', ']');
 
-                        value = (scriptingManager.Evaluate(
+                        value = (await scriptingManager.EvaluateAsync(
                             value,
                             context.RecipeDescriptor.FileProvider,
                             context.RecipeDescriptor.BasePath,

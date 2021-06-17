@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Jint" />
+    <PackageReference Include="TimeZoneConverter" />
   </ItemGroup>
 
   <ItemGroup>

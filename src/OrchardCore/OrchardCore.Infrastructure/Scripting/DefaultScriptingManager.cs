@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.FileProviders;
 using OrchardCore.Environment.Shell.Scope;
 
@@ -19,7 +20,7 @@ namespace OrchardCore.Scripting
 
         public IReadOnlyList<IGlobalMethodProvider> GlobalMethodProviders { get; }
 
-        public object Evaluate(string directive,
+        public async Task<object> EvaluateAsync(string directive,
             IFileProvider fileProvider,
             string basePath,
             IEnumerable<IGlobalMethodProvider> scopedMethodProviders)
@@ -41,7 +42,7 @@ namespace OrchardCore.Scripting
             }
 
             var methodProviders = scopedMethodProviders != null ? GlobalMethodProviders.Concat(scopedMethodProviders) : GlobalMethodProviders;
-            var scope = engine.CreateScope(methodProviders.SelectMany(x => x.GetMethods()), ShellScope.Services, fileProvider, basePath);
+            var scope = await engine.CreateScopeAsync(methodProviders.SelectMany(x => x.GetMethods()), ShellScope.Services, fileProvider, basePath);
             return engine.Evaluate(scope, script);
         }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Extensions.FileProviders;
 
 namespace OrchardCore.Scripting.Files
@@ -12,9 +13,9 @@ namespace OrchardCore.Scripting.Files
     {
         public string Prefix => "file";
 
-        public IScriptingScope CreateScope(IEnumerable<GlobalMethod> methods, IServiceProvider serviceProvider, IFileProvider fileProvider, string basePath)
+        public Task<IScriptingScope> CreateScopeAsync(IEnumerable<GlobalMethod> methods, IServiceProvider serviceProvider, IFileProvider fileProvider, string basePath)
         {
-            return new FilesScriptScope(fileProvider, basePath);
+            return Task.FromResult<IScriptingScope>(new FilesScriptScope(fileProvider, basePath));
         }
 
         public object Evaluate(IScriptingScope scope, string script)

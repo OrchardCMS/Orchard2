@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Esprima;
 using Jint;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using OrchardCore.Modules;
+using TimeZoneConverter;
 
 namespace OrchardCore.Scripting.JavaScript
 {
     public class JavaScriptEngine : IScriptingEngine
     {
         private readonly IMemoryCache _memoryCache;
-
         public JavaScriptEngine(IMemoryCache memoryCache)
         {
             _memoryCache = memoryCache;
@@ -18,9 +21,22 @@ namespace OrchardCore.Scripting.JavaScript
 
         public string Prefix => "js";
 
-        public IScriptingScope CreateScope(IEnumerable<GlobalMethod> methods, IServiceProvider serviceProvider, IFileProvider fileProvider, string basePath)
+        public async Task<IScriptingScope> CreateScopeAsync(IEnumerable<GlobalMethod> methods, IServiceProvider serviceProvider, IFileProvider fileProvider, string basePath)
         {
-            var engine = new Engine();
+            var localClock = serviceProvider.GetService<ILocalClock>();
+
+            var localTimeZone = await localClock.GetLocalTimeZoneAsync();
+
+            Engine engine;
+
+            if (TZConvert.TryGetTimeZoneInfo(localTimeZone.TimeZoneId, out var timeZoneInfo))
+            {
+               engine = new Engine(cfg => cfg.LocalTimeZone(timeZoneInfo));
+            }
+            else
+            {
+                engine = new Engine();
+            }
 
             foreach (var method in methods)
             {

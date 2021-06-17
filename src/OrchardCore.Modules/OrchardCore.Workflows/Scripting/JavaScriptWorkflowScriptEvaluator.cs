@@ -41,7 +41,7 @@ namespace OrchardCore.Workflows.Evaluators
             await _workflowContextHandlers.InvokeAsync((h, expressionContext) => h.EvaluatingScriptAsync(expressionContext), expressionContext, _logger);
 
             var methodProviders = scopedMethodProviders.Concat(expressionContext.ScopedMethodProviders);
-            return (T)_scriptingManager.Evaluate(directive, null, null, methodProviders);
+            return (T)await _scriptingManager.EvaluateAsync(directive, null, null, methodProviders);
         }
     }
 }

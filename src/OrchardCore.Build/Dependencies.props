@@ -42,6 +42,7 @@
     <PackageManagement Include="Shortcodes" Version="1.3.0" />
     <PackageManagement Include="SixLabors.ImageSharp.Web" Version="1.0.3" />
     <PackageManagement Include="System.Linq.Async" Version="5.0.0" />
+    <PackageManagement Include="TimeZoneConverter" Version="3.5.0" />
     <PackageManagement Include="xunit.analyzers" Version="0.10.0" />
     <PackageManagement Include="xunit" Version="2.4.1" />
     <PackageManagement Include="xunit.runner.visualstudio" Version="2.4.3" />

@@ -24,7 +24,7 @@ namespace OrchardCore.Recipes
                     while (value.StartsWith('[') && value.EndsWith(']'))
                     {
                         value = value.Trim('[', ']');
-                        value = (ScriptingManager.Evaluate(value, null, null, scopedMethodProviders) ?? "").ToString();
+                        value = (ScriptingManager.EvaluateAsync(value, null, null, scopedMethodProviders).GetAwaiter().GetResult() ?? "").ToString();
                         variables[name] = new JValue(value);
                     }
 

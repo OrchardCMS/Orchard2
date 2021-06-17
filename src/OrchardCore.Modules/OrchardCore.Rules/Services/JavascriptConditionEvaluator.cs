@@ -15,7 +15,6 @@ namespace OrchardCore.Rules.Services
         // The scope is built lazily once per request.
         private IScriptingScope _scope;
         private IScriptingEngine _engine;
-        
 
         public JavascriptConditionEvaluator(IScriptingManager scriptingManager, IServiceProvider serviceProvider)
         {
@@ -23,12 +22,12 @@ namespace OrchardCore.Rules.Services
             _serviceProvider = serviceProvider;
         }
 
-        public override ValueTask<bool> EvaluateAsync(JavascriptCondition condition)
+        public override async ValueTask<bool> EvaluateAsync(JavascriptCondition condition)
         {
             _engine ??= _scriptingManager.GetScriptingEngine("js");
-            _scope ??= _engine.CreateScope(_scriptingManager.GlobalMethodProviders.SelectMany(x => x.GetMethods()), _serviceProvider, null, null);
+            _scope ??= await _engine.CreateScopeAsync(_scriptingManager.GlobalMethodProviders.SelectMany(x => x.GetMethods()), _serviceProvider, null, null);
 
-            return Convert.ToBoolean(_engine.Evaluate(_scope, condition.Script)) ? True : False;
+            return Convert.ToBoolean(_engine.Evaluate(_scope, condition.Script));
         }
     }
 }
