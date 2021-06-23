@@ -1,42 +1,42 @@
-function confirmDialog({callback, ...options}) {
+var modalWrap = null;
+const confirmDialog = ({callback,...options}) => {
+   
     const defaultOptions = $('#confirmRemoveModalMetadata').data();
-    const { title, message, okText, cancelText, okClass, cancelClass } = $.extend({}, defaultOptions, options);
+    const { title, message, okText, cancelText,okClass, cancelClass }= $.extend({}, defaultOptions, options);
+    
+    if (modalWrap !== null) {
+        modalWrap.remove();
+    }
 
-    $('<div id="confirmRemoveModal" class="modal" tabindex="-1" role="dialog">\
-        <div class="modal-dialog modal-dialog-centered" role="document">\
-            <div class="modal-content">\
-                <div class="modal-header">\
-                    <h5 class="modal-title">' + title + '</h5>\
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>\
-                </div>\
-                <div class="modal-body">\
-                    <p>' + message +'</p>\
-                </div>\
-                <div class="modal-footer">\
-                    <button id="modalOkButton" type="button" class="btn ' + okClass + '">' + okText + '</button>\
-                    <button id="modalCancelButton" type="button" class="btn ' + cancelClass + '" data-bs-dismiss="modal">' + cancelText + '</button>\
-                </div>\
-            </div>\
-        </div>\
-    </div>').appendTo("body");
-    $("#confirmRemoveModal").modal({
-        backdrop: 'static',
-        keyboard: false
-    });
+    modalWrap = document.createElement('div');
+    modalWrap.innerHTML = `
+    <div class="modal fade" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h5 class="modal-title">${title}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>${message}</p>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn ${cancelClass} modal-cancel-btn" data-bs-dismiss="modal">${cancelText}</button>
+            <button type="button" class="btn ${okClass} modal-success-btn" data-bs-dismiss="modal">${okText}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 
-    $("#confirmRemoveModal").on('hidden.bs.modal', function () {
-        $("#confirmRemoveModal").remove();
-    });
+    modalWrap.querySelector('.modal-success-btn').onclick = ()=> { callback(true)} ;
 
-    $("#modalOkButton").click(function () {
-        callback(true);
-        $("#confirmRemoveModal").modal("hide");
-    });
+    modalWrap.querySelector('.modal-cancel-btn').onclick =  ()=> { callback(false)} ;
+    
+    document.body.append(modalWrap);
 
-    $("#modalCancelButton").click(function () {
-        callback(false);
-        $("#confirmRemoveModal").modal("hide");
-    });
+    var modal = new bootstrap.Modal(modalWrap.querySelector('.modal'));
+    modal.show();
 }
 
 // Prevents page flickering while downloading css
