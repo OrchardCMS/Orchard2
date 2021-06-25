@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -135,6 +136,51 @@ namespace OrchardCore.Tests.Modules.OrchardCore.Email
             Assert.True(MailboxAddress.TryParse(text, out var mailboxAddress));
             Assert.Equal(name, mailboxAddress.Name);
             Assert.Equal(address, mailboxAddress.Address);
+        }
+
+        [Fact]
+        public async Task SendEmail_WithAttachment_FromFile()
+        {
+            // Arrange
+            var message = new MailMessage
+            {
+                To = "info@oc.com",
+                Subject = "Test",
+                Body = "Test Message"
+            };
+            message.Attachments.Add(new MailMessageAttachment { Filename = "test.txt" });
+
+            await File.WriteAllTextAsync("test.txt", "Simple text ...");
+
+            // Arrange
+            var content = await SendEmailAsync("Your Name <youraddress@host.com>", message);
+
+            // Assert
+            Assert.Contains("Content-Disposition: attachment; filename=test.txt", content);
+
+            File.Delete("test.txt");
+        }
+
+        [Fact]
+        public async Task SendEmail_WithAttachment_FromStream()
+        {
+            // Arrange
+            var message = new MailMessage
+            {
+                To = "info@oc.com",
+                Subject = "Test",
+                Body = "Test Message"
+            };
+            var data = Encoding.UTF8.GetBytes("Simple text ...");
+            message.Attachments.Add(new MailMessageAttachment { Filename = "test.txt", Stream = new MemoryStream(data) });
+
+            // Arrange
+            var content = await SendEmailAsync("Your Name <youraddress@host.com>", message);
+
+            // Assert
+            Assert.Contains("Content-Disposition: attachment; filename=test.txt", content);
+
+            File.Delete("test.txt");
         }
 
         private async Task<string> SendEmailAsync(string defaultSender, MailMessage message)

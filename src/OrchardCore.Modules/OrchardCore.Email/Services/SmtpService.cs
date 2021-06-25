@@ -143,11 +143,14 @@ namespace OrchardCore.Email.Services
 
             foreach (var attachment in message.Attachments)
             {
-                // Stream must not be null, otherwise it would try to get the filesystem path
-                if (attachment.Stream != null)
+                if (attachment.Stream == null)
+                {
+                    body.Attachments.Add(attachment.Filename);
+                }
+                else
                 {
                     body.Attachments.Add(attachment.Filename, attachment.Stream);
-                }            
+                }
             }
 
             mimeMessage.Body = body.ToMessageBody();
