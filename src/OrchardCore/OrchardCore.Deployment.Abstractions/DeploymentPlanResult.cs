@@ -29,10 +29,12 @@ namespace OrchardCore.Deployment
         }
 
         public JObject Recipe { get; }
+        public JObject Secrets { get; } = new JObject();
         public IList<JObject> Steps { get; } = new List<JObject>();
         public IFileBuilder FileBuilder { get; }
         public async Task FinalizeAsync()
         {
+            Recipe["secrets"] = Secrets;
             Recipe["steps"] = new JArray(Steps);
 
             // Add the recipe steps as its own file content

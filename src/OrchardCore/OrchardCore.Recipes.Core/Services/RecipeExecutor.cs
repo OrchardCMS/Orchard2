@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -51,6 +52,16 @@ namespace OrchardCore.Recipes.Services
                 methodProviders.Add(new ParametersMethodProvider(environment));
                 methodProviders.Add(new ConfigurationMethodProvider(_shellSettings.ShellConfiguration));
 
+                // Read any secrets from Configuration.
+                JObject configurationSecrets = null;
+                var secretsSection = _shellSettings.ShellConfiguration.GetSection("OrchardCore_Recipes:Secrets");
+
+                if (secretsSection.Exists())
+                {
+                    configurationSecrets = (JObject)Serialize(secretsSection);
+                    // When secrets section has been moved from recipe to configuration create a secrets method provider with configuration values.
+                    methodProviders.Add(new SecretsMethodProvider(configurationSecrets));
+                }
                 var result = new RecipeResult { ExecutionId = executionId };
 
                 using (var stream = recipeDescriptor.RecipeFileInfo.CreateReadStream())
@@ -68,6 +79,25 @@ namespace OrchardCore.Recipes.Services
                             var variables = await JObject.LoadAsync(reader);
 
                             methodProviders.Add(new VariablesMethodProvider(variables, methodProviders));
+                        }
+                        if (reader.Path == "secrets")
+                        {
+                            await reader.ReadAsync();
+                            var secrets = await JObject.LoadAsync(reader);
+                            if (configurationSecrets != null)
+                            {
+                                // Merge recipe secrets with those from configuration.
+                                secrets.Merge(configurationSecrets);
+                            }
+                            // Secrets have also been supplied in recipe.
+
+                            // TODO Remove this feature, or alter it.
+                            var existingProvider = methodProviders.FirstOrDefault(x => x.GetType() == typeof(SecretsMethodProvider));
+                            if (existingProvider != null)
+                            {
+                                methodProviders.Remove(existingProvider);
+                            }
+                            methodProviders.Add(new SecretsMethodProvider(configurationSecrets));
                         }
 
                         if (reader.Path == "steps" && reader.TokenType == JsonToken.StartArray)
@@ -235,6 +265,27 @@ namespace OrchardCore.Recipes.Services
 
                     break;
             }
+        }
+
+        // TODO Remove
+
+        /// <summary>
+        /// Serializes an IConfigurationSection to a JToken.
+        /// This is limited to only restoring string values, not arrays.
+        /// Arrays should be handled as comma seperated strings.
+        /// </summary>
+        private static JToken Serialize(IConfigurationSection config)
+        {
+            JObject obj = new JObject();
+            foreach (var child in config.GetChildren())
+            {
+                obj.Add(child.Key, Serialize(child));
+            }
+
+            if (!obj.HasValues && config is IConfigurationSection section)
+                return new JValue(section.Value);
+
+            return obj;
         }
     }
 }

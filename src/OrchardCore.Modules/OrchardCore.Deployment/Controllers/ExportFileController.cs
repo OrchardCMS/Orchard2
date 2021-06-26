@@ -5,11 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Newtonsoft.Json.Linq;
 using OrchardCore.Admin;
 using OrchardCore.Deployment.Core.Mvc;
 using OrchardCore.Deployment.Core.Services;
 using OrchardCore.Deployment.Services;
 using OrchardCore.Deployment.Steps;
+using OrchardCore.DisplayManagement.Notify;
 using OrchardCore.Mvc.Utilities;
 using OrchardCore.Recipes.Models;
 using YesSql;
@@ -22,20 +25,27 @@ namespace OrchardCore.Deployment.Controllers
         private readonly IDeploymentManager _deploymentManager;
         private readonly IAuthorizationService _authorizationService;
         private readonly ISession _session;
+        private readonly INotifier _notifier;
+        private readonly IHtmlLocalizer H;
 
         public ExportFileController(
             IAuthorizationService authorizationService,
             ISession session,
-            IDeploymentManager deploymentManager)
+            IDeploymentManager deploymentManager,
+            INotifier notifier,
+            IHtmlLocalizer<ExportFileController> htmlLocalizer
+            )
         {
             _authorizationService = authorizationService;
             _deploymentManager = deploymentManager;
             _session = session;
+            _notifier = notifier;
+            H = htmlLocalizer;
         }
 
         [HttpPost]
         [DeleteFileResultFilter]
-        public async Task<IActionResult> Execute(int id)
+        public async Task<IActionResult> Execute(int id, string returnUrl)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.Export))
             {
@@ -74,6 +84,19 @@ namespace OrchardCore.Deployment.Controllers
 
                 var deploymentPlanResult = new DeploymentPlanResult(fileBuilder, recipeDescriptor);
                 await _deploymentManager.ExecuteDeploymentPlanAsync(deploymentPlan, deploymentPlanResult);
+                bool hasPlainTextSecrets = false;
+                if (deploymentPlanResult.Secrets != null && deploymentPlanResult.Secrets.HasValues)
+                {
+                    hasPlainTextSecrets = deploymentPlanResult.Secrets.SelectTokens($"$..{nameof(RecipeSecret.Handler)}")
+                        .Select(t => t.Value<string>())
+                        .Any(v => String.Equals(v, RecipeSecretHandler.PlainText.ToString(), StringComparison.OrdinalIgnoreCase));
+                }
+                if (hasPlainTextSecrets)
+                {
+                    _notifier.Error(H["You cannot export a deployment plan containing plain text secrets to a file"]);
+                    return LocalRedirect(returnUrl);
+                }
+
                 ZipFile.CreateFromDirectory(fileBuilder.Folder, archiveFileName);
             }
 
