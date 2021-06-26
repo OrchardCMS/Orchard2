@@ -1,0 +1,62 @@
+@model ElasticIndexDeploymentStepViewModel
+
+@{
+    var indexNames = Model.IndexNames;
+    var allIndexNames = Model.AllIndexNames;
+}
+
+<h5>@T["Search Indexes"]</h5>
+
+<div class="form-group mt-4 mb-5">
+    <div class="row">
+        <div class="col">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IncludeAll"
+                           data-reverseToggle=".idxsel" />
+                    @T["Include all search indexes."]
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="idxsel form-group mt-4 mb-5 @(Model.IncludeAll ? "collapse" : "show")">
+    <div class="row">
+        <div class="col-small">
+            <span class="hint">@T["The search indexes to add as part of the plan."]</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-small">
+            <ul class="list-group">
+                @foreach (var indexName in allIndexNames)
+                {
+                    var checkd = indexNames?.Contains(indexName);
+
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="@Html.NameFor(m => m.IndexNames)" value="@indexName" checked="@checkd">
+                                @indexName
+                            </label>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script at="Foot">
+    $(function () {
+        $("[data-reversetoggle]").on("click", function () {
+            var state = this.checked;
+            if (state) {
+                $($(this).attr("data-reversetoggle")).collapse('hide');
+            } else {
+                $($(this).attr("data-reversetoggle")).collapse('show');
+            }
+        });
+    });
+</script>

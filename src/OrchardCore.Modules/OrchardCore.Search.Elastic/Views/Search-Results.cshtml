@@ -1,0 +1,18 @@
+@model SearchResultsViewModel
+@inject IContentItemDisplayManager DisplayManager
+
+@if (Model.ContentItems != null && Model.ContentItems.Any())
+{
+    <ul class="list-group">
+        @foreach (var contentItem in Model.ContentItems)
+        {
+            <li class="list-group-item">
+                @await DisplayAsync(await DisplayManager.BuildDisplayAsync(contentItem, null, "Summary"))
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p class="alert alert-warning">@T["There are no such results."]</p>
+}

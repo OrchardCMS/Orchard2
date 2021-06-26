@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>OrchardCore.Search.Elastic</RootNamespace>
+    <!-- NuGet properties-->
+    <Title>OrchardCore Elastic Search Abstractions</Title>
+    <Description>$(OCCMSDescription)
+
+    Abstractions for Lucene.</Description>
+    <PackageTags>$(PackageTags) OrchardCoreCMS Abstractions</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Nest" />
+  </ItemGroup>
+</Project>

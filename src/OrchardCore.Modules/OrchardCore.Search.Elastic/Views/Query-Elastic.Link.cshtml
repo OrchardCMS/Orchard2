@@ -1,0 +1,16 @@
+@model dynamic
+@using OrchardCore.Search.Elastic
+@inject ElasticIndexSettingsService ElasticIndexSettingsService
+
+@{
+    var disabled = !(await ElasticIndexSettingsService.GetSettingsAsync()).Any();
+}
+<div class="card">
+    <div class="card-body">
+        <h4>@T["Elastic"]</h4>
+        <p class="hint">@T["Queries a Elastic index."]</p>
+    </div>
+    <div class="card-footer text-muted text-xs-right">
+        <a disabled="@disabled" class="btn btn-primary btn-sm" asp-route-action="Create" asp-route-controller="Admin" asp-route-id="@Model.Name" asp-area="OrchardCore.Queries">@T["Add"]</a>
+    </div>
+</div>

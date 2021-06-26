@@ -1,0 +1,149 @@
+@model AdminIndexViewModel
+@{
+    int startIndex = (Model.Pager.Page - 1) * (Model.Pager.PageSize) + 1;
+    int endIndex = startIndex + Model.Indexes.Count() - 1;
+}
+
+<zone Name="Title"><h1>@RenderTitleSegments(T["Indices"])</h1></zone>
+
+@* the form is necessary to generate and antiforgery token for the delete action *@
+<form asp-action="Index" method="post">
+    <input type="submit" name="submit.Filter" id="submitFilter" class="sr-only" />
+    <input asp-for="Options.BulkAction" type="hidden" />
+    <input type="submit" name="submit.BulkAction" class="sr-only" />
+
+    <div class="card mb-3 position-sticky action-bar">
+        <div class="card-body bg-primary p-3">
+            <div class="form-group mb-n1">
+                <div class="input-group input-group-sm w-sm-50 w-25 d-inline-flex has-search">
+                    <i class="fa fa-search form-control-feedback"></i>
+                    <input asp-for="Options.Search" class="form-control" placeholder="@T["Search"]" type="search" autofocus />
+                </div>
+                <div class="btn-group float-right">
+                    <a asp-route-action="Edit" class="btn btn-sm btn-secondary float-right create" role="button">@T["Add Index"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="list-group with-checkbox">
+        @if (Model.Indexes.Any())
+        {
+            <li class="list-group-item bg-primary">
+                <div class="row">
+                    <div class="form-group col mb-n1 text-nowrap">
+                        <div class="custom-control custom-checkbox mt-2 mr-n2">
+                            <input type="checkbox" class="custom-control-input" id="select-all">
+                            <label class="custom-control-label" for="select-all" id="select-all-label" title="@T["Select All"]"></label>
+                            <label id="items" for="select-all">@T.Plural(Model.Indexes.Count(), "1 item", "{0} items")<span class="text-muted" title="@T["Items {0} to {1}", startIndex, endIndex]">@T.Plural((int)Model.Pager.TotalItemCount, " / {0} item in total", " / {0} items in total")</span></label>
+                            <label id="selected-items" class="text-muted" for="select-all"></label>
+                        </div>
+                    </div>
+                    <div class="form-group col-2 mb-n1" style="display:none" id="actions">
+                        <span class="dropdown float-right mt-1">
+                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bulk-action-menu-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @T["Actions"]
+                            </button>
+                            <span class="dropdown-menu dropdown-menu-right" aria-labelledby="bulk-action-menu-button">
+                                @foreach (var item in Model.Options.ContentsBulkAction)
+                                {
+                                    <a class="dropdown-item" href="javascript:void(0)" data-action="@item.Value" data-title="@T["Bulk Action"]" data-message="@T["Are you sure you want to {0} these items?", @item.Text.ToLower()]">@item.Text</a>
+                                }
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </li>
+            @foreach (var entry in Model.Indexes)
+            {
+                <li class="list-group-item">
+                    <div class="properties">
+                        <div class="custom-control custom-checkbox float-left">
+                            <input type="checkbox" class="custom-control-input" value="@entry.Name" name="itemIds" id="itemIds-@entry.Name">
+                            <label class="custom-control-label" for="itemIds-@entry.Name">&nbsp;</label>
+                        </div>
+                        <div class="float-left">
+                            <h5>@entry.Name</h5>
+                            <p>@entry.AnalyzerName</p>
+                        </div>
+                        <div class="related">
+                            <a asp-action="Query" asp-route-IndexName="@entry.Name" class="btn btn-success btn-sm">@T["Query"]</a>
+                            <a asp-action="Reset" asp-route-id="@entry.Name" class="btn btn-primary btn-sm" data-title="@T["Reset Index"]" data-message="@T["This will restart the indexing of all content items. Continue?"]" data-ok-text="@T["Yes"]" data-cancel-text="@T["No"]" data-ok-class="btn-primary" data-url-af="UnsafeUrl">@T["Reset"]</a>
+                            <a asp-action="Rebuild" asp-route-id="@entry.Name" class="btn btn-warning btn-sm" data-title="@T["Rebuild Index"]" data-message="@T["Your index will be rebuilt, which might alter some services during the process. Continue?"]" data-ok-text="@T["Yes"]" data-cancel-text="@T["No"]" data-url-af="UnsafeUrl">@T["Rebuild"]</a>
+                            <a asp-action="Edit" asp-route-IndexName="@entry.Name" class="btn btn-primary btn-sm">@T["Edit"]</a>
+                            <a asp-action="Delete" asp-route-IndexName="@entry.Name" class="btn btn-danger btn-sm" data-url-af="RemoveUrl UnsafeUrl">@T["Delete"]</a>
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="list-group-item">
+                <div class="alert alert-info mb-0" role="alert">
+                    @T["<strong>Nothing here!</strong> There are no indices for the moment."]
+                </div>
+            </li>
+        }
+    </ul>
+</form>
+
+@await DisplayAsync(Model.Pager)
+
+<script at="Foot">
+    $(function () {
+        //$('select').selectpicker();
+
+        var actions = $("#actions");
+        var items = $("#items");
+        var filters = $(".filter");
+        var selectAllCtrl = $("#select-all");
+        var selectedItems = $("#selected-items");
+        var itemsCheckboxes = $(":checkbox[name='itemIds']");
+
+        function displayActionsOrFilters() {
+            if ($(":checkbox[name='itemIds']:checked").length > 1) {
+                actions.show();
+                filters.hide();
+                selectedItems.show();
+                items.hide();
+            }
+            else {
+                actions.hide();
+                filters.show();
+                selectedItems.hide();
+                items.show();
+            }
+        }
+
+        $(".dropdown-menu .dropdown-item").filter(function() {
+            return $(this).data("action");
+        }).on("click", function () {
+            if ($(":checkbox[name='itemIds']:checked").length > 1) {
+                var $this = $(this);
+                confirmDialog({...$this.data(), callback: function(r) {
+                    if (r) {
+                        $("[name='Options.BulkAction']").val($this.data("action"));
+                        $("[name='submit.BulkAction']").click();
+                    }
+                }});
+            }
+        });
+
+        selectAllCtrl.click(function(){
+            itemsCheckboxes.not(this).prop("checked", this.checked);
+            selectedItems.text($(":checkbox[name='itemIds']:checked").length + ' @T["selected"]');
+            displayActionsOrFilters();
+        });
+
+        itemsCheckboxes.on("click", function () {
+            var itemsCount = $(":checkbox[name='itemIds']").length;
+            var selectedItemsCount = $(":checkbox[name='itemIds']:checked").length;
+
+            selectAllCtrl.prop("checked", selectedItemsCount == itemsCount);
+            selectAllCtrl.prop("indeterminate", selectedItemsCount > 0 && selectedItemsCount < itemsCount);
+
+            selectedItems.text(selectedItemsCount + ' @T["selected"]');
+            displayActionsOrFilters();
+        });
+    })
+</script>

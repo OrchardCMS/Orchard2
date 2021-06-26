@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>OrchardCore.Search.Elastic</RootNamespace>
+    <!-- NuGet properties-->
+    <Title>OrchardCore Elastic Search Core</Title>
+    <Description>$(OCCMSDescription)
+
+    Core Implementation for Elastic Search module.</Description>
+    <PackageTags>$(PackageTags) OrchardCoreCMS</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NEST" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OrchardCore.Queries.Abstractions\OrchardCore.Queries.Abstractions.csproj" />
+    <ProjectReference Include="..\OrchardCore.Search.Elastic.Abstractions\OrchardCore.Search.Elastic.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

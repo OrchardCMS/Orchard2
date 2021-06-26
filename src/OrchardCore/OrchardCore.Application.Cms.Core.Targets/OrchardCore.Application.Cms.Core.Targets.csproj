@@ -30,6 +30,7 @@
   -->
 
   <ItemGroup>
+    <ProjectReference Include="..\..\OrchardCore.Modules\OrchardCore.Search.Elastic\OrchardCore.Search.Elastic.csproj" />
     <ProjectReference Include="..\OrchardCore.Application.Targets\OrchardCore.Application.Targets.csproj" PrivateAssets="none" />
 
     <!--

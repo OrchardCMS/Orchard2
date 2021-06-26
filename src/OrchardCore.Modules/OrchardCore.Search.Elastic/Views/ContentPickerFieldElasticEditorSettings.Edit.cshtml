@@ -1,0 +1,16 @@
+@model OrchardCore.Search.Elastic.Settings.ContentPickerFieldElasticEditorSettings
+
+<div class="field-editor field-editor-lucene">
+    <div class="form-group">
+        <div class="w-sm-50">
+            <label asp-for="Index">@T["Index"]</label>
+            <select asp-for="Index" class="form-control">
+                @foreach (var index in Model.Indices)
+                {
+                    <option value="@index">@index</option>
+                }
+            </select>
+        </div>
+        <span class="hint">@T["The Elastic index to query for content items"]</span>
+    </div>
+</div>

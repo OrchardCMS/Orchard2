@@ -17,5 +17,11 @@ namespace OrchardCore.Contents.Indexing
         public const string DisplayTextKey = "Content.ContentItem.DisplayText";
         public const string DisplayTextNormalizedKey = "Content.ContentItem.DisplayText.Normalized";
         public const string FullTextKey = "Content.ContentItem.FullText";
+
+        public static readonly string[] IgnoredFields = {
+            "Analyzed",
+            "Sanitize",
+            "Normalized"
+        };
     }
 }

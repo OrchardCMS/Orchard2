@@ -1,0 +1,69 @@
+@model ElasticIndexSettingsViewModel
+@if (Model.IsCreate)
+{
+    <zone Name="Title"><h1>@RenderTitleSegments(T["Create Index"])</h1></zone>
+}
+else
+{
+    <zone Name="Title"><h1>@RenderTitleSegments(T["Edit Index"])</h1></zone>
+}
+<div asp-validation-summary="ModelOnly"></div>
+<form asp-action="Edit" method="post">
+    <input asp-for="IsCreate" type="hidden" />
+    <div class="form-group" asp-validation-class-for="IndexName">
+        <label asp-for="IndexName">@T["Index Name"]</label>
+        <input asp-for="IndexName" class="form-control" readonly="@(!Model.IsCreate)" />
+        <span class="hint">@T["The shell name shall be prepended and automatically. Index name to be in lower."]</span>
+        <span asp-validation-for="IndexName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" asp-validation-class-for="AnalyzerName">
+        <label asp-for="AnalyzerName">@T["Analyzer Name"]</label>
+        <select asp-for="AnalyzerName" asp-items="Model.Analyzers" class="form-control"></select>
+        <span asp-validation-for="AnalyzerName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" asp-validation-class-for="Culture">
+        <label asp-for="Culture">@T["Culture"]</label>
+        <select asp-for="Culture" asp-items="Model.Cultures" class="form-control"></select>
+        <span class="hint">@T["The content culture that it will index."]</span>
+        <span asp-validation-for="Culture" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" asp-validation-class-for="IndexedContentTypes">
+        <label asp-for="IndexedContentTypes">@T["Content Types"]</label>
+        <span class="hint dashed">@T["The content types to index. Choose at least one."]</span>
+        @if (Model.IsCreate)
+        {
+            @await Component.InvokeAsync("SelectContentTypes", new { htmlName = Html.NameFor(m => m.IndexedContentTypes) })
+        }
+        else
+        {
+            @await Component.InvokeAsync("SelectContentTypes", new { selectedContentTypes = Model.IndexedContentTypes, htmlName = Html.NameFor(m => m.IndexedContentTypes) })
+        }
+        <span asp-validation-for="IndexedContentTypes" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" asp-validation-class-for="IndexLatest">
+        <label asp-for="IndexLatest">@T["Index options"]</label>
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" asp-for="IndexLatest" class="custom-control-input">
+            <label class="custom-control-label" asp-for="IndexLatest">@T["Index latest version"]</label>
+            <span class="hint dashed">@T["Check to index draft if it exists, otherwise only the published version is indexed."]</span>
+        </div>
+        <span asp-validation-for="IndexLatest" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        @if (Model.IsCreate)
+        {
+            <button class="btn btn-primary create" type="submit">@T["Create"]</button>
+            <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
+        }
+        else
+        {
+            <button class="btn btn-primary save" type="submit">@T["Save"]</button>
+            <a class="btn btn-secondary cancel" role="button" asp-route-action="Index">@T["Cancel"]</a>
+        }
+    </div>
+</form>

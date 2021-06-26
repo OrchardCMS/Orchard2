@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <!-- NuGet properties-->
+    <Title>OrchardCore Elastic Search</Title>
+    <Description>
+      $(OCCMSDescription)
+
+      Creates Elastic Search indexes to support search scenarios, introduces a preconfigured container-enabled content type.
+    </Description>
+    <PackageTags>$(PackageTags) OrchardCoreCMS</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Admin.Abstractions\OrchardCore.Admin.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ContentLocalization.Abstractions\OrchardCore.ContentLocalization.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ContentManagement.Display\OrchardCore.ContentManagement.Display.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ContentManagement.GraphQL\OrchardCore.ContentManagement.GraphQL.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ContentManagement\OrchardCore.ContentManagement.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ContentPreview.Abstractions\OrchardCore.ContentPreview.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ContentTypes.Abstractions\OrchardCore.ContentTypes.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Contents.Core\OrchardCore.Contents.Core.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Data.Abstractions\OrchardCore.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Deployment.Abstractions\OrchardCore.Deployment.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.DisplayManagement\OrchardCore.DisplayManagement.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Indexing.Abstractions\OrchardCore.Indexing.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Localization.Abstractions\OrchardCore.Localization.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Liquid.Abstractions\OrchardCore.Liquid.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Search.Elastic.Core\OrchardCore.Search.Elastic.Core.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Module.Targets\OrchardCore.Module.Targets.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Navigation.Core\OrchardCore.Navigation.Core.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Recipes.Abstractions\OrchardCore.Recipes.Abstractions.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.ResourceManagement\OrchardCore.ResourceManagement.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Search.Abstractions\OrchardCore.Search.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NEST" />
+  </ItemGroup>
+
+</Project>

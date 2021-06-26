@@ -1,0 +1,10 @@
+@model SearchFormViewModel
+
+<form action="@Url.Action("Search", "Search")" method="get">
+    <div class="input-group mb-3 mt-5">
+        <input name="Terms" type="text" value="@Model.Terms" class="form-control form-control-lg" placeholder="@T["Enter your search term(s)"]" autofocus />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary btn-sm">@T["Search"]</button>
+        </div>
+    </div>
+</form>

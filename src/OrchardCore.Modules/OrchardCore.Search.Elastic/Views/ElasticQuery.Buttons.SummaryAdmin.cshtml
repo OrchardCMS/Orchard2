@@ -1,0 +1,12 @@
+@model dynamic
+
+@{
+    var base64Query = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes((string)Model.Query.Template ?? ""));
+}
+
+<a asp-action="Query"
+   asp-controller="Admin"
+   asp-area="OrchardCore.Search.Elastic"
+   asp-route-query="@base64Query"
+   asp-route-indexName="@Model.Query.Index"
+   class="btn btn-success btn-sm">@T["Run"]</a>

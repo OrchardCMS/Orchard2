@@ -1,0 +1,27 @@
+@using OrchardCore.DisplayManagement.Views
+@using OrchardCore.Search.Elastic.Deployment
+
+@model ShapeViewModel<ElasticIndexDeploymentStep>
+
+@{
+    var includeAll = Model.Value.IncludeAll;
+    var indexNames = Model.Value.IndexNames;
+}
+
+<h5>@T["Search Indexes"]</h5>
+
+@if (includeAll)
+{
+    <span class="badge badge-success">@T["All"]</span>
+}
+else if (indexNames?.Length > 0)
+{
+    foreach (var indexName in indexNames)
+    {
+        <span class="badge ta-badge">@indexName</span>
+    }
+}
+else
+{
+    <span class="badge badge-warning">@T["No index selected."]</span>
+}

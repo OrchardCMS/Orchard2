@@ -1,0 +1,95 @@
+@model AdminQueryViewModel
+@using OrchardCore.ContentManagement;
+@inject IContentManager ContentManager
+
+@{
+    var matchAllQuery = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(@"{
+""query"": {
+""match_all"": { }
+}
+}"));
+
+}
+
+<style asp-name="codemirror"></style>
+<script asp-name="codemirror" depends-on="admin" at="Foot"></script>
+<script asp-name="codemirror-mode-javascript" at="Foot"></script>
+
+<zone Name="Title"><h1>@RenderTitleSegments(T["Elastic Query"])</h1></zone>
+
+<form asp-action="Query" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="IndexName">@T["Index"]</label>
+        <select asp-for="IndexName" class="form-control">
+            @foreach (var index in Model.Indices)
+            {
+                <option value="@index">@index</option>
+            }
+        </select>
+        <span class="hint">@T["The Elastic index to search on"]</span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DecodedQuery">@T["Template"]</label>
+        <textarea asp-for="DecodedQuery" rows="12" class="form-control"></textarea>
+        <span class="hint">@T["You can use the <a href=\"{0}\">Match All query</a> to search all documents.", Html.Raw(Url.Action("Query", "Admin", new { area = "OrchardCore.Search.Elastic", Query = matchAllQuery, IndexName = Model.IndexName }))]</span>
+        <span class="hint">@T["The search query uses the Elasticsearch format. Some documentation can be found here <a target=\"_blank\" href=\"https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html\">https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html</a>"]</span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Parameters">@T["Parameters"]</label>
+        <textarea asp-for="Parameters" rows="6" class="form-control"></textarea>
+        <span class="hint">@T["An optional Json object containing the parameter values for this query."]</span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">@T["Query"]</button>
+    </div>
+</form>
+
+<div class="form-group">
+    @if (Model.Elapsed != TimeSpan.Zero)
+    {
+        <p><span class="text-muted">@T["Found {0} result(s) in {1} ms", Model.Count.ToString(), Model.Elapsed.TotalMilliseconds.ToString()]</span></p>
+    }
+</div>
+@if (Model.Documents.Any())
+{
+    var fieldNames = Model.Documents.SelectMany(d => d.Keys.Distinct()).Distinct().ToList();
+
+    <div class="form-group">
+        <a href="@Url.Action("Create", "Admin", new { area = "OrchardCore.Queries", id = "ElasticSearch", query = Model.DecodedQuery })" class="btn btn-success">@T["Create"]</a>
+    </div>
+
+    <table class="table table-striped table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>#</th>
+                @foreach (var name in fieldNames)
+                {
+                    <th>@name</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{ int row = 1; }
+            @foreach (var document in Model.Documents)
+            {
+                <tr>
+                    <th scope="row">@(row++)</th>
+                    @foreach (var name in fieldNames)
+                    {
+                        <td>@(document.GetValueOrDefault(name)?.ToString()?? String.Empty)</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<script at="Foot">
+    $(function() {
+        CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(m => m.DecodedQuery)'), { mode: "javascript", json: true, lineNumbers: true, viewportMargin: Infinity });
+        CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(m => m.Parameters)'), { mode: "javascript", json: true, lineNumbers: true, viewportMargin: Infinity });
+    });
+</script>
