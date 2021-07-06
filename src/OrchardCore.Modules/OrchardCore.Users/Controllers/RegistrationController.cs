@@ -94,6 +94,11 @@ namespace OrchardCore.Users.Controllers
                 ModelState.AddModelError("Email", S["Invalid email."]);
             }
 
+            if (!settings.ConfirmPasswordRequired)
+            {
+                ModelState.Remove(nameof(RegisterViewModel.ConfirmPassword));
+            }
+
             ViewData["ReturnUrl"] = returnUrl;
 
             if (TryValidateModel(model) && ModelState.IsValid)

@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using OrchardCore.Email;
+using OrchardCore.Entities;
+using OrchardCore.Settings;
+using OrchardCore.Users.Models;
 
 namespace OrchardCore.Users.ViewModels
 {
@@ -21,7 +24,11 @@ namespace OrchardCore.Users.ViewModels
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var emailAddressValidator = validationContext.GetService<IEmailAddressValidator>();
+
+            var settings = validationContext.GetService<ISiteService>();
             var S = validationContext.GetService<IStringLocalizer<RegisterViewModel>>();
+
+            var registrationSettings = settings.GetSiteSettingsAsync().Result.As<RegistrationSettings>();
 
             if (string.IsNullOrWhiteSpace(UserName))
             {
@@ -42,7 +49,7 @@ namespace OrchardCore.Users.ViewModels
                 yield return new ValidationResult(S["Password is required."], new[] { nameof(Password) });
             }
 
-            if (Password != ConfirmPassword)
+            if (registrationSettings.ConfirmPasswordRequired && Password != ConfirmPassword)
             {
                 yield return new ValidationResult(S["The new password and confirmation password do not match."], new[] { nameof(ConfirmPassword) });
             }

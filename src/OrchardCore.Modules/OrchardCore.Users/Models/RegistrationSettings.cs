@@ -9,6 +9,7 @@ namespace OrchardCore.Users.Models
         public bool NoUsernameForExternalUsers { get; set; }
         public bool NoEmailForExternalUsers { get; set; }
         public bool UseScriptToGenerateUsername { get; set; }
+        public bool ConfirmPasswordRequired { get; set; } = true;
         public string GenerateUsernameScript { get; set; }
     }
 }

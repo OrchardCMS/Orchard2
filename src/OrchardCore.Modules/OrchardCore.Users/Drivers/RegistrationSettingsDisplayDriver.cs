@@ -37,6 +37,7 @@ namespace OrchardCore.Users.Drivers
             {
                 model.UsersCanRegister = settings.UsersCanRegister;
                 model.UsersMustValidateEmail = settings.UsersMustValidateEmail;
+                model.ConfirmPasswordRequired = settings.ConfirmPasswordRequired;
                 model.UseSiteTheme = settings.UseSiteTheme;
                 model.NoPasswordForExternalUsers = settings.NoPasswordForExternalUsers;
                 model.NoUsernameForExternalUsers = settings.NoUsernameForExternalUsers;
