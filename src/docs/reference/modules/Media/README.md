@@ -475,8 +475,35 @@ When the query string is signed with a token any width, height value may be used
     Tokens are only available from the [Preview Feed](../../../getting-started/preview-package-source)
     Prior to this the width or height values are limited to `16`, `32`, `50`, `100`, `160`, `240`, `480`, `600`, `1024`, `2048`.
 
+## Media Indexing
+
+Media can be optionally indexed for search as well if files are referenced via Media Fields. The following data can be indexed for each file referenced from a Media Field:
+
+- Media Text
+- Textual content of PDF files
+
+!!! note
+    Standalone files, i.e. files that are just uploaded to the Media Library but never referenced from a content item via a Media Field, can't be indexed.
+
+!!! note
+    You need an indexing implementation enabled for Media Indexing and search to work. The below guide assumes you're using [Lucene](../Lucene/README.md).
+
+To set up indexing for Media do the following:
+
+1. For each Media Field open the field's editor from under the given content type's or content part's editor, and tick "Include this element in the index".
+2. When a content item of that type is published next time, Media content will be indexed as well. Check the name of the new Lucene field. You can do this by running a Lucene query for the given content type (can be done from the admin from under Search, Run Lucene Query): You should be able to see a new field named with the pattern "ContentPart.FieldTechnicalName", e.g. "BlogPost.Image".
+3. Configure the new field to be used for search. You can do this from the admin under Search, Settings, Search, and adding the name of the new field under "Default search fields" (arriving at something like "Content.ContentItem.FullText, BlogPost.Image").
+4. Try searching for content only available in the Media Text of selected media files, or referenced PDF files. You should see corresponding results.
+
 ## Videos
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/BQHUlvPFRR4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/K0_i4vj00yM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/bDxL2LPJPzk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Credits
+
+To index PDF files the [PdfPig library](https://github.com/UglyToad/PdfPig/) is used.
+

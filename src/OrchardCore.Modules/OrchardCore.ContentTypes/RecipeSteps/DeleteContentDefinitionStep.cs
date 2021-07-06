@@ -29,13 +29,13 @@ namespace OrchardCore.ContentTypes.RecipeSteps
 
             foreach (var contentType in step.ContentTypes)
             {
-                // The content definition manager tests existance before trying to delete.
+                // The content definition manager tests existence before trying to delete.
                 _contentDefinitionManager.DeleteTypeDefinition(contentType);
             }
 
             foreach (var contentPart in step.ContentParts)
             {
-                // The content definition manager tests existance before trying to delete.
+                // The content definition manager tests existence before trying to delete.
                 _contentDefinitionManager.DeletePartDefinition(contentPart);
             }
 

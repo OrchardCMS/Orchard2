@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\OrchardCore\OrchardCore.Deployment.Abstractions\OrchardCore.Deployment.Abstractions.csproj" />
     <ProjectReference Include="..\..\OrchardCore\OrchardCore.DisplayManagement.Liquid\OrchardCore.DisplayManagement.Liquid.csproj" />
     <ProjectReference Include="..\..\OrchardCore\OrchardCore.FileStorage.FileSystem\OrchardCore.FileStorage.FileSystem.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Indexing.Abstractions\OrchardCore.Indexing.Abstractions.csproj" />
     <ProjectReference Include="..\..\OrchardCore\OrchardCore.Liquid.Abstractions\OrchardCore.Liquid.Abstractions.csproj" />
     <ProjectReference Include="..\..\OrchardCore\OrchardCore.Media.Core\OrchardCore.Media.Core.csproj" />
     <ProjectReference Include="..\..\OrchardCore\OrchardCore.MetaWeblog.Abstractions\OrchardCore.MetaWeblog.Abstractions.csproj" />
@@ -37,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="PdfPig" />
     <PackageReference Include="Shortcodes" />
     <PackageReference Include="SixLabors.ImageSharp.Web" />
     <PackageReference Include="System.Linq.Async" />

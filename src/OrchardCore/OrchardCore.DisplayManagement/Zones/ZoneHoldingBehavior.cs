@@ -55,7 +55,7 @@ namespace OrchardCore.DisplayManagement.Zones
     /// <remarks>
     /// Returns a ZoneOnDemand object the first time the indexer is invoked.
     /// If an item is added to the ZoneOnDemand then the zoneFactory is invoked to create a zone shape and this item is added to the zone.
-    /// Then the zone shape is assigned in palce of the ZoneOnDemand. A ZoneOnDemand returns true when compared to null such that we can
+    /// Then the zone shape is assigned in place of the ZoneOnDemand. A ZoneOnDemand returns true when compared to null such that we can
     /// do Zones["Foo"] == null to see if anything has been added to a zone, without instantiating a zone when accessing the indexer.
     /// </remarks>
     public class Zones : Composite
