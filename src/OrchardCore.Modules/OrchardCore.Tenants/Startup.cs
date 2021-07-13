@@ -109,10 +109,10 @@ namespace OrchardCore.Tenants
                 DefaultContentType = "application/octet-stream",
                 ServeUnknownFileTypes = true,
 
-                // Cache the tenant static files for 7 days
+                // Cache the tenant static files for 30 days
                 OnPrepareResponse = ctx =>
                 {
-                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public, max-age=2592000, s-max-age=31557600";
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={TimeSpan.FromDays(30).TotalSeconds}, s-max-age={TimeSpan.FromDays(365.25).TotalSeconds}";
                 }
             });
         }

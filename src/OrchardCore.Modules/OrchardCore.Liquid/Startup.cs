@@ -1,7 +1,10 @@
 using System;
 using Fluid;
 using Fluid.Values;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
@@ -17,11 +20,17 @@ using OrchardCore.Liquid.Models;
 using OrchardCore.Liquid.Services;
 using OrchardCore.Liquid.ViewModels;
 using OrchardCore.Modules;
+using OrchardCore.ResourceManagement;
 
 namespace OrchardCore.Liquid
 {
     public class Startup : StartupBase
     {
+        public override void Configure(IApplicationBuilder app, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
+        {
+            app.UseMiddleware<ScriptsMiddleware>();
+        }
+
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ISlugService, SlugService>();
@@ -64,6 +73,8 @@ namespace OrchardCore.Liquid
             .AddLiquidFilter<NewShapeFilter>("shape_new")
             .AddLiquidFilter<ShapeRenderFilter>("shape_render")
             .AddLiquidFilter<ShapeStringifyFilter>("shape_stringify");
+
+            services.AddTransient<IConfigureOptions<ResourceManagementOptions>, ResourceManagementOptionsConfiguration>();
         }
     }
 

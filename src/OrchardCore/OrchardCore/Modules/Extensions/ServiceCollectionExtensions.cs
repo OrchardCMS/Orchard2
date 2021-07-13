@@ -208,8 +208,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.FileProvider = fileProvider;
 
                 var shellConfiguration = serviceProvider.GetRequiredService<IShellConfiguration>();
-
-                var cacheControl = shellConfiguration.GetValue("StaticFileOptions:CacheControl", "public, max-age=2592000, s-max-age=31557600");
+                
+                var cacheControl = shellConfiguration.GetValue("StaticFileOptions:CacheControl", $"public, max-age={TimeSpan.FromDays(30).TotalSeconds}, s-max-age={TimeSpan.FromDays(365.25).TotalSeconds}");
 
                 // Cache static files for a year as they are coming from embedded resources and should not vary
                 options.OnPrepareResponse = ctx =>

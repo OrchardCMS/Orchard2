@@ -1,6 +1,6 @@
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * monaco-json version: 3.5.1(c306027c98c84a05885427d9fc8bbc5fd7c21747)
+ * monaco-json version: 3.3.0(0469b8fd8b15b786275dd8609bc1cb07699502e0)
  * Released under the MIT license
  * https://github.com/Microsoft/monaco-json/blob/master/LICENSE.md
  *-----------------------------------------------------------------------------*/

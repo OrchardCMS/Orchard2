@@ -1,21 +1,10 @@
 @model TemplateViewModel
 @{
     var returnUrl = ViewData["returnUrl"]?.ToString();
+    var culture = CultureInfo.CurrentUICulture;
 }
 
-<style asp-name="codemirror"></style>
-<style asp-name="codemirror-addon-display-fullscreen"></style>
-<script asp-name="codemirror" depends-on="admin" at="Foot"></script>
-<script asp-name="codemirror-mode-javascript" at="Foot"></script>
-<script asp-name="codemirror-addon-display-autorefresh" at="Foot"></script>
-<script asp-name="codemirror-addon-display-fullscreen" at="Foot"></script>
-<script asp-name="codemirror-addon-mode-simple" at="Foot"></script>
-<script asp-name="codemirror-addon-mode-multiplex" at="Foot"></script>
-<script asp-name="codemirror-addon-selection-active-line" at="Foot"></script>
-<script asp-name="codemirror-mode-xml" at="Foot"></script>
-
-<script asp-src="~/OrchardCore.Liquid/codemirror/liquid.js" at="Foot"></script>
-<script asp-name="templatepreview-edit" at="Foot"></script>
+@await DisplayAsync(await New.ShortcodeModal())
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Create Template"])</h1></zone>
 
@@ -62,17 +51,112 @@
 
     <div class="form-group" asp-validation-class-for="Content">
         <label asp-for="Content">@T["Content"]</label>
-        <textarea asp-for="Content" rows="10" class="form-control"></textarea>
-        <span asp-validation-for="Content"></span>
+        <div id="@Html.IdFor(x => x.Content)_editor" asp-for="Text" style="min-height: 600px;" class="form-control" dir="@culture.GetLanguageDirection()"></div>
+        <textarea asp-for="Content" class="content-preview-text" hidden>@Html.Raw(Model.Content)</textarea>
         <span class="hint">@T["The Liquid template."]</span>
     </div>
 </form>
 
-<script at="Foot">
+<script asp-name="create-template" at="Foot" depends-on="liquid-intellisense">
+    $(document).ready(function () {
+        require(['vs/editor/editor.main'], function () {
+            var settings = {
+                automaticLayout: true,
+                language: 'liquid'
+            }
 
+            ConfigureLiquidIntellisense(monaco);
+
+            var html = document.getElementsByTagName("html")[0];
+            const mutationObserver = new MutationObserver(setTheme);
+            mutationObserver.observe(html, { attributes: true });
+
+            function setTheme() {
+                var theme = html.dataset.theme;
+                if (theme === "darkmode") {
+                    monaco.editor.setTheme('vs-dark')
+                } else {
+                    monaco.editor.setTheme('vs')
+                }
+            }
+
+            setTheme();
+
+            var editor = monaco.editor.create(document.getElementById('@Html.IdFor(x => x.Content)_editor'), settings);
+            var textArea = document.getElementById('@Html.IdFor(x => x.Content)');
+
+            editor.getModel().onDidChangeContent((event) => {
+                textArea.value = editor.getValue();
+            });
+
+            const shortcodesAction = {
+                id: "shortcodes",
+                label: "Add Shortcode",
+                run: function (editor) {
+                    shortcodesApp.init(function (value) {
+                        if (value) {
+                            var selection = editor.getSelection();
+                            var text = value;
+                            var op = { range: selection, text: text, forceMoveMarkers: true };
+                            editor.executeEdits("shortcodes", [op]);
+                        }
+                        editor.focus();
+                    })
+                },
+                contextMenuGroupId: 'orchardcore',
+                contextMenuOrder: 0,
+                keybindings: [
+                    monaco.KeyMod.Alt | monaco.KeyCode.KEY_S,
+                ]
+            }
+            editor.addAction(shortcodesAction);
+
+            editor.getModel().setValue(textArea.value);
+
+            window.addEventListener("submit", function () {
+                textArea.value = editor.getValue();
+            });
+        });
+    });
+</script>
+
+
+<script at="Foot">
     $(function () {
-        initializeTemplatePreview(
-            document.getElementById('@Html.IdFor(x => x.Name)'),
-            document.getElementById('@Html.IdFor(x => x.Content)'));
+
+        function initializeTemplatePreview(element) {
+
+            var antiforgerytoken = $("[name='__RequestVerificationToken']").val();
+
+            sendFormData = function (element) {
+
+                var formData = {
+                    'Name': element.name,
+                    'Content': element.value,
+                    '__RequestVerificationToken': antiforgerytoken
+                };
+                // store the form data to pass it in the event handler
+                localStorage.setItem('OrchardCore.templates', JSON.stringify($.param(formData)));
+            }
+
+            window.addEventListener('storage', function (ev) {
+                if (ev.key != 'OrchardCore.templates:ready') return; // ignore other keys
+
+                // triggered by the preview window the first time it is loaded in order
+                // to pre-render the view even if no contentpreview:render is already sent
+                sendFormData(element);
+            }, false);
+
+            $(element).on('change', function () { sendFormData(element); });
+
+            $(window).on('unload', function () {
+                localStorage.removeItem('OrchardCore.templates');
+                // this will raise an event in the preview window to notify that the live preview is no longer active.
+                localStorage.setItem('OrchardCore.templates:not-connected', '');
+                localStorage.removeItem('OrchardCore.templates:not-connected');
+            });
+        }
+
+        initializeTemplatePreview(document.getElementById('@Html.IdFor(x => x.Content)'));
     });
 </script>
