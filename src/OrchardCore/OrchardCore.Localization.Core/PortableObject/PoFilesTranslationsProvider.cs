@@ -9,7 +9,7 @@ namespace OrchardCore.Localization.PortableObject
     public class PoFilesTranslationsProvider : ITranslationProvider
     {
         private readonly ILocalizationFileLocationProvider _poFilesLocationProvider;
-        private readonly PoParser _parser;
+        private readonly PortableObjectParser _parser;
 
         /// <summary>
         /// Creates a new instance of <see cref="PoFilesTranslationsProvider"/>.
@@ -18,7 +18,7 @@ namespace OrchardCore.Localization.PortableObject
         public PoFilesTranslationsProvider(ILocalizationFileLocationProvider poFileLocationProvider)
         {
             _poFilesLocationProvider = poFileLocationProvider;
-            _parser = new PoParser();
+            _parser = new PortableObjectParser();
         }
 
         /// <inheritdocs />

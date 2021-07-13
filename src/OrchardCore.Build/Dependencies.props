@@ -38,6 +38,7 @@
     <PackageManagement Include="OpenIddict.AspNetCore" Version="3.1.0" />
     <PackageManagement Include="OpenIddict.Core" Version="3.1.0" />
     <PackageManagement Include="OrchardCore.Translations.All" Version="1.0.0-rc2-108003" />
+    <PackageManagement Include="PoParser.Core" Version="1.0.0" />
     <PackageManagement Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageManagement Include="Shortcodes" Version="1.3.0" />
     <PackageManagement Include="SixLabors.ImageSharp.Web" Version="1.0.3" />
