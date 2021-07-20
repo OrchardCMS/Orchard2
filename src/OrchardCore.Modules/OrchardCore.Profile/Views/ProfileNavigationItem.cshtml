@@ -1,0 +1,22 @@
+﻿@{
+    TagBuilder tag = Tag(Model, "li");
+
+    // Morphing the shape to keep Model untouched
+    Model.Metadata.Alternates.Clear();
+    Model.Metadata.Type = "ProfileNavigationItemLink";
+
+    tag.InnerHtml.AppendHtml(await DisplayAsync(Model));
+
+    // Render sub-items (MenuItem)
+    if (Model.HasItems)
+    {
+        tag.InnerHtml.AppendHtml("<ul>");
+        foreach (var item in Model)
+        {
+            tag.InnerHtml.AppendHtml(await DisplayAsync(item));
+        }
+        tag.InnerHtml.AppendHtml("</ul>");
+    }
+}
+
+@tag

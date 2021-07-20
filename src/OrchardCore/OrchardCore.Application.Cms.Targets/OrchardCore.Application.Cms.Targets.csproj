@@ -16,6 +16,18 @@
     <PackageTags>$(PackageTags) OrchardCoreCMS CMS</PackageTags>
   </PropertyGroup>
 
+  <!-- Add a ".targets" file in the package specific to the "Cms" bundle -->
+  <ItemGroup>
+    <None Include="OrchardCore.Application.Cms.Targets.targets" Pack="true">
+      <PackagePath>build\netstandard2.0\OrchardCore.Application.Cms.Targets.targets</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OrchardCore.Modules\OrchardCore.HealthChecks\OrchardCore.HealthChecks.csproj" />
+    <ProjectReference Include="..\..\OrchardCore.Modules\OrchardCore.Profile\OrchardCore.Profile.csproj" />
+    <ProjectReference Include="..\..\OrchardCore\OrchardCore.Infrastructure\OrchardCore.Infrastructure.csproj" />
+  </ItemGroup>
   <!--
     When a package is not directly referenced, e.g only through the reference of this bundle package,
     the files in its build folder are not evaluated on building if this folder is marked as private.

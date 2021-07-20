@@ -1,0 +1,14 @@
+﻿@{
+    TagBuilder tag = Tag(Model, "ul");
+
+
+    foreach (var item in Model)
+    {
+        tag.InnerHtml.AppendHtml(await DisplayAsync(item));
+    }
+}
+
+<nav>
+    @tag
+</nav>
+<!-- Menu rendered on @DateTime.UtcNow.ToString("r") -->

@@ -1,0 +1,9 @@
+﻿
+@await DisplayAsync(Model.Content)
+
+
+
+@if (!String.IsNullOrWhiteSpace(Context.Request.Query["returnUrl"]))
+{
+    @Html.Hidden("returnUrl", Context.Request.Query["returnUrl"])
+}
