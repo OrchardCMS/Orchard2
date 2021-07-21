@@ -1,8 +1,11 @@
 using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using OrchardCore.Localization;
+using OrchardCore.Localization.DataAnnotations;
 using OrchardCore.Localization.PortableObject;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -40,6 +43,22 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 services.Configure(setupAction);
             }
+
+            return services;
+        }
+
+        /// <summary>
+        /// Localize data annotations attributes from portable object files.  
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/>.</param>
+        public static IServiceCollection AddDataAnnotationsPortableObjectLocalization(this IServiceCollection services)
+        {
+            if (services is null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            services.AddSingleton<IConfigureOptions<MvcOptions>, LocalizedDataAnnotationsMvcOptions>();
 
             return services;
         }
