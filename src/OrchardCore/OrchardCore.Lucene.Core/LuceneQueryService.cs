@@ -6,6 +6,7 @@ using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.TokenAttributes;
 using Lucene.Net.Search;
 using Newtonsoft.Json.Linq;
+using OrchardCore.Lucene.FieldComparers;
 
 namespace OrchardCore.Lucene
 {
@@ -36,48 +37,7 @@ namespace OrchardCore.Lucene
             var size = sizeProperty?.Value<int>() ?? 50;
             var from = fromProperty?.Value<int>() ?? 0;
 
-            string sortField = null;
-            string sortOrder = null;
-            string sortType = null;
-            var sortFields = new List<SortField>();
-
-            if (sortProperty != null)
-            {
-                if (sortProperty.Type == JTokenType.String)
-                {
-                    sortField = sortProperty.ToString();
-                    sortFields.Add(new SortField(sortField, SortFieldType.STRING, sortOrder == "desc"));
-                }
-                else if (sortProperty.Type == JTokenType.Object)
-                {
-                    sortField = ((JProperty)sortProperty.First).Name;
-                    sortOrder = ((JProperty)sortProperty.First).Value["order"].ToString();
-                    sortType = ((JProperty)sortProperty.First).Value["type"]?.ToString();
-                    var sortFieldType = SortFieldType.STRING;
-                    if (sortType != null)
-                    {
-                        sortFieldType = (SortFieldType)Enum.Parse(typeof(SortFieldType), sortType.ToUpper());
-                    }
-
-                    sortFields.Add(new SortField(sortField, sortFieldType, sortOrder == "desc"));
-                }
-                else if (sortProperty.Type == JTokenType.Array)
-                {
-                    foreach (var item in sortProperty.Children())
-                    {
-                        sortField = ((JProperty)item.First).Name;
-                        sortOrder = ((JProperty)item.First).Value["order"].ToString();
-                        sortType = ((JProperty)item.First).Value["type"]?.ToString();
-                        var sortFieldType = SortFieldType.STRING;
-                        if (sortType != null)
-                        {
-                            sortFieldType = (SortFieldType)Enum.Parse(typeof(SortFieldType), sortType.ToUpper());
-                        }
-
-                        sortFields.Add(new SortField(sortField, sortFieldType, sortOrder == "desc"));
-                    }
-                }
-            }
+            var sortFields = GetSortFields(sortProperty);
 
             LuceneTopDocs result = null;
             TopDocs topDocs = null;
@@ -87,7 +47,7 @@ namespace OrchardCore.Lucene
                 topDocs = context.IndexSearcher.Search(
                     query,
                     size + from,
-                    sortField == null ? Sort.RELEVANCE : new Sort(sortFields.ToArray())
+                    sortFields.Length == 0 ? Sort.RELEVANCE : new Sort(sortFields)
                 );
 
                 if (from > 0)
@@ -102,6 +62,57 @@ namespace OrchardCore.Lucene
             }
 
             return Task.FromResult(result);
+        }
+
+        /// <summary>
+        /// Returns zero or more SortFields from sortProperty
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private static SortField[] GetSortFields(JToken item)
+        {
+            if (item == null) return new SortField[0];
+
+            switch (item.Type)
+            {
+                case JTokenType.Array:
+                    return item.Children().Select(GetSortField).ToArray();
+                case JTokenType.String:
+                case JTokenType.Object:
+                    return new[] { GetSortField(item) };
+                default:
+                    return new SortField[0];
+            }
+        }
+
+        /// <summary>
+        /// Get sort field based on token types string and object
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private static SortField GetSortField(JToken item)
+        {
+            if (item.Type == JTokenType.String)
+            {
+                return new SortField((string)item, SortFieldType.STRING);
+            }
+
+            var itemFirst = (JProperty) item.First;
+            var sortField = itemFirst.Name;
+            var sortOrder = itemFirst.Value["order"]?.ToString();
+            var sortType = itemFirst.Value["type"]?.ToString();
+
+            if (sortOrder == "random")
+            {
+                return new SortField(sortField, new RandomFieldComparatorSource());
+            }
+
+            if (sortType == null || !Enum.TryParse(sortType, true, out SortFieldType sortFieldType))
+            {
+                sortFieldType = SortFieldType.STRING;
+            }
+
+            return new SortField(sortField, sortFieldType, sortOrder == "desc");
         }
 
         public Query CreateQueryFragment(LuceneQueryContext context, JObject queryObj)
