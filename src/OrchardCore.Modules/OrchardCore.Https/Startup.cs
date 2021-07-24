@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using OrchardCore.Deployment;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.Https.Drivers;
 using OrchardCore.Https.Services;
@@ -72,13 +70,7 @@ namespace OrchardCore.Https
     {
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IDeploymentSource, SiteSettingsPropertyDeploymentSource<HttpsSettings>>();
-            services.AddScoped<IDisplayDriver<DeploymentStep>>(sp =>
-            {
-                var S = sp.GetService<IStringLocalizer<DeploymentStartup>>();
-                return new SiteSettingsPropertyDeploymentStepDriver<HttpsSettings>(S["Https settings"], S["Exports the Https settings."]);
-            });
-            services.AddSingleton<IDeploymentStepFactory>(new SiteSettingsPropertyDeploymentStepFactory<HttpsSettings>());
+            services.AddSiteSettingsPropertyDeploymentStep<HttpsSettings, DeploymentStartup>(S => S["Https settings"], S => S["Exports the Https settings."]);
         }
     }
 }

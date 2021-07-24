@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.Contents.ViewModels;
 using OrchardCore.Data.Migration;
@@ -18,7 +17,7 @@ namespace OrchardCore.Contents.Deployment.ExportContentToDeploymentTarget
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<INavigationProvider, ExportContentToDeploymentTargetAdminMenu>();
-            // TODO deployment steps for these
+
             services.AddScoped<IDisplayDriver<ISite>, ExportContentToDeploymentTargetSettingsDisplayDriver>();
 
             services.AddTransient<IDeploymentSource, ExportContentToDeploymentTargetDeploymentSource>();
@@ -29,14 +28,7 @@ namespace OrchardCore.Contents.Deployment.ExportContentToDeploymentTarget
             services.AddScoped<IContentDisplayDriver, ExportContentToDeploymentTargetContentDriver>();
             services.AddScoped<IDisplayDriver<ContentOptionsViewModel>, ExportContentToDeploymentTargetContentsAdminListDisplayDriver>();
 
-            services.AddTransient<IDeploymentSource, SiteSettingsPropertyDeploymentSource<ExportContentToDeploymentTargetSettings>>();
-            services.AddScoped<IDisplayDriver<DeploymentStep>>(sp =>
-            {
-                var S = sp.GetService<IStringLocalizer<ExportContentToDeploymentTargetStartup>>();
-                return new SiteSettingsPropertyDeploymentStepDriver<ExportContentToDeploymentTargetSettings>(S["Export Content To Deployment Target settings"], S["Exports the Export Content To Deployment Target settings."]);
-            });
-            services.AddSingleton<IDeploymentStepFactory>(new SiteSettingsPropertyDeploymentStepFactory<ExportContentToDeploymentTargetSettings>());
-
+            services.AddSiteSettingsPropertyDeploymentStep<ExportContentToDeploymentTargetSettings, ExportContentToDeploymentTargetStartup>(S => S["Export Content To Deployment Target settings"], S => S["Exports the Export Content To Deployment Target settings."]);
         }
     }
 }

@@ -3,7 +3,6 @@ using Fluid;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using OrchardCore.Admin;
 using OrchardCore.Apis;
@@ -15,7 +14,6 @@ using OrchardCore.Contents.ViewModels;
 using OrchardCore.ContentTypes.Editors;
 using OrchardCore.Data;
 using OrchardCore.Data.Migration;
-using OrchardCore.Deployment;
 using OrchardCore.DisplayManagement.Descriptors;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.Indexing;
@@ -138,13 +136,7 @@ namespace OrchardCore.Taxonomies
     {
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IDeploymentSource, SiteSettingsPropertyDeploymentSource<TaxonomyContentsAdminListSettings>>();
-            services.AddScoped<IDisplayDriver<DeploymentStep>>(sp =>
-            {
-                var S = sp.GetService<IStringLocalizer<ContentsAdminListDeploymentStartup>>();
-                return new SiteSettingsPropertyDeploymentStepDriver<TaxonomyContentsAdminListSettings>(S["Taxonomy Filters settings"], S["Exports the Taxonomy filters settings."]);
-            });
-            services.AddSingleton<IDeploymentStepFactory>(new SiteSettingsPropertyDeploymentStepFactory<TaxonomyContentsAdminListSettings>());
+            services.AddSiteSettingsPropertyDeploymentStep<TaxonomyContentsAdminListSettings, ContentsAdminListDeploymentStartup>(S => S["Taxonomy Filters settings"], S => S["Exports the Taxonomy filters settings."]);
         }
     }
 

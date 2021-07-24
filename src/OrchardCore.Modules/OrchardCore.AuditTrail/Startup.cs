@@ -167,24 +167,8 @@ namespace OrchardCore.AuditTrail
     {
         public override void ConfigureServices(IServiceCollection services)
         {
-            // TODO update when https://github.com/OrchardCMS/OrchardCore/pull/9728 merged.
-            services.AddTransient<IDeploymentSource, SiteSettingsPropertyDeploymentSource<AuditTrailSettings>>();
-            services.AddScoped<IDisplayDriver<DeploymentStep>>(sp =>
-            {
-                var S = sp.GetService<IStringLocalizer<Startup>>();
-                return new SiteSettingsPropertyDeploymentStepDriver<AuditTrailSettings>(S["Audit Trail settings"], S["Exports the audit trail settings."]);
-            });
-
-            services.AddSingleton<IDeploymentStepFactory>(new SiteSettingsPropertyDeploymentStepFactory<AuditTrailSettings>());
-
-            services.AddTransient<IDeploymentSource, SiteSettingsPropertyDeploymentSource<AuditTrailTrimmingSettings>>();
-            services.AddScoped<IDisplayDriver<DeploymentStep>>(sp =>
-            {
-                var S = sp.GetService<IStringLocalizer<Startup>>();
-                return new SiteSettingsPropertyDeploymentStepDriver<AuditTrailTrimmingSettings>(S["Audit Trail Trimming settings"], S["Exports the audit trail trimming settings."]);
-            });
-
-            services.AddSingleton<IDeploymentStepFactory>(new SiteSettingsPropertyDeploymentStepFactory<AuditTrailTrimmingSettings>());
+            services.AddSiteSettingsPropertyDeploymentStep<AuditTrailSettings, DeploymentStartup>(S => S["Audit Trail settings"], S => S["Exports the audit trail settings."]);
+            services.AddSiteSettingsPropertyDeploymentStep<AuditTrailTrimmingSettings, DeploymentStartup>(S => S["Audit Trail Trimming settings"], S => S["Exports the audit trail trimming settings."]);
         }
     }
 }
