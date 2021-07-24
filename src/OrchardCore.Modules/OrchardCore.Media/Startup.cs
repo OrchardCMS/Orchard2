@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OrchardCore.Admin;
+using OrchardCore.BackgroundTasks;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Handlers;
@@ -343,6 +344,16 @@ namespace OrchardCore.Media
         {
             services.AddScoped<IPermissionProvider, MediaCachePermissions>();
             services.AddScoped<INavigationProvider, MediaCacheAdminMenu>();
+        }
+    }
+
+    [Feature("OrchardCore.Media.Cache.BackgroundTask")]
+    public class MediaCacheBackgroundTaskStartup : StartupBase
+    {
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            // Media cache background task
+            services.AddSingleton<IBackgroundTask, MediaCacheBackgroundTask>();
         }
     }
 

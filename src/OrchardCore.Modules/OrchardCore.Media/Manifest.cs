@@ -36,3 +36,14 @@ using OrchardCore.Modules.Manifest;
     },
     Category = "Content Management"
 )]
+
+[assembly: Feature(
+    Id = "OrchardCore.Media.Cache.BackgroundTask",
+    Name = "Media Cache Background Task",
+    Description = "Provides remote store cache and ImageSharp cache periodical purging ability.",
+    Dependencies = new[]
+    {
+        "OrchardCore.Media.Cache"
+    },
+    Category = "Content Management"
+)]
