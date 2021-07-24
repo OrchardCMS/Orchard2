@@ -8,16 +8,17 @@
     string encType = formPart.Method == "POST" ? formPart.EncType : string.Empty;
     var formContentTypeClassName = "form-" + ((string)Model.ContentItem.ContentType).HtmlClassify();
 
-    var elementId =  ((ContentItem)Model.ContentItem).As<FormElementPart>()?.Id;
-    string formId =  string.IsNullOrWhiteSpace(elementId) ?  $"form_{Model.ContentItem.ContentItemId}" : elementId;
+    var elementId = ((ContentItem)Model.ContentItem).As<FormElementPart>()?.Id;
+    string formId = string.IsNullOrWhiteSpace(elementId) ? $"form_{Model.ContentItem.ContentItemId}" : elementId;
 
 }
 
-<form id="@formId" action="@formPart.Action" method="@formPart.Method"  enctype="@encType" class="form-content @formContentTypeClassName">
+<form id="@formId" action="@formPart.Action" method="@formPart.Method" enctype="@encType" class="form-content @formContentTypeClassName">
     @if (formPart.EnableAntiForgeryToken)
     {
         @Html.AntiForgeryToken()
     }
 
-    @await DisplayAsync((IHtmlContent)Model.Metadata.ChildContent)
+    @await DisplayAsync(Model.Metadata.ChildContent)
 </form>
+

@@ -1,0 +1,5 @@
+@model ActivityViewModel<ValidateRuleFormTask>
+
+<header>
+    <h4><i class="fa fa-shield-alt"></i>@Model.Activity.GetTitleOrDefault(() => T["Validation Rule Form"])</h4>
+</header>

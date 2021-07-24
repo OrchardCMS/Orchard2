@@ -53,6 +53,11 @@ namespace OrchardCore.Forms
                 .WithPart("LabelPart")
                 .Stereotype("Widget"));
 
+            // ValidationRule
+            _contentDefinitionManager.AlterPartDefinition("ValidationRulePart", part => part
+                .WithDescription("Provides the ability to use and configure validation rules for form fields.")
+            );
+
             // Input
             _contentDefinitionManager.AlterPartDefinition("InputPart", part => part
                 .WithDescription("Provides input field properties."));
@@ -61,6 +66,7 @@ namespace OrchardCore.Forms
                 .WithPart("FormInputElementPart")
                 .WithPart("FormElementPart")
                 .WithPart("InputPart")
+                .WithPart("ValidationRulePart")
                 .Stereotype("Widget"));
 
             // TextArea
@@ -71,6 +77,7 @@ namespace OrchardCore.Forms
                 .WithPart("FormInputElementPart")
                 .WithPart("FormElementPart")
                 .WithPart("TextAreaPart")
+                .WithPart("ValidationRulePart")
                 .Stereotype("Widget"));
 
             // Select
@@ -140,6 +147,27 @@ namespace OrchardCore.Forms
             );
 
             return 3;
+        }
+        public int UpdateFrom3()
+        {
+            // ValidationRule
+            _contentDefinitionManager.AlterPartDefinition("ValidationRulePart", part => part
+                .WithDescription("Provides the ability to use and configure validation rules for form fields.")
+            );
+
+            _contentDefinitionManager.AlterTypeDefinition("Input", type => type
+                .WithPart("ValidationRulePart", part => part
+                    .WithPosition("3")
+                 )
+             );
+
+            _contentDefinitionManager.AlterTypeDefinition("TextArea", type => type
+                .WithPart("ValidationRulePart", part => part
+                    .WithPosition("3")
+                )
+            );
+
+            return 4;
         }
 
         internal class TitlePartSettings

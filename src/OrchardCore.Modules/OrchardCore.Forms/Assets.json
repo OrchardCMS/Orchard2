@@ -11,5 +11,17 @@
       "Assets/js/SelectOptionsEditor/selectOptionsEditor.js"
     ],
     "output": "wwwroot/Scripts/selectOptionsEditor.js"
+  },
+  {
+    "inputs": [
+      "Assets/js/Validation/validator.js"
+    ],
+    "output": "wwwroot/Scripts/validator.js"
+  },
+  {
+    "inputs": [
+      "Assets/js/Validation/validationRuleHelper.js"
+    ],
+    "output": "wwwroot/Scripts/validationRuleHelper.js"
   }
 ]

@@ -13,6 +13,7 @@ namespace OrchardCore.Forms.Workflows
         {
             services.AddActivity<ValidateAntiforgeryTokenTask, ValidateAntiforgeryTokenTaskDisplayDriver>();
             services.AddActivity<AddModelValidationErrorTask, AddModelValidationErrorTaskDisplayDriver>();
+            services.AddActivity<ValidateRuleFormTask, ValidateRuleFormTaskDisplayDriver>();
             services.AddActivity<ValidateFormTask, ValidateFormTaskDisplayDriver>();
             services.AddActivity<ValidateFormFieldTask, ValidateFormFieldTaskDisplayDriver>();
             services.AddActivity<BindModelStateTask, BindModelStateTaskDisplayDriver>();

@@ -1,0 +1,28 @@
+@using OrchardCore.Forms.Models
+@model ShapeViewModel<ValidationRulePart>
+@{
+    var contentItemId = ViewContext.ModelState.Values.FirstOrDefault().RawValue;
+    var type = Model.Value.Type;
+    var formElementPart = Model.Value.ContentItem.As<FormElementPart>();
+    var validationRulePart = Model.Value.ContentItem.As<ValidationRulePart>();
+    var errorMessage = string.IsNullOrEmpty(validationRulePart.ErrorMessage) ? T[$"Validation failed for {validationRulePart.Type}."].Value : validationRulePart.ErrorMessage;
+    var elementId = formElementPart.Id;
+}
+
+<script asp-src="~/OrchardCore.Forms/Scripts/validationRuleHelper.min.js" debug-src="~/OrchardCore.Forms/Scripts/validationRuleHelper.js" asp-name="validationRuleHelper" depends-on="jQuery" at="Foot"></script>
+
+<div class="text-danger" style="display:none;">@errorMessage</div>
+
+<script at="Foot">
+    (function ($) {
+        $(function () {
+            if ('@type' != 'none') {
+                validationElementFunction(
+                    '@Url.Action("ValidateInputByRule", "ValidationApi", new { area = "OrchardCore.Forms" })',
+                    '@Url.Action("ValidateFormByRule", "ValidationApi", new { area = "OrchardCore.Forms" })',
+                    '@contentItemId', '@elementId');
+            }
+        })
+    })(jQuery);
+</script>
+
