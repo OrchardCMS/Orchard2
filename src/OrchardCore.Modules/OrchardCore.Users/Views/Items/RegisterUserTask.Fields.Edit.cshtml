@@ -11,14 +11,14 @@
 
 <div class="form-group" asp-validation-class-for="ConfirmationEmailSubject">
     <label asp-for="ConfirmationEmailSubject">@T["Subject for confirmation email"]</label>
-    <input type="text" asp-for="ConfirmationEmailSubject" class="form-control code" />
+    <input type="text" asp-for="ConfirmationEmailSubject" class="form-control code" required />
     <span asp-validation-for="ConfirmationEmailSubject"></span>
     <span class="hint">@T["The subject of the message. Supports Liquid syntax."]</span>
 </div>
 
 <div class="form-group" asp-validation-class-for="ConfirmationEmailTemplate">
     <label asp-for="ConfirmationEmailTemplate">@T["Template for confirmation email"]</label>
-    <input type="text" asp-for="ConfirmationEmailTemplate" class="form-control code" />
+    <input type="text" asp-for="ConfirmationEmailTemplate" class="form-control code" required />
     <span asp-validation-for="ConfirmationEmailTemplate"></span>
     <span class="hint">@T["The message to send. Access email confirmation url with Workflow.Properties.EmailConfirmationUrl liquid property."]</span>
 </div>
@@ -28,3 +28,16 @@
     <span asp-validation-for="RequireModeration"></span>
     <label asp-for="RequireModeration" class="form-check-label">@T["Users must be approved before they can log in"]</label>
 </div>
+
+<script at="Foot">
+    $(function () {
+        var required = false;
+
+        $("#@Html.IdFor(m => m.SendConfirmationEmail)").change(function () {
+            $("#@Html.IdFor(m => m.ConfirmationEmailSubject)").attr('required', required);
+            $("#@Html.IdFor(m => m.ConfirmationEmailTemplate)").attr('required', required);
+
+            required = !required;
+        });
+    });
+</script>
