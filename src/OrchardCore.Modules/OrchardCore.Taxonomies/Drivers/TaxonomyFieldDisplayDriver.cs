@@ -11,6 +11,7 @@ using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Models;
+using OrchardCore.Taxonomies.Services;
 using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Taxonomies.ViewModels;
 
@@ -20,12 +21,15 @@ namespace OrchardCore.Taxonomies.Drivers
     {
         private readonly IContentManager _contentManager;
         private readonly IStringLocalizer S;
+        private readonly ITaxonomyService _taxonomyService;
 
         public TaxonomyFieldDisplayDriver(
             IContentManager contentManager,
-            IStringLocalizer<TaxonomyFieldDisplayDriver> localizer)
+            IStringLocalizer<TaxonomyFieldDisplayDriver> localizer,
+            ITaxonomyService taxonomyService)
         {
             _contentManager = contentManager;
+            _taxonomyService = taxonomyService;
             S = localizer;
         }
 
@@ -84,6 +88,12 @@ namespace OrchardCore.Taxonomies.Drivers
                     updater.ModelState.AddModelError(
                         nameof(EditTaxonomyFieldViewModel.TermEntries),
                         S["A value is required for '{0}'", context.PartFieldDefinition.DisplayName()]);
+                }
+
+                var taxonomy = await _contentManager.GetAsync(settings.TaxonomyContentItemId, VersionOptions.Latest);
+                if (taxonomy.As<TaxonomyPart>().EnableOrdering)
+                {
+                    await _taxonomyService.SyncTaxonomyFieldProperties(field);
                 }
             }
 

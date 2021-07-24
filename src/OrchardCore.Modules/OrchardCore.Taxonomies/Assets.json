@@ -30,5 +30,12 @@
       "Assets/js/tags-editor.js"
     ],
     "output": "wwwroot/Scripts/tags-editor.js"
+  },
+  {
+    "generateSourceMaps": false,
+    "inputs": [
+      "Assets/js/ci-term-ordering.js"
+    ],
+    "output": "wwwroot/Scripts/ci-term-ordering.js"
   }
 ]

@@ -10,6 +10,7 @@ namespace OrchardCore.Taxonomies.ViewModels
         public string TaxonomyContentItemId { get; set; }
         public IEnumerable<ContentItem> ContentItems { get; set; }
         public dynamic Pager { get; set; }
+        public bool EnableOrdering { get; set; }
 
         [BindNever]
         public ContentItem ContentItem { get; set; }

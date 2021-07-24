@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +9,14 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
+using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
+using OrchardCore.Navigation;
+using OrchardCore.Settings;
 using OrchardCore.Taxonomies.Models;
+using OrchardCore.Taxonomies.Services;
+using OrchardCore.Taxonomies.ViewModels;
 using YesSql;
 
 namespace OrchardCore.Taxonomies.Controllers
@@ -25,6 +31,9 @@ namespace OrchardCore.Taxonomies.Controllers
         private readonly IHtmlLocalizer H;
         private readonly INotifier _notifier;
         private readonly IUpdateModelAccessor _updateModelAccessor;
+        private readonly ITaxonomyService _taxonomyService;
+        private readonly ISiteService _siteService;
+        private readonly dynamic New;
 
         public AdminController(
             ISession session,
@@ -34,7 +43,10 @@ namespace OrchardCore.Taxonomies.Controllers
             IContentDefinitionManager contentDefinitionManager,
             INotifier notifier,
             IHtmlLocalizer<AdminController> localizer,
-            IUpdateModelAccessor updateModelAccessor)
+            IUpdateModelAccessor updateModelAccessor,
+            ITaxonomyService taxonomyService,
+            ISiteService siteService,
+            IShapeFactory shapeFactory)
         {
             _contentManager = contentManager;
             _authorizationService = authorizationService;
@@ -43,6 +55,9 @@ namespace OrchardCore.Taxonomies.Controllers
             _session = session;
             _notifier = notifier;
             _updateModelAccessor = updateModelAccessor;
+            _taxonomyService = taxonomyService;
+            _siteService = siteService;
+            New = shapeFactory;
             H = localizer;
         }
 
@@ -119,7 +134,7 @@ namespace OrchardCore.Taxonomies.Controllers
             else
             {
                 // Look for the target taxonomy item in the hierarchy
-                var parentTaxonomyItem = FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
+                var parentTaxonomyItem = _taxonomyService.FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
 
                 // Couldn't find targeted taxonomy item
                 if (parentTaxonomyItem == null)
@@ -157,7 +172,7 @@ namespace OrchardCore.Taxonomies.Controllers
             }
 
             // Look for the target taxonomy item in the hierarchy
-            JObject taxonomyItem = FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
+            JObject taxonomyItem = _taxonomyService.FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
 
             // Couldn't find targeted taxonomy item
             if (taxonomyItem == null)
@@ -205,7 +220,7 @@ namespace OrchardCore.Taxonomies.Controllers
             }
 
             // Look for the target taxonomy item in the hierarchy
-            JObject taxonomyItem = FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
+            JObject taxonomyItem = _taxonomyService.FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
 
             // Couldn't find targeted taxonomy item
             if (taxonomyItem == null)
@@ -219,7 +234,7 @@ namespace OrchardCore.Taxonomies.Controllers
             var contentItem = await _contentManager.NewAsync(existing.ContentType);
 
             contentItem.ContentItemId = existing.ContentItemId;
-            contentItem.Merge(existing);            
+            contentItem.Merge(existing);
             contentItem.Weld<TermPart>();
             contentItem.Alter<TermPart>(t => t.TaxonomyContentItemId = taxonomyContentItemId);
 
@@ -274,7 +289,7 @@ namespace OrchardCore.Taxonomies.Controllers
             }
 
             // Look for the target taxonomy item in the hierarchy
-            var taxonomyItem = FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
+            var taxonomyItem = _taxonomyService.FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
 
             // Couldn't find targeted taxonomy item
             if (taxonomyItem == null)
@@ -290,34 +305,117 @@ namespace OrchardCore.Taxonomies.Controllers
             return RedirectToAction(nameof(Edit), "Admin", new { area = "OrchardCore.Contents", contentItemId = taxonomyContentItemId });
         }
 
-        private JObject FindTaxonomyItem(JObject contentItem, string taxonomyItemId)
+        public async Task<IActionResult> ListCategorizedContentItems(string taxonomyContentItemId, string taxonomyItemId)
         {
-            if (contentItem["ContentItemId"]?.Value<string>() == taxonomyItemId)
+            var taxonomy = await _contentManager.GetAsync(taxonomyContentItemId, VersionOptions.Latest);
+
+            if (taxonomy == null)
             {
-                return contentItem;
+                return NotFound();
             }
 
-            if (contentItem.GetValue("Terms") == null)
+            if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageTaxonomies, taxonomy))
             {
-                return null;
+                return Forbid();
             }
 
-            var taxonomyItems = (JArray)contentItem["Terms"];
+            var taxonomyPart = taxonomy.As<TaxonomyPart>();
 
-            JObject result;
+            JObject taxonomyItem = _taxonomyService.FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
 
-            foreach (JObject taxonomyItem in taxonomyItems)
+            if (taxonomyItem == null)
             {
-                // Search in inner taxonomy items
-                result = FindTaxonomyItem(taxonomyItem, taxonomyItemId);
+                return NotFound();
+            }
 
-                if (result != null)
+            var contentItem = taxonomyItem.ToObject<ContentItem>();
+            contentItem.Weld<TermPart>();
+            contentItem.Alter<TermPart>(t => t.TaxonomyContentItemId = taxonomyContentItemId);
+
+            var siteSettings = await _siteService.GetSiteSettingsAsync();
+            var pagerParameters = new PagerSlimParameters();
+            await _updateModelAccessor.ModelUpdater.TryUpdateModelAsync(pagerParameters);
+            var pager = new PagerSlim(pagerParameters, siteSettings.PageSize);
+
+            var model = new TermPartViewModel();
+            var termPart = contentItem.As<TermPart>();
+            model.TaxonomyContentItemId = termPart.TaxonomyContentItemId;
+            model.ContentItem = termPart.ContentItem;
+            model.ContentItems = (await _taxonomyService.QueryCategorizedItemsAsync(termPart, pager, taxonomyPart.EnableOrdering, false)).ToArray();
+            model.Pager = await New.PagerSlim(pager);
+            model.EnableOrdering = taxonomyPart.EnableOrdering;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ListCategorizedContentItemsPost(string taxonomyContentItemId, string taxonomyItemId, int oldIndex, int newIndex, PagerSlimParameters pagerSlimParameters, int pageSize)
+        {
+            var taxonomy = await _contentManager.GetAsync(taxonomyContentItemId, VersionOptions.Latest);
+
+            if (taxonomy == null)
+            {
+                return NotFound();
+            }
+
+            if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageTaxonomies, taxonomy))
+            {
+                return Forbid();
+            }
+
+            JObject taxonomyItem = _taxonomyService.FindTaxonomyItem(taxonomy.As<TaxonomyPart>().Content, taxonomyItemId);
+
+            if (taxonomyItem == null)
+            {
+                return NotFound();
+            }
+
+            var contentItem = taxonomyItem.ToObject<ContentItem>();
+
+            contentItem.Weld<TermPart>();
+
+            var termPart = contentItem.As<TermPart>();
+
+            var pager = new PagerSlim(pagerSlimParameters, pageSize);
+
+            var categorizedContentItems = (await _taxonomyService.QueryCategorizedItemsAsync(termPart, pager, true, false)).ToList();
+
+            // Find the lower and higher bounds of the affected area (between the old and new position of the moved item)
+            var lowerIndex = Math.Min(newIndex, oldIndex);
+            var higherIndex = Math.Max(newIndex, oldIndex);
+
+            // Find the lower order value
+            var lowerOrderValue = _taxonomyService.GetTaxonomyTermOrder(categorizedContentItems[higherIndex], taxonomyItemId);
+
+            // Move the element to it's new position
+            var categorizedContentItem = categorizedContentItems[oldIndex];
+            categorizedContentItems.Remove(categorizedContentItem);
+            categorizedContentItems.Insert(newIndex, categorizedContentItem);
+
+            // Restrict the list to the elements whose order value needs to be updated
+            categorizedContentItems = categorizedContentItems.GetRange(lowerIndex, higherIndex - lowerIndex + 1);
+
+            // Apply and save the new order values
+            var orderValue = lowerOrderValue;
+            categorizedContentItems.Reverse();
+            foreach (var categorizedItem in categorizedContentItems)
+            {
+                _taxonomyService.RegisterCategorizedItemOrder(categorizedItem, taxonomyItemId, orderValue);
+
+                // If this instance of the item is not published, but a published version exists, make sure that both versions appear at the same position for this term
+                if (!categorizedItem.Published)
                 {
-                    return result;
+                    var publishedCategorizedItem = await _contentManager.GetAsync(categorizedItem.ContentItemId, VersionOptions.Published);
+                    if (publishedCategorizedItem != null)
+                    {
+                        _taxonomyService.RegisterCategorizedItemOrder(publishedCategorizedItem, taxonomyItemId, orderValue);
+                    }
                 }
+
+                ++orderValue;
             }
 
-            return null;
+            return Ok();
         }
     }
 }

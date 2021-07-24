@@ -21,6 +21,8 @@ namespace OrchardCore.Taxonomies.Indexing
         public string TermContentItemId { get; set; }
         public bool Published { get; set; }
         public bool Latest { get; set; }
+        public DateTime? CreatedUtc { get; set; }
+        public int Order { get; set; }
     }
 
     public class TaxonomyIndexProvider : IndexProvider<ContentItem>, IScopedIndexProvider
@@ -107,7 +109,9 @@ namespace OrchardCore.Taxonomies.Indexing
                                 ContentField = fieldDefinition.Name,
                                 TermContentItemId = termContentItemId,
                                 Published = contentItem.Published,
-                                Latest = contentItem.Latest
+                                Latest = contentItem.Latest,
+                                CreatedUtc = contentItem.CreatedUtc,
+                                Order = field.TermContentItemOrder.GetValueOrDefault(termContentItemId, 0)
                             });
                         }
                     }

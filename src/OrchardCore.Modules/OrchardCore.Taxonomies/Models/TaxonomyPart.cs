@@ -8,5 +8,6 @@ namespace OrchardCore.Taxonomies.Models
     {
         public string TermContentType { get; set; }
         public List<ContentItem> Terms { get; set; } = new List<ContentItem>();
+        public bool EnableOrdering { get; set; }
     }
 }

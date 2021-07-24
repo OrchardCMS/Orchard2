@@ -14,6 +14,7 @@ using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Models;
+using OrchardCore.Taxonomies.Services;
 using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Taxonomies.ViewModels;
 
@@ -21,6 +22,7 @@ namespace OrchardCore.Taxonomies.Drivers
 {
     public class TaxonomyFieldTagsDisplayDriver : ContentFieldDisplayDriver<TaxonomyField>
     {      
+        private readonly ITaxonomyService _taxonomyService;
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -31,9 +33,11 @@ namespace OrchardCore.Taxonomies.Drivers
 
         public TaxonomyFieldTagsDisplayDriver(
             IContentManager contentManager,
-            IStringLocalizer<TaxonomyFieldTagsDisplayDriver> s)
+            IStringLocalizer<TaxonomyFieldTagsDisplayDriver> s,
+            ITaxonomyService taxonomyService)
         {
             _contentManager = contentManager;
+            _taxonomyService = taxonomyService;
             S = s;
         }
 
@@ -114,6 +118,11 @@ namespace OrchardCore.Taxonomies.Drivers
                 }
 
                 field.SetTagNames(terms.Select(t => t.DisplayText).ToArray());
+
+                if (taxonomy.As<TaxonomyPart>().EnableOrdering)
+                {
+                    await _taxonomyService.SyncTaxonomyFieldProperties(field);
+                }
             }
 
             return Edit(field, context);

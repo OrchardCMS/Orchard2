@@ -13,6 +13,14 @@
     <div class="menu-item menu-item-title list-group-item">
         <div class="properties">
             <div class="related">
+                <a asp-action="ListCategorizedContentItems"
+                   asp-controller="Admin"
+                   asp-route-area="OrchardCore.Taxonomies"
+                   asp-route-taxonomyContentItemId="@Model.TaxonomyPart.ContentItem.ContentItemId"
+                   asp-route-taxonomyItemId="@Model.ContentItem.ContentItemId"
+                   class="btn btn-secondary btn-sm">
+                    @T["List Items"]
+                </a>
                 <a asp-action="Edit"
                    asp-controller="Admin"
                    asp-route-area="OrchardCore.Taxonomies"
@@ -22,12 +30,12 @@
                     @T["Edit"]
                 </a>
                 <a class="btn btn-primary btn-sm"
-                    asp-route-action="Create"
-                    asp-route-controller="Admin"
-                    asp-route-id="@Model.TaxonomyPart.TermContentType"
-                    asp-route-taxonomyContentItemId="@Model.TaxonomyPart.ContentItem.ContentItemId"
-                    asp-route-taxonomyItemId="@Model.ContentItem.ContentItemId"
-                    asp-route-area="OrchardCore.Taxonomies">
+                   asp-route-action="Create"
+                   asp-route-controller="Admin"
+                   asp-route-id="@Model.TaxonomyPart.TermContentType"
+                   asp-route-taxonomyContentItemId="@Model.TaxonomyPart.ContentItem.ContentItemId"
+                   asp-route-taxonomyItemId="@Model.ContentItem.ContentItemId"
+                   asp-route-area="OrchardCore.Taxonomies">
                     @T["Add"]
                 </a>
                 <a asp-action="Delete"

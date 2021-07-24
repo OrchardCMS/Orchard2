@@ -89,6 +89,10 @@ namespace OrchardCore.Taxonomies
             services.AddContentPart<TermPart>();
             services.AddScoped<IContentHandler, TermPartContentHandler>();
             services.AddScoped<IContentDisplayDriver, TermPartContentDriver>();
+            services.AddScoped<IContentHandler, TaxonomyfieldContentHandler>();
+
+            // Service
+            services.AddScoped<ITaxonomyService, TaxonomyService>();
 
         }
 
@@ -116,6 +120,13 @@ namespace OrchardCore.Taxonomies
                 pattern: _adminOptions.AdminUrlPrefix + "/Taxonomies/Delete/{taxonomyContentItemId}/{taxonomyItemId}",
                 defaults: new { controller = taxonomyControllerName, action = nameof(AdminController.Delete) }
             );
+
+            routes.MapAreaControllerRoute(
+                name: "Taxonomies.ListCategorizedContentItems",
+                areaName: "OrchardCore.Taxonomies",
+                pattern: _adminOptions.AdminUrlPrefix + "/Taxonomies/ListCategorizedContentItems/{taxonomyContentItemId}/{taxonomyItemId}",
+                defaults: new { controller = taxonomyControllerName, action = nameof(AdminController.ListCategorizedContentItems) }
+);
         }
     }
 

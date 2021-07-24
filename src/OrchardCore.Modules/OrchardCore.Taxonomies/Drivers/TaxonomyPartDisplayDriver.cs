@@ -10,12 +10,20 @@ using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Taxonomies.Models;
+using OrchardCore.Taxonomies.Services;
 using OrchardCore.Taxonomies.ViewModels;
 
 namespace OrchardCore.Taxonomies.Drivers
 {
     public class TaxonomyPartDisplayDriver : ContentPartDisplayDriver<TaxonomyPart>
     {
+        private readonly ITaxonomyService _taxonomyService;
+
+        public TaxonomyPartDisplayDriver(ITaxonomyService taxonomyService)
+        {
+            _taxonomyService = taxonomyService;
+        }
+
         public override IDisplayResult Display(TaxonomyPart part, BuildPartDisplayContext context)
         {
             var hasItems = part.Terms.Any();
@@ -33,6 +41,7 @@ namespace OrchardCore.Taxonomies.Drivers
             {
                 model.TermContentType = part.TermContentType;
                 model.TaxonomyPart = part;
+                model.EnableOrdering = part.EnableOrdering;
             });
         }
 
@@ -40,7 +49,7 @@ namespace OrchardCore.Taxonomies.Drivers
         {
             var model = new TaxonomyPartEditViewModel();
 
-            if (await updater.TryUpdateModelAsync(model, Prefix, t => t.Hierarchy, t => t.TermContentType))
+            if (await updater.TryUpdateModelAsync(model, Prefix, t => t.Hierarchy, t => t.TermContentType, t => t.EnableOrdering))
             {
                 if (!String.IsNullOrWhiteSpace(model.Hierarchy))
                 {
@@ -58,7 +67,14 @@ namespace OrchardCore.Taxonomies.Drivers
                     part.Terms = taxonomyItems.ToObject<List<ContentItem>>();
                 }
 
+                // Update order of existing content if enable ordering has been turned on
+                if (part.EnableOrdering != model.EnableOrdering && model.EnableOrdering == true)
+                {
+                    await _taxonomyService.InitializeCategorizedItemsOrderAsync(part.ContentItem.ContentItemId);
+                }
+
                 part.TermContentType = model.TermContentType;
+                part.EnableOrdering = model.EnableOrdering;
             }
 
             return Edit(part);

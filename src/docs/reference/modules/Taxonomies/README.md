@@ -230,6 +230,7 @@ The following properties are available on the `TaxonomyField` class.
 | --------- | ---- |------------ |
 | `TaxonomyContentItemId` | `string` | The Content Item id of the taxonomy associated with the field. |
 | `TermContentItemIds` | `string[]` | The list of Content Item ids of the terms selected for this field. |
+| `TermContentItemOrder` | `Dictionary<string, int>` | Used when ordering is enabled. For each selected term, contains the order of the categorized Content Item. |
 
 ### DisplayTaxonomyFieldViewModel
 
@@ -353,8 +354,9 @@ Each record corresponds to a selected term for a field.
 | ContentPart | `string` | The content part containing the field |
 | ContentField | `string` | The name of the field in the content part |
 | TermContentItemId | `string` | The content item id of the categorized Term |
+| Order | `int` | The order of the categorized content |
 
-For instance if a field has two selected terms, there will be two records with all identical column values except for the `TermContentItemId`.
+For instance if a field has two selected terms, there will be two records with all identical column values except for the `TermContentItemId` and the `Order`.
 
 ## Tags
 
@@ -389,7 +391,25 @@ You can access the `TagNames` property directly with the following accessor:
 
 ## Taxonomies Contents List Filters
 
-Provides taxonomy filters in the admin contents list.
+Provides taxonomy filters in the admin contents list
+
+## Manual Ordering of Categorized Content Items
+
+For each taxonomy item, you can enable drag&drop ordering of content items categorized with its terms. This option is disabled by default.
+
+#### To enable ordering:
+
+1. Edit the taxonomy content item.
+2. Select “Enable Ordering”.
+3. Save (publish) the taxonomy.
+
+#### To modify the order of categorized content items for a term:
+
+1. Edit the taxonomy content item.
+2. Click “List Items”, to the right of the `Term` whose categorized content items you want to order.
+3. Drag&Drop the categorized content items to the desired positions (grabbing them by the handler icon). There is no need to save.
+
+Classifying a content item with a term will make the content item appear at the first position, on the term's list of categorized content items. Cloned and imported content items will also appear at the top.
 
 ## Videos
 
