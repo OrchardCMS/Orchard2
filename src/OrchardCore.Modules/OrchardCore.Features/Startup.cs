@@ -1,11 +1,14 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OrchardCore.Admin;
 using OrchardCore.Deployment;
 using OrchardCore.DisplayManagement.Handlers;
+using OrchardCore.Environment.Extensions.Features;
+using OrchardCore.Environment.Shell.Configuration;
 using OrchardCore.Features.Controllers;
 using OrchardCore.Features.Deployment;
 using OrchardCore.Features.Recipes.Executors;
@@ -24,14 +27,19 @@ namespace OrchardCore.Features
     public class Startup : StartupBase
     {
         private readonly AdminOptions _adminOptions;
+        private readonly IShellConfiguration _shellConfiguration;
 
-        public Startup(IOptions<AdminOptions> adminOptions)
+        public Startup(IOptions<AdminOptions> adminOptions, IShellConfiguration shellConfiguration)
         {
             _adminOptions = adminOptions.Value;
+            _shellConfiguration = shellConfiguration;
         }
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            var section = _shellConfiguration.GetSection("OrchardCore_Features");
+            services.Configure<FeatureOptions>(section);
+
             services.AddRecipeExecutionStep<FeatureStep>();
             services.AddScoped<IPermissionProvider, Permissions>();
             services.AddScoped<IModuleService, ModuleService>();

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Options;
 using OrchardCore.DisplayManagement.Extensions;
 using OrchardCore.DisplayManagement.Notify;
 using OrchardCore.Environment.Extensions;
@@ -18,25 +19,31 @@ namespace OrchardCore.Features.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IFeatureValidationService _featureValidationService;
         private readonly IExtensionManager _extensionManager;
         private readonly IShellFeaturesManager _shellFeaturesManager;
         private readonly IAuthorizationService _authorizationService;
         private readonly ShellSettings _shellSettings;
+        private readonly FeatureOptions _featureOptions;
         private readonly INotifier _notifier;
         private readonly IHtmlLocalizer H;
 
         public AdminController(
+            IFeatureValidationService featureValidationService,
             IExtensionManager extensionManager,
             IHtmlLocalizer<AdminController> localizer,
             IShellFeaturesManager shellFeaturesManager,
             IAuthorizationService authorizationService,
             ShellSettings shellSettings,
+            IOptions<FeatureOptions> featureOptions,
             INotifier notifier)
         {
+            _featureValidationService = featureValidationService;
             _extensionManager = extensionManager;
             _shellFeaturesManager = shellFeaturesManager;
             _authorizationService = authorizationService;
             _shellSettings = shellSettings;
+            _featureOptions = featureOptions.Value;
             _notifier = notifier;
             H = localizer;
         }
@@ -152,7 +159,10 @@ namespace OrchardCore.Features.Controllers
         /// </summary>
         private bool FeatureIsAllowed(IFeatureInfo feature)
         {
-            // TODO: Implement white-list of modules allowed in the shell settings
+            if (!_featureValidationService.IsFeatureValid(feature.Id))
+            {
+                return false;
+            }
 
             // Checks if the feature is only allowed on the Default tenant
             return _shellSettings.Name == ShellHelper.DefaultShellName || !feature.DefaultTenantOnly;
@@ -165,7 +175,7 @@ namespace OrchardCore.Features.Controllers
                 case FeaturesBulkAction.None:
                     break;
                 case FeaturesBulkAction.Enable:
-                    await _shellFeaturesManager.EnableFeaturesAsync(features, force == true);
+                    await _shellFeaturesManager.EnableFeaturesAsync(features.Where(f => FeatureIsAllowed(f)), force == true);
                     Notify(features);
                     break;
                 case FeaturesBulkAction.Disable:
@@ -173,7 +183,7 @@ namespace OrchardCore.Features.Controllers
                     Notify(features, enabled: false);
                     break;
                 case FeaturesBulkAction.Toggle:
-                    var enabledFeatures = await _shellFeaturesManager.GetEnabledFeaturesAsync();
+                    var enabledFeatures = (await _shellFeaturesManager.GetEnabledFeaturesAsync()).Where(f => FeatureIsAllowed(f));
                     var disabledFeatures = await _shellFeaturesManager.GetDisabledFeaturesAsync();
                     var featuresToEnable = disabledFeatures.Intersect(features);
                     var featuresToDisable = enabledFeatures.Intersect(features);

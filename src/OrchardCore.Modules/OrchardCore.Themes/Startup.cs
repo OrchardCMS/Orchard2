@@ -7,6 +7,8 @@ using OrchardCore.Admin;
 using OrchardCore.Deployment;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Theming;
+using OrchardCore.Environment.Extensions.Features;
+using OrchardCore.Environment.Shell.Configuration;
 using OrchardCore.Modules;
 using OrchardCore.Mvc.Core.Utilities;
 using OrchardCore.Navigation;
@@ -25,14 +27,20 @@ namespace OrchardCore.Themes
     public class Startup : StartupBase
     {
         private readonly AdminOptions _adminOptions;
+        private readonly IShellConfiguration _shellConfiguration;
 
-        public Startup(IOptions<AdminOptions> adminOptions)
+        public Startup(IOptions<AdminOptions> adminOptions, IShellConfiguration shellConfiguration)
         {
             _adminOptions = adminOptions.Value;
+            _shellConfiguration = shellConfiguration;
         }
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            // This is configured twice, also by the Features module, in the event that one module is disabled.
+            var section = _shellConfiguration.GetSection("OrchardCore_Features");
+            services.Configure<FeatureOptions>(section);
+
             services.AddRecipeExecutionStep<ThemesStep>();
             services.AddScoped<IPermissionProvider, Permissions>();
             services.AddScoped<IThemeSelector, SiteThemeSelector>();
