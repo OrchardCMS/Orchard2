@@ -10,6 +10,7 @@ using OrchardCore.Deployment.Core;
 using OrchardCore.Deployment.Deployment;
 using OrchardCore.Deployment.Indexes;
 using OrchardCore.Deployment.Recipes;
+using OrchardCore.Deployment.Services;
 using OrchardCore.Deployment.Steps;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.Handlers;
@@ -40,6 +41,7 @@ namespace OrchardCore.Deployment
 
             services.AddScoped<IDisplayManager<DeploymentStep>, DisplayManager<DeploymentStep>>();
             services.AddSingleton<IDeploymentTargetProvider, FileDownloadDeploymentTargetProvider>();
+            services.AddSingleton<IDeploymentTargetProvider, PreviewDeploymentTargetProvider>();
 
             // Custom File deployment step
             services.AddTransient<IDeploymentSource, CustomFileDeploymentSource>();
