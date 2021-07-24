@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Cysharp.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -101,6 +102,7 @@ namespace OrchardCore.Taxonomies.Drivers
                     })
                     .Location("Actions:40." + position)
                     .Prefix("Taxonomy" + taxonomy.ContentItemId)
+                    .Differentiator(GetDifferentiator(taxonomy))
                 );
 
                 position += 5;
@@ -157,6 +159,50 @@ namespace OrchardCore.Taxonomies.Drivers
                     PopulateTermEntries(termEntries, children, level + 1);
                 }
             }
+        }
+        private static string GetDifferentiator(ContentItem contentItem)
+        {
+            var identifier = contentItem.Content.AliasPart?.Alias?.ToString() ?? contentItem.DisplayText ?? contentItem.ContentItemId;
+            var differentiator = FormatName(identifier);
+            // ContentsAdminListTaxonomyFilter__[differentiator] e.g. ContentsAdminListTaxonomyFilter-Category
+            return "ContentsAdminListTaxonomyFilter__" + differentiator;
+        }
+        /// <summary>
+        /// Converts "foo-ba r" to "FooBaR"
+        /// </summary>
+        private static string FormatName(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+
+            name = name.Trim();
+            var nextIsUpper = true;
+            var result = new StringBuilder(name.Length);
+            for (var i = 0; i < name.Length; i++)
+            {
+                var c = name[i];
+
+                if (c == '-' || char.IsWhiteSpace(c))
+                {
+                    nextIsUpper = true;
+                    continue;
+                }
+
+                if (nextIsUpper)
+                {
+                    result.Append(c.ToString().ToUpper());
+                }
+                else
+                {
+                    result.Append(c);
+                }
+
+                nextIsUpper = false;
+            }
+
+            return result.ToString();
         }
     }
 
