@@ -20,7 +20,7 @@
     <label asp-for="ConfirmationEmailTemplate">@T["Template for confirmation email"]</label>
     <input type="text" asp-for="ConfirmationEmailTemplate" class="form-control code" />
     <span asp-validation-for="ConfirmationEmailTemplate"></span>
-    <span class="hint">@T["The message to send. Access email confirmation url with Workflow.Properties.EmailConfirmationUrl liquid property."]</span>
+    <span class="hint">@T["The message to send in HTML. Access email confirmation url with Workflow.Properties.EmailConfirmationUrl liquid property."]</span>
 </div>
 
 <div class="form-group form-check" asp-validation-class-for="RequireModeration">

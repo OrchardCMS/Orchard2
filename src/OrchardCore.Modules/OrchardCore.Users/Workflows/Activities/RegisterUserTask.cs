@@ -3,7 +3,6 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -134,15 +133,12 @@ namespace OrchardCore.Users.Workflows.Activities
                     workflowContext.Properties["EmailConfirmationUrl"] = uri;
 
                     var subject = await _expressionEvaluator.EvaluateAsync(ConfirmationEmailSubject, workflowContext, null);
-                    var localizedSubject = new LocalizedString(nameof(RegisterUserTask), subject);
-
                     var body = await _expressionEvaluator.EvaluateAsync(ConfirmationEmailTemplate, workflowContext, _htmlEncoder);
-                    var localizedBody = new LocalizedHtmlString(nameof(RegisterUserTask), body);
                     var message = new MailMessage()
                     {
                         To = email,
-                        Subject = localizedSubject.ResourceNotFound ? subject : localizedSubject.Value,
-                        Body = localizedBody.IsResourceNotFound ? body : localizedBody.Value,
+                        Subject = subject,
+                        Body = body,
                         IsBodyHtml = true
                     };
                     var smtpService = _httpContextAccessor.HttpContext.RequestServices.GetService<ISmtpService>();
