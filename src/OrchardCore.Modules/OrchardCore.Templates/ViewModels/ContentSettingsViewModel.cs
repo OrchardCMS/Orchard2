@@ -12,5 +12,6 @@ namespace OrchardCore.Templates.ViewModels
     {
         public string Key { get; set; }
         public LocalizedString Description { get; set; }
+        public bool AdminTemplate { get; set; }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OrchardCore.DisplayManagement.Descriptors;
 
@@ -11,5 +13,21 @@ namespace OrchardCore.DisplayManagement
     public interface IShapeBindingResolver
     {
         Task<ShapeBinding> GetShapeBindingAsync(string shapeType);
+    }
+
+    /// <summary>
+    /// An implementation of this interface returns shape names of Admin Templates.
+    /// </summary>
+    public interface IAdminTemplatesShapeBindingNameResolver
+    {
+       Task<IEnumerable<string>> GetShapeBindingNamesAsync(Func<string, bool> predicate);
+    }
+
+    /// <summary>
+    /// An implementation of this interface returns shape names for Site Templates.
+    /// </summary>
+    public interface ISiteTemplatesShapeBindingNameResolver
+    {
+       Task<IEnumerable<string>> GetShapeBindingNamesAsync(Func<string, bool> predicate);
     }
 }

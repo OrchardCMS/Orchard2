@@ -1,11 +1,11 @@
-@model OrchardCore.Placements.ViewModels.ContentSettingsViewModel
+@model OrchardCore.Placements.ViewModels.PlacementSettingViewModel
 
 <div class="btn-group">
     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @T["Edit placements"]
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        @foreach (var entry in Model.ContentSettingsEntries)
+        @foreach (var entry in Model.PlacementSettingEntries)
         {
             <a class="dropdown-item" asp-controller="Admin" asp-action="Edit" asp-area="OrchardCore.Placements" asp-route-shapeType="@entry.ShapeType" asp-route-displayType="@entry.DisplayType" asp-route-contentType="@entry.ContentType" asp-route-contentPart="@entry.ContentPart" asp-route-differentiator="@entry.Differentiator" asp-route-returnUrl="@FullRequestPath">@entry.Description</a>
         }

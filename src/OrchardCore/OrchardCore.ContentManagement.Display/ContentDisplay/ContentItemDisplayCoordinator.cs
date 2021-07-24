@@ -143,7 +143,9 @@ namespace OrchardCore.ContentManagement.Display
 
                     if (part.GetType() == typeof(ContentPart) && partTypeName != contentTypePartDefinition.ContentTypeDefinition.Name)
                     {
-                        var shapeType = context.DisplayType != "Detail" ? "ContentPart_" + context.DisplayType : "ContentPart";
+                        var displayMode = contentTypePartDefinition.DisplayMode();
+                        var hasDisplayMode = !String.IsNullOrEmpty(displayMode);
+                        var shapeType = partTypeName;
 
                         var shapeResult = new ShapeResult(shapeType, ctx => ctx.ShapeFactory.CreateAsync(shapeType, () => new ValueTask<IShape>(new ZoneHolding(() => ctx.ShapeFactory.CreateAsync("Zone")))));
                         shapeResult.Differentiator(partName);
@@ -152,38 +154,74 @@ namespace OrchardCore.ContentManagement.Display
 
                         shapeResult.Displaying(ctx =>
                         {
+                            string displayToken = "_Display";
                             string[] displayTypes = new[] { "", "_" + ctx.Shape.Metadata.DisplayType };
 
-                            foreach (var displayType in displayTypes)
+                            foreach (var dType in displayTypes)
                             {
+                                var shapeTypeSuffix = string.Empty;
+                                var displayType = dType;
+                                // Fall back to default template of ContentPart, if there is not template for shape type(partTypeName)
+                                // eg. ContentPart, ContentPart.Summary
+                                ctx.Shape.Metadata.Alternates.Add($"ContentPart{displayType}");
+
+                                if(hasDisplayMode)
+                                {
+                                    shapeTypeSuffix = $"__{displayMode}";
+                                    if (displayType == "")
+                                    {
+                                        displayType = displayToken;
+                                    }
+                                    else
+                                    {
+                                        shapeTypeSuffix = $"{shapeTypeSuffix}{displayToken}";
+                                    }
+                                }
+
                                 // eg. ServicePart,  ServicePart.Summary
-                                ctx.Shape.Metadata.Alternates.Add($"{partTypeName}{displayType}");
+                                ctx.Shape.Metadata.Alternates.Add($"{partTypeName}{displayType}{shapeTypeSuffix}");
 
                                 // [ContentType]_[DisplayType]__[PartType]
                                 // e.g. LandingPage-ServicePart, LandingPage-ServicePart.Summary
-                                ctx.Shape.Metadata.Alternates.Add($"{contentType}{displayType}__{partTypeName}");
+                                ctx.Shape.Metadata.Alternates.Add($"{contentType}{displayType}__{partTypeName}{shapeTypeSuffix}");
 
                                 if (!String.IsNullOrEmpty(stereotype))
                                 {
                                     // [Stereotype]_[DisplayType]__[PartType],
                                     // e.g. Widget-ServicePart
-                                    ctx.Shape.Metadata.Alternates.Add($"{stereotype}{displayType}__{partTypeName}");
+                                    ctx.Shape.Metadata.Alternates.Add($"{stereotype}{displayType}__{partTypeName}{shapeTypeSuffix}");
                                 }
                             }
 
                             if (partTypeName != partName)
                             {
-                                foreach (var displayType in displayTypes)
+                                foreach (var dType in displayTypes)
                                 {
+                                    var displayType = dType;
+                                    var shapeTypeSuffix = string.Empty;
+
+                                    if(hasDisplayMode)
+                                    {
+                                        shapeTypeSuffix = $"__{displayMode}";
+                                        if (displayType == "")
+                                        {
+                                            displayType = displayToken;
+                                        }
+                                        else
+                                        {
+                                            shapeTypeSuffix = $"{shapeTypeSuffix}{displayToken}";
+                                        }
+                                    }
+
                                     // [ContentType]_[DisplayType]__[PartName]
                                     // e.g. Employee-Address1, Employee-Address2
-                                    ctx.Shape.Metadata.Alternates.Add($"{contentType}{displayType}__{partName}");
+                                    ctx.Shape.Metadata.Alternates.Add($"{contentType}{displayType}__{partName}{shapeTypeSuffix}");
 
                                     if (!String.IsNullOrEmpty(stereotype))
                                     {
                                         // [Stereotype]_[DisplayType]__[PartType]__[PartName]
                                         // e.g. Widget-Services
-                                        ctx.Shape.Metadata.Alternates.Add($"{stereotype}{displayType}__{partTypeName}__{partName}");
+                                        ctx.Shape.Metadata.Alternates.Add($"{stereotype}{displayType}__{partTypeName}__{partName}{shapeTypeSuffix}");
                                     }
                                 }
                             }

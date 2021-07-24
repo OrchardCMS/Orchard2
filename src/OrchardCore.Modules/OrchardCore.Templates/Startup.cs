@@ -35,7 +35,11 @@ namespace OrchardCore.Templates
         {
             services.AddTransient<IConfigureOptions<ResourceManagementOptions>, ResourceManagementOptionsConfiguration>();
 
-            services.AddScoped<IShapeBindingResolver, TemplatesShapeBindingResolver>();
+            // Get Same instance for TemplatesShapeBindingResolver both interfaces
+            services.AddScoped<TemplatesShapeBindingResolver>();
+            services.AddScoped<IShapeBindingResolver>( x=> x.GetRequiredService<TemplatesShapeBindingResolver>());
+            services.AddScoped<ISiteTemplatesShapeBindingNameResolver>( x=> x.GetRequiredService<TemplatesShapeBindingResolver>());
+
             services.AddScoped<PreviewTemplatesProvider>();
             services.AddScoped<TemplatesManager>();
             services.AddScoped<IPermissionProvider, Permissions>();
@@ -101,7 +105,11 @@ namespace OrchardCore.Templates
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IShapeBindingResolver, AdminTemplatesShapeBindingResolver>();
+            // Get Same instance for AdminTemplatesShapeBindingResolver both interfaces
+            services.AddScoped<AdminTemplatesShapeBindingResolver>();
+            services.AddScoped<IShapeBindingResolver>( x=> x.GetRequiredService<AdminTemplatesShapeBindingResolver>() );
+            services.AddScoped<IAdminTemplatesShapeBindingNameResolver>( x=> x.GetRequiredService<AdminTemplatesShapeBindingResolver>() );
+
             services.AddScoped<AdminPreviewTemplatesProvider>();
             services.AddScoped<INavigationProvider, AdminTemplatesAdminMenu>();
             services.AddRecipeExecutionStep<AdminTemplateStep>();

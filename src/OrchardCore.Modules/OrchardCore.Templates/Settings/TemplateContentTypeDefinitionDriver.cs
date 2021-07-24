@@ -21,6 +21,7 @@ namespace OrchardCore.Templates.Settings
             return Initialize<ContentSettingsViewModel>("TemplateSettings", model =>
             {
                 var stereotype = contentTypeDefinition.GetSettings<ContentTypeSettings>().Stereotype;
+                var displayName = contentTypeDefinition.DisplayName;
 
                 if (string.IsNullOrWhiteSpace(stereotype))
                 {
@@ -31,14 +32,38 @@ namespace OrchardCore.Templates.Settings
                     new ContentSettingsEntry
                     {
                         Key = $"{stereotype}__{contentTypeDefinition.Name}",
-                        Description = S["Template for a {0} content item in detail views", contentTypeDefinition.DisplayName]
+                        Description = S["{0} content item in detail views", displayName],
+                        AdminTemplate = false
                     });
 
                 model.ContentSettingsEntries.Add(
                     new ContentSettingsEntry
                     {
                         Key = $"{stereotype}_Summary__{contentTypeDefinition.Name}",
-                        Description = S["Template for a {0} content item in summary views", contentTypeDefinition.DisplayName]
+                        Description = S["{0} content item in summary views", displayName],
+                        AdminTemplate = false
+                    });
+
+                model.ContentSettingsEntries.Add(
+                   new ContentSettingsEntry
+                   {
+                       Description = S["-"]
+                   });
+
+                model.ContentSettingsEntries.Add(
+                    new ContentSettingsEntry
+                    {
+                        Key = $"{stereotype}__DetailAdmin__{contentTypeDefinition.Name}",
+                        Description = S["{0} content item in admin detail views", displayName],
+                        AdminTemplate = true
+                    });
+
+                model.ContentSettingsEntries.Add(
+                    new ContentSettingsEntry
+                    {
+                        Key = $"{stereotype}_SummaryAdmin__{contentTypeDefinition.Name}",
+                        Description = S["{0} content item in admin summary views", displayName],
+                        AdminTemplate = true
                     });
             }).Location("Shortcuts");
         }

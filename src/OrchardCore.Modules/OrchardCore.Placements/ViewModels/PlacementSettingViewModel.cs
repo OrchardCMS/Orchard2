@@ -3,12 +3,12 @@ using Microsoft.Extensions.Localization;
 
 namespace OrchardCore.Placements.ViewModels
 {
-    public class ContentSettingsViewModel
+    public class PlacementSettingViewModel
     {
-        public List<ContentSettingsEntry> ContentSettingsEntries { get; set; } = new List<ContentSettingsEntry>();
+        public List<PlacementSettingEntry> PlacementSettingEntries { get; set; } = new List<PlacementSettingEntry>();
     }
 
-    public class ContentSettingsEntry
+    public class PlacementSettingEntry
     {
         public string ShapeType { get; set; }
         public string DisplayType { get; set; }

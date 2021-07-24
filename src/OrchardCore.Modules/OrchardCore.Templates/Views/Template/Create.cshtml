@@ -17,7 +17,14 @@
 <script asp-src="~/OrchardCore.Liquid/codemirror/liquid.js" at="Foot"></script>
 <script asp-name="templatepreview-edit" at="Foot"></script>
 
-<zone Name="Title"><h1>@RenderTitleSegments(T["Create Template"])</h1></zone>
+@if (Model.AdminTemplates)
+{
+    <zone Name="Title"><h1>@RenderTitleSegments(T["Create Admin Template"])</h1></zone>
+}
+else
+{
+    <zone Name="Title"><h1>@RenderTitleSegments(T["Create Template"])</h1></zone>
+}
 
 <div asp-validation-summary="ModelOnly"></div>
 <form asp-action="Create" asp-route-returnUrl="@ViewData["returnUrl"]" method="post" class="no-multisubmit">

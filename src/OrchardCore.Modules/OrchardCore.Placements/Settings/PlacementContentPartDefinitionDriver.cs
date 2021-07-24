@@ -10,7 +10,6 @@ namespace OrchardCore.Placements.Settings
     public class PlacementContentPartDefinitionDriver : ContentPartDefinitionDisplayDriver
     {
         private readonly IStringLocalizer S;
-
         public PlacementContentPartDefinitionDriver(IStringLocalizer<PlacementContentPartDefinitionDriver> localizer)
         {
             S = localizer;
@@ -19,37 +18,63 @@ namespace OrchardCore.Placements.Settings
         public override IDisplayResult Edit(ContentPartDefinition contentPartDefinition)
         {
             var displayName = contentPartDefinition.DisplayName();
+            var partName = contentPartDefinition.Name;
 
-            return Initialize<ContentSettingsViewModel>("PlacementSettings", model =>
+            var shapeType = partName;
+
+            return Initialize<PlacementSettingViewModel>("PlacementSettings", model =>
             {
-                model.ContentSettingsEntries.Add(
-                    new ContentSettingsEntry
+                model.PlacementSettingEntries.Add(
+                    new PlacementSettingEntry
                     {
-                        ShapeType = contentPartDefinition.Name,
-                        Description = S["Placement for a {0} part", displayName]
+                        ShapeType = shapeType,
+                        Description = S["{0} part", displayName],
+                        ContentPart = partName
                     });
 
-                model.ContentSettingsEntries.Add(
-                    new ContentSettingsEntry
+                model.PlacementSettingEntries.Add(
+                    new PlacementSettingEntry
                     {
-                        ShapeType = contentPartDefinition.Name,
+                        ShapeType = shapeType,
                         DisplayType = "Detail",
-                        Description = S["Placement for a {0} part in detail views", displayName]
+                        Description = S["{0} part in detail views", displayName],
+                        ContentPart = partName
                     });
 
-                model.ContentSettingsEntries.Add(
-                    new ContentSettingsEntry
+                model.PlacementSettingEntries.Add(
+                    new PlacementSettingEntry
                     {
-                        ShapeType = contentPartDefinition.Name,
+                        ShapeType = shapeType,
                         DisplayType = "Summary",
-                        Description = S["Placement for a {0} part in summary views", displayName]
+                        Description = S["{0} part in summary views", displayName],
+                        ContentPart = partName
                     });
 
-                model.ContentSettingsEntries.Add(
-                    new ContentSettingsEntry
+                model.PlacementSettingEntries.Add(
+                    new PlacementSettingEntry
                     {
-                        ShapeType = $"{contentPartDefinition.Name}_Edit",
-                        Description = S["Placement in admin editor for a {0} part", displayName]
+                        ShapeType = shapeType,
+                        DisplayType = "DetailAdmin",
+                        Description = S["{0} part in admin detail views", displayName],
+                        ContentPart = partName
+                    });
+
+                model.PlacementSettingEntries.Add(
+                    new PlacementSettingEntry
+                    {
+                        ShapeType = shapeType,
+                        DisplayType = "SummaryAdmin",
+                        Description = S["{0} part in admin summary views", displayName],
+                        ContentPart = partName
+                    });
+
+                model.PlacementSettingEntries.Add(
+                    new PlacementSettingEntry
+                    {
+                        ShapeType = $"{shapeType}_Edit",
+                        Description = S["{0} part in admin editor", displayName],
+                        DisplayType = "Edit",
+                        ContentPart = partName
                     });
 
             }).Location("Shortcuts");

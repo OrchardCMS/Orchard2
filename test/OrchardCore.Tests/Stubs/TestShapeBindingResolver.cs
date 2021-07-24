@@ -8,11 +8,12 @@ namespace OrchardCore.Tests.Stubs
 {
     public class TestShapeBindingsDictionary : Dictionary<string, ShapeBinding>
     {
+        public bool IsAdminShape { get; set; } = false;
         public TestShapeBindingsDictionary()
             : base(StringComparer.OrdinalIgnoreCase) { }
     }
 
-    public class TestShapeBindingResolver : IShapeBindingResolver
+    public class TestShapeBindingResolver : IShapeBindingResolver, IAdminTemplatesShapeBindingNameResolver, ISiteTemplatesShapeBindingNameResolver
     {
         private readonly TestShapeBindingsDictionary _shapeBindings;
 
@@ -31,6 +32,35 @@ namespace OrchardCore.Tests.Stubs
             {
                 return Task.FromResult<ShapeBinding>(null);
             }
+        }
+
+        Task<IEnumerable<string>> ISiteTemplatesShapeBindingNameResolver.GetShapeBindingNamesAsync(Func<string, bool> predicate)
+        {
+            return GetShapeBindingNamesAsync(predicate,false);
+        }
+
+        Task<IEnumerable<string>> IAdminTemplatesShapeBindingNameResolver.GetShapeBindingNamesAsync(Func<string, bool> predicate)
+        {
+            return GetShapeBindingNamesAsync(predicate,true);
+        }
+
+        private async Task<IEnumerable<string>> GetShapeBindingNamesAsync(Func<string, bool> predicate, bool adminTemplate)
+        {
+            if (adminTemplate != _shapeBindings.IsAdminShape)
+            {
+                return null;
+            }
+
+            var shapeNames = new List<string>();
+            foreach (var key in _shapeBindings.Keys)
+            {
+                if (predicate(key))
+                {
+                    shapeNames.Add(key);
+                }
+            }
+
+            return await Task.FromResult(shapeNames);
         }
     }
 }

@@ -1,16 +1,51 @@
 @model EditTypePartViewModel
+@using System
 @using OrchardCore.ContentManagement.Metadata.Settings
 @using OrchardCore.DisplayManagement;
 
 @inject OrchardCore.DisplayManagement.Theming.IThemeManager ThemeManager
 @inject OrchardCore.DisplayManagement.Descriptors.IShapeTableManager ShapeTableManager
+@inject IEnumerable<IAdminTemplatesShapeBindingNameResolver> AdminShapeNameResolvers;
 
 @{
     var typePart = Model.TypePartDefinition;
     var theme = await ThemeManager.GetThemeAsync();
     var shapeTable = ShapeTableManager.GetShapeTable(theme?.Id);
-    var displayShapes = shapeTable.Bindings.Keys.Where(x => x.StartsWith(Model.TypePartDefinition.PartDefinition.Name + "_DisplayOption__", StringComparison.OrdinalIgnoreCase) || x.Equals(Model.TypePartDefinition.PartDefinition.Name + "_DisplayOption", StringComparison.OrdinalIgnoreCase));
-    var editorShapes = shapeTable.Bindings.Keys.Where(x => x.StartsWith(Model.TypePartDefinition.PartDefinition.Name + "_Option__", StringComparison.OrdinalIgnoreCase) || x.Equals(Model.TypePartDefinition.PartDefinition.Name + "_Option", StringComparison.OrdinalIgnoreCase));
+
+   
+    Func<string, bool> displayPredicate = (x) => (x.StartsWith(Model.TypePartDefinition.PartDefinition.Name + "_DisplayOption__", StringComparison.OrdinalIgnoreCase)
+        || x.Equals(Model.TypePartDefinition.PartDefinition.Name + "_DisplayOption", StringComparison.OrdinalIgnoreCase));
+
+    Func<string, bool> editorPredicate = (x) => x.StartsWith(Model.TypePartDefinition.PartDefinition.Name + "_Option__", StringComparison.OrdinalIgnoreCase)
+        || x.Equals(Model.TypePartDefinition.PartDefinition.Name + "_Option", StringComparison.OrdinalIgnoreCase);
+
+    // Build query from Shape Table
+    var displayShapes = new HashSet<string>(
+        shapeTable.Bindings.Keys
+            .Where(x => displayPredicate(x))
+        , StringComparer.OrdinalIgnoreCase);
+
+    var editorShapes = new HashSet<string>(
+        shapeTable.Bindings.Keys
+            .Where(editorPredicate)
+        , StringComparer.OrdinalIgnoreCase);
+
+    
+    // Build query from Admin Templates
+    foreach( var nameResolver in AdminShapeNameResolvers)
+    {
+        var displayShapeNames = await nameResolver.GetShapeBindingNamesAsync(displayPredicate);
+        foreach(var displayShape in displayShapeNames)
+        {
+            displayShapes.Add(displayShape);
+        }
+
+        var editorShapeNames = await nameResolver.GetShapeBindingNamesAsync(editorPredicate);
+        foreach( var editorShape in editorShapeNames)
+        {
+            editorShapes.Add(editorShape);
+        }
+    }  
 }
 
 <zone Name="Title"><h1>@RenderTitleSegments(T["Edit Part - {0}", Model.DisplayName])</h1></zone>

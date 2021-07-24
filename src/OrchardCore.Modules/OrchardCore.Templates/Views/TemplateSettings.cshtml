@@ -8,7 +8,14 @@
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         @foreach (var entry in Model.ContentSettingsEntries)
         {
-            <a class="dropdown-item" asp-controller="Template" asp-action="Edit" asp-area="OrchardCore.Templates" asp-route-name="@entry.Key" asp-route-returnUrl="@FullRequestPath">@entry.Description</a>
+            if (entry.Description.Value == "-")
+            {
+                <div class="dropdown-divider"></div>
+            }
+            else
+            {
+                <a class="dropdown-item" asp-controller="Template" asp-action="Edit" asp-area="OrchardCore.Templates" asp-route-admintemplates="@entry.AdminTemplate" asp-route-name="@entry.Key" asp-route-returnUrl="@FullRequestPath">@entry.Description</a>
+            }
         }
     </div>
 </div>

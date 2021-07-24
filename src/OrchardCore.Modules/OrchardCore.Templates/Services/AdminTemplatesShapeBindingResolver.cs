@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +13,7 @@ using OrchardCore.Templates.Models;
 
 namespace OrchardCore.Templates.Services
 {
-    public class AdminTemplatesShapeBindingResolver : IShapeBindingResolver
+    public class AdminTemplatesShapeBindingResolver : IShapeBindingResolver, IAdminTemplatesShapeBindingNameResolver
     {
         private AdminTemplatesDocument _templatesDocument;
         private readonly AdminTemplatesManager _templatesManager;
@@ -64,6 +67,32 @@ namespace OrchardCore.Templates.Services
                 return null;
             }
         }
+
+        public async Task<IEnumerable<string>> GetShapeBindingNamesAsync(Func<string, bool> predicate)
+        {
+
+            if (_templatesDocument == null)
+            {
+                _templatesDocument = await _templatesManager.GetTemplatesDocumentAsync();
+            }
+
+            var query = _templatesDocument.Templates
+                .Where(t => predicate(t.Key))
+                .Select(s => s.Key);
+
+            var localTemplates = _previewTemplatesProvider.GetTemplates();
+
+            if (localTemplates != null)
+            {
+                query = query.Union(
+                    localTemplates.Templates
+                    .Where(t => predicate(t.Key))
+                    .Select(s => s.Key));
+            }
+
+            return query;
+        }
+
 
         private ShapeBinding BuildShapeBinding(string shapeType, Template template)
         {
