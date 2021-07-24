@@ -178,6 +178,10 @@ namespace OrchardCore.Contents
             // FullTextAspect
             services.AddScoped<IContentTypeDefinitionDisplayDriver, FullTextAspectSettingsDisplayDriver>();
             services.AddScoped<IContentHandler, FullTextAspectContentHandler>();
+            // Indexing Part
+            services.AddContentPart<IndexingPart>()
+                .UseDisplayDriver<IndexingEditorDriver>();
+            services.AddScoped<IContentTypePartDefinitionDisplayDriver, IndexingPartSettingsDisplayDriver>();
 
             services.AddTagHelpers<ContentLinkTagHelper>();
             services.AddTagHelpers<ContentItemTagHelper>();

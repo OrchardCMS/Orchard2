@@ -1,0 +1,6 @@
+@model IndexingEditorViewModel
+<div class="form-group custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" asp-for="IsIndexed" data-toggle="collapse" checked="@Model.IsIndexed" />
+    <label class="custom-control-label" asp-for="IsIndexed">@T["Exclude from full-text index"]</label>
+    <span class="hint dashed">@T["Check to exclude the content item of the full-text index."]</span>
+</div>

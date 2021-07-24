@@ -25,5 +25,10 @@ namespace OrchardCore.Contents.Models
         /// </summary>
         [DefaultValue(true)]
         public bool IncludeDisplayText { get; set; } = true;
+
+        /// <summary>
+        /// Whether we allow or not excluding content items to the full-text aspect.
+        /// </summary>
+        public bool ExcludeIndexing { get; set; }
     }
 }

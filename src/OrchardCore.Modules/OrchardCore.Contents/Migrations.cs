@@ -21,5 +21,14 @@ namespace OrchardCore.Contents
 
             return 1;
         }
+
+        public int UpdateFrom1()
+        {
+            _contentDefinitionManager.AlterPartDefinition("IndexingPart", builder => builder
+                .Attachable()
+                .WithDescription("Provides an editor for the indexing properties of a content item."));
+
+            return 2;
+        }
     }
 }

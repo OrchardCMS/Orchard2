@@ -27,6 +27,12 @@
     </div>
 
     <div class="form-group custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" asp-for="ExcludeIndexing" data-toggle="collapse" checked="@Model.ExcludeIndexing" />
+        <label class="custom-control-label" asp-for="ExcludeIndexing">@T["Exclude indexing"]</label>
+        <span class="hint dashed">@T["Check to allow excluding a content item in the full-text index."]</span>
+    </div>
+
+    <div class="form-group custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" asp-for="IncludeFullTextTemplate" data-toggle="collapse" data-target="#fulltext-template" checked="@Model.IncludeFullTextTemplate" />
         <label class="custom-control-label" asp-for="IncludeFullTextTemplate">@T["Use custom full-text"]</label>
         <span class="hint dashed">@T["Check to define a custom Liquid template generating some text to include in the full-text content."]</span>

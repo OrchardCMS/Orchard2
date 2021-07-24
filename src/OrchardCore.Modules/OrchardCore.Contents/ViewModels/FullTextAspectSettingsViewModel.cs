@@ -6,5 +6,6 @@ namespace OrchardCore.Contents.ViewModels
         public string FullTextTemplate { get; set; }
         public bool IncludeBodyAspect { get; set; }
         public bool IncludeDisplayText { get; set; }
+        public bool ExcludeIndexing { get; set; }
     }
 }

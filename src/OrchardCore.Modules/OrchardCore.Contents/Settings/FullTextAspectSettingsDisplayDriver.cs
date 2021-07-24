@@ -32,6 +32,7 @@ namespace OrchardCore.Contents.Settings
                 model.FullTextTemplate = settings.FullTextTemplate;
                 model.IncludeDisplayText = settings.IncludeDisplayText;
                 model.IncludeBodyAspect = settings.IncludeBodyAspect;
+                model.ExcludeIndexing = settings.ExcludeIndexing;
             }).Location("Content:6");
         }
 
@@ -43,7 +44,8 @@ namespace OrchardCore.Contents.Settings
                 m => m.IncludeFullTextTemplate,
                 m => m.FullTextTemplate,
                 m => m.IncludeDisplayText,
-                m => m.IncludeBodyAspect);
+                m => m.IncludeBodyAspect,
+                m => m.ExcludeIndexing);
 
             if (!string.IsNullOrEmpty(model.FullTextTemplate) && !_templateManager.Validate(model.FullTextTemplate, out var errors))
             {
@@ -56,7 +58,8 @@ namespace OrchardCore.Contents.Settings
                     IncludeFullTextTemplate = model.IncludeFullTextTemplate,
                     FullTextTemplate = model.FullTextTemplate,
                     IncludeDisplayText = model.IncludeDisplayText,
-                    IncludeBodyAspect = model.IncludeBodyAspect
+                    IncludeBodyAspect = model.IncludeBodyAspect,
+                    ExcludeIndexing = model.ExcludeIndexing
                 });
             }
 
