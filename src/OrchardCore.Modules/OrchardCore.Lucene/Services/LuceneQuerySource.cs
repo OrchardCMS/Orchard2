@@ -93,7 +93,12 @@ namespace OrchardCore.Lucene
                     var results = new List<JObject>();
                     foreach (var document in docs.TopDocs.ScoreDocs.Select(hit => searcher.Doc(hit.Doc)))
                     {
-                        results.Add(new JObject(document.Select(x => new JProperty(x.Name, x.GetStringValue()))));
+                        // need to group by field name and output jproperty(s), depending on count of values,
+                        // with either 1) a singular value or 2) ienumerable list of values
+                        var jprops = document.GroupBy( f => f.Name, f => f.GetStringValue() )
+                                             .Select( g => g.Count() == 1 ? new JProperty( g.Key, g.First() ) : new JProperty( g.Key, g ) );
+
+                        results.Add( new JObject( jprops ) );
                     }
 
                     luceneQueryResults.Items = results;
