@@ -13,10 +13,14 @@
     ]
   },
   "windows": {
-    "command": "cmd",
-    "args": [
-      "/C"
-    ]
+    "options": {
+      "shell": {
+        "executable": "cmd.exe",
+        "args": [
+          "/C"
+        ]
+      }
+    }
   },
   "tasks": [
     {
