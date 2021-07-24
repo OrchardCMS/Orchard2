@@ -1,5 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using OrchardCore.ContentLocalization;
 using OrchardCore.ContentLocalization.Drivers;
 using OrchardCore.ContentLocalization.Handlers;
 using OrchardCore.ContentLocalization.Models;
@@ -10,7 +10,7 @@ using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.Data;
 using OrchardCore.Data.Migration;
 
-namespace OrchardCore.ContentLocalization
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {

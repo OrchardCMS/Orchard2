@@ -18,7 +18,6 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using OrchardCore;
-using OrchardCore.Environment.Extensions;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Environment.Shell.Builders;
 using OrchardCore.Environment.Shell.Configuration;
@@ -33,7 +32,7 @@ using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class ServiceCollectionExtensions
+    public static partial class ServiceCollectionExtensions
     {
         /// <summary>
         /// Adds OrchardCore services to the host service collection.
