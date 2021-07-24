@@ -15,6 +15,7 @@ namespace OrchardCore.Email
         /// <summary>
         /// Gets or sets the attachment file stream.
         /// </summary>
-        public Stream Stream { get; set; }
+        /// <remarks>The stream will not be closed after sending the email.</remarks>
+        public Stream OpenStream { get; set; }
     }
 }

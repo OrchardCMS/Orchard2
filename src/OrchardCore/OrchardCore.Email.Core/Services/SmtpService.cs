@@ -145,9 +145,9 @@ namespace OrchardCore.Email.Services
             foreach (var attachment in message.Attachments)
             {
                 // Stream must not be null, otherwise it would try to get the filesystem path
-                if (attachment.Stream != null)
+                if (attachment.OpenStream != null)
                 {
-                    body.Attachments.Add(attachment.Filename, attachment.Stream);
+                    body.Attachments.Add(attachment.Filename, attachment.OpenStream);
                 }            
             }
 
