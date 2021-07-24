@@ -8,47 +8,12 @@
 
 <div class="form-group">
     <label asp-for="Text">@Model.PartFieldDefinition.DisplayName()</label>
-    <div id="@Html.IdFor(x => x.Text)_editor" asp-for="Text" style="min-height: 400px;" class="form-control" dir="@culture.GetLanguageDirection()"></div>
+<div class="form-control" dir="@culture.GetLanguageDirection()" data-monaco-oc="true" data-linked-id="@Html.IdFor(x => x.Text)" data-settings='@Html.Raw(monacoSettings.Options)'></div>    
     <textarea asp-for="Text" hidden>@Html.Raw(Model.Text)</textarea>
     @if (!String.IsNullOrEmpty(settings.Hint))
     {
         <span class="hint">@settings.Hint</span>
     }
 </div>
-
-<script asp-name="monaco" depends-on="admin" at="Foot"></script>
-<script at="Foot" depends-on="monaco">
-    $(document).ready(function () {
-        require(['vs/editor/editor.main'], function () {
-
-            var settings = @Html.Raw(monacoSettings.Options);
-            if (settings.automaticLayout == undefined) {
-                settings.automaticLayout = true;
-            }
-
-            var html = document.getElementsByTagName("html")[0];
-            const mutationObserver = new MutationObserver(setTheme);
-            mutationObserver.observe(html, { attributes: true });
-
-            function setTheme() {
-                var theme = html.dataset.theme;
-                if (theme === "darkmode") {
-                    monaco.editor.setTheme('vs-dark')
-                } else {
-                    monaco.editor.setTheme('vs')
-                }
-            }
-
-            setTheme();
-
-            var editor = monaco.editor.create(document.getElementById('@Html.IdFor(x => x.Text)_editor'), settings);
-            var textArea = document.getElementById('@Html.IdFor(x => x.Text)');
-
-            editor.getModel().setValue(textArea.value);
-
-            window.addEventListener("submit", function () {
-                textArea.value = editor.getValue();
-            });
-        });
-    });
-</script>
+ 
+<script asp-name="monaco-oc-editor" depends-on="admin" at="Foot"></script>

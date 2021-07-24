@@ -463,6 +463,13 @@ namespace OrchardCore.Resources
                 .SetDependencies("monaco-loader")
                 .SetVersion(monacoEditorVersion);
 
+            manifest
+                .DefineScript("monaco-oc-editor")
+                .SetAttribute("data-tenant-prefix", _tenantPrefix)
+                .SetUrl("~/OrchardCore.Resources/Scripts/monaco/ocmonaco-editor.js")
+                .SetDependencies("monaco-loader")
+                .SetVersion(monacoEditorVersion);
+
             return manifest;
         }
 

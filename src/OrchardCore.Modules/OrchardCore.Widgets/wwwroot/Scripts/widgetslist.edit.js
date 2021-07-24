@@ -33,6 +33,11 @@ $(function () {
       dom.filter('script').each(function () {
         $.globalEval(this.text || this.textContent || this.innerHTML || '');
       });
+      document.dispatchEvent(new CustomEvent('widget-added', {
+        detail: {
+          targetId: targetId
+        }
+      }));
     });
   });
   $(document).on('click', '.insert-list-widget', function (event) {
@@ -56,6 +61,11 @@ $(function () {
       dom.filter('script').each(function () {
         $.globalEval(this.text || this.textContent || this.innerHTML || '');
       });
+      document.dispatchEvent(new CustomEvent('widget-added', {
+        detail: {
+          targetId: targetId
+        }
+      }));
     });
   });
   $(document).on('click', '.widget-list-delete', function () {
