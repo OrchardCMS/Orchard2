@@ -1,5 +1,8 @@
 @model AdminIndexViewModel
 @using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Extensions 
+@using Microsoft.AspNetCore.WebUtilities 
+@using Microsoft.Extensions.Primitives
 @using OrchardCore.Environment.Shell
 @using OrchardCore.Environment.Shell.Models
 
@@ -191,9 +194,33 @@
     </ul>
 </form>
 
+<div class="row">
+<div class="col-11">
 @await DisplayAsync(Model.Pager)
+</div>
+<div class="col-1 my-3">
+@{
+    var query = new Dictionary<string, StringValues>(Context.Request.Query);
+    query.Remove("PageSize");
+    var queryString = QueryString.Create(query);
+    var pageSizes = new string[]{"10", "25","50", "100"};
+}
+<select id="PageSize" class="form-control" onchange="setPageSize()">
+@foreach (var pageSize in pageSizes)
+{
+    var uriString = UriHelper.BuildRelative(Context.Request.PathBase, Context.Request.Path, queryString.Add("PageSize", pageSize));
 
-<script at="Foot">
+    <option value="@pageSize" data-url="@uriString" selected="@(pageSize == Context.Request.Query["PageSize"])">@(pageSize)</option>
+}
+</select>
+</div>
+</div>
+
+<script at="Foot"> 
+    function setPageSize() {
+        var pageSizes = document.getElementById('PageSize');
+        window.location = pageSizes.options[pageSizes.selectedIndex].dataset.url;
+    };
     $(function () {
         $('.selectpicker').selectpicker();
 
@@ -256,6 +283,6 @@
 
             selectedItems.text(selectedItemsCount + ' @T["selected"]');
             displayActionsOrFilters();
-        });
+        });               
     });
 </script>
