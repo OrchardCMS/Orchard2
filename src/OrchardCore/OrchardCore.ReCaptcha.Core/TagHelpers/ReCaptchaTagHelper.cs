@@ -10,37 +10,37 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OrchardCore.Localization;
 using OrchardCore.Modules;
-using OrchardCore.ReCaptcha.ActionFilters;
-using OrchardCore.ReCaptcha.ActionFilters.Detection;
+using OrchardCore.Captcha.ActionFilters;
+using OrchardCore.Captcha.ActionFilters.Detection;
 using OrchardCore.ReCaptcha.Configuration;
 using OrchardCore.ResourceManagement;
+using OrchardCore.Captcha.TagHelpers;
 
 namespace OrchardCore.ReCaptcha.TagHelpers
 {
     [HtmlTargetElement("captcha", TagStructure = TagStructure.WithoutEndTag)]
     [HtmlTargetElement("captcha", Attributes = "mode,language", TagStructure = TagStructure.WithoutEndTag)]
-    public class ReCaptchaTagHelper : TagHelper
+    public class ReCaptchaTagHelper : CaptchaTagHelper
     {
         private readonly IResourceManager _resourceManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ReCaptchaSettings _settings;
         private readonly ILogger _logger;
         private readonly ILocalizationService _localizationService;
         private readonly IStringLocalizer S;
 
         public ReCaptchaTagHelper(IOptions<ReCaptchaSettings> optionsAccessor, IResourceManager resourceManager, ILocalizationService localizationService, IHttpContextAccessor httpContextAccessor, ILogger<ReCaptchaTagHelper> logger, IStringLocalizer<ReCaptchaTagHelper> localizer)
+         :base(optionsAccessor, httpContextAccessor, logger)
         {
             _resourceManager = resourceManager;
-            _httpContextAccessor = httpContextAccessor;
             _settings = optionsAccessor.Value;
-            Mode = ReCaptchaMode.PreventRobots;
+            Mode = CaptchaMode.PreventRobots;
             _logger = logger;
             _localizationService = localizationService;
             S = localizer;
         }
 
         [HtmlAttributeName("mode")]
-        public ReCaptchaMode Mode { get; set; }
+        public override CaptchaMode Mode { get; set; }
 
         /// <summary>
         /// The two letter ISO code of the language the captcha should be displayed in
@@ -49,24 +49,7 @@ namespace OrchardCore.ReCaptcha.TagHelpers
         [HtmlAttributeName("language")]
         public string Language { get; set; }
 
-        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
-        {
-            var robotDetectors = _httpContextAccessor.HttpContext.RequestServices.GetServices<IDetectRobots>();
-            var robotDetected = robotDetectors.Invoke(d => d.DetectRobot(), _logger).Any(d => d.IsRobot) && Mode == ReCaptchaMode.PreventRobots;
-            var alwaysShow = Mode == ReCaptchaMode.AlwaysShow;
-            var isConfigured = _settings != null;
-
-            if (isConfigured && (robotDetected || alwaysShow))
-            {
-                await ShowCaptcha(output);
-            }
-            else
-            {
-                output.SuppressOutput();
-            }
-        }
-
-        private async Task ShowCaptcha(TagHelperOutput output)
+        protected override async Task ShowCaptcha(TagHelperOutput output)
         {
             output.TagName = "div";
             output.Attributes.SetAttribute("class", "g-recaptcha");

@@ -1,6 +1,6 @@
-namespace OrchardCore.ReCaptcha.ActionFilters
+namespace OrchardCore.Captcha.ActionFilters
 {
-    public enum ReCaptchaMode
+    public enum CaptchaMode
     {
         /// <summary>
         /// Captcha is always shown

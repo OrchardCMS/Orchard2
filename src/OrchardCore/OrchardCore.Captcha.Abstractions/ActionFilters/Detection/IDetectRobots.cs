@@ -1,4 +1,4 @@
-namespace OrchardCore.ReCaptcha.ActionFilters.Detection
+namespace OrchardCore.Captcha.ActionFilters.Detection
 {
     /// <summary>
     /// This interface describes the contract for components that can detect Robots.
