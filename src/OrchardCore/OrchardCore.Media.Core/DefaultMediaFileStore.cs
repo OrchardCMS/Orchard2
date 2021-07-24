@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -178,7 +179,30 @@ namespace OrchardCore.Media.Core
 
         public virtual string MapPathToPublicUrl(string path)
         {
-            return _cdnBaseUrl + _requestBasePath + "/" + _fileStore.NormalizePath(path);
+
+            if (Uri.TryCreate(path, UriKind.Absolute, out _))
+            {
+                // we were given an absolute path so nothing we should probably do
+                return path;
+            }
+            else
+            {
+                var segmentList = _fileStore.NormalizePath(path).Split("/").ToList<string>();
+                // here it is appropriate to use magic numbers because ... indice '0' is the leading slash of the path by itself... and we want to drop that, the cdn-prefix, and the media location to reconstruct it
+                if (segmentList[0] == "/")
+                    segmentList.RemoveAt(0);
+                if (segmentList[0] == _cdnBaseUrl)
+                    segmentList.RemoveAt(0);
+                if (segmentList[0] == _fileStore.NormalizePath(_requestBasePath))
+                    segmentList.RemoveAt(0);
+                segmentList.Insert(0, _cdnBaseUrl);
+                segmentList.Insert(1, _fileStore.NormalizePath(_requestBasePath));
+               return (String.Join("/", segmentList));
+            }
+
+
+
         }
+
     }
 }
