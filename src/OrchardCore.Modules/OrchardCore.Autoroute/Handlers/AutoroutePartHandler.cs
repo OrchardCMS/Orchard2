@@ -231,7 +231,7 @@ namespace OrchardCore.Autoroute.Handlers
         private async Task GenerateContainedPathsFromPatternAsync(ContentItem contentItem, AutoroutePart part)
         {
             // Validate contained content item routes if container has valid path.
-            if (!String.IsNullOrWhiteSpace(part.Path) || !part.RouteContainedItems)
+            if (String.IsNullOrWhiteSpace(part.Path) || !part.RouteContainedItems)
             {
                 return;
             }
@@ -262,7 +262,7 @@ namespace OrchardCore.Autoroute.Handlers
                         var path = handlerAspect.Path;
                         if (!handlerAspect.Absolute)
                         {
-                            path = (basePath.EndsWith('/') ? basePath : basePath + '/') + handlerAspect.Path;
+                            path = (basePath.EndsWith('/') ? basePath : basePath + '/') + handlerAspect.Path.TrimStart('/');
                         }
 
                         entries.Add(new AutorouteEntry(containerContentItemId, path, contentItem.ContentItemId, jItem.Path)
@@ -271,7 +271,7 @@ namespace OrchardCore.Autoroute.Handlers
                         });
                     }
 
-                    var itemBasePath = (basePath.EndsWith('/') ? basePath : basePath + '/') + handlerAspect.Path;
+                    var itemBasePath = (basePath.EndsWith('/') ? basePath : basePath + '/') + handlerAspect.Path.TrimStart('/');
                     var childrenAspect = await _contentManager.PopulateAspectAsync<ContainedContentItemsAspect>(contentItem);
                     await PopulateContainedContentItemRoutesAsync(entries, containerContentItemId, childrenAspect, jItem, itemBasePath);
                 }
@@ -311,7 +311,7 @@ namespace OrchardCore.Autoroute.Handlers
                         else
                         {
                             var currentItemBasePath = basePath.EndsWith('/') ? basePath : basePath + '/';
-                            path = currentItemBasePath + containedAutoroutePart.Path;
+                            path = currentItemBasePath + containedAutoroutePart.Path.TrimStart('/');
                             if (!IsRelativePathUnique(entries, path, containedAutoroutePart))
                             {
                                 path = GenerateRelativeUniquePath(entries, path, containedAutoroutePart);
@@ -340,7 +340,7 @@ namespace OrchardCore.Autoroute.Handlers
 
         private static bool IsRelativePathUnique(List<AutorouteEntry> entries, string path, AutoroutePart context)
         {
-            var result = !entries.Any(e => context.ContentItem.ContentItemId != e.ContainedContentItemId && String.Equals(e.Path, path, StringComparison.OrdinalIgnoreCase));
+            var result = !entries.Any(e => context.ContentItem.ContentItemId != e.ContainedContentItemId && String.Equals(e.Path.Trim('/'), path.Trim('/'), StringComparison.OrdinalIgnoreCase));
             return result;
         }
 

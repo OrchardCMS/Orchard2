@@ -173,7 +173,7 @@ namespace OrchardCore.ContentManagement.Records
                         var path = handlerAspect.Path;
                         if (!handlerAspect.Absolute)
                         {
-                            path = (basePath.EndsWith('/') ? basePath : basePath + '/') + handlerAspect.Path;
+                            path = (basePath.EndsWith('/') ? basePath : basePath + '/') + handlerAspect.Path.TrimStart('/');
                         }
 
                         results.Add(new AutoroutePartIndex
@@ -187,7 +187,7 @@ namespace OrchardCore.ContentManagement.Records
                         });
                     }
 
-                    var itemBasePath = (basePath.EndsWith('/') ? basePath : basePath + '/') + handlerAspect.Path;
+                    var itemBasePath = (basePath.EndsWith('/') ? basePath : basePath + '/') + handlerAspect.Path.TrimStart('/');
                     var childrenAspect = await _contentManager.PopulateAspectAsync<ContainedContentItemsAspect>(contentItem);
 
                     await PopulateContainedContentItemIndexesAsync(results, containerContentItem, childrenAspect, jItem, itemBasePath);
