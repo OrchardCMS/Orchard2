@@ -12,10 +12,11 @@
         var widgetContent = await ContentItemDisplayManager.BuildDisplayAsync(widget, Model.BuildPartDisplayContext.Updater, Model.BuildPartDisplayContext.DisplayType, Model.BuildPartDisplayContext.GroupId);
         var flowMetadata = widget.As<FlowMetadata>();
 
+        widgetContent.Classes.Add("widget");
+        widgetContent.Classes.Add("widget-" + widget.ContentItem.ContentType.HtmlClassify());
+
         if (flowMetadata != null)
         {
-            widgetContent.Classes.Add("widget");
-            widgetContent.Classes.Add("widget-" + widget.ContentItem.ContentType.HtmlClassify());
             widgetContent.Classes.Add("widget-align-" + flowMetadata.Alignment.ToString().ToLowerInvariant());
             widgetContent.Classes.Add("widget-size-" + flowMetadata.Size);
         }
