@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
 using OrchardCore.Alias.Models;
@@ -27,6 +29,14 @@ namespace OrchardCore.Alias.Drivers
             S = localizer;
         }
 
+        public override IDisplayResult Display(AliasPart part, BuildPartDisplayContext context)
+        {
+            var contentType = EncodeAlternateElement(part.ContentItem.ContentType);
+            var alias = FormatName(part.Alias);
+            context.Shape.Metadata.Alternates.Add($"Content__{contentType}__{alias}");
+            return base.Display(part, context);
+        }
+
         public override IDisplayResult Edit(AliasPart aliasPart, BuildPartEditorContext context)
         {
             return Initialize<AliasPartViewModel>(GetEditorShapeType(context), m => BuildViewModel(m, aliasPart, context.TypePartDefinition.GetSettings<AliasPartSettings>()));
@@ -52,5 +62,44 @@ namespace OrchardCore.Alias.Drivers
             model.Settings = settings;
         }
 
+        private string EncodeAlternateElement(string alternateElement)
+        {
+            return alternateElement.Replace("-", "__").Replace('.', '_');
+        }
+
+        private static string FormatName(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+
+            name = name.Trim();
+            var nextIsUpper = true;
+            var result = new StringBuilder(name.Length);
+            for (var i = 0; i < name.Length; i++)
+            {
+                var c = name[i];
+
+                if (c == '-' || char.IsWhiteSpace(c))
+                {
+                    nextIsUpper = true;
+                    continue;
+                }
+
+                if (nextIsUpper)
+                {
+                    result.Append(c.ToString().ToUpper());
+                }
+                else
+                {
+                    result.Append(c);
+                }
+
+                nextIsUpper = false;
+            }
+
+            return result.ToString();
+        }
     }
 }
