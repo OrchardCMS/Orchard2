@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace OrchardCore.Email
@@ -5,7 +6,7 @@ namespace OrchardCore.Email
     /// <summary>
     /// Represents a class that contains information of the mail message.
     /// </summary>
-    public class MailMessage
+    public class MailMessage : IDisposable
     {
         /// <summary>
         /// Gets or sets the author of the email.
@@ -69,5 +70,13 @@ namespace OrchardCore.Email
         /// The collection of message attachments.
         /// </summary>
         public List<MailMessageAttachment> Attachments { get; } = new List<MailMessageAttachment>();
+
+        public void Dispose()
+        {
+            foreach (var attachment in Attachments)
+            {
+                attachment.Dispose();
+            }
+        }
     }
 }

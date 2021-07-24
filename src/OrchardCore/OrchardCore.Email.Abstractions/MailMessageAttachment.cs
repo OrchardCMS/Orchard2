@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace OrchardCore.Email
@@ -5,7 +6,7 @@ namespace OrchardCore.Email
     /// <summary>
     /// Represents a class that contains information for a mail message attachment.
     /// </summary>
-    public class MailMessageAttachment
+    public class MailMessageAttachment : IDisposable
     {
         /// <summary>
         /// Gets or sets the attachment filename.
@@ -16,5 +17,10 @@ namespace OrchardCore.Email
         /// Gets or sets the attachment file stream.
         /// </summary>
         public Stream Stream { get; set; }
+
+        public void Dispose()
+        {
+            Stream.Dispose();
+        }
     }
 }
