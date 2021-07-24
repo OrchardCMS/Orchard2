@@ -102,6 +102,13 @@ namespace Microsoft.Extensions.DependencyInjection
                                 nameof(HttpRequest.Scheme) => new StringValue(request.Scheme),
                                 nameof(HttpRequest.Method) => new StringValue(request.Method),
                                 nameof(HttpRequest.RouteValues) => new ObjectValue(new RouteValueDictionaryWrapper(request.RouteValues)),
+
+                                // Provides correct escaping to reconstruct a request or redirect URI.
+                                "UriHost" => new StringValue(request.Host.ToUriComponent(), encode: false),
+                                "UriPath" => new StringValue(request.Path.ToUriComponent(), encode: false),
+                                "UriPathBase" => new StringValue(request.PathBase.ToUriComponent(), encode: false),
+                                "UriQueryString" => new StringValue(request.QueryString.ToUriComponent(), encode: false),
+
                                 _ => NilValue.Instance
                             };
                         }
