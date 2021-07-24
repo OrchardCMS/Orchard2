@@ -52,6 +52,11 @@ namespace OrchardCore.Media
         public string AssetsPath { get; set; }
 
         /// <summary>
+        /// The folder under AssetsPath used to store users own media assets.
+        /// </summary>
+        public string AssetsUsersFolder { get; set; }        
+
+        /// <summary>
         /// Encrypts the image processing query string to prevent disc filling.
         /// Defaults to <see langword="True"/>.
         /// </summary>

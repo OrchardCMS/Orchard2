@@ -51,6 +51,7 @@ namespace OrchardCore.Media.Services
         private const int DefaultMaxFileSize = 30_000_000;
 
         private const string DefaultAssetsPath = "Media";
+        private const string DefaultAssetsUsersFolder = "_Users";        
         private const string DefaultAssetsRequestPath = "/media";
 
         private const bool DefaultUseTokenizedQueryString = true;
@@ -85,6 +86,7 @@ namespace OrchardCore.Media.Services
             options.CdnBaseUrl = section.GetValue("CdnBaseUrl", String.Empty).TrimEnd('/').ToLower();
             options.AssetsRequestPath = section.GetValue("AssetsRequestPath", DefaultAssetsRequestPath);
             options.AssetsPath = section.GetValue("AssetsPath", DefaultAssetsPath);
+            options.AssetsUsersFolder = section.GetValue("AssetsUsersFolder", DefaultAssetsUsersFolder);            
             options.UseTokenizedQueryString = section.GetValue("UseTokenizedQueryString", DefaultUseTokenizedQueryString);
 
             var contentSecurityPolicy = section.GetValue("ContentSecurityPolicy", DefaultContentSecurityPolicy);

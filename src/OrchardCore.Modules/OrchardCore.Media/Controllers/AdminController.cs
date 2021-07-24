@@ -27,6 +27,7 @@ namespace OrchardCore.Media.Controllers
         private readonly ILogger _logger;
         private readonly IStringLocalizer S;
         private readonly MediaOptions _mediaOptions;
+        private readonly IUserAssetFolderNameProvider _userAssetFolderNameProvider;
 
         public AdminController(
             IMediaFileStore mediaFileStore,
@@ -35,7 +36,8 @@ namespace OrchardCore.Media.Controllers
             IContentTypeProvider contentTypeProvider,
             IOptions<MediaOptions> options,
             ILogger<AdminController> logger,
-            IStringLocalizer<AdminController> stringLocalizer
+            IStringLocalizer<AdminController> stringLocalizer,
+            IUserAssetFolderNameProvider userAssetFolderNameProvider
             )
         {
             _mediaFileStore = mediaFileStore;
@@ -46,6 +48,7 @@ namespace OrchardCore.Media.Controllers
             _allowedFileExtensions = _mediaOptions.AllowedFileExtensions;
             _logger = logger;
             S = stringLocalizer;
+            _userAssetFolderNameProvider = userAssetFolderNameProvider;
         }
 
         public async Task<IActionResult> Index()
@@ -75,8 +78,15 @@ namespace OrchardCore.Media.Controllers
                 return NotFound();
             }
 
+            // create default folders if not exist
+            if (await _authorizationService.AuthorizeAsync(User, Permissions.ManageOwnMedia)
+                && await _mediaFileStore.GetDirectoryInfoAsync(_mediaFileStore.Combine(_mediaOptions.AssetsUsersFolder, _userAssetFolderNameProvider.GetUserAssetFolderName(User))) == null)
+            {
+                await _mediaFileStore.TryCreateDirectoryAsync(_mediaFileStore.Combine(_mediaOptions.AssetsUsersFolder, _userAssetFolderNameProvider.GetUserAssetFolderName(User)));
+            }
+
             var allowed = _mediaFileStore.GetDirectoryContentAsync(path)
-                .WhereAwait(async e => e.IsDirectory && await _authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)e.Path));
+                .WhereAwait(async e => e.IsDirectory && await _authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)e.Path));
 
             return Ok(await allowed.ToListAsync());
         }
@@ -89,7 +99,7 @@ namespace OrchardCore.Media.Controllers
             }
 
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageMedia)
-                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)path))
+                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)path))
             {
                 return Forbid();
             }
@@ -100,7 +110,7 @@ namespace OrchardCore.Media.Controllers
             }
 
             var allowed = _mediaFileStore.GetDirectoryContentAsync(path)
-                .WhereAwait(async e => !e.IsDirectory && await _authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)e.Path))
+                .WhereAwait(async e => !e.IsDirectory && await _authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)e.Path))
                 .Select(e => CreateFileResult(e));
 
             return Ok(await allowed.ToListAsync());
@@ -205,7 +215,7 @@ namespace OrchardCore.Media.Controllers
         public async Task<IActionResult> DeleteFolder(string path)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageMedia)
-                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)path))
+                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)path))
             {
                 return Forbid();
             }
@@ -233,7 +243,7 @@ namespace OrchardCore.Media.Controllers
         public async Task<IActionResult> DeleteMedia(string path)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageMedia)
-                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)path))
+                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)path))
             {
                 return Forbid();
             }
@@ -253,7 +263,7 @@ namespace OrchardCore.Media.Controllers
         public async Task<IActionResult> MoveMedia(string oldPath, string newPath)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageMedia)
-                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)oldPath))
+                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)oldPath))
             {
                 return Forbid();
             }
@@ -317,8 +327,8 @@ namespace OrchardCore.Media.Controllers
         public async Task<IActionResult> MoveMediaList(string[] mediaNames, string sourceFolder, string targetFolder)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageMedia)
-                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)sourceFolder)
-                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)targetFolder))
+                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)sourceFolder)
+                || !await _authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)targetFolder))
             {
                 return Forbid();
             }
@@ -379,7 +389,7 @@ namespace OrchardCore.Media.Controllers
             var newPath = _mediaFileStore.Combine(path, name);
 
             if (!await authorizationService.AuthorizeAsync(User, Permissions.ManageMedia)
-                || !await authorizationService.AuthorizeAsync(User, Permissions.ManageAttachedMediaFieldsFolder, (object)newPath))
+                || !await authorizationService.AuthorizeAsync(User, Permissions.ManageMediaFolder, (object)newPath))
             {
                 return Forbid();
             }

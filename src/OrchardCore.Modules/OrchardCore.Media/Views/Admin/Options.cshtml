@@ -72,4 +72,9 @@
         <code><input asp-for="AssetsPath" type="text" class="form-control-plaintext" /></code>
         <span class="hint">@T["The path used to store media assets. The path can be relative to the tenant's App_Data folder, or absolute."]</span>
     </div>
+    <label asp-for="AssetsUsersFolder" class="col-sm-2 col-form-label">@T["Assets users folder"]</label>
+    <div class="col-sm-10">
+        <code><input asp-for="AssetsUsersFolder" type="text" class="form-control-plaintext" /></code>
+        <span class="hint">@T["The folder under AssetsPath used to store users own media assets."]</span>
+    </div>   
 </div>

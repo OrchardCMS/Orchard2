@@ -122,7 +122,7 @@ namespace OrchardCore.Media
             });
 
             services.AddScoped<IPermissionProvider, Permissions>();
-            services.AddScoped<IAuthorizationHandler, AttachedMediaFieldsFolderAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, ManageMediaFolderAuthorizationHandler>();
             services.AddScoped<INavigationProvider, AdminMenu>();
 
             // ImageSharp
@@ -167,6 +167,8 @@ namespace OrchardCore.Media
 
             // Media Name Normalizer
             services.AddScoped<IMediaNameNormalizerService, NullMediaNameNormalizerService>();
+
+            services.AddScoped<IUserAssetFolderNameProvider, DefaultUserAssetFolderNameProvider>();
         }
 
         public override void Configure(IApplicationBuilder app, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
