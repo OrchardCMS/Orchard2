@@ -15,6 +15,7 @@ namespace OrchardCore.ContentTypes.ViewModels
         public EditPartViewModel(ContentPartDefinition contentPartDefinition)
         {
             Name = contentPartDefinition.Name;
+            DisplayName = contentPartDefinition.DisplayName();
             PartDefinition = contentPartDefinition;
         }
 
