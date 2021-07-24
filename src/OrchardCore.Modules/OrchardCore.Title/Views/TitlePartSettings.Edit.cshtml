@@ -43,6 +43,7 @@
         editor = CodeMirror.fromTextArea(document.getElementById('@Html.IdFor(x => x.Pattern)'), {
             autoRefresh: true,
             lineNumbers: true,
+            lineWrapping: true,
             styleActiveLine: true,
             matchBrackets: true,
             mode: { name: "liquid" },
