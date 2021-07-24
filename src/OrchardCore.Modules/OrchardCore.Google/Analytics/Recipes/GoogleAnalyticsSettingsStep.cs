@@ -26,12 +26,15 @@ namespace OrchardCore.Google.Analytics.Recipes
             {
                 return;
             }
+
             var model = context.Step.ToObject<GoogleAnalyticsSettingsViewModel>();
             var container = await _siteService.LoadSiteSettingsAsync();
+            
             container.Alter<GoogleAnalyticsSettings>(nameof(GoogleAnalyticsSettings), aspect =>
             {
-                aspect.TrackingID = model.TrackingID;
+                aspect.SettingEntries = model.SettingEntries;
             });
+
             await _siteService.UpdateSiteSettingsAsync(container);
         }
     }

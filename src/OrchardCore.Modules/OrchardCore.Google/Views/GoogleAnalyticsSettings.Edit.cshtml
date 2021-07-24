@@ -1,5 +1,14 @@
 @using OrchardCore.Google.Analytics.ViewModels;
+@using OrchardCore.Google.Analytics.Settings;
+@using Newtonsoft.Json;
 @model GoogleAnalyticsSettingsViewModel;
+
+@{
+    // ['fr-FR', 'en-US']
+    var settings = JsonConvert.SerializeObject(Model.SettingEntries.Select(c => c.MeasurementId).ToArray());
+    var defaultSetting = Model.SettingEntries.Where(x => x.IsDefault).FirstOrDefault()?.MeasurementId;
+    var selectedSetting = Model.SettingEntries.FirstOrDefault()?.MeasurementId;
+}
 
 <p class="alert alert-secondary">
     <a class="seedoc" href="@(OrchardCore.Admin.Constants.DocsUrl)reference/modules/Google/#google-analytics" target="_blank">@T["See documentation"]</a>
@@ -7,11 +16,73 @@
 
 <h3>@T["Google Analytics Settings"]</h3>
 
-<div class="form-group row" asp-validation-class-for="TrackingID">
-    <div class="col-large">
-        <label asp-for="TrackingID">@T["Tracking ID"]</label>
-        <input asp-for="TrackingID" class="form-control" autocomplete="off" />
-        <span asp-validation-for="TrackingID"></span>
-        <span class="hint">@T["The tracking ID defined in your Google Analytics account."]</span>
+<script asp-src="~/OrchardCore.Google/js/optionsEditor.min.js" debug-src="~/OrchardCore.Google/js/optionsEditor.js" asp-name="optionsEditor" at="Foot" depends-on="vuejs"></script>
+
+<script at="Foot">
+    initializeOptionsEditor(document.getElementById('@Html.IdFor(m => m)'), @Html.Raw(settings), '@defaultSetting', '@selectedSetting');
+</script>
+
+<script type="text/x-template" id="options-table">
+    <div class="form-group">
+        <table class="table border-bottom">
+            <thead>
+                <tr>
+                    <th>@T["Measurement Id"]</th>
+                    <th class="text-center">@T["Default Measurement Id"]</th>
+                    <th class="text-center">@T["Send Page View"]</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(culture, index) in data" :key="index">
+                    <td>
+                        <span v-if="culture != ''">{{ culture }}</span>
+                        <span v-if="culture == ''">asdasd</span>
+                        <input type="hidden" class="form-control" v-bind:value="culture" />
+                    </td>
+                    <td class="text-center align-middle">
+                        <div class="custom-control custom-radio ml-2">
+                            <input type="radio" class="custom-control-input" :id="'customRadio_' + index" v-bind:value="culture" v-model="defaultMeasurementId">
+                            <label class="custom-control-label" title="Set as default" v-bind:for="'customRadio_' + index"></label>
+                        </div>
+                    </td>
+                    <td class="text-center align-middle">
+                        <div class="custom-control custom-checkbox ml-2">
+                            <input type="checkbox" class="custom-control-input" :id="'customCheckbox_' + index" v-bind:value="culture" v-model="sendPageView">
+                            <label class="custom-control-label" title="Enable/disable send page view" v-bind:for="'customCheckbox_' + index"></label>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <a v-on:click="remove(index)" title="@T["Remove setting"]" href="javascript:void(0)" class="btn btn-secondary btn-sm" style="cursor:pointer">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col">
+                <input type="text" v-model="selectedSetting" class="form-control col" placeholder="@T["G-XXXXXXX or UA-XXXXXX-X"]" />
+            </div>
+            <div class="col">
+                <a v-on:click="add()" href="javascript:void(0)" class="btn btn-success"><i class="fas fa-plus small"></i> @T["Add ID"]</a>
+            </div>
+        </div>
+        <div>
+            <span class="hint">@T["Tracking ID's are still supported."]</span>
+        </div>
+
+        <input class="form-control" id="@Html.IdFor(m => m.SettingEntries)" name="@Html.NameFor(m => m.SettingEntries)" type="hidden" v-bind:value="getSupportedCultures()" />
+        <input class="form-control" id="@Html.IdFor(m => m.DefaultMeasurementId)" name="@Html.NameFor(m => m.DefaultMeasurementId)" type="hidden" v-bind:value="getDefaultCulture()" />
+    </div>
+</script>
+
+<div id="@Html.IdFor(m => m)" class="field-editor field-editor-predefinedlist">
+    <div class="row">
+        <div class="col">
+            <label>@T["Define which Measurement Id's are supported by the site."]</label>
+            <options-table :data="settings" :default-value="DefaultMeasurementId" :selectedCulture="selectedSetting" :list="allCultures" ></options-table>
+        </div>
     </div>
 </div>

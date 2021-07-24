@@ -8,6 +8,8 @@ using OrchardCore.Entities;
 using OrchardCore.Google.Analytics.Settings;
 using OrchardCore.ResourceManagement;
 using OrchardCore.Settings;
+using System.Linq;
+using System.Text;
 
 namespace OrchardCore.Google.Analytics
 {
@@ -36,9 +38,21 @@ namespace OrchardCore.Google.Analytics
                 {
                     var settings = (await _siteService.GetSiteSettingsAsync()).As<GoogleAnalyticsSettings>();
 
-                    if (!string.IsNullOrWhiteSpace(settings?.TrackingID))
+                    if (settings.SettingEntries.Length > 0)
                     {
-                        _scriptsCache = new HtmlString($"<!-- Global site tag (gtag.js) - Google Analytics -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id={settings.TrackingID}\"></script>\n<script>window.dataLayer = window.dataLayer || [];function gtag() {{ dataLayer.push(arguments); }}gtag('js', new Date());gtag('config', '{settings.TrackingID}')</script>\n<!-- End Global site tag (gtag.js) - Google Analytics -->");
+                        var defaultMeasurementId = settings.SettingEntries.FirstOrDefault(x => x.IsDefault == true).MeasurementId;
+                        var sb = new StringBuilder($"<!-- Global site tag (gtag.js) - Google Analytics -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id={defaultMeasurementId}\"></script>\n<script>window.dataLayer = window.dataLayer || [];function gtag() {{ dataLayer.push(arguments); }}gtag('js', new Date());\n");
+
+                        foreach(SettingEntry config in settings.SettingEntries)
+                        {
+                            if (!string.IsNullOrWhiteSpace(config?.MeasurementId))
+                            {
+                                sb.Append($"gtag('config', '{config.MeasurementId}')\n");
+                            }
+                        }
+
+                        sb.Append("</script>\n<!-- End Global site tag (gtag.js) - Google Analytics -->");
+                        _scriptsCache = new HtmlString(sb.ToString());
                     }
                 }
 
