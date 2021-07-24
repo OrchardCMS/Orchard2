@@ -19,13 +19,16 @@ namespace OrchardCore.ContentFields.Drivers
     {
         private readonly IContentManager _contentManager;
         private readonly IStringLocalizer S;
+        private readonly IContentPickerResultProvider _contentPickerResultProvider;
 
         public ContentPickerFieldDisplayDriver(
             IContentManager contentManager,
-            IStringLocalizer<ContentPickerFieldDisplayDriver> localizer)
+            IStringLocalizer<ContentPickerFieldDisplayDriver> localizer,
+            IContentPickerResultProvider contentPickerResultProvider)
         {
             _contentManager = contentManager;
             S = localizer;
+            _contentPickerResultProvider = contentPickerResultProvider;
         }
 
         public override IDisplayResult Display(ContentPickerField field, BuildFieldDisplayContext context)
@@ -42,7 +45,7 @@ namespace OrchardCore.ContentFields.Drivers
 
         public override IDisplayResult Edit(ContentPickerField field, BuildFieldEditorContext context)
         {
-            return Initialize<EditContentPickerFieldViewModel>(GetEditorShapeType(context), async model =>
+            return Initialize(GetEditorShapeType(context), (Func<EditContentPickerFieldViewModel, ValueTask>)(async model =>
             {
                 model.ContentItemIds = string.Join(",", field.ContentItemIds);
 
@@ -51,6 +54,8 @@ namespace OrchardCore.ContentFields.Drivers
                 model.PartFieldDefinition = context.PartFieldDefinition;
 
                 model.SelectedItems = new List<VueMultiselectItemViewModel>();
+
+                var settings = context.PartFieldDefinition.GetSettings<ContentPickerFieldSettings>();
 
                 foreach (var contentItemId in field.ContentItemIds)
                 {
@@ -64,11 +69,12 @@ namespace OrchardCore.ContentFields.Drivers
                     model.SelectedItems.Add(new VueMultiselectItemViewModel
                     {
                         Id = contentItemId,
-                        DisplayText = contentItem.ToString(),
+                        DisplayText = await _contentPickerResultProvider.GetContentPickerItemDescription(contentItem, settings.TitlePattern, contentItem.ToString()),
+                        Description = await _contentPickerResultProvider.GetContentPickerItemDescription(contentItem, settings.DescriptionPattern, string.Empty),
                         HasPublished = await _contentManager.HasPublishedVersionAsync(contentItem)
                     });
                 }
-            });
+            }));
         }
 
         public override async Task<IDisplayResult> UpdateAsync(ContentPickerField field, IUpdateModel updater, UpdateFieldEditorContext context)
@@ -98,6 +104,6 @@ namespace OrchardCore.ContentFields.Drivers
             }
 
             return Edit(field, context);
-        }
+        }  
     }
 }

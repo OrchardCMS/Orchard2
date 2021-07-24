@@ -61,7 +61,7 @@ namespace OrchardCore.Lucene.Services
                     {
                         ContentItemId = doc.GetField("ContentItemId").GetStringValue(),
                         DisplayText = doc.GetField("Content.ContentItem.DisplayText").GetStringValue(),
-                        HasPublished = doc.GetField("Content.ContentItem.Published").GetStringValue() == "true" ? true : false
+                        HasPublished = doc.GetField("Content.ContentItem.Published").GetStringValue() == "true" ? true : false,
                     });
                 }
 
@@ -69,6 +69,11 @@ namespace OrchardCore.Lucene.Services
             });
 
             return results.OrderBy(x => x.DisplayText);
+        }
+
+        public Task<string> GetContentPickerItemDescription(ContentItem contentItem, string pattern, string defaultValue)
+        {
+            return Task.FromResult(defaultValue);
         }
     }
 }
