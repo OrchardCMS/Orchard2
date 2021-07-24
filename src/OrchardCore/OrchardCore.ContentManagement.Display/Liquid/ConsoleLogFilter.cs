@@ -30,8 +30,10 @@ namespace OrchardCore.ContentManagement.Display.Liquid
             }
 
             using var sb = ZString.CreateStringBuilder();
-            sb.Append("<script>console.log(");
+            sb.Append("<script>");
 
+            sb.Append("window.addEventListener('load', function () {");
+            sb.Append("console.log(");
             if (content is string stringContent)
             {
                 sb.Append("\"");
@@ -55,7 +57,10 @@ namespace OrchardCore.ContentManagement.Display.Liquid
                 sb.Append((await MiscFilters.Json(input, arguments, context)).ToStringValue());
             }
 
-            sb.Append(")</script>");
+            sb.Append(")");
+            sb.Append("})");
+            sb.Append("</script>");
+
 
             var result = new StringValue(sb.ToString(), false);
 
